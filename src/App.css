@@ -1,0 +1,345 @@
+/* App.css */
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Top Bar --- */
+.top-bar {
+  background-color: #1b4b36; /* Dark green */
+  color: white;
+  font-size: 0.8rem;
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.top-bar p {
+  animation: scroll-left 20s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* --- Primary Header --- */
+.primary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 48px;
+  background-color: var(--color-bg-light);
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.logo-container .logo-icon {
+  width: auto;
+  height: 108px;
+  border-radius: 0;
+  object-fit: contain;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 24px;
+  padding: 8px 16px;
+  width: 40%;
+}
+
+.search-bar input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.search-input-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  margin-left: 8px;
+}
+
+.search-typing-placeholder {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #8a8a8a;
+  white-space: nowrap;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.search-typing-cursor {
+  margin-left: 1px;
+  color: #8a8a8a;
+  animation: search-cursor-blink 0.9s step-start infinite;
+}
+
+@keyframes search-cursor-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.logo-text-animate {
+  display: inline-block;
+  animation: logo-text-fade-in 0.6s ease-out;
+}
+
+@keyframes logo-text-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.user-actions {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.action-icon {
+  font-size: 1.2rem;
+  color: #333;
+  cursor: pointer;
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #1b4b36;
+  color: white;
+  font-size: 0.6rem;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- Secondary Header --- */
+.secondary-header {
+  padding: 6px 48px;
+  background-color: var(--color-bg-light);
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.nav-links li {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.nav-links li:hover {
+  color: var(--color-primary-green);
+}
+
+.nav-links .highlight {
+  color: #e63946;
+}
+
+/* --- Hero Section --- */
+.hero-section {
+  position: relative;
+  min-height: 440px;
+  background-color: var(--color-bg-dark);
+  /* Real nursery garden photo, edge-to-edge. The gradient only darkens the
+     left ~60% (behind the text) so the plants on the right stay bright and
+     untouched. */
+  background-image:
+    linear-gradient(to right, rgba(9, 20, 13, 0.85) 0%, rgba(9, 20, 13, 0.6) 32%, rgba(9, 20, 13, 0.18) 55%, rgba(9, 20, 13, 0) 68%),
+    url('./assets/hero-nursery-garden-2.jpg');
+  background-size: cover;
+  background-position: right center;
+  background-repeat: no-repeat;
+  color: var(--color-text-light);
+  padding: 48px 48px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.hero-content {
+  max-width: 600px;
+  z-index: 10;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(255,255,255,0.1);
+  padding: 6px 12px;
+  border-radius: 24px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.tag-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-primary-lime);
+  border-radius: 50%;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.hero-title .highlight-text {
+  color: var(--color-primary-lime);
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  color: #cccccc;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.btn {
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background-color: var(--color-primary-lime);
+  color: #1a1a1a;
+}
+
+.btn-primary:hover {
+  background-color: #8ce01a;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 3.5rem;
+  }
+
+  .hero-section {
+    background-position: 68% center;
+  }
+}
+
+@media (max-width: 768px) {
+  .primary-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 6px 20px;
+  }
+
+  .logo-container .logo-icon {
+    height: 78px;
+  }
+
+  .search-bar {
+    order: 3;
+    width: 100%;
+  }
+
+  .secondary-header {
+    padding: 6px 20px;
+    overflow-x: auto;
+  }
+
+  .nav-links {
+    justify-content: flex-start;
+    gap: 20px;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .hero-section {
+    padding: 48px 20px;
+    min-height: auto;
+    background-image:
+      linear-gradient(to right, rgba(9, 20, 13, 0.88) 0%, rgba(9, 20, 13, 0.72) 55%, rgba(9, 20, 13, 0.32) 82%, rgba(9, 20, 13, 0.1) 100%),
+      url('./assets/hero-nursery-garden-2.jpg');
+    background-position: 78% center;
+  }
+
+  .hero-title {
+    font-size: 2.6rem;
+  }
+
+  .hero-buttons {
+    flex-wrap: wrap;
+  }
+}
