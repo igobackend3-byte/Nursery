@@ -17,7 +17,7 @@ function Blog() {
       <div className="journal-grid large">
         {POSTS.map((post) => (
           <article className="journal-card" key={post.title}>
-            <div className="journal-media" style={{ backgroundImage: `url(${post.image})` }} />
+            <div className="journal-media" style={{ backgroundImage: `url('${post.image}')` }} />
             <h3>{post.title}</h3>
             <p>{post.excerpt}</p>
             <span>Read guide →</span>

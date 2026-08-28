@@ -15,6 +15,28 @@
 
   --font-sans: 'Inter', sans-serif;
   --font-display: 'Outfit', sans-serif;
+
+  /* Home page section background palette - premium botanical tones,
+     never pure white. Each section below picks one of these; a couple
+     of homepage sections that don't have a dedicated named color in the
+     brief reuse the nearest tonal match so the whole page still reads
+     as one consistent palette. */
+  --section-hero: #0b3d2e; /* Deep Forest Green */
+  --section-categories: #285943; /* Dark Sage Green */
+  --section-offers: #f3eedb; /* Warm Cream */
+  --section-featured: #dce8d5; /* Soft Sage */
+  --section-collection: #e8dfc9; /* Muted Sand Beige */
+  --section-garden-services: #315a48; /* Deep Muted Green */
+  --section-journey: #dce6c8; /* Soft Pistachio */
+  --section-why-igo-top: #1f4536; /* distinct deep botanical green (gradient top) */
+  --section-why-igo-bottom: #0e2019; /* deepened for gradient bottom */
+  --section-compare: #e6ded0; /* Light Warm Beige */
+  --section-plant-finder: #e8d0bd; /* Warm Terracotta Beige */
+  --section-journal: #ddd2bc; /* Warm Earth Beige */
+  --section-reviews: #e9d7d2; /* Soft Blush Beige */
+  --section-newsletter: #123f31; /* Dark Botanical Green */
+  --section-faq: #d7dec2; /* Soft Olive */
+  --section-footer: #092c22; /* Very Dark Forest Green */
 }
 
 * {

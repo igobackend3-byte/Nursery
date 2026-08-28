@@ -189,16 +189,9 @@
 .hero-section {
   position: relative;
   min-height: 440px;
-  background-color: var(--color-bg-dark);
-  /* Real nursery garden photo, edge-to-edge. The gradient only darkens the
-     left ~60% (behind the text) so the plants on the right stay bright and
-     untouched. */
-  background-image:
-    linear-gradient(to right, rgba(9, 20, 13, 0.85) 0%, rgba(9, 20, 13, 0.6) 32%, rgba(9, 20, 13, 0.18) 55%, rgba(9, 20, 13, 0) 68%),
-    url('./assets/hero-nursery-garden-2.jpg');
-  background-size: cover;
-  background-position: right center;
-  background-repeat: no-repeat;
+  /* Shown for the instant before the video's first frame paints - no
+     image asset needed, just the brand's dark green. */
+  background-color: var(--section-hero);
   color: var(--color-text-light);
   padding: 48px 48px;
   overflow: hidden;
@@ -206,7 +199,38 @@
   align-items: center;
 }
 
+/* Full-bleed autoplaying video background, cropped (never stretched) to
+   always fill the section at any viewport size. */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Subtle dark-green wash so the hero text stays readable over any video
+   frame - darker on the left (behind the text) fading out to the right,
+   same treatment the previous photo background used. */
+.hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to right,
+    rgba(9, 32, 22, 0.82) 0%,
+    rgba(9, 32, 22, 0.62) 35%,
+    rgba(9, 32, 22, 0.34) 60%,
+    rgba(9, 32, 22, 0.16) 100%
+  );
+  pointer-events: none;
+}
+
 .hero-content {
+  position: relative;
   max-width: 600px;
   z-index: 10;
 }
@@ -292,10 +316,6 @@
   .hero-title {
     font-size: 3.5rem;
   }
-
-  .hero-section {
-    background-position: 68% center;
-  }
 }
 
 @media (max-width: 768px) {
@@ -329,10 +349,19 @@
   .hero-section {
     padding: 48px 20px;
     min-height: auto;
-    background-image:
-      linear-gradient(to right, rgba(9, 20, 13, 0.88) 0%, rgba(9, 20, 13, 0.72) 55%, rgba(9, 20, 13, 0.32) 82%, rgba(9, 20, 13, 0.1) 100%),
-      url('./assets/hero-nursery-garden-2.jpg');
-    background-position: 78% center;
+  }
+
+  /* Text now sits over more of the video's width on a narrow screen, so
+     the wash needs to cover more of it too - a bit darker/more uniform
+     than the desktop version. */
+  .hero-video-overlay {
+    background: linear-gradient(
+      to right,
+      rgba(9, 32, 22, 0.88) 0%,
+      rgba(9, 32, 22, 0.78) 55%,
+      rgba(9, 32, 22, 0.55) 82%,
+      rgba(9, 32, 22, 0.4) 100%
+    );
   }
 
   .hero-title {

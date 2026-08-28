@@ -4,7 +4,7 @@ import ProductCard from '../components/ProductCard';
 import OffersSection from '../components/OffersSection';
 import { CATEGORIES, getBestSellers } from '../data/products';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import journalPottingMixImg from '../assets/journal-potting-mix.jpg';
+import { useSiteContent } from '../hooks/useSiteContent';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -67,12 +67,6 @@ const WHY_IGO_ICONS = {
   ),
 };
 
-const JOURNAL = [
-  { title: 'How to choose your first indoor plant', to: '/blog', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=500&auto=format&fit=crop' },
-  { title: 'A simple guide to potting mix', to: '/blog', image: journalPottingMixImg },
-  { title: '3 ways to make a balcony feel greener', to: '/blog', image: 'https://images.unsplash.com/photo-1463154545680-d59320fd685d?q=80&w=500&auto=format&fit=crop' },
-];
-
 const REVIEWS = [
   { name: 'Ananya R.', rating: 5, text: 'The plants arrived so much healthier than I expected. Great packaging too.' },
   { name: 'Karthik S.', rating: 5, text: 'Ordered a bonsai as a gift — the recipient loved it. Will order again.' },
@@ -87,30 +81,41 @@ const FAQS = [
 ];
 
 function Hero() {
+  const { hero } = useSiteContent();
   return (
     <section className="hero-section">
+      <video
+        className="hero-video"
+        src={hero.videoUrl}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+      />
+      <div className="hero-video-overlay" aria-hidden="true" />
       <div className="hero-content">
         <div className="tag">
           <div className="tag-dot"></div>
-          MUTTUKADU LAB ONLINE
+          {hero.tag}
         </div>
         <h1 className="hero-title">
-          NATURE<br />
-          <span className="highlight-text">ENGINEERED.</span>
+          {hero.titleLine1}<br />
+          <span className="highlight-text">{hero.titleLine2}</span>
           <svg style={{ display: 'inline-block', marginLeft: '12px' }} width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary-lime)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 22C12 22 20 18 20 12V5l-8-3-8 3v7C4 18 12 22 12 22z"></path>
           </svg>
         </h1>
         <p className="hero-description">
-          IGO is not just a nursery. We are an AgriTech farm using IoT data
-          and precision trials to grow the healthiest plant palette in India.
+          {hero.description}
         </p>
         <div className="hero-buttons">
           <button type="button" className="btn btn-primary">
-            START GARDEN ASSISTANT ⚡
+            {hero.primaryButtonText}
           </button>
-          <Link to="/category/indoor-plants" className="btn btn-secondary">
-            SHOP PLANTS
+          <Link to={hero.secondaryButtonLink} className="btn btn-secondary">
+            {hero.secondaryButtonText}
           </Link>
         </div>
       </div>
@@ -130,7 +135,7 @@ function ShopByCategory() {
       </div>
       <div className="category-grid">
         {CATEGORIES.slice(0, 6).map((cat) => (
-          <Link to={`/category/${cat.slug}`} key={cat.slug} className="category-tile" style={{ backgroundImage: `linear-gradient(to top, rgba(15,17,21,0.75), rgba(15,17,21,0.05)), url(${cat.image})` }}>
+          <Link to={`/category/${cat.slug}`} key={cat.slug} className="category-tile" style={{ backgroundImage: `linear-gradient(to top, rgba(15,17,21,0.75), rgba(15,17,21,0.05)), url('${cat.image}')` }}>
             <span className="category-tile-label">{cat.label}</span>
             <span className="category-tile-link">Explore →</span>
           </Link>
@@ -226,12 +231,7 @@ function BestSellers() {
 }
 
 function GardenServicesTeaser() {
-  const services = [
-    { title: 'Terrace Garden', to: '/garden-services' },
-    { title: 'Balcony Garden', to: '/garden-services' },
-    { title: 'Landscaping', to: '/garden-services' },
-    { title: 'Plant Maintenance', to: '/garden-services' },
-  ];
+  const { gardenServices: services } = useSiteContent();
   return (
     <section className="garden-services-teaser">
       <div className="section-heading">
@@ -745,6 +745,7 @@ function PlantFinderBand() {
 }
 
 function GardenJournal() {
+  const { journal } = useSiteContent();
   return (
     <section className="garden-journal">
       <div className="section-heading">
@@ -755,9 +756,9 @@ function GardenJournal() {
         <Link to="/blog" className="see-all">See all →</Link>
       </div>
       <div className="journal-grid">
-        {JOURNAL.map((post) => (
-          <Link to={post.to} key={post.title} className="journal-card">
-            <div className="journal-media" style={{ backgroundImage: `url(${post.image})` }} />
+        {journal.map((post) => (
+          <Link to={post.to} key={post.id} className="journal-card">
+            <div className="journal-media" style={{ backgroundImage: `url('${post.image}')` }} />
             <h3>{post.title}</h3>
             <span>Read guide →</span>
           </Link>

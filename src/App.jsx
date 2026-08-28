@@ -9,6 +9,7 @@ import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Wishlist from './pages/Wishlist';
 import Login from './pages/Login';
+import AdminApp from './admin/AdminApp';
 import Offers from './pages/Offers';
 import GardenServices from './pages/GardenServices';
 import Blog from './pages/Blog';
@@ -25,6 +26,7 @@ function App() {
         <ToastHost />
         <Routes>
           <Route path="login" element={<Login />} />
+          <Route path="admin/*" element={<AdminApp />} />
           <Route element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="category/:slug" element={<CategoryPage />} />

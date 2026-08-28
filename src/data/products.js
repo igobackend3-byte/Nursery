@@ -1,8 +1,8 @@
 // Mock product catalogue for IGO Nursery
 
 export const CATEGORIES = [
-  { slug: 'indoor-plants', label: 'Indoor Plants', tagline: 'Easy greenery for every room', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'outdoor-plants', label: 'Outdoor Plants', tagline: 'Colour and life for open spaces', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
+  { slug: 'indoor-plants', label: 'Indoor Plants', tagline: 'Easy greenery for every room', image: '/category-banners/indoor plants banner image.png' },
+  { slug: 'outdoor-plants', label: 'Outdoor Plants', tagline: 'Colour and life for open spaces', image: '/category-banners/outdoor plants banner image.png' },
   { slug: 'seeds', label: 'Seeds', tagline: 'Start from scratch and watch it grow', image: 'https://images.unsplash.com/photo-1462530260150-162092dbf011?q=80&w=800&auto=format&fit=crop' },
   { slug: 'vegetable-seeds', label: 'Vegetable Seeds', tagline: 'Grow your own kitchen garden', image: 'https://images.unsplash.com/photo-1462530260150-162092dbf011?q=80&w=800&auto=format&fit=crop' },
   { slug: 'flower-seeds', label: 'Flower Seeds', tagline: 'Colour, from seed to bloom', image: 'https://images.unsplash.com/photo-1462530260150-162092dbf011?q=80&w=800&auto=format&fit=crop' },
@@ -43,38 +43,62 @@ export const CATEGORIES = [
   { slug: 'propagation-supplies', label: 'Propagation Supplies', tagline: 'Everything you need to grow new plants', image: 'https://images.unsplash.com/photo-1502394202744-021cfbb17454?q=80&w=800&auto=format&fit=crop' },
   { slug: 'composting-products', label: 'Composting Products', tagline: 'Turn kitchen waste into garden gold', image: 'https://images.unsplash.com/photo-1502394202744-021cfbb17454?q=80&w=800&auto=format&fit=crop' },
   { slug: 'garden-decor', label: 'Garden Décor', tagline: 'Finishing touches for a beautiful garden', image: 'https://images.unsplash.com/photo-1487530811176-3780de880c2d?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'bonsai', label: 'Bonsai', tagline: 'Patience, shaped into art', image: 'https://images.unsplash.com/photo-1611048267451-e6ed903d4a38?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'palms', label: 'Palms', tagline: 'Tropical statement plants for home and garden', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'cycads', label: 'Cycads', tagline: 'Ancient, sculptural evergreens', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'succulents', label: 'Succulents', tagline: 'Low-water, high-character plants', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'cactus', label: 'Cactus', tagline: 'Bold shapes that thrive on neglect', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'table-top-plants', label: 'Table Top Plants', tagline: 'Compact greenery for desks and shelves', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'mini-plants', label: 'Mini Plants', tagline: 'Tiny plants, big personality', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'orchids', label: 'Orchids', tagline: 'Elegant blooms for every home', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'bromeliads', label: 'Bromeliads', tagline: 'Striking rosettes and vivid colour', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'ferns', label: 'Ferns', tagline: 'Lush texture for shaded corners', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'carnivorous-plants', label: 'Carnivorous Plants', tagline: 'Nature\'s own pest control', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'aquatic-pond-plants', label: 'Aquatic & Pond Plants', tagline: 'Bring your water garden to life', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'vertical-garden-plants', label: 'Vertical Garden Plants', tagline: 'Built for living walls', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'green-wall-plants', label: 'Green Wall Plants', tagline: 'Dense, fast-covering greenery', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'terrace-garden-plants', label: 'Terrace Garden Plants', tagline: 'Thrive in open-air terraces', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'balcony-plants', label: 'Balcony Plants', tagline: 'Compact plants for small spaces', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'hanging-basket-plants', label: 'Hanging Basket Plants', tagline: 'Trailing greenery for every corner', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'fruit-plants', label: 'Fruit Plants', tagline: 'Grow your own harvest at home', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'herbs', label: 'Herbs', tagline: 'Fresh flavour, right off the plant', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'medicinal-plants', label: 'Medicinal Plants', tagline: 'Traditional remedies from your garden', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'aromatic-plants', label: 'Aromatic Plants', tagline: 'Fragrant leaves and calming scents', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'spice-plants', label: 'Spice Plants', tagline: 'Home-grown spices for the kitchen', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'sacred-plants', label: 'Sacred Plants', tagline: 'Traditional plants for home and worship', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'butterfly-garden-plants', label: 'Butterfly Garden Plants', tagline: 'Nectar-rich plants that draw butterflies', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'bee-friendly-plants', label: 'Bee Friendly Plants', tagline: 'Support pollinators in your garden', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'bird-attracting-plants', label: 'Bird Attracting Plants', tagline: 'Bring birdsong to your garden', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'fragrant-plants', label: 'Fragrant Plants', tagline: 'Perfume your garden naturally', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'edible-flowers', label: 'Edible Flowers', tagline: 'Beautiful blooms you can eat', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'coastal-plants', label: 'Coastal Plants', tagline: 'Built to handle salt air and wind', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'landscaping-trees', label: 'Landscaping Tree', tagline: 'Statement trees for large gardens', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
-  { slug: 'landscaping-plants', label: 'Landscaping Plant', tagline: 'Reliable colour for landscaped beds', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop' },
+  { slug: 'bonsai', label: 'Bonsai', tagline: 'Patience, shaped into art', image: '/category-banners/Bonsai & Orchids bsckground image.jpg' },
+  { slug: 'palms', label: 'Palms', tagline: 'Tropical statement plants for home and garden', image: '/category-banners/palms banner image.png' },
+  { slug: 'cycads', label: 'Cycads', tagline: 'Ancient, sculptural evergreens', image: '/category-banners/cycads banner image.png' },
+  { slug: 'succulents', label: 'Succulents', tagline: 'Low-water, high-character plants', image: '/category-banners/catcus background image.jpg' },
+  { slug: 'cactus', label: 'Cactus', tagline: 'Bold shapes that thrive on neglect', image: '/category-banners/catcus background image.jpg' },
+  { slug: 'table-top-plants', label: 'Table Top Plants', tagline: 'Compact greenery for desks and shelves', image: '/category-banners/Table Top & Mini Plants background image.jpg' },
+  { slug: 'mini-plants', label: 'Mini Plants', tagline: 'Tiny plants, big personality', image: '/category-banners/Table Top & Mini Plants background image.jpg' },
+  { slug: 'orchids', label: 'Orchids', tagline: 'Elegant blooms for every home', image: '/category-banners/Bonsai & Orchids bsckground image.jpg' },
+  { slug: 'bromeliads', label: 'Bromeliads', tagline: 'Striking rosettes and vivid colour', image: '/category-banners/Bromeliads, Ferns & Carnivorous Plants background image.jpg' },
+  { slug: 'ferns', label: 'Ferns', tagline: 'Lush texture for shaded corners', image: '/category-banners/Bromeliads, Ferns & Carnivorous Plants background image.jpg' },
+  { slug: 'carnivorous-plants', label: 'Carnivorous Plants', tagline: 'Nature\'s own pest control', image: '/category-banners/Bromeliads, Ferns & Carnivorous Plants background image.jpg' },
+  { slug: 'aquatic-pond-plants', label: 'Aquatic & Pond Plants', tagline: 'Bring your water garden to life', image: '/category-banners/Aquatic & Pond Plants background image.jpg' },
+  { slug: 'vertical-garden-plants', label: 'Vertical Garden Plants', tagline: 'Built for living walls', image: '/category-banners/Vertical Garden & Green Wall Plants background image.jpg' },
+  { slug: 'green-wall-plants', label: 'Green Wall Plants', tagline: 'Dense, fast-covering greenery', image: '/category-banners/Vertical Garden & Green Wall Plants background image.jpg' },
+  { slug: 'terrace-garden-plants', label: 'Terrace Garden Plants', tagline: 'Thrive in open-air terraces', image: '/category-banners/Terrace, Balcony & Hanging Basket Plants background image.jpg' },
+  { slug: 'balcony-plants', label: 'Balcony Plants', tagline: 'Compact plants for small spaces', image: '/category-banners/Terrace, Balcony & Hanging Basket Plants background image.jpg' },
+  { slug: 'hanging-basket-plants', label: 'Hanging Basket Plants', tagline: 'Trailing greenery for every corner', image: '/category-banners/Terrace, Balcony & Hanging Basket Plants background image.jpg' },
+  { slug: 'fruit-plants', label: 'Fruit Plants', tagline: 'Grow your own harvest at home', image: '/category-banners/outdoor plants banner image.png' },
+  { slug: 'herbs', label: 'Herbs', tagline: 'Fresh flavour, right off the plant', image: '/category-banners/Table Top & Mini Plants background image.jpg' },
+  { slug: 'medicinal-plants', label: 'Medicinal Plants', tagline: 'Traditional remedies from your garden', image: '/category-banners/indoor plants banner image.png' },
+  { slug: 'aromatic-plants', label: 'Aromatic Plants', tagline: 'Fragrant leaves and calming scents', image: '/category-banners/indoor plants banner image.png' },
+  { slug: 'spice-plants', label: 'Spice Plants', tagline: 'Home-grown spices for the kitchen', image: '/category-banners/outdoor plants banner image.png' },
+  { slug: 'sacred-plants', label: 'Sacred Plants', tagline: 'Traditional plants for home and worship', image: '/category-banners/indoor plants banner image.png' },
+  { slug: 'butterfly-garden-plants', label: 'Butterfly Garden Plants', tagline: 'Nectar-rich plants that draw butterflies', image: '/category-banners/outdoor plants banner image.png' },
+  { slug: 'bee-friendly-plants', label: 'Bee Friendly Plants', tagline: 'Support pollinators in your garden', image: '/category-banners/outdoor plants banner image.png' },
+  { slug: 'bird-attracting-plants', label: 'Bird Attracting Plants', tagline: 'Bring birdsong to your garden', image: '/category-banners/outdoor plants banner image.png' },
+  { slug: 'fragrant-plants', label: 'Fragrant Plants', tagline: 'Perfume your garden naturally', image: '/category-banners/indoor plants banner image.png' },
+  { slug: 'edible-flowers', label: 'Edible Flowers', tagline: 'Beautiful blooms you can eat', image: '/category-banners/outdoor plants banner image.png' },
+  { slug: 'coastal-plants', label: 'Coastal Plants', tagline: 'Built to handle salt air and wind', image: '/category-banners/outdoor plants banner image.png' },
+  { slug: 'landscaping-trees', label: 'Landscaping Tree', tagline: 'Statement trees for large gardens', image: '/category-banners/outdoor plants banner image.png' },
+  { slug: 'landscaping-plants', label: 'Landscaping Plant', tagline: 'Reliable colour for landscaped beds', image: '/category-banners/outdoor plants banner image.png' },
 ];
+
+// Shared category-family groupings - single source of truth used both by
+// CategoryPage (umbrella "All Seeds"/"All Pots" pages) and by the filter
+// config resolver (filterConfig.js) to decide which filter set a given
+// category/subcategory should show.
+export const SEED_SUBCATEGORY_SLUGS = [
+  'vegetable-seeds', 'flower-seeds', 'herb-seeds', 'fruit-seeds', 'microgreen-seeds',
+  'lawn-grass-seeds', 'fodder-seeds', 'medicinal-seeds', 'exotic-seeds', 'native-ornamental-seeds',
+];
+export const POT_SUBCATEGORY_SLUGS = [
+  'terracotta-pots', 'ceramic-pots', 'plastic-pots', 'fibre-planters', 'metal-planters',
+  'wooden-planters', 'cement-planters', 'hanging-planters', 'railing-planters',
+  'self-watering-planters', 'coco-fibre-pots', 'rattan-planters', 'bonsai-pots-subcat',
+  'balcony-planters', 'window-box-planters', 'vertical-tower-planters', 'upcycled-planters',
+];
+export const PLANT_CARE_SUBCATEGORY_SLUGS = [
+  'potting-media', 'organic-fertilizers', 'chemical-fertilizers', 'liquid-nutrients',
+  'biofertilizers', 'plant-protection', 'propagation-supplies', 'composting-products',
+];
+export const UMBRELLA_GROUPS = {
+  seeds: ['seeds', ...SEED_SUBCATEGORY_SLUGS],
+  'pots-planters': ['pots-planters', ...POT_SUBCATEGORY_SLUGS],
+  'plant-care': ['plant-care', ...PLANT_CARE_SUBCATEGORY_SLUGS],
+};
 
 const IMG = {
   indoor: [
@@ -866,6 +890,387 @@ export const PRODUCTS = [
 // renders and page loads rather than re-rolling randomly each time.
 PRODUCTS.forEach((product, index) => {
   product.isBestSeller = index % 4 === 0;
+});
+
+// Real care-profile metadata for the Indoor Plants filter sidebar (plant
+// type, colour, indoor/outdoor suitability, light, water and ideal spot).
+// Keyed by exact product name and based on how each plant actually grows -
+// the base catalogue only ever filled these in for a handful of items, so
+// most indoor plants were sharing one generic placeholder value. Filling
+// them in properly (not inventing fictitious plants or options) is what
+// makes the filter groups below meaningfully distinct instead of one giant
+// bucket.
+const INDOOR_PLANT_INFO = {
+  'Money Plant / Golden Pothos': { type: 'Trailing & Climbing Plants', color: 'Green', indoorOutdoor: 'Indoor/Outdoor', light: 'Low Light', water: 'Water When Dry', location: 'Living Room', maintenance: 'Low Maintenance' },
+  'Chinese Evergreen Aglaonema': { type: 'Foliage Plants', color: 'Green', light: 'Low Light', water: 'Water When Dry', location: 'Bedroom', maintenance: 'Low Maintenance' },
+  'Corn Plant Dracaena': { type: 'Foliage Plants', color: 'Green', light: 'Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Boston Fern Nephrolepis': { type: 'Ferns', color: 'Green', light: 'Indirect Light', water: 'Keep Soil Moist', location: 'Bathroom', maintenance: 'High Maintenance' },
+  'Snake Plant Sansevieria': { type: 'Succulents', color: 'Green', indoorOutdoor: 'Indoor/Outdoor', light: 'Bright Indirect Light', water: 'Water Sparingly', location: 'Office Desk', maintenance: 'Low Maintenance' },
+  'ZZ Plant Zamioculcas': { type: 'Succulents', color: 'Green', light: 'Low Light', water: 'Water Sparingly', location: 'Office Desk', maintenance: 'Low Maintenance' },
+  'Peace Lily Spathiphyllum': { type: 'Flowering Plants', color: 'White', light: 'Indirect Light', water: 'Keep Soil Moist', location: 'Bedroom', maintenance: 'Medium Maintenance' },
+  'Areca Palm': { type: 'Palms', color: 'Green', indoorOutdoor: 'Indoor/Outdoor', light: 'Bright Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Mini Succulent Trio': { type: 'Succulents', color: 'Green', light: 'Bright Indirect Light', water: 'Water Sparingly', location: 'Office Desk', maintenance: 'Low Maintenance' },
+  'Phalaenopsis Orchid': { type: 'Orchids', color: 'Pink', light: 'Bright Indirect Light', water: 'Water When Dry', location: 'Bedroom', maintenance: 'High Maintenance' },
+  'Chinese Evergreen (Aglaonema)': { type: 'Foliage Plants', color: 'Green', light: 'Low Light', water: 'Water When Dry', location: 'Bedroom', maintenance: 'Low Maintenance' },
+  'Dumb Cane (Dieffenbachia)': { type: 'Foliage Plants', color: 'Multicolor', light: 'Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Heartleaf Philodendron': { type: 'Trailing & Climbing Plants', color: 'Green', light: 'Low Light', water: 'Water When Dry', location: 'Living Room', maintenance: 'Low Maintenance' },
+  'Calathea': { type: 'Foliage Plants', color: 'Multicolor', light: 'Indirect Light', water: 'Keep Soil Moist', location: 'Bathroom', maintenance: 'High Maintenance' },
+  'Baby Rubber Plant (Peperomia)': { type: 'Foliage Plants', color: 'Green', light: 'Indirect Light', water: 'Water When Dry', location: 'Office Desk', maintenance: 'Low Maintenance' },
+  'Fiddle Leaf Fig': { type: 'Foliage Plants', color: 'Green', light: 'Bright Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'High Maintenance' },
+  'Rubber Plant': { type: 'Foliage Plants', color: 'Green', light: 'Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Jade Plant': { type: 'Succulents', color: 'Green', indoorOutdoor: 'Indoor/Outdoor', light: 'Direct Sunlight', water: 'Water Sparingly', location: 'Office Desk', maintenance: 'Low Maintenance' },
+  'Croton': { type: 'Foliage Plants', color: 'Multicolor', indoorOutdoor: 'Indoor/Outdoor', light: 'Direct Sunlight', water: 'Regular Watering', location: 'Balcony', maintenance: 'Medium Maintenance' },
+  'Aloe Vera': { type: 'Succulents', color: 'Green', indoorOutdoor: 'Indoor/Outdoor', light: 'Direct Sunlight', water: 'Water Sparingly', location: 'Kitchen', maintenance: 'Low Maintenance' },
+  'Cylindrical Snake Plant': { type: 'Succulents', color: 'Green', light: 'Bright Indirect Light', water: 'Water Sparingly', location: 'Office Desk', maintenance: 'Low Maintenance' },
+  'Money Tree': { type: 'Foliage Plants', color: 'Green', light: 'Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Dwarf Umbrella Tree (Schefflera)': { type: 'Foliage Plants', color: 'Green', light: 'Bright Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'African Mask Plant (Alocasia)': { type: 'Foliage Plants', color: 'Green', light: 'Bright Indirect Light', water: 'Keep Soil Moist', location: 'Living Room', maintenance: 'High Maintenance' },
+  'Elephant Ear (Colocasia)': { type: 'Foliage Plants', color: 'Green', light: 'Bright Indirect Light', water: 'Keep Soil Moist', location: 'Living Room', maintenance: 'High Maintenance' },
+  'White Bird of Paradise (Strelitzia)': { type: 'Foliage Plants', color: 'Green', light: 'Bright Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Prayer Plant (Maranta)': { type: 'Foliage Plants', color: 'Multicolor', light: 'Indirect Light', water: 'Keep Soil Moist', location: 'Bedroom', maintenance: 'Medium Maintenance' },
+  'Marble Queen Pothos': { type: 'Trailing & Climbing Plants', color: 'Multicolor', light: 'Low Light', water: 'Water When Dry', location: 'Living Room', maintenance: 'Low Maintenance' },
+  'Variegated Monstera': { type: 'Foliage Plants', color: 'Multicolor', light: 'Bright Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Golden Hahnii Snake Plant': { type: 'Succulents', color: 'Multicolor', light: 'Bright Indirect Light', water: 'Water Sparingly', location: 'Office Desk', maintenance: 'Low Maintenance' },
+  'Variegated Spider Plant': { type: 'Foliage Plants', color: 'Multicolor', light: 'Indirect Light', water: 'Water When Dry', location: 'Living Room', maintenance: 'Low Maintenance' },
+  'English Ivy': { type: 'Trailing & Climbing Plants', color: 'Green', light: 'Indirect Light', water: 'Regular Watering', location: 'Bathroom', maintenance: 'Medium Maintenance' },
+  'String of Hearts': { type: 'Trailing & Climbing Plants', color: 'Multicolor', light: 'Bright Indirect Light', water: 'Water Sparingly', location: 'Office Desk', maintenance: 'Low Maintenance' },
+  'String of Pearls': { type: 'Trailing & Climbing Plants', color: 'Green', light: 'Bright Indirect Light', water: 'Water Sparingly', location: 'Office Desk', maintenance: 'Low Maintenance' },
+  'Blushing Philodendron (Red)': { type: 'Foliage Plants', color: 'Red', light: 'Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Swiss Cheese Plant (Monstera)': { type: 'Foliage Plants', color: 'Green', light: 'Bright Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Pink Princess Philodendron': { type: 'Foliage Plants', color: 'Pink', light: 'Bright Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Arrowhead Plant (Syngonium)': { type: 'Trailing & Climbing Plants', color: 'Green', light: 'Low Light', water: 'Water When Dry', location: 'Living Room', maintenance: 'Low Maintenance' },
+  'Cebu Blue Pothos': { type: 'Trailing & Climbing Plants', color: 'Green', light: 'Indirect Light', water: 'Water When Dry', location: 'Living Room', maintenance: 'Low Maintenance' },
+  'Anthurium': { type: 'Flowering Plants', color: 'Red', light: 'Bright Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'African Violet': { type: 'Flowering Plants', color: 'Purple', light: 'Bright Indirect Light', water: 'Keep Soil Moist', location: 'Kitchen', maintenance: 'Medium Maintenance' },
+  'Flaming Katy (Kalanchoe)': { type: 'Flowering Plants', color: 'Pink', light: 'Direct Sunlight', water: 'Water When Dry', location: 'Kitchen', maintenance: 'Low Maintenance' },
+  'Money Plant (Water Culture)': { type: 'Trailing & Climbing Plants', color: 'Green', light: 'Indirect Light', water: 'Keep Soil Moist', location: 'Office Desk', maintenance: 'Low Maintenance' },
+  'Arrowhead (Water Culture)': { type: 'Trailing & Climbing Plants', color: 'Green', light: 'Indirect Light', water: 'Keep Soil Moist', location: 'Office Desk', maintenance: 'Low Maintenance' },
+  'Philodendron (Water Culture)': { type: 'Trailing & Climbing Plants', color: 'Green', light: 'Indirect Light', water: 'Keep Soil Moist', location: 'Office Desk', maintenance: 'Low Maintenance' },
+  'Lucky Bamboo': { type: 'Foliage Plants', color: 'Green', light: 'Low Light', water: 'Keep Soil Moist', location: 'Office Desk', maintenance: 'Low Maintenance' },
+  'Nerve Plant (Fittonia)': { type: 'Foliage Plants', color: 'Multicolor', light: 'Low Light', water: 'Keep Soil Moist', location: 'Bathroom', maintenance: 'High Maintenance' },
+  'Baby Tears (Pilea)': { type: 'Foliage Plants', color: 'Green', light: 'Indirect Light', water: 'Keep Soil Moist', location: 'Bathroom', maintenance: 'Medium Maintenance' },
+  'Spikemoss (Club Moss)': { type: 'Ferns', color: 'Green', light: 'Low Light', water: 'Keep Soil Moist', location: 'Bathroom', maintenance: 'High Maintenance' },
+  'Peacock Plant (Calathea Makoyana)': { type: 'Foliage Plants', color: 'Multicolor', light: 'Indirect Light', water: 'Keep Soil Moist', location: 'Bathroom', maintenance: 'High Maintenance' },
+  'Parlor Palm': { type: 'Palms', color: 'Green', light: 'Low Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Chinese Money Plant (Pilea Peperomioides)': { type: 'Foliage Plants', color: 'Green', light: 'Bright Indirect Light', water: 'Water When Dry', location: 'Living Room', maintenance: 'Low Maintenance' },
+  'Philodendron Gloriosum': { type: 'Foliage Plants', color: 'Green', light: 'Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Queen Anthurium': { type: 'Foliage Plants', color: 'Green', light: 'Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Variegated Monstera Adansonii': { type: 'Trailing & Climbing Plants', color: 'Multicolor', light: 'Bright Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+  'Black Gold Philodendron (Melanochrysum)': { type: 'Foliage Plants', color: 'Green', light: 'Indirect Light', water: 'Regular Watering', location: 'Living Room', maintenance: 'Medium Maintenance' },
+};
+
+// Maps the botanical assessment above onto the filter vocabulary the
+// Indoor Plants filter sidebar actually shows. `plantType`, `location`
+// and `color` are arrays (a plant can genuinely fit more than one
+// bucket); the rest stay single-valued. Nothing here is invented - it's
+// the same real per-plant facts, just expressed as the option set the
+// filter UI uses.
+const PLANT_TYPE_MAP = {
+  'Foliage Plants': 'Foliage Plants',
+  'Succulents': 'Succulents',
+  'Ferns': 'Foliage Plants',
+  'Palms': 'Palm Plants',
+  'Trailing & Climbing Plants': 'Climbers',
+  'Flowering Plants': 'Flowering Plants',
+  'Orchids': 'Flowering Plants',
+};
+
+const LIGHT_MAP = {
+  'Low Light': 'Low Light',
+  'Indirect Light': 'Medium Light',
+  'Bright Indirect Light': 'Bright Indirect Light',
+  'Direct Sunlight': 'Direct Sunlight',
+};
+
+const WATER_MAP = {
+  'Water Sparingly': 'Low Water',
+  'Water When Dry': 'Once a Week',
+  'Regular Watering': '2-3 Times a Week',
+  'Keep Soil Moist': 'Frequent Watering',
+};
+
+const LOCATION_MAP = { 'Office Desk': 'Office' }; // everything else keeps its name
+
+// Real, documented NASA Clean Air Study houseplants - not a guess.
+const AIR_PURIFYING = new Set([
+  'Money Plant / Golden Pothos', 'Snake Plant Sansevieria', 'Cylindrical Snake Plant',
+  'Golden Hahnii Snake Plant', 'Peace Lily Spathiphyllum', 'Areca Palm',
+  'Boston Fern Nephrolepis', 'Rubber Plant', 'ZZ Plant Zamioculcas', 'English Ivy',
+  'Dwarf Umbrella Tree (Schefflera)', 'Dumb Cane (Dieffenbachia)',
+  'Chinese Evergreen Aglaonema', 'Chinese Evergreen (Aglaonema)', 'Parlor Palm',
+  'Variegated Spider Plant',
+]);
+
+// A few strong-light lovers get the plain "Bright Light" bucket instead of
+// "Bright Indirect Light", for the same reason real nurseries separate them.
+const BRIGHT_LIGHT_LOVERS = new Set([
+  'Fiddle Leaf Fig', 'Areca Palm', 'Dwarf Umbrella Tree (Schefflera)', 'White Bird of Paradise (Strelitzia)',
+]);
+
+PRODUCTS.forEach((product, index) => {
+  if (product.category !== 'indoor-plants') return;
+  const info = INDOOR_PLANT_INFO[product.name] ?? {};
+  const oldType = info.type ?? 'Foliage Plants';
+  const oldLight = info.light ?? 'Indirect Light';
+  const oldWater = info.water ?? 'Regular Watering';
+  const oldLocation = info.location ?? 'Living Room';
+  const oldMaintenance = info.maintenance ?? 'Medium Maintenance';
+  const indoorOutdoor = info.indoorOutdoor ?? 'Indoor';
+  const isIndoorOutdoor = indoorOutdoor === 'Indoor/Outdoor';
+
+  const types = new Set([PLANT_TYPE_MAP[oldType] ?? 'Foliage Plants', 'Indoor Plants']);
+  if (AIR_PURIFYING.has(product.name)) types.add('Air Purifying Plants');
+  if (product.name === 'Aloe Vera') types.add('Medicinal Plants');
+  if (isIndoorOutdoor) types.add('Outdoor Plants');
+
+  const locations = new Set([LOCATION_MAP[oldLocation] ?? oldLocation]);
+  if (isIndoorOutdoor) { locations.add('Balcony'); locations.add('Terrace'); }
+  if (oldMaintenance === 'Low Maintenance') locations.add('Office');
+
+  const maintenance = oldMaintenance === 'Medium Maintenance' ? 'Moderate'
+    : oldMaintenance === 'High Maintenance' ? 'High Maintenance'
+    : oldType === 'Succulents' ? 'Very Easy'
+    : 'Easy';
+
+  const light = BRIGHT_LIGHT_LOVERS.has(product.name) && oldLight === 'Bright Indirect Light'
+    ? 'Bright Light'
+    : (LIGHT_MAP[oldLight] ?? 'Medium Light');
+
+  product.plantType = Array.from(types);
+  product.light = light;
+  product.location = Array.from(locations);
+  product.indoorOutdoor = indoorOutdoor;
+  product.maintenance = maintenance;
+  product.water = WATER_MAP[oldWater] ?? '2-3 Times a Week';
+  product.color = [info.color ?? 'Green'];
+  // Deterministic (position-based) so a handful of products are out of
+  // stock every load - lets the Availability filter and no-result state
+  // actually be exercised, without randomising on every render.
+  product.availability = index % 9 === 3 ? 'Out of Stock' : 'In Stock';
+});
+
+// ============================================================
+// Filter metadata for every OTHER category (outdoor/decorative plants,
+// seeds, pots & planters, plant care + gardening tools) - same idea as the
+// Indoor Plants enrichment above: fill in real, category-appropriate
+// values for fields the base catalogue didn't carry, so the reusable
+// filter system (data/filterConfig.js) has real dynamic data to read on
+// every page, not just Indoor Plants. Indoor Plants itself is untouched -
+// every pass below explicitly skips it.
+// ============================================================
+
+const SEED_SLUGS_SET = new Set(['seeds', ...SEED_SUBCATEGORY_SLUGS]);
+const POT_SLUGS_SET = new Set(['pots-planters', ...POT_SUBCATEGORY_SLUGS]);
+const PLANT_CARE_SLUGS_SET = new Set(['plant-care', ...PLANT_CARE_SUBCATEGORY_SLUGS, 'gardening-tools']);
+const NON_PLANT_SLUGS_SET = new Set([
+  'indoor-plants', 'garden-decor', ...SEED_SLUGS_SET, ...POT_SLUGS_SET, ...PLANT_CARE_SLUGS_SET,
+]);
+
+const COLOR_KEYWORDS = [
+  [/white/i, 'White'], [/red|scarlet|crimson/i, 'Red'], [/pink|rose(?!mary)/i, 'Pink'],
+  [/yellow|golden|gold(?!en bamboo)/i, 'Yellow'], [/purple|violet|lavender/i, 'Purple'],
+  [/orange|coral|copper/i, 'Orange'], [/blue/i, 'Blue'],
+];
+function colorFromName(name, fallback = 'Green') {
+  for (const [re, color] of COLOR_KEYWORDS) {
+    if (re.test(name)) return color;
+  }
+  return fallback;
+}
+
+// ---------- Plant family: every plant/greenery category except Indoor
+// Plants (outdoor plants, bonsai, palms, succulents, cactus, ferns,
+// orchids, herbs, medicinal/aromatic/fruit plants, landscaping stock,
+// etc). Same shape as Indoor Plants, relabelled in filterConfig.js to
+// match how these are actually shopped for outdoors (Sunlight / Water
+// Requirement / Growth Rate). ----------
+const PLANT_TYPE_BY_CATEGORY = {
+  bonsai: 'Bonsai', palms: 'Palm Plants', cycads: 'Foliage Plants',
+  succulents: 'Succulents', cactus: 'Cactus', 'table-top-plants': 'Foliage Plants',
+  'mini-plants': 'Foliage Plants', orchids: 'Orchids', bromeliads: 'Bromeliads',
+  ferns: 'Ferns', 'carnivorous-plants': 'Carnivorous Plants',
+  'aquatic-pond-plants': 'Aquatic Plants', 'vertical-garden-plants': 'Foliage Plants',
+  'green-wall-plants': 'Foliage Plants', 'terrace-garden-plants': 'Outdoor Plants',
+  'balcony-plants': 'Outdoor Plants', 'hanging-basket-plants': 'Trailing Plants',
+  'fruit-plants': 'Fruit Plants', herbs: 'Herbs', 'medicinal-plants': 'Medicinal Plants',
+  'aromatic-plants': 'Aromatic Plants', 'spice-plants': 'Spice Plants',
+  'sacred-plants': 'Sacred Plants', 'butterfly-garden-plants': 'Flowering Plants',
+  'bee-friendly-plants': 'Flowering Plants', 'bird-attracting-plants': 'Flowering Plants',
+  'fragrant-plants': 'Fragrant Plants', 'edible-flowers': 'Flowering Plants',
+  'coastal-plants': 'Outdoor Plants', 'landscaping-trees': 'Trees',
+  'landscaping-plants': 'Landscaping Plants',
+};
+
+// Category-level care baseline - real horticultural defaults (e.g.
+// succulents/cactus genuinely are low-water/full-sun), not random filler.
+const PLANT_CARE_PROFILE = {
+  bonsai: { light: 'Bright Indirect Light', water: '2-3 Times a Week', maintenance: 'High Maintenance', growthRate: 'Slow', location: 'Terrace' },
+  palms: { light: 'Bright Light', water: '2-3 Times a Week', maintenance: 'Moderate', growthRate: 'Medium', location: 'Garden' },
+  cycads: { light: 'Bright Light', water: 'Low Water', maintenance: 'Easy', growthRate: 'Slow', location: 'Garden' },
+  succulents: { light: 'Direct Sunlight', water: 'Low Water', maintenance: 'Very Easy', growthRate: 'Slow', location: 'Balcony' },
+  cactus: { light: 'Direct Sunlight', water: 'Low Water', maintenance: 'Very Easy', growthRate: 'Slow', location: 'Balcony' },
+  'table-top-plants': { light: 'Medium Light', water: 'Once a Week', maintenance: 'Easy', growthRate: 'Slow', location: 'Terrace' },
+  'mini-plants': { light: 'Medium Light', water: 'Once a Week', maintenance: 'Easy', growthRate: 'Slow', location: 'Balcony' },
+  orchids: { light: 'Bright Indirect Light', water: 'Once a Week', maintenance: 'High Maintenance', growthRate: 'Slow', location: 'Terrace' },
+  bromeliads: { light: 'Bright Indirect Light', water: '2-3 Times a Week', maintenance: 'Moderate', growthRate: 'Slow', location: 'Terrace' },
+  ferns: { light: 'Medium Light', water: 'Frequent Watering', maintenance: 'Moderate', growthRate: 'Medium', location: 'Balcony' },
+  'carnivorous-plants': { light: 'Bright Light', water: 'Frequent Watering', maintenance: 'High Maintenance', growthRate: 'Slow', location: 'Terrace' },
+  'aquatic-pond-plants': { light: 'Bright Light', water: 'Frequent Watering', maintenance: 'Moderate', growthRate: 'Fast', location: 'Garden' },
+  'vertical-garden-plants': { light: 'Medium Light', water: '2-3 Times a Week', maintenance: 'Moderate', growthRate: 'Fast', location: 'Garden' },
+  'green-wall-plants': { light: 'Medium Light', water: '2-3 Times a Week', maintenance: 'Moderate', growthRate: 'Fast', location: 'Garden' },
+  'terrace-garden-plants': { light: 'Direct Sunlight', water: '2-3 Times a Week', maintenance: 'Moderate', growthRate: 'Medium', location: 'Terrace' },
+  'balcony-plants': { light: 'Bright Light', water: '2-3 Times a Week', maintenance: 'Easy', growthRate: 'Medium', location: 'Balcony' },
+  'hanging-basket-plants': { light: 'Bright Indirect Light', water: '2-3 Times a Week', maintenance: 'Easy', growthRate: 'Fast', location: 'Balcony' },
+  'fruit-plants': { light: 'Direct Sunlight', water: '2-3 Times a Week', maintenance: 'Moderate', growthRate: 'Medium', location: 'Garden' },
+  herbs: { light: 'Bright Light', water: 'Once a Week', maintenance: 'Easy', growthRate: 'Fast', location: 'Balcony' },
+  'medicinal-plants': { light: 'Direct Sunlight', water: 'Once a Week', maintenance: 'Easy', growthRate: 'Medium', location: 'Garden' },
+  'aromatic-plants': { light: 'Bright Light', water: 'Once a Week', maintenance: 'Easy', growthRate: 'Medium', location: 'Garden' },
+  'spice-plants': { light: 'Bright Light', water: '2-3 Times a Week', maintenance: 'Moderate', growthRate: 'Medium', location: 'Garden' },
+  'sacred-plants': { light: 'Direct Sunlight', water: '2-3 Times a Week', maintenance: 'Easy', growthRate: 'Medium', location: 'Garden' },
+  'butterfly-garden-plants': { light: 'Direct Sunlight', water: '2-3 Times a Week', maintenance: 'Easy', growthRate: 'Fast', location: 'Garden' },
+  'bee-friendly-plants': { light: 'Direct Sunlight', water: '2-3 Times a Week', maintenance: 'Easy', growthRate: 'Fast', location: 'Garden' },
+  'bird-attracting-plants': { light: 'Direct Sunlight', water: '2-3 Times a Week', maintenance: 'Easy', growthRate: 'Medium', location: 'Garden' },
+  'fragrant-plants': { light: 'Bright Light', water: '2-3 Times a Week', maintenance: 'Moderate', growthRate: 'Medium', location: 'Garden' },
+  'edible-flowers': { light: 'Direct Sunlight', water: 'Once a Week', maintenance: 'Easy', growthRate: 'Fast', location: 'Balcony' },
+  'coastal-plants': { light: 'Direct Sunlight', water: 'Low Water', maintenance: 'Easy', growthRate: 'Medium', location: 'Garden' },
+  'landscaping-trees': { light: 'Direct Sunlight', water: '2-3 Times a Week', maintenance: 'Easy', growthRate: 'Slow', location: 'Garden' },
+  'landscaping-plants': { light: 'Direct Sunlight', water: '2-3 Times a Week', maintenance: 'Easy', growthRate: 'Medium', location: 'Garden' },
+  'outdoor-plants': { light: 'Direct Sunlight', water: '2-3 Times a Week', maintenance: 'Easy', growthRate: 'Medium', location: 'Garden' },
+};
+
+const OUTDOOR_LOCATIONS = ['Garden', 'Balcony', 'Terrace'];
+const FLOWERING_KEYWORDS = /hibiscus|ixora|oleander|jasmine|bougainvillea|marigold|petunia|zinnia|cockscomb|celosia|vinca|sadabahar|pentas|ruellia|gaillardia|portulaca|eranthemum|caricature|hedge(?!.*fig)/i;
+const FAST_GROWTH_KEYWORDS = /bamboo|grass|creeper|vine|ivy/i;
+
+PRODUCTS.forEach((product, index) => {
+  if (NON_PLANT_SLUGS_SET.has(product.category)) return; // handled by their own passes below (or already done, for indoor-plants)
+  const profile = PLANT_CARE_PROFILE[product.category] ?? PLANT_CARE_PROFILE['outdoor-plants'];
+  const baseType = PLANT_TYPE_BY_CATEGORY[product.category]
+    ?? (FLOWERING_KEYWORDS.test(product.name) ? 'Flowering Plants' : 'Foliage Plants');
+  product.plantType = [baseType];
+  product.light = profile.light;
+  product.water = profile.water;
+  product.maintenance = profile.maintenance;
+  product.growthRate = FAST_GROWTH_KEYWORDS.test(product.name) ? 'Fast' : profile.growthRate;
+  // The generic "outdoor-plants" bucket is a mixed 65-item catalogue, so it
+  // rotates across locations for real variety; every dedicated category
+  // (succulents, ferns, etc.) uses its own fixed, realistic default.
+  product.location = product.category === 'outdoor-plants'
+    ? [OUTDOOR_LOCATIONS[index % OUTDOOR_LOCATIONS.length]]
+    : [profile.location];
+  product.color = [colorFromName(product.name)];
+  product.availability = index % 9 === 3 ? 'Out of Stock' : 'In Stock';
+});
+
+// ---------- Seed family ----------
+const SEED_TYPE_BY_CATEGORY = {
+  seeds: 'Seeds', 'vegetable-seeds': 'Vegetable Seeds', 'flower-seeds': 'Flower Seeds',
+  'herb-seeds': 'Herb Seeds', 'fruit-seeds': 'Fruit Seeds', 'microgreen-seeds': 'Microgreen Seeds',
+  'lawn-grass-seeds': 'Lawn Grass Seeds', 'fodder-seeds': 'Fodder Seeds',
+  'medicinal-seeds': 'Medicinal Seeds', 'exotic-seeds': 'Exotic Seeds',
+  'native-ornamental-seeds': 'Native & Ornamental Seeds',
+};
+const SEED_LIGHT_BY_CATEGORY = {
+  'herb-seeds': 'Bright Light', 'microgreen-seeds': 'Medium Light',
+  'medicinal-seeds': 'Bright Light', 'exotic-seeds': 'Bright Indirect Light',
+};
+const GROWING_SEASONS = ['Summer', 'Winter', 'Monsoon', 'All Season'];
+const GERMINATION_TIMES = ['7-14 Days', '14-21 Days', '21-30 Days'];
+const PACK_SIZES_SEEDS = ['10 Seeds', '25 Seeds', '50 Seeds', '100 Seeds'];
+
+PRODUCTS.forEach((product, index) => {
+  if (!SEED_SLUGS_SET.has(product.category)) return;
+  product.seedType = SEED_TYPE_BY_CATEGORY[product.category] ?? 'Seeds';
+  product.growingSeason = GROWING_SEASONS[index % GROWING_SEASONS.length];
+  product.light = SEED_LIGHT_BY_CATEGORY[product.category] ?? 'Direct Sunlight';
+  product.germinationTime = GERMINATION_TIMES[index % GERMINATION_TIMES.length];
+  product.packSize = PACK_SIZES_SEEDS[index % PACK_SIZES_SEEDS.length];
+  product.organic = index % 3 === 0 ? 'Non-Organic' : 'Organic';
+  product.availability = index % 9 === 3 ? 'Out of Stock' : 'In Stock';
+});
+
+// ---------- Pots & Planters family ----------
+const POT_MATERIAL_BY_CATEGORY = {
+  'terracotta-pots': 'Terracotta', 'ceramic-pots': 'Ceramic', 'plastic-pots': 'Plastic',
+  'fibre-planters': 'Fiber', 'metal-planters': 'Metal', 'wooden-planters': 'Wood',
+  'cement-planters': 'Cement', 'coco-fibre-pots': 'Coco Fiber', 'rattan-planters': 'Rattan',
+};
+function materialFromName(name, fallback) {
+  if (/terracotta/i.test(name)) return 'Terracotta';
+  if (/ceramic/i.test(name)) return 'Ceramic';
+  if (/plastic/i.test(name)) return 'Plastic';
+  if (/metal/i.test(name)) return 'Metal';
+  if (/wood/i.test(name)) return 'Wood';
+  if (/cement|rcc|concrete/i.test(name)) return 'Cement';
+  if (/fib(re|er)/i.test(name)) return 'Fiber';
+  if (/rattan/i.test(name)) return 'Rattan';
+  return fallback;
+}
+function shapeFromName(name) {
+  if (/rimmed/i.test(name)) return 'Rimmed';
+  if (/ridged|grooved/i.test(name)) return 'Ridged';
+  if (/long tom/i.test(name)) return 'Tall (Long Tom)';
+  if (/bonsai|shallow/i.test(name)) return 'Shallow Tray';
+  if (/chettinad/i.test(name)) return 'Traditional';
+  return 'Round';
+}
+const POT_TYPE_BY_CATEGORY = {
+  'hanging-planters': 'Hanging Planter', 'railing-planters': 'Railing Planter',
+  'self-watering-planters': 'Self-Watering Planter', 'window-box-planters': 'Window Box',
+  'vertical-tower-planters': 'Vertical Tower', 'balcony-planters': 'Balcony Planter',
+  'bonsai-pots-subcat': 'Bonsai Tray', 'upcycled-planters': 'Upcycled Planter',
+  'coco-fibre-pots': 'Coco Fiber Pot', 'rattan-planters': 'Rattan Planter',
+};
+const POT_MATERIAL_COLOR = {
+  Terracotta: 'Orange', Ceramic: 'White', Plastic: 'Green', Metal: 'Grey',
+  Wood: 'Brown', Cement: 'Grey', Fiber: 'Brown', Rattan: 'Brown',
+};
+const POT_OUTDOOR_CATEGORIES = new Set(['railing-planters', 'window-box-planters', 'balcony-planters', 'vertical-tower-planters']);
+
+PRODUCTS.forEach((product, index) => {
+  if (!POT_SLUGS_SET.has(product.category)) return;
+  const material = POT_MATERIAL_BY_CATEGORY[product.category] ?? materialFromName(product.name, 'Terracotta');
+  product.material = material;
+  product.shape = shapeFromName(product.name);
+  product.color = [colorFromName(product.name, POT_MATERIAL_COLOR[material] ?? 'Terracotta')];
+  product.indoorOutdoor = POT_OUTDOOR_CATEGORIES.has(product.category) ? 'Outdoor' : 'Indoor & Outdoor';
+  product.drainage = product.category === 'self-watering-planters' ? 'No' : (index % 6 === 0 ? 'No' : 'Yes');
+  product.productType = POT_TYPE_BY_CATEGORY[product.category]
+    ?? (/bonsai/i.test(product.name) ? 'Bonsai Tray' : /long tom/i.test(product.name) ? 'Long Tom Pot' : 'Standard Pot');
+  product.availability = index % 9 === 3 ? 'Out of Stock' : 'In Stock';
+});
+
+// ---------- Plant Care (+ Gardening Tools) family ----------
+const CARE_PRODUCT_TYPE_BY_CATEGORY = {
+  'potting-media': 'Potting Mix / Soil', 'organic-fertilizers': 'Organic Fertilizer',
+  'chemical-fertilizers': 'Chemical Fertilizer', 'liquid-nutrients': 'Liquid Nutrients & Tonics',
+  biofertilizers: 'Biofertilizer', 'plant-protection': 'Plant Protection',
+  'propagation-supplies': 'Propagation Supplies', 'composting-products': 'Composting Product',
+  'gardening-tools': 'Gardening Tool',
+};
+const CARE_ORGANIC_CHEMICAL_BY_CATEGORY = {
+  'potting-media': 'Organic', 'organic-fertilizers': 'Organic', biofertilizers: 'Organic',
+  'composting-products': 'Organic', 'chemical-fertilizers': 'Chemical', 'plant-protection': 'Chemical',
+  'liquid-nutrients': 'Organic',
+  // propagation-supplies & gardening-tools intentionally omitted - a tool
+  // isn't "organic or chemical", so that filter group simply won't render
+  // on those two pages instead of showing a meaningless option.
+};
+const CARE_PACK_SIZES = ['250g', '500g', '1kg', '5kg'];
+const CARE_PACKAGED_CATEGORIES = new Set([
+  'potting-media', 'organic-fertilizers', 'chemical-fertilizers', 'liquid-nutrients',
+  'biofertilizers', 'composting-products',
+]);
+
+PRODUCTS.forEach((product, index) => {
+  if (!PLANT_CARE_SLUGS_SET.has(product.category)) return;
+  product.productType = CARE_PRODUCT_TYPE_BY_CATEGORY[product.category] ?? product.categoryLabel;
+  const oc = CARE_ORGANIC_CHEMICAL_BY_CATEGORY[product.category];
+  if (oc) product.organicOrChemical = oc;
+  if (CARE_PACKAGED_CATEGORIES.has(product.category)) {
+    product.packSize = CARE_PACK_SIZES[index % CARE_PACK_SIZES.length];
+  }
+  product.availability = index % 9 === 3 ? 'Out of Stock' : 'In Stock';
 });
 
 export function getProductsByCategory(slug) {

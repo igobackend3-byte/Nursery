@@ -180,7 +180,7 @@ section {
 
 /* ============ Footer ============ */
 .site-footer {
-  background-color: var(--color-primary-green);
+  background-color: var(--section-footer);
   color: rgba(255, 255, 255, 0.85);
   margin-top: auto;
 }
@@ -249,7 +249,7 @@ section {
 
 /* ============ Offers ============ */
 .offers-section {
-  background: var(--color-bg-cream);
+  background: var(--section-offers);
 }
 
 .offers-title {
@@ -357,7 +357,19 @@ section {
 
 /* ============ Shop by category ============ */
 .shop-by-category {
-  background: white;
+  background: var(--section-categories);
+}
+
+.shop-by-category .eyebrow {
+  color: var(--color-primary-lime);
+}
+
+.shop-by-category .section-heading h2 {
+  color: var(--color-text-light);
+}
+
+.shop-by-category .section-sub {
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .category-grid {
@@ -404,7 +416,7 @@ section {
   gap: 48px;
   align-items: center;
   padding: 64px 48px;
-  background: var(--color-bg-cream);
+  background: var(--section-collection);
 }
 
 .complete-garden-media {
@@ -517,7 +529,10 @@ section {
   padding: 0 48px;
 }
 
-.best-sellers,
+.best-sellers {
+  background: var(--section-featured);
+}
+
 .related-products {
   background: white;
 }
@@ -809,7 +824,19 @@ section {
 
 /* ============ Garden services ============ */
 .garden-services-teaser {
-  background: var(--color-bg-cream);
+  background: var(--section-garden-services);
+}
+
+.garden-services-teaser .eyebrow {
+  color: var(--color-primary-lime);
+}
+
+.garden-services-teaser .section-heading h2 {
+  color: var(--color-text-light);
+}
+
+.garden-services-teaser .section-sub {
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .services-grid {
@@ -843,7 +870,7 @@ section {
 /* ============ Nursery Journey ============ */
 .nursery-journey {
   padding: 72px 48px;
-  background: var(--color-bg-cream);
+  background: var(--section-journey);
 }
 
 .journey-track {
@@ -1177,8 +1204,8 @@ section {
 .why-igo {
   position: relative;
   background:
-    radial-gradient(ellipse 60% 50% at 15% 0%, rgba(167, 248, 34, 0.1), transparent 60%),
-    linear-gradient(180deg, #10160f, #0b0f0a);
+    radial-gradient(ellipse 60% 50% at 15% 0%, rgba(167, 248, 34, 0.12), transparent 60%),
+    linear-gradient(180deg, var(--section-why-igo-top), var(--section-why-igo-bottom));
   padding: 88px 0 96px;
   overflow: hidden;
 }
@@ -1305,7 +1332,7 @@ section {
   position: relative;
   padding: 72px 48px 88px;
   overflow: hidden;
-  background: #ffffff;
+  background: var(--section-compare);
   border-top: 3px solid #d7e6d0;
 }
 
@@ -1700,14 +1727,18 @@ section {
 
 /* ============ Plant finder band ============ */
 .plant-finder-band {
-  background: var(--color-primary-green);
-  color: white;
+  background: var(--section-plant-finder);
+  color: var(--color-text-dark);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
   padding: 56px 48px;
   flex-wrap: wrap;
+}
+
+.plant-finder-band .eyebrow.light {
+  color: var(--color-primary-green);
 }
 
 .plant-finder-band h2 {
@@ -1717,13 +1748,13 @@ section {
 }
 
 .plant-finder-band p {
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--color-text-muted);
   max-width: 460px;
 }
 
 .btn-find-plant {
-  background: white;
-  color: var(--color-primary-green);
+  background: var(--color-primary-green);
+  color: white;
   font-weight: 700;
   padding: 14px 24px;
   border-radius: 8px;
@@ -1891,7 +1922,7 @@ section {
 
 /* ============ Garden journal ============ */
 .garden-journal {
-  background: var(--color-bg-cream);
+  background: var(--section-journal);
 }
 
 .journal-grid {
@@ -1950,7 +1981,7 @@ section {
 
 /* ============ Reviews ============ */
 .reviews-section {
-  background: white;
+  background: var(--section-reviews);
 }
 
 .reviews-grid {
@@ -1987,7 +2018,7 @@ section {
 
 /* ============ FAQ ============ */
 .faq-section {
-  background: var(--color-bg-cream);
+  background: var(--section-faq);
 }
 
 .faq-list {
@@ -2029,7 +2060,7 @@ section {
 
 /* ============ Newsletter ============ */
 .newsletter-section {
-  background: var(--color-bg-dark);
+  background: var(--section-newsletter);
   color: white;
   text-align: center;
   padding: 56px 24px;
@@ -2086,6 +2117,53 @@ section {
   font-size: 2.4rem;
   margin: 8px 0 8px;
   color: var(--color-text-dark);
+}
+
+/* Hero banner photo for every Plants sub-section (see
+   PLANTS_SUBCATEGORY_HERO_IMAGES in CategoryPage.jsx) - every other
+   category page (seeds, pots, plant care, gifting) keeps the plain
+   `.category-hero` above untouched. Scoped to this one extra class so
+   nothing else is affected. */
+.category-hero.category-hero-has-image {
+  position: relative;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 16px;
+  margin: 24px 48px 0;
+  overflow: hidden;
+}
+
+.category-hero.category-hero-has-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  /* Subtle dark-green wash, only as strong as needed to keep the title
+     readable over a busy photo. */
+  background: linear-gradient(180deg, rgba(9, 32, 22, 0.35) 0%, rgba(9, 32, 22, 0.68) 100%);
+}
+
+.category-hero-has-image > * {
+  position: relative;
+  z-index: 1;
+}
+
+.category-hero-has-image .eyebrow {
+  color: var(--color-primary-lime);
+}
+
+.category-hero-has-image h1 {
+  color: white;
+}
+
+.category-hero-has-image .category-tagline {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .category-layout {
@@ -2178,14 +2256,58 @@ section {
   padding: 24px 48px 48px;
 }
 
+.product-detail-gallery {
+  display: flex;
+  gap: 16px;
+}
+
+.product-detail-thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 72px;
+  flex-shrink: 0;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.product-detail-thumb {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  background: #f5f5f0;
+  flex-shrink: 0;
+}
+
+.product-detail-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.product-detail-thumb.active { border-color: var(--color-primary, #1b4b36); }
+
+.product-detail-thumb-video {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
 .product-detail-media {
   border-radius: 16px;
   overflow: hidden;
   aspect-ratio: 1 / 1;
   background: #f5f5f0;
+  flex: 1;
+  min-width: 0;
 }
 
-.product-detail-media img {
+.product-detail-media img,
+.product-detail-media video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -2727,6 +2849,17 @@ section {
     grid-template-columns: 1fr;
   }
 
+  .product-detail-gallery {
+    flex-direction: column-reverse;
+  }
+
+  .product-detail-thumbs {
+    flex-direction: row;
+    width: 100%;
+    max-height: none;
+    overflow-x: auto;
+  }
+
   .filter-sidebar {
     position: static;
   }
@@ -2751,6 +2884,12 @@ section {
   .filter-sidebar {
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  .category-hero.category-hero-has-image {
+    margin: 20px 20px 0;
+    padding: 32px 20px;
+    min-height: 200px;
   }
 
   .offers-grid,
