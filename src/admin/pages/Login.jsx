@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useAdminAuth } from '../AdminAuthContext';
 
 function AdminLogin() {
   const { isAuthed, signIn } = useAdminAuth();
+  const navigate = useNavigate();
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState('');
 
   if (isAuthed) return <Navigate to="/admin" replace />;
@@ -17,23 +20,78 @@ function AdminLogin() {
 
   return (
     <div className="admin-login-screen">
-      <form className="admin-login-card" onSubmit={handleSubmit}>
-        <div className="admin-login-brand">IGO Admin</div>
-        <p className="admin-login-sub">Local preview password - replaced by real staff sign-in once Firebase is connected.</p>
-        {error && <div className="admin-error">{error}</div>}
-        <div className="admin-field">
-          <label htmlFor="admin-password">Password</label>
-          <input
-            id="admin-password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoFocus
-            required
-          />
+      <div className="admin-login-overlay" />
+
+      <button
+        type="button"
+        className="admin-login-close"
+        aria-label="Close and return to storefront"
+        onClick={() => navigate('/')}
+      >
+        &times;
+      </button>
+
+      <div className="admin-login-shell">
+        <div className="admin-login-copy">
+          <h1>
+            IGO Nursery
+            <br />
+            Admin Console
+          </h1>
+          <p>
+            Manage products, orders, customers and store content from a single
+            secure dashboard.
+          </p>
         </div>
-        <button type="submit" className="admin-btn admin-btn-primary">Sign in</button>
-      </form>
+
+        <form className="admin-login-card" onSubmit={handleSubmit}>
+          <h2>Sign in</h2>
+
+          {error && <div className="admin-error">{error}</div>}
+
+          <label htmlFor="admin-password">Password</label>
+          <div className="admin-login-pw">
+            <input
+              id="admin-password"
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (error) setError('');
+              }}
+              placeholder="Enter admin password"
+              aria-label="Password"
+              autoFocus
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((value) => !value)}
+            >
+              {showPassword ? 'HIDE' : 'SHOW'}
+            </button>
+          </div>
+
+          <div className="admin-login-row">
+            <label className="admin-login-remember">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={() => setRememberMe((value) => !value)}
+              />
+              <span>Remember Me</span>
+            </label>
+          </div>
+
+          <button type="submit" className="admin-btn admin-btn-primary admin-login-submit">
+            SIGN IN NOW
+          </button>
+
+          <p className="admin-login-note">
+            Access is restricted to authorised IGO staff.
+          </p>
+        </form>
+      </div>
     </div>
   );
 }
