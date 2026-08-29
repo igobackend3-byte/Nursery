@@ -9,7 +9,7 @@ import { createContext, useContext, useState } from 'react';
 // Password lives here in plaintext because there is no backend yet to
 // check it against - it is NOT real security, just a placeholder gate so
 // the dashboard isn't wide open while you're still looking at it locally.
-const TEMP_ADMIN_PASSWORD = 'igo-admin-2026';
+const TEMP_ADMIN_PASSWORD = 'Admin@123';
 const SESSION_KEY = 'igo-admin-session';
 
 const AdminAuthContext = createContext(null);
