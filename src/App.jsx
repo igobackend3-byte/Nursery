@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { StoreProvider } from './context/StoreContext';
 import { AuthProvider } from './context/AuthContext';
 import { CatalogueProvider } from './context/CatalogueContext';
+import { LanguageProvider } from './context/LanguageContext';
 import ToastHost from './components/ToastHost';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
@@ -28,6 +29,7 @@ import './styles/site.css';
 
 function App() {
   return (
+    <LanguageProvider>
     <AuthProvider>
       <CatalogueProvider>
         <StoreProvider>
@@ -61,6 +63,7 @@ function App() {
         </StoreProvider>
       </CatalogueProvider>
     </AuthProvider>
+    </LanguageProvider>
   );
 }
 

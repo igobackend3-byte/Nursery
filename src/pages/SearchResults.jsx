@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { useCatalogue } from '../context/CatalogueContext';
+import { useLanguage } from '../context/LanguageContext';
 
 // Real full-catalogue search, across every product's name/category/tags -
 // not scoped to whatever category the user happened to be browsing (the
@@ -30,6 +31,7 @@ function SearchResults() {
   const [searchParams] = useSearchParams();
   const q = searchParams.get('q') ?? '';
   const { products } = useCatalogue();
+  const { t } = useLanguage();
 
   const results = useMemo(() => {
     const terms = q.trim().toLowerCase().split(/\s+/).filter(Boolean);
@@ -56,10 +58,8 @@ function SearchResults() {
           ))}
           {results.length === 0 && (
             <div className="empty-state ip-empty-state">
-              <p className="ip-empty-title">No products found</p>
-              <p className="ip-empty-sub">
-                {q ? `Nothing matched "${q}" - try a different word, or check the spelling.` : 'Type something in the search bar above.'}
-              </p>
+              <p className="ip-empty-title">{t('common.noProductsFound')}</p>
+              <p className="ip-empty-sub">{t('common.tryDifferentSearch')}</p>
             </div>
           )}
         </div>

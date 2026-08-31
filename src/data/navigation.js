@@ -1,6 +1,11 @@
+// `i18nKey` (top-level items only) maps to nav.* in src/i18n/translations.js
+// so NavBar can show a translated label while keeping this file's `label`
+// as the English fallback/source of truth. Subcategory children are left
+// untranslated deliberately - see the note in translations.js.
 export const NAV_ITEMS = [
   {
     label: 'Plants',
+    i18nKey: 'plants',
     to: '/category/indoor-plants',
     children: [
       { label: 'Indoor Plants', to: '/category/indoor-plants' },
@@ -40,6 +45,7 @@ export const NAV_ITEMS = [
   },
   {
     label: 'Seeds',
+    i18nKey: 'seeds',
     to: '/category/seeds',
     children: [
       { label: 'All Seeds', to: '/category/seeds' },
@@ -57,6 +63,7 @@ export const NAV_ITEMS = [
   },
   {
     label: 'Pots & Planters',
+    i18nKey: 'potsPlanters',
     to: '/category/pots-planters',
     children: [
       { label: 'All Pots & Planters', to: '/category/pots-planters' },
@@ -83,6 +90,7 @@ export const NAV_ITEMS = [
   },
   {
     label: 'Plant Care',
+    i18nKey: 'plantCare',
     to: '/category/plant-care',
     children: [
       { label: 'Shop Plant Care', to: '/category/plant-care' },
@@ -98,13 +106,13 @@ export const NAV_ITEMS = [
       { label: 'FAQ', to: '/#faq' },
     ],
   },
-  { label: 'Landscaping', to: '/landscaping' },
-  { label: 'Gifting', to: '/gifting' },
-  { label: 'B2B Sales', to: '/corporate-gifts' },
-  { label: 'Garden Services', to: '/garden-services' },
-  { label: 'Blog', to: '/blog' },
-  { label: 'Offers', to: '/offers', highlight: true },
-  { label: 'Locate Store', to: '/locate-store' },
+  { label: 'Landscaping', i18nKey: 'landscaping', to: '/landscaping' },
+  { label: 'Gifting', i18nKey: 'gifting', to: '/gifting' },
+  { label: 'B2B Sales', i18nKey: 'b2bSales', to: '/corporate-gifts' },
+  { label: 'Garden Services', i18nKey: 'gardenServices', to: '/garden-services' },
+  { label: 'Blog', i18nKey: 'blog', to: '/blog' },
+  { label: 'Offers', i18nKey: 'offers', to: '/offers', highlight: true },
+  { label: 'Locate Store', i18nKey: 'locateStore', to: '/locate-store' },
 ];
 
 export const FOOTER_LINKS = {
