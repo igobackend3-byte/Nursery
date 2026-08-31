@@ -5,15 +5,17 @@ import Header from './Header';
 import NavBar from './NavBar';
 import Footer from './Footer';
 
-// The Account page is a standalone screen by design request - no
-// storefront chrome above or below it (no announcement bar, logo/search
-// header, category nav, or footer), just the account content itself.
-// Every other route keeps the full site chrome unchanged.
-const CHROME_LESS_ROUTES = ['/account'];
+// The Account page keeps the utility header (logo, search, language,
+// notifications, account/wishlist/cart icons) but drops the announcement
+// bar, the category nav menu (Plants/Seeds/.../Locate Store), and the
+// footer - by design request, so it reads as a focused account screen
+// without the full storefront chrome around it. Every other route is
+// unaffected.
+const ACCOUNT_ROUTE = '/account';
 
 function Layout() {
   const location = useLocation();
-  const isChromeLess = CHROME_LESS_ROUTES.includes(location.pathname);
+  const isAccountPage = location.pathname === ACCOUNT_ROUTE;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -21,17 +23,13 @@ function Layout() {
 
   return (
     <div className="app-container">
-      {!isChromeLess && (
-        <>
-          <TopBar />
-          <Header />
-          <NavBar />
-        </>
-      )}
+      {!isAccountPage && <TopBar />}
+      <Header />
+      {!isAccountPage && <NavBar />}
       <main className="site-main">
         <Outlet />
       </main>
-      {!isChromeLess && <Footer />}
+      {!isAccountPage && <Footer />}
     </div>
   );
 }
