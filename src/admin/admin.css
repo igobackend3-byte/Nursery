@@ -63,7 +63,7 @@
   justify-content: center;
   overflow: hidden;
   padding: 24px;
-  background-image: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1600&q=80');
+  background-image: url('/images/admin-bg.webp');
   background-size: cover;
   background-position: center;
 }
