@@ -2,10 +2,17 @@ import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAdminAuth } from '../AdminAuthContext';
 
+// Single admin account, so the login screen only ever asks for the
+// password - the email is fixed and never shown. Real Firebase Auth still
+// runs underneath (this account still needs role: 'admin' set on its
+// users/{uid} Firestore doc, same as any admin account - see the setup
+// checklist), so Firestore's security rules still actually protect the
+// data; this just hides the email field from the UI.
+const ADMIN_EMAIL = 'admin@igonursery.com';
+
 function AdminLogin() {
   const { isAuthed, isNonAdminSignedIn, authLoading, signIn, signOut } = useAdminAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
@@ -19,7 +26,7 @@ function AdminLogin() {
     e.preventDefault();
     setError('');
     setSubmitting(true);
-    const result = await signIn(email.trim(), password);
+    const result = await signIn(ADMIN_EMAIL, password);
     if (!result.ok) setError(result.error);
     setSubmitting(false);
   }
@@ -69,18 +76,6 @@ function AdminLogin() {
 
           {error && <div className="admin-error">{error}</div>}
 
-          <label htmlFor="admin-email">Email</label>
-          <input
-            id="admin-email"
-            type="email"
-            value={email}
-            onChange={(e) => { setEmail(e.target.value); if (error) setError(''); }}
-            placeholder="Enter admin email"
-            aria-label="Email"
-            autoFocus
-            required
-          />
-
           <label htmlFor="admin-password">Password</label>
           <div className="admin-login-pw">
             <input
@@ -93,6 +88,7 @@ function AdminLogin() {
               }}
               placeholder="Enter admin password"
               aria-label="Password"
+              autoFocus
               required
             />
             <button
