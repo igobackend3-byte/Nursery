@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { useAuth } from '../../context/AuthContext';
 import { useTypewriter } from '../../hooks/useTypewriter';
@@ -14,19 +14,68 @@ const SEARCH_PLACEHOLDER_PHRASES = [
   'Search gifting...',
 ];
 
+// Web Speech API - built into Chrome/Edge/Safari, no extra dependency.
+// Firefox and some browsers don't implement it, so the mic button only
+// renders when it's actually available (checked once, not per-render).
+const SpeechRecognitionCtor = typeof window !== 'undefined'
+  ? (window.SpeechRecognition || window.webkitSpeechRecognition)
+  : null;
+
 function Header() {
   const navigate = useNavigate();
   const { cartCount, wishlistCount } = useStore();
   const { isAuthenticated } = useAuth();
   const [query, setQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [voiceError, setVoiceError] = useState('');
+  const recognitionRef = useRef(null);
   const typedPlaceholder = useTypewriter(SEARCH_PLACEHOLDER_PHRASES);
   const showAnimatedPlaceholder = !query && !isSearchFocused;
 
+  function runSearch(term) {
+    const trimmed = term.trim();
+    if (trimmed) navigate(`/search?q=${encodeURIComponent(trimmed)}`);
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
-    if (query.trim()) navigate(`/category/indoor-plants?q=${encodeURIComponent(query)}`);
+    runSearch(query);
   }
+
+  function handleMicClick() {
+    if (!SpeechRecognitionCtor) return;
+    setVoiceError('');
+
+    if (isListening) {
+      recognitionRef.current?.stop();
+      return;
+    }
+
+    const recognition = new SpeechRecognitionCtor();
+    recognition.lang = 'en-IN';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onerror = (event) => {
+      setIsListening(false);
+      setVoiceError(event.error === 'not-allowed' ? 'Microphone access denied.' : "Couldn't hear that - try again.");
+    };
+    recognition.onend = () => setIsListening(false);
+    recognition.onresult = (event) => {
+      const heard = event.results?.[0]?.[0]?.transcript ?? '';
+      if (heard) {
+        setQuery(heard);
+        runSearch(heard);
+      }
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+  }
+
+  useEffect(() => () => recognitionRef.current?.stop(), []);
 
   return (
     <header className="primary-header">
@@ -56,6 +105,23 @@ function Header() {
             </span>
           )}
         </div>
+        {SpeechRecognitionCtor && (
+          <button
+            type="button"
+            className={`search-mic-btn${isListening ? ' listening' : ''}`}
+            onClick={handleMicClick}
+            aria-label={isListening ? 'Stop voice search' : 'Search by voice'}
+            title={isListening ? 'Listening... click to stop' : 'Search by voice'}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
+              <path d="M19 10v1a7 7 0 0 1-14 0v-1" />
+              <line x1="12" y1="18" x2="12" y2="22" />
+              <line x1="8" y1="22" x2="16" y2="22" />
+            </svg>
+          </button>
+        )}
+        {voiceError && <span className="search-mic-error">{voiceError}</span>}
       </form>
 
       <div className="user-actions">

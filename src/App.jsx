@@ -6,6 +6,7 @@ import ToastHost from './components/ToastHost';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import CategoryPage from './pages/CategoryPage';
+import SearchResults from './pages/SearchResults';
 import PlantFinder from './pages/PlantFinder';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
@@ -38,6 +39,7 @@ function App() {
               <Route element={<Layout />}>
                 <Route index element={<Home />} />
                 <Route path="category/:slug" element={<CategoryPage />} />
+                <Route path="search" element={<SearchResults />} />
                 <Route path="plant-finder" element={<PlantFinder />} />
                 <Route path="product/:id" element={<ProductDetail />} />
                 <Route path="gifting" element={<CategoryPage slugOverride="gifting" />} />
