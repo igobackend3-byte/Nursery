@@ -5,6 +5,7 @@ import { useStore } from '../context/StoreContext';
 import { getProductById } from '../data/products';
 import { subscribeAddresses, addAddress } from '../lib/addresses';
 import { placeOrder } from '../lib/orders';
+import AddressForm from '../components/AddressForm';
 
 const BLANK_ADDRESS = { label: 'Home', line1: '', line2: '', city: '', state: '', pincode: '', phone: '' };
 
@@ -82,19 +83,26 @@ function Checkout() {
   }
 
   return (
-    <div className="cart-page">
+    <div className="cart-page checkout-page">
+      <p className="eyebrow">SECURE CHECKOUT</p>
       <h1>Checkout</h1>
       <div className="cart-layout">
         <div className="cart-items">
           <div className="cart-summary" style={{ marginBottom: 0 }}>
-            <h2>Delivery address</h2>
+            <div className="checkout-section-head">
+              <span className="checkout-step-badge">1</span>
+              <h2>Delivery address</h2>
+            </div>
 
             {addresses === null && <p>Loading addresses…</p>}
 
             {addresses !== null && addresses.length > 0 && !addingNew && (
               <div className="checkout-address-list">
                 {addresses.map((addr) => (
-                  <label className="checkout-address-option" key={addr.id}>
+                  <label
+                    className={`checkout-address-option${selectedAddressId === addr.id ? ' selected' : ''}`}
+                    key={addr.id}
+                  >
                     <input
                       type="radio"
                       name="address"
@@ -119,45 +127,19 @@ function Checkout() {
                     ← Use a saved address
                   </button>
                 )}
-                <div className="checkout-form-grid">
-                  <label>
-                    Label
-                    <input value={newAddress.label} onChange={(e) => setNewAddress({ ...newAddress, label: e.target.value })} placeholder="Home / Work" />
-                  </label>
-                  <label>
-                    Phone
-                    <input value={newAddress.phone} onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })} placeholder="Phone number" />
-                  </label>
-                  <label className="span-2">
-                    Address line 1
-                    <input value={newAddress.line1} onChange={(e) => setNewAddress({ ...newAddress, line1: e.target.value })} placeholder="House no., street" />
-                  </label>
-                  <label className="span-2">
-                    Address line 2 (optional)
-                    <input value={newAddress.line2} onChange={(e) => setNewAddress({ ...newAddress, line2: e.target.value })} placeholder="Landmark, area" />
-                  </label>
-                  <label>
-                    City
-                    <input value={newAddress.city} onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })} />
-                  </label>
-                  <label>
-                    State
-                    <input value={newAddress.state} onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })} />
-                  </label>
-                  <label>
-                    Pincode
-                    <input value={newAddress.pincode} onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })} />
-                  </label>
-                </div>
+                <AddressForm value={newAddress} onChange={setNewAddress} />
               </div>
             )}
           </div>
 
           <div className="cart-summary" style={{ marginTop: 16 }}>
-            <h2>Payment method</h2>
+            <div className="checkout-section-head">
+              <span className="checkout-step-badge">2</span>
+              <h2>Payment method</h2>
+            </div>
             <div className="checkout-payment-options">
               {['COD', 'UPI'].map((method) => (
-                <label className="checkout-address-option" key={method}>
+                <label className={`checkout-address-option${paymentMethod === method ? ' selected' : ''}`} key={method}>
                   <input type="radio" name="payment" checked={paymentMethod === method} onChange={() => setPaymentMethod(method)} />
                   <span>{method === 'COD' ? 'Cash on Delivery' : 'UPI'}</span>
                 </label>
@@ -165,34 +147,45 @@ function Checkout() {
             </div>
           </div>
 
-          <div className="cart-items" style={{ marginTop: 16 }}>
-            {items.map(({ product, qty }) => (
-              <div className="cart-row" key={product.id}>
-                <img src={product.image} alt={product.name} />
-                <div className="cart-row-info">
-                  <span>{product.name}</span>
-                  <p>{product.categoryLabel} · Qty {qty}</p>
+          <div className="cart-summary" style={{ marginTop: 16, marginBottom: 0 }}>
+            <div className="checkout-section-head">
+              <span className="checkout-step-badge">3</span>
+              <h2>Review your order</h2>
+            </div>
+            <div className="cart-items" style={{ marginTop: 0 }}>
+              {items.map(({ product, qty }) => (
+                <div className="cart-row" key={product.id}>
+                  <img src={product.image} alt={product.name} />
+                  <div className="cart-row-info">
+                    <span>{product.name}</span>
+                    <p>{product.categoryLabel} · Qty {qty}</p>
+                  </div>
+                  <p className="cart-row-total">₹{product.price * qty}</p>
                 </div>
-                <p className="cart-row-total">₹{product.price * qty}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
-        <aside className="cart-summary">
+        <aside className="cart-summary checkout-summary-sticky">
           <h2>Order summary</h2>
           <div className="cart-summary-row">
-            <span>Subtotal</span>
+            <span>{items.length} item{items.length > 1 ? 's' : ''}</span>
             <span>₹{subtotal}</span>
           </div>
           <div className="cart-summary-row">
             <span>Delivery</span>
             <span>Free</span>
           </div>
+          <div className="checkout-total-row">
+            <span>Total</span>
+            <span>₹{subtotal}</span>
+          </div>
           {error && <p className="auth-error">{error}</p>}
           <button type="button" className="btn-build-garden full-width" onClick={handlePlaceOrder} disabled={placing}>
             {placing ? 'Placing order…' : `Place order · ₹${subtotal}`}
           </button>
+          <p className="checkout-secure-note">🔒 Your information is encrypted and secure.</p>
         </aside>
       </div>
     </div>

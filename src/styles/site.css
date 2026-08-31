@@ -2671,6 +2671,81 @@ section {
   gap: 10px;
 }
 
+.checkout-address-option.selected {
+  border-color: var(--color-primary-green);
+  background: #f4faf1;
+}
+
+/* "Use my current location" auto-detect button + status messages */
+.address-locate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f4faf1;
+  border: 1px solid var(--color-primary-green);
+  color: var(--color-primary-green);
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.address-locate-btn:hover { background: #e8f5e1; }
+.address-locate-btn:disabled { opacity: 0.7; cursor: wait; }
+
+.address-locate-status {
+  font-size: 0.8rem;
+  margin: -6px 0 14px;
+}
+
+.address-locate-status.ok { color: var(--color-primary-green); }
+.address-locate-status.error { color: var(--color-accent-red); }
+
+/* Checkout step numbering */
+.checkout-section-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.checkout-section-head h2 { margin-bottom: 0; }
+
+.checkout-step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-primary-green);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.checkout-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 1rem;
+  padding-top: 12px;
+  margin-bottom: 14px;
+  border-top: 1px solid #f0f0eb;
+}
+
+.checkout-summary-sticky { position: sticky; top: 20px; }
+
+.checkout-secure-note {
+  text-align: center;
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+  margin-top: 12px;
+}
+
 .account-header {
   display: flex;
   justify-content: space-between;

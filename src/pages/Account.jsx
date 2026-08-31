@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { subscribeAddresses, addAddress, updateAddress, deleteAddress } from '../lib/addresses';
 import { subscribeMyOrders } from '../lib/orders';
+import AddressForm from '../components/AddressForm';
 
 const STATUS_CLASS = {
   Delivered: 'delivered', Shipped: 'shipped', Packed: 'packed',
@@ -36,8 +37,16 @@ function AddressesTab() {
     setForm(addr ? { ...addr } : BLANK_ADDRESS);
   }
 
+  const [saveError, setSaveError] = useState('');
+
   async function handleSave(e) {
     e.preventDefault();
+    const required = ['line1', 'city', 'state', 'pincode', 'phone'];
+    if (required.some((f) => !form[f].trim())) {
+      setSaveError('Please fill in all the required address fields.');
+      return;
+    }
+    setSaveError('');
     if (editing === 'new') {
       await addAddress(user.uid, form);
     } else {
@@ -64,15 +73,8 @@ function AddressesTab() {
 
       {editing ? (
         <form onSubmit={handleSave} className="checkout-address-form">
-          <div className="checkout-form-grid">
-            <label>Label<input value={form.label} onChange={(e) => setForm({ ...form, label: e.target.value })} required /></label>
-            <label>Phone<input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required /></label>
-            <label className="span-2">Address line 1<input value={form.line1} onChange={(e) => setForm({ ...form, line1: e.target.value })} required /></label>
-            <label className="span-2">Address line 2 (optional)<input value={form.line2} onChange={(e) => setForm({ ...form, line2: e.target.value })} /></label>
-            <label>City<input value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} required /></label>
-            <label>State<input value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value })} required /></label>
-            <label>Pincode<input value={form.pincode} onChange={(e) => setForm({ ...form, pincode: e.target.value })} required /></label>
-          </div>
+          <AddressForm value={form} onChange={setForm} />
+          {saveError && <p className="auth-error">{saveError}</p>}
           <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
             <button type="button" className="checkout-add-address-btn" onClick={() => setEditing(null)}>Cancel</button>
             <button type="submit" className="btn-build-garden">Save address</button>
