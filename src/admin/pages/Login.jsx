@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useAdminAuth } from '../AdminAuthContext';
 
 function AdminLogin() {
   const { isAuthed, isNonAdminSignedIn, authLoading, signIn, signOut } = useAdminAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -37,35 +40,89 @@ function AdminLogin() {
 
   return (
     <div className="admin-login-screen">
-      <form className="admin-login-card" onSubmit={handleSubmit}>
-        <div className="admin-login-brand">IGO Admin</div>
-        <p className="admin-login-sub">Sign in with a Firebase account that has admin access.</p>
-        {error && <div className="admin-error">{error}</div>}
-        <div className="admin-field">
+      <div className="admin-login-overlay" />
+
+      <button
+        type="button"
+        className="admin-login-close"
+        aria-label="Close and return to storefront"
+        onClick={() => navigate('/')}
+      >
+        &times;
+      </button>
+
+      <div className="admin-login-shell">
+        <div className="admin-login-copy">
+          <h1>
+            IGO Nursery
+            <br />
+            Admin Console
+          </h1>
+          <p>
+            Manage products, orders, customers and store content from a single
+            secure dashboard.
+          </p>
+        </div>
+
+        <form className="admin-login-card" onSubmit={handleSubmit}>
+          <h2>Sign in</h2>
+
+          {error && <div className="admin-error">{error}</div>}
+
           <label htmlFor="admin-email">Email</label>
           <input
             id="admin-email"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => { setEmail(e.target.value); if (error) setError(''); }}
+            placeholder="Enter admin email"
+            aria-label="Email"
             autoFocus
             required
           />
-        </div>
-        <div className="admin-field">
+
           <label htmlFor="admin-password">Password</label>
-          <input
-            id="admin-password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="admin-btn admin-btn-primary" disabled={submitting}>
-          {submitting ? 'Signing in…' : 'Sign in'}
-        </button>
-      </form>
+          <div className="admin-login-pw">
+            <input
+              id="admin-password"
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (error) setError('');
+              }}
+              placeholder="Enter admin password"
+              aria-label="Password"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((value) => !value)}
+            >
+              {showPassword ? 'HIDE' : 'SHOW'}
+            </button>
+          </div>
+
+          <div className="admin-login-row">
+            <label className="admin-login-remember">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={() => setRememberMe((value) => !value)}
+              />
+              <span>Remember Me</span>
+            </label>
+          </div>
+
+          <button type="submit" className="admin-btn admin-btn-primary admin-login-submit" disabled={submitting}>
+            {submitting ? 'SIGNING IN…' : 'SIGN IN NOW'}
+          </button>
+
+          <p className="admin-login-note">
+            Access is restricted to authorised IGO staff.
+          </p>
+        </form>
+      </div>
     </div>
   );
 }
