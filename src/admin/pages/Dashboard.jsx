@@ -36,8 +36,8 @@ function AdminDashboard() {
       </div>
 
       <div className="admin-mock-banner">
-        Orders are live from Firestore; products/categories still reflect the built-in catalogue (not yet
-        Firestore-backed).
+        Orders, products and categories are all live from Firestore. The public storefront still reads the
+        built-in catalogue file, not these edits, for now.
       </div>
 
       <div className="admin-stat-grid-color">

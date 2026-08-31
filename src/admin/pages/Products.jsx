@@ -186,7 +186,8 @@ function AdminProducts() {
       </div>
 
       <div className="admin-mock-banner">
-        Edits here update this session only - they reset on refresh until Firestore is connected.
+        Products &amp; categories are Firestore-backed - edits here save permanently. Product images/gallery/video
+        still upload as data URLs (Firebase Storage isn't enabled yet).
       </div>
 
       <ComboOfferPanel products={products} comboOffer={comboOffer} setComboOffer={setComboOffer} />

@@ -26,8 +26,9 @@ function AdminInventory() {
       </div>
 
       <div className="admin-mock-banner">
-        Stock is tracked on the product's own <code>availability</code> field for now. Once Firestore is connected,
-        this moves to its own <code>inventory</code> collection with real stock counts and a low-stock threshold, as in the build plan.
+        Stock is tracked on the product's own <code>availability</code> field (real, Firestore-backed - "Mark in/out
+        of stock" below saves permanently). A dedicated <code>inventory</code> collection with real stock counts and
+        a low-stock threshold is a possible future upgrade, not built yet.
       </div>
 
       <div className="admin-toolbar">

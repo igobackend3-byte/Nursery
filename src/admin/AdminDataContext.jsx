@@ -1,14 +1,17 @@
-import { createContext, useContext, useMemo, useState } from 'react';
-import { PRODUCTS, CATEGORIES } from '../data/products';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  seedCatalogueIfEmpty, subscribeProducts, subscribeCategories,
+  updateProductDoc, deleteProductDoc, addProductDoc, updateCategoryDoc,
+} from '../lib/catalogue';
 
-// In-memory only, for now. Seeded from the real catalogue so the dashboard
-// reflects real numbers, but nothing here persists past a page refresh -
-// products/categories/coupons/settings/staff aren't Firestore-backed yet
-// (a separate, larger migration - see the Firebase build plan). Orders are
-// NOT here anymore - real orders live in Firestore (see src/lib/orders.js),
-// written by the real customer checkout flow. Homepage content (Hero,
-// Offers, Garden Journal, Garden Services) is also real, via
-// lib/contentStore.js.
+// Products & Categories are now Firestore-backed (see lib/catalogue.js) -
+// real, persistent, admin CRUD. On first load, if the products collection
+// is empty, the built-in catalogue is seeded into Firestore once
+// automatically. Coupons/Settings/Staff are still in-memory only (a
+// separate, smaller migration - see the Firebase build plan). Orders live
+// in Firestore too, but separately (see src/lib/orders.js), written by the
+// real customer checkout flow. Homepage content (Hero, Offers, Garden
+// Journal, Garden Services) is real, via lib/contentStore.js.
 const AdminDataContext = createContext(null);
 
 const SEED_SETTINGS = {
@@ -25,8 +28,9 @@ const SAMPLE_COUPONS = [
 ];
 
 export function AdminDataProvider({ children }) {
-  const [products, setProducts] = useState(PRODUCTS);
-  const [categories, setCategories] = useState(CATEGORIES);
+  const [products, setProducts] = useState([]); // Firestore-synced
+  const [categories, setCategories] = useState([]); // Firestore-synced
+  const [catalogueLoading, setCatalogueLoading] = useState(true);
   const [customers] = useState([]); // no real customer records yet - see build plan Phase 5
   const [visitorLeads] = useState([]); // no lead-capture form exists on the site yet
   const [coupons, setCoupons] = useState(SAMPLE_COUPONS);
@@ -40,29 +44,36 @@ export function AdminDataProvider({ children }) {
   // it live on storefront product pages is a separate change, not made here.
   const [comboOffer, setComboOffer] = useState({ productId: null, discountPercent: 10, active: false });
 
+  useEffect(() => {
+    let cancelled = false;
+    // Swallow errors here deliberately: if this runs before an admin is
+    // signed in, the write portion of seeding is correctly rejected by
+    // Firestore's security rules (products/categories are admin-write-only)
+    // - that's expected, not a bug, so it shouldn't surface as a console error.
+    seedCatalogueIfEmpty().catch(() => {}).finally(() => {
+      if (cancelled) return;
+      setCatalogueLoading(false);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => subscribeProducts(setProducts), []);
+  useEffect(() => subscribeCategories(setCategories), []);
+
   function updateProduct(id, patch) {
-    setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, ...patch } : p)));
+    return updateProductDoc(id, patch);
   }
 
   function deleteProduct(id) {
-    setProducts((prev) => prev.filter((p) => p.id !== id));
+    return deleteProductDoc(id);
   }
 
   function addProduct(product) {
-    // Product ids are strings like "p-123" (see data/products.js), so a
-    // plain Math.max over them would silently produce NaN - pull out the
-    // numeric suffix of each id instead and pick one past the highest.
-    const maxNum = products.reduce((max, p) => {
-      const n = Number(String(p.id).replace(/^p-/, ''));
-      return Number.isFinite(n) && n > max ? n : max;
-    }, 0);
-    const id = `p-${maxNum + 1}`;
-    setProducts((prev) => [{ ...product, id }, ...prev]);
-    return id;
+    return addProductDoc(product, products);
   }
 
   function updateCategory(slug, patch) {
-    setCategories((prev) => prev.map((c) => (c.slug === slug ? { ...c, ...patch } : c)));
+    return updateCategoryDoc(slug, patch);
   }
 
   function addCoupon(coupon) {
@@ -79,7 +90,7 @@ export function AdminDataProvider({ children }) {
   }
 
   const value = useMemo(() => ({
-    products, updateProduct, deleteProduct, addProduct,
+    products, updateProduct, deleteProduct, addProduct, catalogueLoading,
     categories, updateCategory,
     customers,
     visitorLeads,
@@ -87,7 +98,7 @@ export function AdminDataProvider({ children }) {
     settings, setSettings,
     staff, setStaff,
     comboOffer, setComboOffer,
-  }), [products, categories, customers, visitorLeads, coupons, settings, staff, comboOffer]);
+  }), [products, categories, catalogueLoading, customers, visitorLeads, coupons, settings, staff, comboOffer]);
 
   return <AdminDataContext.Provider value={value}>{children}</AdminDataContext.Provider>;
 }
