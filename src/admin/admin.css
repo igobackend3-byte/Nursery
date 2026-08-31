@@ -15,11 +15,28 @@
   --admin-danger: #c0392b;
   --admin-warn: #b8860b;
   min-height: 100vh;
-  background: var(--admin-bg);
   color: var(--admin-ink);
   font-family: 'Inter', system-ui, sans-serif;
   display: flex;
   flex-direction: column;
+  /* Nursery-photo background - a soft tint of --admin-bg laid over the
+     photo (not a flat color) so panels/cards/text stay legible while the
+     image still reads through. background-attachment: fixed gives a subtle
+     parallax feel as the page scrolls; falls back to scroll on mobile
+     Safari, which doesn't support fixed backgrounds well. */
+  background-image: linear-gradient(rgba(245, 244, 238, 0.88), rgba(245, 244, 238, 0.88)), url('/images/admin-bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.admin-root[data-theme='dark'] {
+  background-image: linear-gradient(rgba(15, 23, 19, 0.9), rgba(15, 23, 19, 0.9)), url('/images/admin-bg.webp');
+}
+
+@media (max-width: 768px) {
+  .admin-root { background-attachment: scroll; }
 }
 
 .admin-root[data-theme='dark'] {
