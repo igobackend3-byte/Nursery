@@ -1,8 +1,12 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAdminData } from '../AdminDataContext';
+import { subscribeAllOrders } from '../../lib/orders';
 
 function AdminReports() {
-  const { products, orders } = useAdminData();
+  const { products } = useAdminData();
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => subscribeAllOrders(setOrders), []);
 
   const byCategory = useMemo(() => {
     const counts = new Map();
@@ -79,7 +83,7 @@ function AdminReports() {
           <p className={`admin-stat-value${outOfStockPct > 10 ? ' warn' : ''}`}>{outOfStockPct}%</p>
         </div>
         <div className="admin-stat-card">
-          <p className="admin-stat-label">Sample orders logged</p>
+          <p className="admin-stat-label">Orders logged</p>
           <p className="admin-stat-value">{orders.length}</p>
         </div>
       </div>

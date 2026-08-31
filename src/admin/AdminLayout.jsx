@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAdminAuth } from './AdminAuthContext';
 import { useAdminData } from './AdminDataContext';
+import { subscribeAllOrders } from '../lib/orders';
 import {
   ShieldIcon, MoonIcon, SunIcon, StoreIcon, RefreshIcon, LogoutIcon,
   DashboardIcon, CartIcon, LeadsIcon, BoxIcon, GridIcon, StackIcon, UsersIcon,
@@ -27,8 +28,11 @@ const THEME_KEY = 'igo-admin-theme';
 
 function AdminLayout() {
   const { signOut } = useAdminAuth();
-  const { products, orders } = useAdminData();
+  const { products } = useAdminData();
+  const [orderCount, setOrderCount] = useState(null);
   const [theme, setTheme] = useState(() => localStorage.getItem(THEME_KEY) ?? 'light');
+
+  useEffect(() => subscribeAllOrders((orders) => setOrderCount(orders.length)), []);
 
   useEffect(() => {
     localStorage.setItem(THEME_KEY, theme);
@@ -45,7 +49,7 @@ function AdminLayout() {
           <span className="admin-topbar-icon"><ShieldIcon width="22" height="22" /></span>
           <div>
             <div className="admin-topbar-title">Admin Control Panel</div>
-            <div className="admin-topbar-sub">{products.length} products · {orders.length} orders total</div>
+            <div className="admin-topbar-sub">{products.length} products · {orderCount ?? '—'} orders total</div>
           </div>
         </div>
         <div className="admin-topbar-actions">

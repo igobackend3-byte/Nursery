@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
+import { getDiscountPercent } from '../utils/pricing';
 
 function ProductCard({ product }) {
   const { wishlist, toggleWishlist, addToCart } = useStore();
   const isWishlisted = wishlist.includes(product.id);
+  const discountPercent = getDiscountPercent(product.originalPrice, product.price);
 
   return (
     <div className="product-card">
@@ -46,7 +48,7 @@ function ProductCard({ product }) {
           <span className="price-now">₹{product.price}</span>
           <span className="price-was">₹{product.originalPrice}</span>
         </div>
-        <p className="price-off">₹{product.discount} OFF</p>
+        {discountPercent > 0 && <p className="price-off">{discountPercent}% OFF</p>}
         <Link to={`/product/${product.id}`} className="btn-details">
           DETAILS
         </Link>

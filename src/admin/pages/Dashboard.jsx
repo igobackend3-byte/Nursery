@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAdminData } from '../AdminDataContext';
+import { ORDER_STATUSES, subscribeAllOrders, updateOrderStatus } from '../../lib/orders';
 import { DollarIcon, CartIcon, BoxIcon, CheckCircleIcon } from '../adminIcons';
 
 const STATUS_CLASS = {
@@ -8,17 +10,21 @@ const STATUS_CLASS = {
 };
 
 function AdminDashboard() {
-  const { products, orders, updateOrderStatus, orderStatuses } = useAdminData();
+  const { products } = useAdminData();
+  const [orders, setOrders] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => subscribeAllOrders(setOrders), []);
+  const ordersList = orders ?? [];
 
   const outOfStock = products.filter((p) => p.availability === 'Out of Stock');
   const bestSellers = [...products].sort((a, b) => b.rating - a.rating).slice(0, 5);
 
-  const nonCancelled = orders.filter((o) => o.status !== 'Cancelled');
-  const revenue = nonCancelled.reduce((sum, o) => sum + o.amount, 0);
-  const pending = orders.filter((o) => !['Delivered', 'Cancelled'].includes(o.status)).length;
-  const delivered = orders.filter((o) => o.status === 'Delivered').length;
-  const inTransit = orders.filter((o) => o.status === 'Shipped').length;
+  const nonCancelled = ordersList.filter((o) => o.status !== 'Cancelled');
+  const revenue = nonCancelled.reduce((sum, o) => sum + o.total, 0);
+  const pending = ordersList.filter((o) => !['Delivered', 'Cancelled'].includes(o.status)).length;
+  const delivered = ordersList.filter((o) => o.status === 'Delivered').length;
+  const inTransit = ordersList.filter((o) => o.status === 'Shipped').length;
 
   return (
     <div>
@@ -30,7 +36,8 @@ function AdminDashboard() {
       </div>
 
       <div className="admin-mock-banner">
-        Orders here are sample data (see the Orders page); products/categories reflect your real catalogue.
+        Orders are live from Firestore; products/categories still reflect the built-in catalogue (not yet
+        Firestore-backed).
       </div>
 
       <div className="admin-stat-grid-color">
@@ -47,7 +54,7 @@ function AdminDashboard() {
             <CartIcon width="18" height="18" />
             <span>Total Orders</span>
           </div>
-          <p className="admin-stat-color-value">{orders.length}</p>
+          <p className="admin-stat-color-value">{ordersList.length}</p>
           <p className="admin-stat-color-sub">{pending} pending</p>
         </Link>
         <Link to="/admin/products" className="admin-stat-card-color purple" title="View all products">
@@ -77,15 +84,21 @@ function AdminDashboard() {
           <table className="admin-table">
             <thead><tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th><th>Update</th></tr></thead>
             <tbody>
-              {orders.slice(0, 6).map((o) => (
+              {orders === null && (
+                <tr><td colSpan={5}>Loading orders…</td></tr>
+              )}
+              {orders !== null && ordersList.length === 0 && (
+                <tr><td colSpan={5}>No orders yet.</td></tr>
+              )}
+              {ordersList.slice(0, 6).map((o) => (
                 <tr key={o.id} className="admin-row-clickable" onClick={() => navigate('/admin/orders', { state: { openOrderId: o.id } })}>
-                  <td><strong>{o.id}</strong></td>
-                  <td>{o.customer}</td>
-                  <td>₹{o.amount}</td>
+                  <td><strong>{o.id.slice(0, 8).toUpperCase()}</strong></td>
+                  <td>{o.customerName ?? '—'}</td>
+                  <td>₹{o.total}</td>
                   <td><span className={`admin-status-pill ${STATUS_CLASS[o.status] ?? ''}`}>{o.status}</span></td>
                   <td onClick={(e) => e.stopPropagation()}>
                     <select className="admin-status-select" value={o.status} onChange={(e) => updateOrderStatus(o.id, e.target.value)}>
-                      {orderStatuses.map((s) => <option key={s} value={s}>{s}</option>)}
+                      {ORDER_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                     </select>
                   </td>
                 </tr>

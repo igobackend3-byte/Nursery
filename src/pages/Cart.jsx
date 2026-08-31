@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
+import { useAuth } from '../context/AuthContext';
 import { getProductById } from '../data/products';
 
 function Cart() {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const { cart, updateCartQty, removeFromCart } = useStore();
   const items = cart
     .map((item) => ({ ...item, product: getProductById(item.id) }))
@@ -55,7 +58,13 @@ function Cart() {
             <span>Delivery</span>
             <span>Calculated at checkout</span>
           </div>
-          <button type="button" className="btn-build-garden full-width">Proceed to checkout</button>
+          <button
+            type="button"
+            className="btn-build-garden full-width"
+            onClick={() => navigate(isAuthenticated ? '/checkout' : '/login', { state: { from: { pathname: '/checkout' } } })}
+          >
+            Proceed to checkout
+          </button>
         </aside>
       </div>
     </div>

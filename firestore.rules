@@ -1,0 +1,74 @@
+rules_version = '2';
+
+// IGO Nursery - Firestore security rules.
+// Deploy by pasting this file's contents into:
+//   Firebase Console > Build > Firestore Database > Rules > Publish
+// (No Firebase CLI project link is set up yet, so this is applied manually
+// for now - see the setup checklist for the exact steps.)
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // ---- users/{uid} - profile + role ----
+    // A user can read/create/update only their own profile document, and
+    // can never set their own `role` to anything other than 'customer'
+    // (admin promotion happens by an admin editing Firestore directly, or a
+    // future admin-only Cloud Function - never from the client).
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid) && request.resource.data.role == 'customer';
+      allow update: if isOwner(uid) && request.resource.data.role == resource.data.role;
+      allow delete: if false;
+
+      // ---- users/{uid}/addresses/{addressId} ----
+      match /addresses/{addressId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      // ---- users/{uid}/cart/{productId} ----
+      match /cart/{productId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      // ---- users/{uid}/wishlist/{productId} ----
+      match /wishlist/{productId} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    // ---- products/{productId} - public catalogue, admin-managed ----
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---- categories/{categorySlug} - public catalogue, admin-managed ----
+    match /categories/{categorySlug} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---- orders/{orderId} - owner or admin only ----
+    // Customers can create their own orders and read their own order
+    // history; only an admin can update order status or read every order.
+    match /orders/{orderId} {
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin();
+      allow delete: if false;
+    }
+  }
+}

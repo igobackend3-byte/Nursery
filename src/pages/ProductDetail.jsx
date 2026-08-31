@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { useStore } from '../context/StoreContext';
 import { getProductById, getProductsByCategory } from '../data/products';
+import { getDiscountPercent } from '../utils/pricing';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -34,6 +35,7 @@ function ProductDetail() {
     .slice(0, 4);
   const isWishlisted = wishlist.includes(product.id);
   const active = gallery[activeSlide] ?? gallery[0];
+  const discountPercent = getDiscountPercent(product.originalPrice, product.price);
 
   return (
     <div className="product-detail-page">
@@ -77,7 +79,7 @@ function ProductDetail() {
           <div className="product-card-price large">
             <span className="price-now">₹{product.price}</span>
             <span className="price-was">₹{product.originalPrice}</span>
-            <span className="price-off">₹{product.discount} OFF</span>
+            {discountPercent > 0 && <span className="price-off">{discountPercent}% OFF</span>}
           </div>
 
           <div className="product-detail-specs">

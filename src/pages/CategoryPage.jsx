@@ -53,6 +53,20 @@ const PLANTS_SUBCATEGORY_HERO_IMAGES = {
   'landscaping-plants': '/images/plants-subcategories/landscaping-plants-banner.png', // outdoor garden photo
 };
 
+// Hero banner photos for the Seeds sub-sections, same mechanism as the
+// Plants map above. Only mapped for the subcategories that currently have a
+// matching file in public/images/seeds-subcategories/ - the folder doesn't
+// (yet) have a photo for every Seeds subcategory (e.g. All Seeds, Fruit,
+// Microgreens, Medicinal, Exotic, Native & Ornamental), so those simply fall
+// back to the plain text-only hero, same as any other category with no photo.
+const SEEDS_SUBCATEGORY_HERO_IMAGES = {
+  'vegetable-seeds': '/images/seeds-subcategories/vegetable seeds.png',
+  'flower-seeds': '/images/seeds-subcategories/flowers seeds.png',
+  'herb-seeds': '/images/seeds-subcategories/herbs seeds.png',
+  'lawn-grass-seeds': '/images/seeds-subcategories/lawn seeds.png',
+  'fodder-seeds': '/images/seeds-subcategories/fodder seeds.png',
+};
+
 // The Gifting/Corporate Gifts pages pull gift-tagged products across every
 // category rather than one category's own catalogue, so they keep their
 // own small, unrelated facet sidebar rather than the category filter
@@ -136,7 +150,7 @@ function CategoryPage({ slugOverride }) {
       })
     : baseProducts.filter((p) => matchesFilters(p, filters, filterGroups));
 
-  const heroImage = PLANTS_SUBCATEGORY_HERO_IMAGES[slug];
+  const heroImage = PLANTS_SUBCATEGORY_HERO_IMAGES[slug] ?? SEEDS_SUBCATEGORY_HERO_IMAGES[slug];
 
   return (
     <div className="category-page">

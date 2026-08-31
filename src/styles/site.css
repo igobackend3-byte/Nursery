@@ -356,8 +356,14 @@ section {
 }
 
 /* ============ Shop by category ============ */
+/* Clean, soft neutral-grey backdrop - a light, slightly translucent grey
+   wash instead of the earlier dark-green treatment. Everything else in
+   this section (cards, text, spacing, shadows) is unchanged. */
 .shop-by-category {
-  background: var(--section-categories);
+  position: relative;
+  background: rgba(217, 217, 217, 0.85);
+  overflow: hidden;
+  isolation: isolate;
 }
 
 .shop-by-category .eyebrow {
@@ -374,28 +380,59 @@ section {
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px 16px;
   padding: 0 48px;
 }
 
+/* Circular, glassmorphism category cards: the photo fills a perfect circle,
+   a frosted-glass wash (::before) sits over it for the glass sheen, and a
+   bottom-to-top dark scrim (still supplied inline via `background` in
+   Home.jsx, unchanged) keeps the white label/link legible on top of it all. */
 .category-tile {
   position: relative;
-  aspect-ratio: 3 / 4;
-  border-radius: 12px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
   background-size: cover;
   background-position: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: flex-end;
-  padding: 16px;
+  text-align: center;
+  padding: 18px 14px;
   color: white;
   overflow: hidden;
-  transition: transform 0.25s ease;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
+    0 10px 28px rgba(9, 32, 22, 0.35),
+    inset 0 0 22px rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.category-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.category-tile > * {
+  position: relative;
+  z-index: 1;
 }
 
 .category-tile:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px) scale(1.03);
+  border-color: rgba(167, 248, 34, 0.55);
+  box-shadow:
+    0 16px 36px rgba(9, 32, 22, 0.4),
+    0 0 28px rgba(167, 248, 34, 0.35),
+    inset 0 0 26px rgba(255, 255, 255, 0.14);
 }
 
 .category-tile-label {
@@ -1198,6 +1235,61 @@ section {
   font-size: 0.88rem;
   line-height: 1.5;
   flex: 1;
+}
+
+/* Landscaping page: same card/grid system as Garden Services, denser for a
+   long name-only list instead of a title+description card. */
+.landscaping-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.service-card.compact {
+  padding: 18px 20px;
+  gap: 0;
+}
+
+.service-card.compact h3 {
+  font-size: 0.95rem;
+}
+
+/* Landscaping cards that have a matching photo (see serviceImage() in
+   Landscaping.jsx) - image on top, name below, same card shell/shadow as
+   the rest of the grid. Scoped to `.has-image` so the text-only cards for
+   services without a photo yet are completely unaffected. */
+.service-card.compact.has-image {
+  padding: 0 0 14px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.service-card.compact.has-image:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.service-card.compact.has-image img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  margin-bottom: 14px;
+}
+
+.service-card.compact.has-image h3 {
+  padding: 0 18px;
+}
+
+@media (max-width: 900px) {
+  .landscaping-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .landscaping-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ============ Why IGO ============ */
@@ -2120,10 +2212,11 @@ section {
 }
 
 /* Hero banner photo for every Plants sub-section (see
-   PLANTS_SUBCATEGORY_HERO_IMAGES in CategoryPage.jsx) - every other
-   category page (seeds, pots, plant care, gifting) keeps the plain
-   `.category-hero` above untouched. Scoped to this one extra class so
-   nothing else is affected. */
+   PLANTS_SUBCATEGORY_HERO_IMAGES in CategoryPage.jsx) and, using the same
+   class/mechanism, every Seeds sub-section (see
+   SEEDS_SUBCATEGORY_HERO_IMAGES). Every other category page (pots, plant
+   care, gifting) keeps the plain `.category-hero` above untouched. Scoped
+   to this one extra class so nothing else is affected. */
 .category-hero.category-hero-has-image {
   position: relative;
   min-height: 280px;
@@ -2505,6 +2598,158 @@ section {
   color: var(--color-text-muted);
 }
 
+/* ============ Checkout / Account pages ============ */
+.checkout-address-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkout-address-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #f0f0eb;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.checkout-address-option input {
+  margin-top: 3px;
+}
+
+.checkout-add-address-btn {
+  align-self: flex-start;
+  background: none;
+  border: 1px solid var(--color-primary-green);
+  color: var(--color-primary-green);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.checkout-address-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkout-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.checkout-form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+}
+
+.checkout-form-grid label.span-2 {
+  grid-column: 1 / -1;
+}
+
+.checkout-form-grid input {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.checkout-payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.account-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.account-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.account-tab {
+  background: none;
+  border: none;
+  padding: 10px 4px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.account-tab.active {
+  color: var(--color-primary-green);
+  border-bottom-color: var(--color-primary-green);
+}
+
+.account-profile-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #f5f5f0;
+  font-size: 0.9rem;
+}
+
+.account-order-card {
+  border: 1px solid #f0f0eb;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.account-order-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.account-order-items {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* Order status pill - same colour language as the admin panel's, kept as
+   its own small set here since the storefront doesn't load admin.css. */
+.admin-status-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.admin-status-pill.delivered { background: #e4f3d9; color: #366016; }
+.admin-status-pill.shipped { background: #e2ecfb; color: #2b4f8a; }
+.admin-status-pill.packed { background: #eee; color: #555; }
+.admin-status-pill.confirmed { background: #fdf0d9; color: #8a5a0a; }
+.admin-status-pill.placed { background: #ece7fb; color: #5a3fa0; }
+.admin-status-pill.cancelled { background: #fbeceb; color: #b3261e; }
+
 /* ============ Wishlist page ============ */
 .wishlist-page {
   padding: 32px 48px 64px;
@@ -2699,6 +2944,32 @@ section {
 
 .auth-submit:hover {
   transform: translateY(-1px);
+}
+
+.auth-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.auth-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  color: var(--color-text-muted, #666);
+  font-size: 0.95rem;
+}
+
+.auth-error {
+  background: rgba(191, 95, 61, 0.12);
+  border: 1px solid rgba(191, 95, 61, 0.4);
+  color: #7a2d12;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  margin-top: 14px;
+  text-align: center;
 }
 
 .auth-help,

@@ -123,7 +123,24 @@ function Hero() {
   );
 }
 
+// "Shop by category" now spotlights the categories that were missing from
+// the site entirely (per the nursery non-plant list PDF check), rather than
+// the usual plant/seed tiles - those are still reachable from the header nav
+// and every other homepage section, just not featured here anymore. Revert
+// to `CATEGORIES.slice(0, 6)` below if this isn't the right call.
+const MISSING_CATEGORY_SLUGS = [
+  'grow-bags-containers', 'irrigation-watering', 'plant-support', 'hydroponic-supplies',
+  'vertical-gardening', 'lawn-landscaping', 'decorative-stones-mulch', 'shade-nets-covers',
+  'smart-garden-tech', 'garden-decor', 'greenhouse-supplies', 'pest-control-devices',
+  'nursery-packaging-supplies', 'indoor-plant-accessories',
+];
+const MISSING_CATEGORY_TILES = MISSING_CATEGORY_SLUGS
+  .map((slug) => CATEGORIES.find((c) => c.slug === slug))
+  .filter(Boolean);
+
 function ShopByCategory() {
+  const tiles = MISSING_CATEGORY_TILES.length ? MISSING_CATEGORY_TILES : CATEGORIES.slice(0, 6);
+
   return (
     <section className="shop-by-category">
       <div className="section-heading">
@@ -134,7 +151,7 @@ function ShopByCategory() {
         <p className="section-sub">Everything you need to bring your garden to life</p>
       </div>
       <div className="category-grid">
-        {CATEGORIES.slice(0, 6).map((cat) => (
+        {tiles.map((cat) => (
           <Link to={`/category/${cat.slug}`} key={cat.slug} className="category-tile" style={{ backgroundImage: `linear-gradient(to top, rgba(15,17,21,0.75), rgba(15,17,21,0.05)), url('${cat.image}')` }}>
             <span className="category-tile-label">{cat.label}</span>
             <span className="category-tile-link">Explore →</span>
