@@ -4,10 +4,11 @@
 // creation time (name/price/image) so an order's history stays accurate
 // even if a product's price or listing changes later.
 import {
-  addDoc, arrayUnion, collection, doc, getDocs, onSnapshot, orderBy, query,
+  addDoc, arrayUnion, collection, doc, getDoc, getDocs, onSnapshot, orderBy, query,
   serverTimestamp, Timestamp, updateDoc, where, writeBatch,
 } from 'firebase/firestore';
 import { db } from './firebase';
+import { notifyOrderEmail } from './emailNotify';
 
 // The 8-stage lifecycle every order moves through, in order.
 export const ORDER_STATUSES = [
@@ -99,6 +100,17 @@ export async function placeOrder(authUser, { cart, address, paymentMethod, getPr
   cartSnap.docs.forEach((d) => batch.delete(d.ref));
   await batch.commit();
 
+  // Fire the confirmation + admin-alert emails. Not awaited - a slow or
+  // failed email must never hold up or fail checkout (see emailNotify.js).
+  const orderForEmail = {
+    id: orderRef.id, userId: uid, customerName: authUser.displayName || address.label || 'Customer',
+    customerEmail: authUser.email, customerPhone: address.phone ?? '', items, subtotal, discount,
+    deliveryCharge, total, address, paymentMethod, paymentStatus, status: 'Order Placed',
+    expectedDeliveryDate: expectedDelivery,
+  };
+  notifyOrderEmail('confirmation', orderForEmail);
+  notifyOrderEmail('admin_new_order', orderForEmail);
+
   return orderRef.id;
 }
 
@@ -128,11 +140,21 @@ export function subscribeAllOrders(callback) {
 // statusHistory so the order-details timeline shows exactly when each
 // stage happened. Marking "Delivered" also sets paymentStatus to Paid,
 // since a COD order is only actually paid once it's handed over.
-export function updateOrderStatus(orderId, status) {
+export async function updateOrderStatus(orderId, status) {
   const patch = {
     status,
     statusHistory: arrayUnion({ status, at: Timestamp.now() }),
   };
   if (status === 'Delivered') patch.paymentStatus = 'Paid';
-  return updateDoc(doc(db, 'orders', orderId), patch);
+
+  const orderRef = doc(db, 'orders', orderId);
+  await updateDoc(orderRef, patch);
+
+  // Read the order back (with the new status applied) to email the
+  // customer. Not awaited past this point - a failed email must never
+  // surface as a failed status update in the admin UI.
+  const snap = await getDoc(orderRef);
+  if (snap.exists()) {
+    notifyOrderEmail('status_update', { id: snap.id, ...snap.data() });
+  }
 }
