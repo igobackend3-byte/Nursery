@@ -8,6 +8,17 @@ function formatMoney(n) {
   return `Rs. ${Number(n ?? 0).toLocaleString('en-IN')}`;
 }
 
+function formatDateTime(value) {
+  let date = null;
+  if (!value) return '—';
+  if (value instanceof Date) date = value;
+  else if (typeof value === 'string') date = new Date(value);
+  else if (typeof value._seconds === 'number') date = new Date(value._seconds * 1000);
+  else if (typeof value.seconds === 'number') date = new Date(value.seconds * 1000);
+  if (!date || Number.isNaN(date.getTime())) return '—';
+  return date.toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
 function formatDate(value) {
   // Accepts a Firestore Timestamp-ish object ({_seconds}), a JS Date, or
   // an ISO string - whatever the caller had on hand when it fired the
@@ -58,7 +69,15 @@ function wrapEmail(title, bodyHtml) {
 function itemsTable(items = []) {
   const rows = items.map((it) => `
     <tr>
-      <td style="padding:8px 0;border-bottom:1px solid #eee;">${it.name}</td>
+      <td style="padding:8px 0;border-bottom:1px solid #eee;">
+        <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+          ${it.image ? `<td style="padding-right:10px;"><img src="${it.image}" alt="" width="40" height="40" style="border-radius:6px;object-fit:cover;display:block;" /></td>` : ''}
+          <td>
+            ${it.name}<br/>
+            <span style="font-size:12px;color:#6b7a70;">₹${it.price} each</span>
+          </td>
+        </tr></table>
+      </td>
       <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:center;">${it.qty}</td>
       <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right;">${formatMoney(it.subtotal)}</td>
     </tr>`).join('');
@@ -95,16 +114,27 @@ function shortId(orderId) {
 
 export function orderConfirmationEmail(order) {
   const html = `
-    <p style="margin:0 0 6px;">Hi ${order.customerName || 'there'},</p>
-    <p style="margin:0 0 16px;">Thanks for your order! We've received it and it's now <strong>Order Placed</strong>. Here's a summary:</p>
-    <p style="margin:0 0 4px;font-size:13px;color:#6b7a70;">ORDER #${shortId(order.id)} · Expected delivery ${formatDate(order.expectedDeliveryDate)}</p>
+    <p style="margin:0 0 6px;">Hello ${order.customerName || 'there'},</p>
+    <p style="margin:0 0 16px;">Thank you for shopping with IGO Nursery! Your order has been successfully placed.</p>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:14px;margin:0 0 18px;">
+      <tr><td style="padding:2px 12px 2px 0;color:#6b7a70;">Order ID</td><td style="padding:2px 0;font-weight:700;">#${shortId(order.id)}</td></tr>
+      <tr><td style="padding:2px 12px 2px 0;color:#6b7a70;">Order date</td><td style="padding:2px 0;">${formatDateTime(order.createdAt)}</td></tr>
+      <tr><td style="padding:2px 12px 2px 0;color:#6b7a70;">Order status</td><td style="padding:2px 0;">
+        <span style="background:${LIGHT_GREEN};color:${GREEN};font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px;">${order.status || 'Order Placed'}</span>
+      </td></tr>
+    </table>
+    <p style="margin:0 0 4px;font-size:13px;color:#6b7a70;">ORDERED PRODUCTS</p>
     ${itemsTable(order.items)}
     ${totalsBlock(order)}
-    <p style="margin:18px 0 4px;font-size:13px;color:#6b7a70;">DELIVERING TO</p>
+    <p style="margin:18px 0 4px;font-size:13px;color:#6b7a70;">PAYMENT</p>
+    <p style="margin:0;">${order.paymentMethod ?? '—'} · ${order.paymentStatus ?? '—'}</p>
+    <p style="margin:18px 0 4px;font-size:13px;color:#6b7a70;">DELIVERY ADDRESS</p>
     <p style="margin:0;">${addressBlock(order.address)}</p>
-    <p style="margin:18px 0 0;font-size:13px;color:#6b7a70;">Payment: ${order.paymentMethod ?? '—'} · ${order.paymentStatus ?? '—'}</p>
+    <p style="margin:12px 0 0;font-size:13px;color:#6b7a70;">Expected delivery: <strong style="color:#28352d;">${formatDate(order.expectedDeliveryDate)}</strong></p>
+    <p style="margin:22px 0 0;">You can track your order any time from your account's order history page.</p>
+    <p style="margin:16px 0 0;">Thank you for choosing IGO Nursery 🌿</p>
   `;
-  return { subject: `Order confirmed - #${shortId(order.id)}`, html: wrapEmail('Order confirmed 🌱', html) };
+  return { subject: `Your IGO Nursery Order #${shortId(order.id)} Has Been Confirmed 🌱`, html: wrapEmail('Order confirmed 🌱', html) };
 }
 
 export function orderStatusUpdateEmail(order) {
@@ -127,8 +157,9 @@ export function orderStatusUpdateEmail(order) {
     <p style="margin:0 0 4px;font-size:13px;color:#6b7a70;">ORDER #${shortId(order.id)}${!isDelivered && !isCancelled ? ` · Expected delivery ${formatDate(order.expectedDeliveryDate)}` : ''}</p>
     ${itemsTable(order.items)}
     ${totalsBlock(order)}
+    <p style="margin:22px 0 0;">You can track this order any time from your account's order history page.</p>
   `;
-  return { subject: `Order #${shortId(order.id)} - ${order.status}`, html: wrapEmail('Order update', html) };
+  return { subject: `Order #${shortId(order.id)} – ${order.status}`, html: wrapEmail('Order update', html) };
 }
 
 export function adminNewOrderEmail(order) {

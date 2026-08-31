@@ -94,22 +94,24 @@ export async function placeOrder(authUser, { cart, address, paymentMethod, getPr
     createdAt: serverTimestamp(),
   });
 
+  // The order write above succeeded - it's now genuinely in the database,
+  // so this is the only place the confirmation email fires from. Sent only
+  // to the customer (never the admin - see emailNotify.js/send-order-email
+  // for the admin_new_order type, which exists but is deliberately not
+  // called here). Not awaited: a slow/failed email must never surface as a
+  // failed checkout, and it must never block the cart-clear step below.
+  notifyOrderEmail('confirmation', {
+    id: orderRef.id, userId: uid, customerName: authUser.displayName || address.label || 'Customer',
+    customerEmail: authUser.email, customerPhone: address.phone ?? '', items, subtotal, discount,
+    deliveryCharge, total, address, paymentMethod, paymentStatus, status: 'Order Placed',
+    expectedDeliveryDate: expectedDelivery, createdAt: now,
+  });
+
   // Clear the cart now that the order has been placed.
   const cartSnap = await getDocs(collection(db, 'users', uid, 'cart'));
   const batch = writeBatch(db);
   cartSnap.docs.forEach((d) => batch.delete(d.ref));
   await batch.commit();
-
-  // Fire the confirmation + admin-alert emails. Not awaited - a slow or
-  // failed email must never hold up or fail checkout (see emailNotify.js).
-  const orderForEmail = {
-    id: orderRef.id, userId: uid, customerName: authUser.displayName || address.label || 'Customer',
-    customerEmail: authUser.email, customerPhone: address.phone ?? '', items, subtotal, discount,
-    deliveryCharge, total, address, paymentMethod, paymentStatus, status: 'Order Placed',
-    expectedDeliveryDate: expectedDelivery,
-  };
-  notifyOrderEmail('confirmation', orderForEmail);
-  notifyOrderEmail('admin_new_order', orderForEmail);
 
   return orderRef.id;
 }
