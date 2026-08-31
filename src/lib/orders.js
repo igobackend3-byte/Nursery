@@ -4,11 +4,33 @@
 // creation time (name/price/image) so an order's history stays accurate
 // even if a product's price or listing changes later.
 import {
-  addDoc, collection, doc, getDocs, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where, writeBatch,
+  addDoc, arrayUnion, collection, doc, getDocs, onSnapshot, orderBy, query,
+  serverTimestamp, Timestamp, updateDoc, where, writeBatch,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
-export const ORDER_STATUSES = ['Placed', 'Confirmed', 'Packed', 'Shipped', 'Delivered', 'Cancelled'];
+// The 8-stage lifecycle every order moves through, in order.
+export const ORDER_STATUSES = [
+  'Order Placed', 'Order Confirmed', 'Order Processing', 'Packed',
+  'Shipped', 'Out for Delivery', 'Delivered', 'Cancelled',
+];
+
+// Maps a status label to the CSS modifier class used for its pill
+// (see .admin-status-pill / .admin-filter-pill in admin.css and site.css).
+// Defined once here so the admin Orders/Dashboard pages and the customer
+// Account page can't drift out of sync with each other.
+export const STATUS_CLASS = {
+  'Order Placed': 'placed',
+  'Order Confirmed': 'confirmed',
+  'Order Processing': 'processing',
+  Packed: 'packed',
+  Shipped: 'shipped',
+  'Out for Delivery': 'out-for-delivery',
+  Delivered: 'delivered',
+  Cancelled: 'cancelled',
+};
+
+const DELIVERY_ESTIMATE_DAYS = 5;
 
 // `cart` is the useStore() cart shape: [{ id, qty }]. `getProductById` is
 // passed in (from useCatalogue()) rather than imported directly, so an
@@ -19,7 +41,7 @@ export const ORDER_STATUSES = ['Placed', 'Confirmed', 'Packed', 'Shipped', 'Deli
 // snapshotted onto the order - the admin panel's Orders page reads
 // customerName/customerEmail straight off the order doc rather than
 // needing a separate per-order profile lookup.
-export async function placeOrder(authUser, { cart, address, paymentMethod, getProductById }) {
+export async function placeOrder(authUser, { cart, address, paymentMethod, getProductById, discount = 0 }) {
   const uid = authUser.uid;
   const items = cart
     .map((item) => {
@@ -38,7 +60,19 @@ export async function placeOrder(authUser, { cart, address, paymentMethod, getPr
 
   if (items.length === 0) throw new Error('Cart is empty.');
 
-  const total = items.reduce((sum, it) => sum + it.subtotal, 0);
+  const subtotal = items.reduce((sum, it) => sum + it.subtotal, 0);
+  // No real delivery-fee logic or payment gateway exists yet - both kept
+  // honest/simple rather than fabricated: delivery is free site-wide (see
+  // Checkout/Cart UI), and payment status reflects that only COD is a real
+  // "pay later" method - UPI has no live gateway behind it, so it's marked
+  // Paid at order time as a placeholder, not a real charge.
+  const deliveryCharge = 0;
+  const total = Math.max(0, subtotal - discount + deliveryCharge);
+  const paymentStatus = paymentMethod === 'COD' ? 'Pending' : 'Paid';
+
+  const now = new Date();
+  const expectedDelivery = new Date(now);
+  expectedDelivery.setDate(expectedDelivery.getDate() + DELIVERY_ESTIMATE_DAYS);
 
   const orderRef = await addDoc(collection(db, 'orders'), {
     userId: uid,
@@ -46,10 +80,16 @@ export async function placeOrder(authUser, { cart, address, paymentMethod, getPr
     customerEmail: authUser.email,
     customerPhone: address.phone ?? '',
     items,
+    subtotal,
+    discount,
+    deliveryCharge,
     total,
     address,
     paymentMethod,
-    status: 'Placed',
+    paymentStatus,
+    status: 'Order Placed',
+    statusHistory: [{ status: 'Order Placed', at: Timestamp.fromDate(now) }],
+    expectedDeliveryDate: Timestamp.fromDate(expectedDelivery),
     createdAt: serverTimestamp(),
   });
 
@@ -69,6 +109,12 @@ export function subscribeMyOrders(uid, callback) {
   });
 }
 
+export function subscribeOrder(orderId, callback) {
+  return onSnapshot(doc(db, 'orders', orderId), (snap) => {
+    callback(snap.exists() ? { id: snap.id, ...snap.data() } : null);
+  });
+}
+
 // Admin-side: every order, newest first (allowed by firestore.rules for
 // role: 'admin' users).
 export function subscribeAllOrders(callback) {
@@ -78,7 +124,15 @@ export function subscribeAllOrders(callback) {
   });
 }
 
-// Admin-side: update an order's status.
+// Admin-side: update an order's status, appending a timestamped entry to
+// statusHistory so the order-details timeline shows exactly when each
+// stage happened. Marking "Delivered" also sets paymentStatus to Paid,
+// since a COD order is only actually paid once it's handed over.
 export function updateOrderStatus(orderId, status) {
-  return updateDoc(doc(db, 'orders', orderId), { status });
+  const patch = {
+    status,
+    statusHistory: arrayUnion({ status, at: Timestamp.now() }),
+  };
+  if (status === 'Delivered') patch.paymentStatus = 'Paid';
+  return updateDoc(doc(db, 'orders', orderId), patch);
 }

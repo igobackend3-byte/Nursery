@@ -1,13 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAdminData } from '../AdminDataContext';
-import { ORDER_STATUSES, subscribeAllOrders, updateOrderStatus } from '../../lib/orders';
+import { ORDER_STATUSES, STATUS_CLASS, subscribeAllOrders, updateOrderStatus } from '../../lib/orders';
 import { DollarIcon, CartIcon, BoxIcon, CheckCircleIcon } from '../adminIcons';
-
-const STATUS_CLASS = {
-  Delivered: 'delivered', Shipped: 'shipped', Packed: 'packed',
-  Confirmed: 'confirmed', Placed: 'placed', Cancelled: 'cancelled',
-};
 
 function AdminDashboard() {
   const { products } = useAdminData();
@@ -73,6 +68,22 @@ function AdminDashboard() {
           <p className="admin-stat-color-value">{delivered}</p>
           <p className="admin-stat-color-sub">{inTransit} in transit</p>
         </Link>
+      </div>
+
+      <div className="admin-panel">
+        <p className="admin-panel-title">Orders by status</p>
+        <div className="admin-filter-pills">
+          <Link to="/admin/orders" className="admin-filter-pill neutral">All: {ordersList.length}</Link>
+          {ORDER_STATUSES.map((s) => (
+            <Link
+              key={s}
+              to={`/admin/orders?status=${encodeURIComponent(s)}`}
+              className={`admin-filter-pill ${STATUS_CLASS[s] ?? ''}`}
+            >
+              {s}: {ordersList.filter((o) => o.status === s).length}
+            </Link>
+          ))}
+        </div>
       </div>
 
       <div className="admin-panel" style={{ padding: 0 }}>

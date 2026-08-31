@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import {
   seedCatalogueIfEmpty, subscribeProducts, subscribeCategories,
   updateProductDoc, deleteProductDoc, addProductDoc, updateCategoryDoc,
+  addCategoryDoc, deleteCategoryDoc,
 } from '../lib/catalogue';
 
 // Products & Categories are now Firestore-backed (see lib/catalogue.js) -
@@ -76,6 +77,14 @@ export function AdminDataProvider({ children }) {
     return updateCategoryDoc(slug, patch);
   }
 
+  function addCategory(category) {
+    return addCategoryDoc(category, categories);
+  }
+
+  function deleteCategory(slug) {
+    return deleteCategoryDoc(slug);
+  }
+
   function addCoupon(coupon) {
     const id = Math.max(0, ...coupons.map((c) => c.id)) + 1;
     setCoupons((prev) => [{ ...coupon, id }, ...prev]);
@@ -91,7 +100,7 @@ export function AdminDataProvider({ children }) {
 
   const value = useMemo(() => ({
     products, updateProduct, deleteProduct, addProduct, catalogueLoading,
-    categories, updateCategory,
+    categories, updateCategory, addCategory, deleteCategory,
     customers,
     visitorLeads,
     coupons, addCoupon, updateCoupon, deleteCoupon,

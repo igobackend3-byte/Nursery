@@ -527,6 +527,8 @@
 .admin-status-pill.confirmed { background: #fdf0d9; color: #8a5a0a; }
 .admin-status-pill.placed { background: #ece7fb; color: #5a3fa0; }
 .admin-status-pill.cancelled { background: #fbeceb; color: var(--admin-danger); }
+.admin-status-pill.processing { background: #fdeecb; color: #96650a; }
+.admin-status-pill.out-for-delivery { background: #d9ecfb; color: #1f6fa8; }
 
 .admin-status-select {
   border: 1px solid var(--admin-border);
@@ -541,6 +543,78 @@
 }
 
 .admin-status-select:focus { outline: none; border-color: var(--admin-primary); }
+
+/* ---------- Order timeline (Order Placed -> ... -> Delivered) ---------- */
+.order-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-timeline-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  position: relative;
+  padding-bottom: 18px;
+}
+
+.order-timeline-step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 14px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--admin-border);
+}
+
+.order-timeline-step.done:not(:last-child)::before { background: var(--admin-primary); }
+
+.order-timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--admin-border);
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.order-timeline-step.done .order-timeline-dot { background: var(--admin-primary); }
+.order-timeline-step.current .order-timeline-dot { box-shadow: 0 0 0 4px rgba(54, 96, 22, 0.18); }
+
+.order-timeline-step strong { font-size: 0.86rem; color: var(--admin-muted); }
+.order-timeline-step.done strong { color: var(--admin-ink); }
+.order-timeline-step.current strong { color: var(--admin-primary); }
+.order-timeline-step p { font-size: 0.74rem; color: var(--admin-muted); margin-top: 2px; }
+
+.order-timeline-cancelled {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fbeceb;
+  border-radius: 10px;
+  padding: 14px;
+  margin: 14px 0;
+}
+
+.order-timeline-cancelled-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--admin-danger);
+  color: white;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.order-timeline-cancelled strong { color: var(--admin-danger); }
+.order-timeline-cancelled p { font-size: 0.78rem; color: var(--admin-muted); }
 
 /* ---------- Order filter pills (status + delivery slot) ---------- */
 .admin-filter-pills {
@@ -587,6 +661,8 @@
 .admin-filter-pill.confirmed { border-color: #f2dba8; color: #8a5a0a; }
 .admin-filter-pill.placed { border-color: #d6cdf5; color: #5a3fa0; }
 .admin-filter-pill.cancelled { border-color: #f3c9c6; color: var(--admin-danger); }
+.admin-filter-pill.processing { border-color: #f2dba8; color: #96650a; }
+.admin-filter-pill.out-for-delivery { border-color: #c6d9f5; color: #1f6fa8; }
 .admin-filter-pill.slot { border-color: #cfe8bd; color: #366016; }
 
 .admin-filter-pill.delivered.active { background: #e4f3d9; }
@@ -595,6 +671,8 @@
 .admin-filter-pill.confirmed.active { background: #fdf0d9; }
 .admin-filter-pill.placed.active { background: #ece7fb; }
 .admin-filter-pill.cancelled.active { background: #fbeceb; }
+.admin-filter-pill.processing.active { background: #fdeecb; }
+.admin-filter-pill.out-for-delivery.active { background: #d9ecfb; }
 .admin-filter-pill.slot.active { background: #e4f3d9; }
 
 .admin-root[data-theme='dark'] .admin-filter-pill.neutral { border-color: var(--admin-border); }
@@ -605,6 +683,8 @@
 .admin-root[data-theme='dark'] .admin-filter-pill.confirmed { border-color: #4a3a1c; color: #f0c680; }
 .admin-root[data-theme='dark'] .admin-filter-pill.placed { border-color: #392a54; color: #c1a8f5; }
 .admin-root[data-theme='dark'] .admin-filter-pill.cancelled { border-color: #4a2624; color: #f0a19c; }
+.admin-root[data-theme='dark'] .admin-filter-pill.processing { border-color: #4a3a1c; color: #f0c680; }
+.admin-root[data-theme='dark'] .admin-filter-pill.out-for-delivery { border-color: #24384f; color: #8fb6f0; }
 .admin-root[data-theme='dark'] .admin-filter-pill.slot { border-color: #244a2f; color: #9ae07a; }
 .admin-root[data-theme='dark'] .admin-filter-pill.delivered.active,
 .admin-root[data-theme='dark'] .admin-filter-pill.slot.active { background: #17301f; }
@@ -613,6 +693,8 @@
 .admin-root[data-theme='dark'] .admin-filter-pill.confirmed.active { background: #2e2410; }
 .admin-root[data-theme='dark'] .admin-filter-pill.placed.active { background: #24193b; }
 .admin-root[data-theme='dark'] .admin-filter-pill.cancelled.active { background: #301917; }
+.admin-root[data-theme='dark'] .admin-filter-pill.processing.active { background: #2e2410; }
+.admin-root[data-theme='dark'] .admin-filter-pill.out-for-delivery.active { background: #172436; }
 
 /* ---------- Stat cards (Reports / legacy) ---------- */
 .admin-stat-grid {

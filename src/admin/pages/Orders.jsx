@@ -1,15 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { ORDER_STATUSES, subscribeAllOrders, updateOrderStatus } from '../../lib/orders';
-
-const STATUS_CLASS = {
-  Delivered: 'delivered',
-  Shipped: 'shipped',
-  Packed: 'packed',
-  Confirmed: 'confirmed',
-  Placed: 'placed',
-  Cancelled: 'cancelled',
-};
+import { ORDER_STATUSES, STATUS_CLASS, subscribeAllOrders, updateOrderStatus } from '../../lib/orders';
+import OrderTimeline from '../../components/OrderTimeline';
 
 function AdminOrders() {
   const [orders, setOrders] = useState(null); // null = loading
@@ -157,6 +149,14 @@ function AdminOrders() {
                 <label>Payment method</label>
                 <p>{selected.paymentMethod ?? '—'}</p>
               </div>
+              <div className="admin-field">
+                <label>Payment status</label>
+                <p>{selected.paymentStatus ?? '—'}</p>
+              </div>
+              <div className="admin-field">
+                <label>Expected delivery</label>
+                <p>{selected.expectedDeliveryDate?.toDate?.().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) ?? '—'}</p>
+              </div>
               <div className="admin-field span-2">
                 <label>Shipping address</label>
                 <p>
@@ -185,6 +185,20 @@ function AdminOrders() {
                   )}
                 </tbody>
                 <tfoot>
+                  <tr>
+                    <td colSpan={3} style={{ textAlign: 'right' }}>Subtotal</td>
+                    <td>₹{selected.subtotal ?? selected.total}</td>
+                  </tr>
+                  {selected.discount > 0 && (
+                    <tr>
+                      <td colSpan={3} style={{ textAlign: 'right' }}>Discount</td>
+                      <td>-₹{selected.discount}</td>
+                    </tr>
+                  )}
+                  <tr>
+                    <td colSpan={3} style={{ textAlign: 'right' }}>Delivery charge</td>
+                    <td>{selected.deliveryCharge ? `₹${selected.deliveryCharge}` : 'Free'}</td>
+                  </tr>
                   <tr>
                     <td colSpan={3} style={{ textAlign: 'right', fontWeight: 700 }}>Order total</td>
                     <td style={{ fontWeight: 700 }}>₹{selected.total}</td>
@@ -218,6 +232,8 @@ function AdminOrders() {
                 </select>
               </div>
             </div>
+
+            <OrderTimeline order={selected} />
 
             <div className="admin-modal-actions">
               <button type="button" className="admin-btn admin-btn-ghost" onClick={() => setSelected(null)}>Close</button>

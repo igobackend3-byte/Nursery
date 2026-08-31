@@ -2,13 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { subscribeAddresses, addAddress, updateAddress, deleteAddress } from '../lib/addresses';
-import { subscribeMyOrders } from '../lib/orders';
+import { subscribeMyOrders, STATUS_CLASS, ORDER_STATUSES } from '../lib/orders';
 import AddressForm from '../components/AddressForm';
-
-const STATUS_CLASS = {
-  Delivered: 'delivered', Shipped: 'shipped', Packed: 'packed',
-  Confirmed: 'confirmed', Placed: 'placed', Cancelled: 'cancelled',
-};
+import OrderTimeline from '../components/OrderTimeline';
 
 const BLANK_ADDRESS = { label: 'Home', line1: '', line2: '', city: '', state: '', pincode: '', phone: '' };
 
@@ -133,6 +129,7 @@ function AddressesTab() {
 function OrdersTab() {
   const { user } = useAuth();
   const [orders, setOrders] = useState(null);
+  const [expandedId, setExpandedId] = useState(null);
 
   useEffect(() => subscribeMyOrders(user.uid, setOrders), [user.uid]);
 
@@ -177,10 +174,27 @@ function OrdersTab() {
                 </div>
               ))}
             </div>
+            <div className="account-order-meta">
+              <span>Payment: {order.paymentMethod ?? '—'} · {order.paymentStatus ?? '—'}</span>
+              {order.status !== 'Cancelled' && order.status !== 'Delivered' && (
+                <span>
+                  Expected delivery: {order.expectedDeliveryDate?.toDate?.().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) ?? '—'}
+                </span>
+              )}
+              {order.discount > 0 && <span>Discount applied: -₹{order.discount}</span>}
+            </div>
             <div className="account-order-foot">
               <span>Total</span>
               <strong>₹{order.total}</strong>
             </div>
+            <button
+              type="button"
+              className="account-order-toggle"
+              onClick={() => setExpandedId((id) => (id === order.id ? null : order.id))}
+            >
+              {expandedId === order.id ? 'Hide tracking ▲' : 'Track order ▼'}
+            </button>
+            {expandedId === order.id && <OrderTimeline order={order} />}
           </div>
         ))}
       </div>

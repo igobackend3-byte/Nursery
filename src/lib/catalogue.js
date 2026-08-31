@@ -79,3 +79,21 @@ export async function addProductDoc(product, allProducts) {
 export function updateCategoryDoc(slug, patch) {
   return setDoc(doc(db, CATEGORIES_COL, slug), stripUndefined(patch), { merge: true });
 }
+
+function slugify(label) {
+  return label.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+export async function addCategoryDoc(category, allCategories) {
+  const slug = slugify(category.label);
+  if (!slug) throw new Error('Category name is required.');
+  if (allCategories.some((c) => c.slug === slug)) {
+    throw new Error('A category with this name already exists.');
+  }
+  await setDoc(doc(db, CATEGORIES_COL, slug), stripUndefined({ ...category, slug }));
+  return slug;
+}
+
+export function deleteCategoryDoc(slug) {
+  return deleteDoc(doc(db, CATEGORIES_COL, slug));
+}
