@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useStore } from '../context/StoreContext';
-import { getProductById } from '../data/products';
+import { useCatalogue } from '../context/CatalogueContext';
 import { subscribeAddresses, addAddress } from '../lib/addresses';
 import { placeOrder } from '../lib/orders';
 import AddressForm from '../components/AddressForm';
@@ -13,6 +13,7 @@ function Checkout() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { cart, pushToast } = useStore();
+  const { getProductById } = useCatalogue();
 
   const [addresses, setAddresses] = useState(null); // null = loading
   const [selectedAddressId, setSelectedAddressId] = useState('');
@@ -72,7 +73,7 @@ function Checkout() {
       if (addingNew) {
         try { await addAddress(user.uid, address); } catch { /* non-fatal */ }
       }
-      const orderId = await placeOrder(user, { cart, address, paymentMethod });
+      const orderId = await placeOrder(user, { cart, address, paymentMethod, getProductById });
       pushToast({ type: 'cart', message: 'Order placed! Thank you for shopping with us.', actionLabel: 'View Orders', actionTo: '/account?tab=orders' });
       navigate('/account?tab=orders', { state: { placedOrderId: orderId } });
     } catch (err) {

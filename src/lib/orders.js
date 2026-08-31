@@ -7,18 +7,19 @@ import {
   addDoc, collection, doc, getDocs, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where, writeBatch,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { getProductById } from '../data/products';
 
 export const ORDER_STATUSES = ['Placed', 'Confirmed', 'Packed', 'Shipped', 'Delivered', 'Cancelled'];
 
-// `cart` is the useStore() cart shape: [{ id, qty }]. Resolves each id
-// against the real product catalogue so the order carries accurate
-// name/price/image, then clears the user's Firestore cart on success.
-// `authUser` is the Firebase Auth user object (not just the uid) so the
-// customer's name/email can be snapshotted onto the order - the admin
-// panel's Orders page reads customerName/customerEmail straight off the
-// order doc rather than needing a separate per-order profile lookup.
-export async function placeOrder(authUser, { cart, address, paymentMethod }) {
+// `cart` is the useStore() cart shape: [{ id, qty }]. `getProductById` is
+// passed in (from useCatalogue()) rather than imported directly, so an
+// order always snapshots the live, current-at-checkout-time price/name/
+// image from Firestore - not a stale build-time copy - then clears the
+// user's Firestore cart on success. `authUser` is the Firebase Auth user
+// object (not just the uid) so the customer's name/email can be
+// snapshotted onto the order - the admin panel's Orders page reads
+// customerName/customerEmail straight off the order doc rather than
+// needing a separate per-order profile lookup.
+export async function placeOrder(authUser, { cart, address, paymentMethod, getProductById }) {
   const uid = authUser.uid;
   const items = cart
     .map((item) => {

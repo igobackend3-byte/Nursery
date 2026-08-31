@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { useStore } from '../context/StoreContext';
-import { getProductById, getProductsByCategory } from '../data/products';
+import { useCatalogue } from '../context/CatalogueContext';
 import { getDiscountPercent } from '../utils/pricing';
 
 function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { getProductById, getProductsByCategory } = useCatalogue();
   const product = getProductById(id);
   const { addToCart, wishlist, toggleWishlist } = useStore();
   const [qty, setQty] = useState(1);

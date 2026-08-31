@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { useStore } from '../context/StoreContext';
-import { getProductById } from '../data/products';
+import { useCatalogue } from '../context/CatalogueContext';
 
 function Wishlist() {
   const { wishlist } = useStore();
+  const { getProductById } = useCatalogue();
   const products = wishlist.map(getProductById).filter(Boolean);
 
   return (

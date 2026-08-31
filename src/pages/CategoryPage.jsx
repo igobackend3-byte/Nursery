@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import {
-  CATEGORIES, PRODUCTS, getGiftProducts, getProductsByCategory, UMBRELLA_GROUPS,
-} from '../data/products';
+import { UMBRELLA_GROUPS } from '../data/products';
+import { useCatalogue } from '../context/CatalogueContext';
 import CategoryFilters, { matchesFilters } from '../components/CategoryFilters';
 import { getFilterGroupsForCategory } from '../data/filterConfig';
 
@@ -99,15 +98,16 @@ function CategoryPage({ slugOverride }) {
   const { slug: slugParam } = useParams();
   const slug = slugOverride ?? slugParam;
   const isGiftPage = slug === 'gifting' || slug === 'corporate-gifts';
+  const { products, categories, getGiftProducts, getProductsByCategory } = useCatalogue();
 
   const baseProducts = useMemo(() => {
     if (isGiftPage) return getGiftProducts();
     const umbrella = UMBRELLA_GROUPS[slug];
-    if (umbrella) return PRODUCTS.filter((p) => umbrella.includes(p.category));
+    if (umbrella) return products.filter((p) => umbrella.includes(p.category));
     return getProductsByCategory(slug);
-  }, [slug, isGiftPage]);
+  }, [slug, isGiftPage, products]);
 
-  const meta = CATEGORIES.find((c) => c.slug === slug);
+  const meta = categories.find((c) => c.slug === slug);
   const heading = isGiftPage
     ? slug === 'gifting' ? 'Gifting' : 'Corporate Gifts'
     : meta?.label ?? 'All Products';

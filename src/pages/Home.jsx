@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import OffersSection from '../components/OffersSection';
-import { CATEGORIES, getBestSellers } from '../data/products';
+import { useCatalogue } from '../context/CatalogueContext';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useSiteContent } from '../hooks/useSiteContent';
 
@@ -134,12 +134,12 @@ const MISSING_CATEGORY_SLUGS = [
   'smart-garden-tech', 'garden-decor', 'greenhouse-supplies', 'pest-control-devices',
   'nursery-packaging-supplies', 'indoor-plant-accessories',
 ];
-const MISSING_CATEGORY_TILES = MISSING_CATEGORY_SLUGS
-  .map((slug) => CATEGORIES.find((c) => c.slug === slug))
-  .filter(Boolean);
-
 function ShopByCategory() {
-  const tiles = MISSING_CATEGORY_TILES.length ? MISSING_CATEGORY_TILES : CATEGORIES.slice(0, 6);
+  const { categories } = useCatalogue();
+  const missingTiles = MISSING_CATEGORY_SLUGS
+    .map((slug) => categories.find((c) => c.slug === slug))
+    .filter(Boolean);
+  const tiles = missingTiles.length ? missingTiles : categories.slice(0, 6);
 
   return (
     <section className="shop-by-category">
@@ -228,6 +228,7 @@ function CompleteGarden() {
 }
 
 function BestSellers() {
+  const { getBestSellers } = useCatalogue();
   const products = getBestSellers(8);
   return (
     <section className="best-sellers">

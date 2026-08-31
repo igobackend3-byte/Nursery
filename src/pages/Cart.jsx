@@ -1,12 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
 import { useAuth } from '../context/AuthContext';
-import { getProductById } from '../data/products';
+import { useCatalogue } from '../context/CatalogueContext';
 
 function Cart() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const { cart, updateCartQty, removeFromCart } = useStore();
+  const { getProductById } = useCatalogue();
   const items = cart
     .map((item) => ({ ...item, product: getProductById(item.id) }))
     .filter((item) => item.product);
