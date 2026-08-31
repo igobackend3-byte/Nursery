@@ -1,7 +1,8 @@
 // Customer address book, stored at users/{uid}/addresses/{addressId}.
 // Shared by the Checkout page and the Account page so both stay in sync.
 import {
-  addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc,
+  addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query,
+  serverTimestamp, updateDoc, writeBatch,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -25,4 +26,16 @@ export function updateAddress(uid, addressId, address) {
 
 export function deleteAddress(uid, addressId) {
   return deleteDoc(doc(db, 'users', uid, 'addresses', addressId));
+}
+
+// Exactly one address is default at a time - clears the flag on every
+// other address in the same batch so it can never end up with two.
+export async function setDefaultAddress(uid, addressId) {
+  const col = collection(db, 'users', uid, 'addresses');
+  const snap = await getDocs(col);
+  const batch = writeBatch(db);
+  snap.docs.forEach((d) => {
+    batch.update(d.ref, { isDefault: d.id === addressId });
+  });
+  await batch.commit();
 }

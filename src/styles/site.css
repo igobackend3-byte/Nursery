@@ -2746,260 +2746,324 @@ section {
   margin-top: 12px;
 }
 
-.account-page h1 {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  margin-bottom: 24px;
+/* ============================================================
+   Account dashboard - original IGO design (see Account.jsx). Every class
+   here is prefixed `acc-` to keep it clearly separate from the rest of the
+   storefront's CSS.
+   ============================================================ */
+.acc-shell {
+  background: #faf7f0;
+  min-height: calc(100vh - 72px);
+  padding: 36px 48px 64px;
 }
 
-.account-layout {
+.acc-layout {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 272px 1fr;
   gap: 28px;
   align-items: start;
+  max-width: 1180px;
+  margin: 0 auto;
 }
 
-.account-sidebar {
-  background: white;
-  border: 1px solid #f0f0eb;
-  border-radius: 12px;
-  padding: 20px;
+/* ---------- Sidebar ---------- */
+.acc-sidebar {
   position: sticky;
   top: 20px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 22px 18px;
+  box-shadow: 0 4px 24px rgba(27, 75, 54, 0.06);
+  position: relative;
+  overflow: hidden;
 }
 
-.account-sidebar-user {
+.acc-sidebar-user {
   display: flex;
   align-items: center;
   gap: 12px;
   padding-bottom: 18px;
   margin-bottom: 14px;
-  border-bottom: 1px solid #f0f0eb;
+  border-bottom: 1px solid #f0f0e8;
 }
 
-.account-avatar {
+.acc-avatar {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  background: var(--color-primary-green);
+  background: linear-gradient(145deg, #1b4b36, #2f6a4c);
   color: white;
   font-weight: 700;
   font-size: 1.1rem;
   flex-shrink: 0;
 }
 
-.account-sidebar-user strong {
-  display: block;
-  font-size: 0.92rem;
-  color: var(--color-text-dark);
-}
+.acc-sidebar-user strong { display: block; font-size: 0.92rem; color: var(--color-text-dark); }
+.acc-sidebar-user p { font-size: 0.75rem; color: var(--color-text-muted); word-break: break-all; }
 
-.account-sidebar-user p {
-  font-size: 0.76rem;
-  color: var(--color-text-muted);
-  word-break: break-all;
-}
+.acc-nav { display: flex; flex-direction: column; gap: 3px; }
 
-.account-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.account-nav-link {
+.acc-nav-link {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   background: none;
   border: none;
-  border-radius: 8px;
-  padding: 11px 12px;
-  font-size: 0.9rem;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 0.86rem;
   font-weight: 600;
   color: var(--color-text-muted);
   cursor: pointer;
   text-align: left;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-.account-nav-link:hover { background: #f7f7f2; color: var(--color-text-dark); }
+.acc-nav-link svg { flex-shrink: 0; opacity: 0.85; }
+.acc-nav-link:hover { background: #f6f8f2; color: var(--color-text-dark); }
 
-.account-nav-link.active {
-  background: #f4faf1;
+.acc-nav-link.active {
+  background: #eef7e9;
   color: var(--color-primary-green);
 }
+.acc-nav-link.active svg { opacity: 1; }
 
-.account-logout {
-  margin-top: 14px;
+.acc-logout {
+  margin-top: 12px;
   padding-top: 14px;
-  border-top: 1px solid #f0f0eb;
-  color: var(--color-accent-red);
+  border-top: 1px solid #f0f0e8;
+  color: #b5453b;
+}
+.acc-logout:hover { background: #fbeceb; color: #b5453b; }
+
+.acc-sidebar-leaf {
+  position: absolute;
+  bottom: -8px;
+  right: -6px;
+  color: #eef7e9;
+  pointer-events: none;
 }
 
-.account-logout:hover { background: #fbeceb; color: var(--color-accent-red); }
+/* ---------- Content shell ---------- */
+.acc-content { min-width: 0; display: flex; flex-direction: column; gap: 22px; }
 
-.account-content { min-width: 0; }
+.acc-welcome h1 {
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  margin: 2px 0 6px;
+}
+.acc-welcome-sub { color: var(--color-text-muted); font-size: 0.95rem; }
 
-.account-panel-eyebrow {
+.acc-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 26px 28px;
+  box-shadow: 0 4px 24px rgba(27, 75, 54, 0.05);
+}
+
+.acc-card-eyebrow {
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--color-primary-green);
   margin-bottom: 4px;
+  text-transform: uppercase;
 }
 
-.account-panel h2 { margin-bottom: 18px; }
+.acc-card h2 { margin-bottom: 18px; font-family: var(--font-display); }
 
-.account-panel-head {
+.acc-card-head {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 12px;
   margin-bottom: 6px;
 }
 
-.account-profile-row {
+/* ---------- Buttons ---------- */
+.acc-btn-primary, .acc-btn-outline, .acc-btn-ghost, .acc-btn-danger {
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.acc-btn-primary { background: var(--color-primary-green); color: #fff; }
+.acc-btn-primary:hover { background: #143c2a; box-shadow: 0 6px 16px rgba(27, 75, 54, 0.25); }
+.acc-btn-outline { background: #fff; color: var(--color-primary-green); border: 1.5px solid #cfe6cf; }
+.acc-btn-outline:hover { background: #f4faf1; }
+.acc-btn-ghost { background: #f3f3ee; color: var(--color-text-dark); }
+.acc-btn-ghost:hover { background: #e9e9e2; }
+.acc-btn-danger { background: #fbeceb; color: #b5453b; }
+.acc-btn-danger:hover { background: #f6dad8; }
+.acc-btn-ghost-sm, .acc-btn-danger-sm {
+  border: none;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.acc-btn-ghost-sm { background: #f3f3ee; color: var(--color-text-dark); }
+.acc-btn-ghost-sm:hover { background: #e9e9e2; }
+.acc-btn-danger-sm { background: #fbeceb; color: #b5453b; }
+.acc-btn-danger-sm:hover { background: #f6dad8; }
+
+.acc-error {
+  color: #b5453b;
+  font-size: 0.82rem;
+  background: #fbeceb;
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin: 10px 0;
+}
+
+/* ---------- Personal info card ---------- */
+.acc-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px 24px;
+}
+
+.acc-field { display: flex; flex-direction: column; gap: 6px; }
+.acc-field span { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; color: var(--color-text-muted); text-transform: uppercase; }
+.acc-field strong { font-size: 0.94rem; color: var(--color-text-dark); }
+.acc-field input, .acc-field select {
+  border: 1.5px solid #e7e7de;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 0.88rem;
+  font-family: inherit;
+  background: #fbfbf7;
+}
+.acc-field input:focus, .acc-field select:focus { outline: none; border-color: var(--color-primary-green); background: #fff; }
+.acc-field input:disabled { color: var(--color-text-muted); cursor: not-allowed; }
+
+.acc-info-actions { display: flex; gap: 10px; margin-top: 18px; }
+
+/* ---------- Quick actions ---------- */
+.acc-quick-head { margin-top: 4px; }
+.acc-quick-head h2 { font-family: var(--font-display); font-size: 1.3rem; }
+
+.acc-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.acc-quick-card {
+  background: #ffffff;
+  border: 1px solid #f0f0e8;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   display: flex;
-  justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid #f5f5f0;
-  font-size: 0.9rem;
+  flex-direction: column;
+  gap: 6px;
 }
+.acc-quick-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(27, 75, 54, 0.1); border-color: #dcefd7; }
 
-.account-empty {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--color-text-muted);
-}
-
-.account-empty-icon {
+.acc-quick-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #f4faf1;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #eef7e9;
   color: var(--color-primary-green);
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
-.account-address-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-}
+.acc-quick-card strong { font-size: 0.95rem; color: var(--color-text-dark); }
+.acc-quick-card p { font-size: 0.78rem; color: var(--color-text-muted); }
 
-.account-address-card {
-  border: 1px solid #f0f0eb;
-  border-radius: 10px;
+/* ---------- Empty / loading states ---------- */
+.acc-empty { text-align: center; padding: 44px 20px; color: var(--color-text-muted); display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.acc-empty-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: #f4faf1; color: var(--color-primary-green); margin-bottom: 10px;
+}
+.acc-empty .acc-btn-primary { margin-top: 10px; }
+
+.acc-skeleton-list { display: flex; flex-direction: column; gap: 12px; }
+.acc-skeleton-row { height: 64px; border-radius: 12px; background: linear-gradient(90deg, #f2f2ea 25%, #f8f8f3 50%, #f2f2ea 75%); background-size: 200% 100%; animation: acc-shimmer 1.4s infinite; }
+.acc-skeleton-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.acc-skeleton-grid > div { height: 220px; border-radius: 14px; background: linear-gradient(90deg, #f2f2ea 25%, #f8f8f3 50%, #f2f2ea 75%); background-size: 200% 100%; animation: acc-shimmer 1.4s infinite; }
+@keyframes acc-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* ---------- Addresses ---------- */
+.acc-address-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.acc-address-card {
+  border: 1px solid #f0f0e8;
+  border-radius: 14px;
   padding: 16px;
   font-size: 0.85rem;
   color: var(--color-text-muted);
   line-height: 1.5;
 }
-
-.account-address-card-label {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--color-primary-green);
-  background: #f4faf1;
-  border-radius: 999px;
-  padding: 3px 10px;
-  margin-bottom: 8px;
+.acc-address-card.is-default { border-color: #bfe0bd; background: #f9fdf6; }
+.acc-address-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.acc-address-card-label {
+  font-size: 0.72rem; font-weight: 700; color: var(--color-primary-green);
+  background: #f4faf1; border-radius: 999px; padding: 3px 10px;
 }
+.acc-default-badge { font-size: 0.68rem; font-weight: 700; color: #fff; background: var(--color-primary-green); border-radius: 999px; padding: 3px 9px; }
+.acc-address-phone { margin-top: 4px; }
+.acc-address-card-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
 
-.account-address-phone { margin-top: 4px; }
+/* ---------- Orders ---------- */
+.acc-orders-list { display: flex; flex-direction: column; gap: 16px; }
+.acc-order-card { border: 1px solid #f0f0e8; border-radius: 16px; padding: 18px; }
+.acc-order-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #f5f5ee; }
+.acc-order-head strong { display: block; font-size: 0.95rem; }
+.acc-order-date { display: block; font-size: 0.78rem; color: var(--color-text-muted); margin-top: 2px; }
+.acc-order-items { display: flex; flex-direction: column; gap: 12px; }
+.acc-order-item { display: flex; align-items: center; gap: 12px; }
+.acc-order-item img { width: 48px; height: 48px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+.acc-order-item div { flex: 1; }
+.acc-order-item span { font-size: 0.88rem; font-weight: 600; color: var(--color-text-dark); }
+.acc-order-item p { font-size: 0.78rem; color: var(--color-text-muted); }
+.acc-order-foot { display: flex; justify-content: space-between; font-weight: 700; margin-top: 14px; padding-top: 14px; border-top: 1px solid #f5f5ee; }
+.acc-order-meta { display: flex; flex-direction: column; gap: 4px; font-size: 0.8rem; color: var(--color-text-muted); margin: 10px 0; }
+.acc-order-toggle { background: none; border: none; color: var(--color-primary-green); font-size: 0.8rem; font-weight: 700; cursor: pointer; padding: 8px 0 0; }
 
-.account-address-card-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 12px;
+/* ---------- Product grid tabs (wishlist / recent / my plants) ---------- */
+.acc-product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 18px; }
+
+/* ---------- Rewards ---------- */
+.acc-rewards-hero { display: flex; align-items: center; gap: 18px; padding: 18px 0; }
+.acc-rewards-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 64px; height: 64px; border-radius: 18px;
+  background: #eef7e9; color: var(--color-primary-green); flex-shrink: 0;
 }
+.acc-rewards-count { font-family: var(--font-display); font-size: 2.4rem; color: var(--color-text-dark); line-height: 1; }
+.acc-rewards-label { color: var(--color-text-muted); font-size: 0.85rem; margin-top: 2px; }
+.acc-rewards-note { color: var(--color-text-muted); font-size: 0.84rem; }
 
-.account-orders-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+/* ---------- Notifications ---------- */
+.acc-notification-list { list-style: none; margin: 0; padding: 0; }
+.acc-notification-item { padding: 14px 4px; border-bottom: 1px solid #f5f5ee; cursor: pointer; border-radius: 10px; }
+.acc-notification-item:hover { background: #f9faf6; }
+.acc-notification-item.unread { background: #f4faf1; }
+.acc-notification-item strong { display: block; font-size: 0.88rem; margin-bottom: 2px; }
+.acc-notification-item p { margin: 0 0 4px; color: var(--color-text-muted); font-size: 0.82rem; }
+.acc-notification-item span { font-size: 0.72rem; color: #9aa89f; }
 
-.account-order-card {
-  border: 1px solid #f0f0eb;
-  border-radius: 12px;
-  padding: 18px;
-}
-
-.account-order-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 14px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid #f5f5f0;
-}
-
-.account-order-head strong { display: block; font-size: 0.95rem; }
-
-.account-order-date {
-  display: block;
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
-  margin-top: 2px;
-}
-
-.account-order-items {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.account-order-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.account-order-item img {
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.account-order-item div { flex: 1; }
-.account-order-item span { font-size: 0.88rem; font-weight: 600; color: var(--color-text-dark); }
-.account-order-item p { font-size: 0.78rem; color: var(--color-text-muted); }
-
-.account-order-foot {
-  display: flex;
-  justify-content: space-between;
-  font-weight: 700;
-  margin-top: 14px;
-  padding-top: 14px;
-  border-top: 1px solid #f5f5f0;
-}
-
-.account-order-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  margin: 10px 0;
-}
-
-.account-order-toggle {
-  background: none;
-  border: none;
-  color: var(--color-primary-green);
-  font-size: 0.8rem;
-  font-weight: 700;
-  cursor: pointer;
-  padding: 8px 0 0;
-}
+.acc-settings-note { color: var(--color-text-muted); font-size: 0.85rem; margin: 6px 0 18px; }
 
 /* ---------- Order timeline (Order Placed -> ... -> Delivered) ---------- */
 .order-timeline {
@@ -3084,10 +3148,45 @@ section {
 .order-timeline-cancelled strong { color: var(--color-accent-red); }
 .order-timeline-cancelled p { font-size: 0.78rem; color: var(--color-text-muted); }
 
+@media (max-width: 1080px) {
+  .acc-quick-grid { grid-template-columns: repeat(2, 1fr); }
+  .acc-info-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 860px) {
-  .account-layout { grid-template-columns: 1fr; }
-  .account-sidebar { position: static; }
-  .account-address-grid { grid-template-columns: 1fr; }
+  .acc-shell { padding: 20px 16px 48px; }
+  .acc-layout { grid-template-columns: 1fr; gap: 16px; }
+
+  /* Sidebar becomes a horizontal-scroll pill bar on mobile/tablet - all
+     items stay reachable with a swipe, nothing gets collapsed into a
+     hidden menu. */
+  .acc-sidebar {
+    position: static;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 16px;
+  }
+  .acc-sidebar-user { border-bottom: none; padding-bottom: 0; margin-bottom: 0; flex-shrink: 0; }
+  .acc-sidebar-user p { display: none; }
+  .acc-nav { flex-direction: row; flex-shrink: 0; }
+  .acc-nav-link { white-space: nowrap; padding: 9px 14px; }
+  .acc-logout { margin-top: 0; padding-top: 0; border-top: none; border-left: 1px solid #f0f0e8; padding-left: 12px; white-space: nowrap; flex-shrink: 0; }
+  .acc-sidebar-leaf { display: none; }
+
+  .acc-card { padding: 20px; border-radius: 16px; }
+  .acc-info-grid { grid-template-columns: 1fr; }
+  .acc-quick-grid { grid-template-columns: 1fr 1fr; }
+  .acc-address-grid { grid-template-columns: 1fr; }
+  .acc-product-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  .acc-welcome h1 { font-size: 1.6rem; }
+}
+
+@media (max-width: 520px) {
+  .acc-quick-grid { grid-template-columns: 1fr; }
 }
 
 /* Order status pill - same colour language as the admin panel's, kept as

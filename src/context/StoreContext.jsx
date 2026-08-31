@@ -179,6 +179,7 @@ export function StoreProvider({ children }) {
     updateCartQty,
     toggleWishlist,
     toasts,
+    pushToast,
     dismissToast,
     cartCount: cart.reduce((sum, item) => sum + item.qty, 0),
     wishlistCount: wishlist.length,

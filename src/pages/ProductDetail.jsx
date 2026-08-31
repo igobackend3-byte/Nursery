@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { useStore } from '../context/StoreContext';
 import { useCatalogue } from '../context/CatalogueContext';
+import { useAuth } from '../context/AuthContext';
+import { trackRecentlyViewed } from '../lib/recentlyViewed';
 import { getDiscountPercent } from '../utils/pricing';
 
 function ProductDetail() {
@@ -11,7 +13,14 @@ function ProductDetail() {
   const { getProductById, getProductsByCategory } = useCatalogue();
   const product = getProductById(id);
   const { addToCart, wishlist, toggleWishlist } = useStore();
+  const { user } = useAuth();
   const [qty, setQty] = useState(1);
+
+  useEffect(() => {
+    if (user && product) {
+      trackRecentlyViewed(user.uid, product.id).catch(() => {});
+    }
+  }, [user, product?.id]);
 
   // Gallery = main image + any admin-added extra photos, plus a video slide
   // at the end if one was uploaded. Falls back gracefully for products that

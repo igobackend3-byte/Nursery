@@ -1,49 +1,281 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { subscribeAddresses, addAddress, updateAddress, deleteAddress } from '../lib/addresses';
-import { subscribeMyOrders, STATUS_CLASS, ORDER_STATUSES } from '../lib/orders';
+import { useStore } from '../context/StoreContext';
+import { useCatalogue } from '../context/CatalogueContext';
+import { subscribeAddresses, addAddress, updateAddress, deleteAddress, setDefaultAddress } from '../lib/addresses';
+import { subscribeMyOrders, STATUS_CLASS } from '../lib/orders';
+import { updateUserProfile } from '../lib/profile';
+import { subscribeRecentlyViewed } from '../lib/recentlyViewed';
+import { subscribeNotifications, markNotificationRead, markAllNotificationsRead } from '../lib/notifications';
 import AddressForm from '../components/AddressForm';
 import OrderTimeline from '../components/OrderTimeline';
+import ProductCard from '../components/ProductCard';
 
-const BLANK_ADDRESS = { label: 'Home', line1: '', line2: '', city: '', state: '', pincode: '', phone: '' };
+const BLANK_ADDRESS = { label: 'Home', line1: '', line2: '', city: '', state: '', pincode: '', phone: '', isDefault: false };
 
-const TAB_ICONS = {
-  profile: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
-    </svg>
-  ),
-  addresses: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-7.5 8-13a8 8 0 1 0-16 0c0 5.5 8 13 8 13z" /><circle cx="12" cy="9" r="3" />
-    </svg>
-  ),
-  orders: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 8 12 3 3 8l9 5 9-5Z" /><path d="M3 8v8l9 5 9-5V8" /><path d="M12 13v8" />
-    </svg>
-  ),
+// ---------- small shared icon set (line-icon style, no external deps) ----------
+const ICONS = {
+  overview: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>,
+  orders: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8 12 3 3 8l9 5 9-5Z" /><path d="M3 8v8l9 5 9-5V8" /><path d="M12 13v8" /></svg>,
+  addresses: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-7.5 8-13a8 8 0 1 0-16 0c0 5.5 8 13 8 13z" /><circle cx="12" cy="9" r="3" /></svg>,
+  wishlist: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>,
+  recent: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" /></svg>,
+  plants: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22V12" /><path d="M12 12C12 7 8 5 4 5c0 5 3 7 8 7Z" /><path d="M12 12c0-5 4-7 8-7 0 5-3 7-8 7Z" /></svg>,
+  rewards: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="5" /><path d="m8.5 12.5-1.8 7.5L12 17l5.3 3-1.8-7.5" /></svg>,
+  coupons: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1a2 2 0 0 0 0 4v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1a2 2 0 0 0 0-4Z" /><path d="M9 7v10" strokeDasharray="2 2" /></svg>,
+  notifications: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>,
+  settings: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z" /></svg>,
+  logout: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><path d="m16 17 5-5-5-5" /><path d="M21 12H9" /></svg>,
+  leafDivider: <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 22V12" /><path d="M12 12C12 7 8 5 4 5c0 5 3 7 8 7Z" /><path d="M12 12c0-5 4-7 8-7 0 5-3 7-8 7Z" /></svg>,
 };
 
-function ProfileTab() {
-  const { user, profile } = useAuth();
-  const name = profile?.name ?? user.displayName ?? 'Customer';
+function formatDate(value, opts = { day: 'numeric', month: 'short', year: 'numeric' }) {
+  const date = value?.toDate?.();
+  if (!date) return '—';
+  return date.toLocaleDateString('en-IN', opts);
+}
+
+// ---------------------------------------------------------------- Overview
+function PersonalInfoCard({ user, profile, pushToast }) {
+  const [editing, setEditing] = useState(false);
+  const [form, setForm] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+
+  function startEdit() {
+    setForm({
+      firstName: profile?.firstName ?? (profile?.name ?? '').split(' ')[0] ?? '',
+      lastName: profile?.lastName ?? (profile?.name ?? '').split(' ').slice(1).join(' ') ?? '',
+      phone: profile?.phone ?? '',
+      dob: profile?.dob ?? '',
+      gender: profile?.gender ?? '',
+    });
+    setError('');
+    setEditing(true);
+  }
+
+  function validate(f) {
+    if (!f.firstName.trim()) return 'First name is required.';
+    if (f.phone && !/^[0-9+\-\s]{7,15}$/.test(f.phone)) return 'Enter a valid phone number.';
+    if (f.dob && new Date(f.dob) > new Date()) return 'Date of birth can\'t be in the future.';
+    return '';
+  }
+
+  async function handleSave(e) {
+    e.preventDefault();
+    const validationError = validate(form);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+    setSaving(true);
+    setError('');
+    try {
+      await updateUserProfile(user.uid, form);
+      pushToast({ type: 'cart', message: 'Profile updated successfully.' });
+      setEditing(false);
+    } catch (err) {
+      setError('Could not save your changes. Please try again.');
+      pushToast({ type: 'wishlist-remove', message: 'Failed to save profile changes.' });
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  const displayFirst = profile?.firstName ?? (profile?.name ?? user.displayName ?? 'Customer').split(' ')[0];
+  const displayLast = profile?.lastName ?? (profile?.name ?? '').split(' ').slice(1).join(' ');
+
   return (
-    <div className="cart-summary account-panel">
-      <p className="account-panel-eyebrow">ACCOUNT</p>
-      <h2>Profile details</h2>
-      <div className="account-profile-row"><span>Name</span><strong>{name}</strong></div>
-      <div className="account-profile-row"><span>Email</span><strong>{user.email}</strong></div>
-      <div className="account-profile-row"><span>Account type</span><strong>{profile?.role === 'admin' ? 'Admin' : 'Customer'}</strong></div>
+    <div className="acc-card acc-info-card">
+      <div className="acc-card-head">
+        <div>
+          <p className="acc-card-eyebrow">Personal Information</p>
+          <h2>Your details</h2>
+        </div>
+        {!editing && (
+          <button type="button" className="acc-btn-outline" onClick={startEdit}>Edit Profile</button>
+        )}
+      </div>
+
+      {editing ? (
+        <form onSubmit={handleSave} className="acc-info-form">
+          <div className="acc-info-grid">
+            <label className="acc-field">
+              <span>First Name</span>
+              <input value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} required />
+            </label>
+            <label className="acc-field">
+              <span>Last Name</span>
+              <input value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} />
+            </label>
+            <label className="acc-field">
+              <span>Email Address</span>
+              <input value={user.email} disabled title="Contact support to change your email" />
+            </label>
+            <label className="acc-field">
+              <span>Phone Number</span>
+              <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+91 98765 43210" />
+            </label>
+            <label className="acc-field">
+              <span>Date of Birth</span>
+              <input type="date" value={form.dob} onChange={(e) => setForm({ ...form, dob: e.target.value })} max={new Date().toISOString().slice(0, 10)} />
+            </label>
+            <label className="acc-field">
+              <span>Gender</span>
+              <select value={form.gender} onChange={(e) => setForm({ ...form, gender: e.target.value })}>
+                <option value="">Prefer not to say</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+          </div>
+          {error && <p className="acc-error">{error}</p>}
+          <div className="acc-info-actions">
+            <button type="button" className="acc-btn-ghost" onClick={() => setEditing(false)} disabled={saving}>Cancel</button>
+            <button type="submit" className="acc-btn-primary" disabled={saving}>{saving ? 'Saving…' : 'Save Changes'}</button>
+          </div>
+        </form>
+      ) : (
+        <div className="acc-info-grid acc-info-readonly">
+          <div className="acc-field"><span>First Name</span><strong>{displayFirst || '—'}</strong></div>
+          <div className="acc-field"><span>Last Name</span><strong>{displayLast || '—'}</strong></div>
+          <div className="acc-field"><span>Email Address</span><strong>{user.email}</strong></div>
+          <div className="acc-field"><span>Phone Number</span><strong>{profile?.phone || '—'}</strong></div>
+          <div className="acc-field"><span>Date of Birth</span><strong>{profile?.dob ? new Date(profile.dob).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}</strong></div>
+          <div className="acc-field"><span>Gender</span><strong>{profile?.gender ? profile.gender.charAt(0).toUpperCase() + profile.gender.slice(1) : '—'}</strong></div>
+          <div className="acc-field"><span>Member Since</span><strong>{formatDate(profile?.createdAt)}</strong></div>
+        </div>
+      )}
     </div>
   );
 }
 
+const QUICK_ACTIONS = [
+  { key: 'orders', icon: ICONS.orders, title: 'My Orders', desc: 'Track and review your past orders' },
+  { key: 'wishlist', icon: ICONS.wishlist, title: 'Wishlist', desc: 'Plants and products you\'ve saved' },
+  { key: 'addresses', icon: ICONS.addresses, title: 'My Addresses', desc: 'Manage your delivery addresses' },
+  { key: 'coupons', icon: ICONS.coupons, title: 'Coupons', desc: 'View active offers and discounts' },
+];
+
+function OverviewTab({ user, profile, pushToast, goToTab, firstName }) {
+  return (
+    <>
+      <div className="acc-welcome">
+        <div>
+          <p className="acc-card-eyebrow">Welcome back!</p>
+          <h1>Hi, {firstName} 🌿</h1>
+          <p className="acc-welcome-sub">Manage your account, orders and gardening preferences.</p>
+        </div>
+      </div>
+
+      <PersonalInfoCard user={user} profile={profile} pushToast={pushToast} />
+
+      <div className="acc-quick-head">
+        <h2>Quick Actions</h2>
+      </div>
+      <div className="acc-quick-grid">
+        {QUICK_ACTIONS.map((qa) => (
+          <button key={qa.key} type="button" className="acc-quick-card" onClick={() => goToTab(qa.key)}>
+            <span className="acc-quick-icon">{qa.icon}</span>
+            <strong>{qa.title}</strong>
+            <p>{qa.desc}</p>
+          </button>
+        ))}
+      </div>
+    </>
+  );
+}
+
+// ---------------------------------------------------------------- Orders
+function OrdersTab() {
+  const { user } = useAuth();
+  const [orders, setOrders] = useState(null);
+  const [expandedId, setExpandedId] = useState(null);
+
+  useEffect(() => subscribeMyOrders(user.uid, setOrders), [user.uid]);
+
+  if (orders === null) {
+    return (
+      <div className="acc-card">
+        <div className="acc-skeleton-list">
+          <div className="acc-skeleton-row" /><div className="acc-skeleton-row" /><div className="acc-skeleton-row" />
+        </div>
+      </div>
+    );
+  }
+
+  if (orders.length === 0) {
+    return (
+      <div className="acc-card">
+        <p className="acc-card-eyebrow">Purchases</p>
+        <h2>Order history</h2>
+        <div className="acc-empty">
+          <span className="acc-empty-icon">{ICONS.orders}</span>
+          <p>No orders yet - once you place one, it'll show up here.</p>
+          <Link to="/category/indoor-plants" className="acc-btn-primary">Start shopping</Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="acc-card">
+      <p className="acc-card-eyebrow">Purchases</p>
+      <h2>Order history</h2>
+      <div className="acc-orders-list">
+        {orders.map((order) => (
+          <div className="acc-order-card" key={order.id}>
+            <div className="acc-order-head">
+              <div>
+                <strong>Order #{order.id.slice(0, 8).toUpperCase()}</strong>
+                <span className="acc-order-date">Placed {formatDate(order.createdAt)}</span>
+              </div>
+              <span className={`admin-status-pill ${STATUS_CLASS[order.status] ?? ''}`}>{order.status}</span>
+            </div>
+            <div className="acc-order-items">
+              {order.items.map((it) => (
+                <div className="acc-order-item" key={it.productId}>
+                  <img src={it.image} alt="" />
+                  <div>
+                    <span>{it.name}</span>
+                    <p>Qty {it.qty} × ₹{it.price}</p>
+                  </div>
+                  <strong>₹{it.subtotal}</strong>
+                </div>
+              ))}
+            </div>
+            <div className="acc-order-meta">
+              <span>Payment: {order.paymentMethod ?? '—'} · {order.paymentStatus ?? '—'}</span>
+              {order.status !== 'Cancelled' && order.status !== 'Delivered' && (
+                <span>Expected delivery: {formatDate(order.expectedDeliveryDate)}</span>
+              )}
+            </div>
+            <div className="acc-order-foot">
+              <span>Total</span>
+              <strong>₹{order.total}</strong>
+            </div>
+            <button
+              type="button"
+              className="acc-order-toggle"
+              onClick={() => setExpandedId((id) => (id === order.id ? null : order.id))}
+            >
+              {expandedId === order.id ? 'Hide tracking ▲' : 'Track order ▼'}
+            </button>
+            {expandedId === order.id && <OrderTimeline order={order} />}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------- Addresses
 function AddressesTab() {
   const { user } = useAuth();
   const [addresses, setAddresses] = useState(null);
-  const [editing, setEditing] = useState(null); // null | 'new' | address object
+  const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(BLANK_ADDRESS);
   const [saveError, setSaveError] = useState('');
 
@@ -77,45 +309,53 @@ function AddressesTab() {
   }
 
   return (
-    <div className="cart-summary account-panel">
-      <div className="account-panel-head">
+    <div className="acc-card">
+      <div className="acc-card-head">
         <div>
-          <p className="account-panel-eyebrow">DELIVERY</p>
+          <p className="acc-card-eyebrow">Delivery</p>
           <h2>Saved addresses</h2>
         </div>
         {!editing && (
-          <button type="button" className="checkout-add-address-btn" onClick={() => startEdit(null)}>+ Add address</button>
+          <button type="button" className="acc-btn-outline" onClick={() => startEdit(null)}>+ Add address</button>
         )}
       </div>
 
-      {addresses === null && <p>Loading…</p>}
+      {addresses === null && (
+        <div className="acc-skeleton-list"><div className="acc-skeleton-row" /><div className="acc-skeleton-row" /></div>
+      )}
 
       {editing ? (
         <form onSubmit={handleSave} className="checkout-address-form">
           <AddressForm value={form} onChange={setForm} />
-          {saveError && <p className="auth-error">{saveError}</p>}
-          <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
-            <button type="button" className="checkout-add-address-btn" onClick={() => setEditing(null)}>Cancel</button>
-            <button type="submit" className="btn-build-garden">Save address</button>
+          {saveError && <p className="acc-error">{saveError}</p>}
+          <div className="acc-info-actions">
+            <button type="button" className="acc-btn-ghost" onClick={() => setEditing(null)}>Cancel</button>
+            <button type="submit" className="acc-btn-primary">Save address</button>
           </div>
         </form>
       ) : (
         addresses?.length === 0 ? (
-          <div className="account-empty">
-            <div className="account-empty-icon">{TAB_ICONS.addresses}</div>
+          <div className="acc-empty">
+            <span className="acc-empty-icon">{ICONS.addresses}</span>
             <p>No saved addresses yet. Add one to check out faster next time.</p>
           </div>
         ) : (
-          <div className="account-address-grid">
+          <div className="acc-address-grid">
             {addresses?.map((addr) => (
-              <div className="account-address-card" key={addr.id}>
-                <div className="account-address-card-label">{addr.label}</div>
+              <div className={`acc-address-card${addr.isDefault ? ' is-default' : ''}`} key={addr.id}>
+                <div className="acc-address-card-top">
+                  <span className="acc-address-card-label">{addr.label}</span>
+                  {addr.isDefault && <span className="acc-default-badge">Default</span>}
+                </div>
                 <p>{addr.line1}{addr.line2 ? `, ${addr.line2}` : ''}</p>
                 <p>{addr.city}, {addr.state} {addr.pincode}</p>
-                <p className="account-address-phone">📞 {addr.phone}</p>
-                <div className="account-address-card-actions">
-                  <button type="button" className="checkout-add-address-btn" onClick={() => startEdit(addr)}>Edit</button>
-                  <button type="button" className="cart-remove" onClick={() => handleDelete(addr.id)}>Remove</button>
+                <p className="acc-address-phone">📞 {addr.phone}</p>
+                <div className="acc-address-card-actions">
+                  {!addr.isDefault && (
+                    <button type="button" className="acc-btn-ghost-sm" onClick={() => setDefaultAddress(user.uid, addr.id)}>Set default</button>
+                  )}
+                  <button type="button" className="acc-btn-ghost-sm" onClick={() => startEdit(addr)}>Edit</button>
+                  <button type="button" className="acc-btn-danger-sm" onClick={() => handleDelete(addr.id)}>Remove</button>
                 </div>
               </div>
             ))}
@@ -126,142 +366,274 @@ function AddressesTab() {
   );
 }
 
-function OrdersTab() {
-  const { user } = useAuth();
-  const [orders, setOrders] = useState(null);
-  const [expandedId, setExpandedId] = useState(null);
-
-  useEffect(() => subscribeMyOrders(user.uid, setOrders), [user.uid]);
-
-  if (orders === null) return <div className="cart-summary account-panel"><p>Loading orders…</p></div>;
-
-  if (orders.length === 0) {
-    return (
-      <div className="cart-summary account-panel">
-        <p className="account-panel-eyebrow">PURCHASES</p>
-        <h2>Order history</h2>
-        <div className="account-empty">
-          <div className="account-empty-icon">{TAB_ICONS.orders}</div>
-          <p>No orders yet - once you place one, it'll show up here.</p>
-        </div>
-      </div>
-    );
-  }
+// ---------------------------------------------------------------- Wishlist / Recently Viewed / My Plants
+function ProductGridTab({ title, eyebrow, productIds, icon, emptyText, emptyCta }) {
+  const { getProductById } = useCatalogue();
+  const products = productIds === null ? null : productIds.map(getProductById).filter(Boolean);
 
   return (
-    <div className="cart-summary account-panel">
-      <p className="account-panel-eyebrow">PURCHASES</p>
-      <h2>Order history</h2>
-      <div className="account-orders-list">
-        {orders.map((order) => (
-          <div className="account-order-card" key={order.id}>
-            <div className="account-order-head">
-              <div>
-                <strong>Order #{order.id.slice(0, 8).toUpperCase()}</strong>
-                <span className="account-order-date">Placed {order.createdAt?.toDate?.().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) ?? '—'}</span>
-              </div>
-              <span className={`admin-status-pill ${STATUS_CLASS[order.status] ?? ''}`}>{order.status}</span>
-            </div>
-            <div className="account-order-items">
-              {order.items.map((it) => (
-                <div className="account-order-item" key={it.productId}>
-                  <img src={it.image} alt="" />
-                  <div>
-                    <span>{it.name}</span>
-                    <p>Qty {it.qty} × ₹{it.price}</p>
-                  </div>
-                  <strong>₹{it.subtotal}</strong>
-                </div>
-              ))}
-            </div>
-            <div className="account-order-meta">
-              <span>Payment: {order.paymentMethod ?? '—'} · {order.paymentStatus ?? '—'}</span>
-              {order.status !== 'Cancelled' && order.status !== 'Delivered' && (
-                <span>
-                  Expected delivery: {order.expectedDeliveryDate?.toDate?.().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) ?? '—'}
-                </span>
-              )}
-              {order.discount > 0 && <span>Discount applied: -₹{order.discount}</span>}
-            </div>
-            <div className="account-order-foot">
-              <span>Total</span>
-              <strong>₹{order.total}</strong>
-            </div>
-            <button
-              type="button"
-              className="account-order-toggle"
-              onClick={() => setExpandedId((id) => (id === order.id ? null : order.id))}
-            >
-              {expandedId === order.id ? 'Hide tracking ▲' : 'Track order ▼'}
-            </button>
-            {expandedId === order.id && <OrderTimeline order={order} />}
-          </div>
-        ))}
+    <div className="acc-card">
+      <p className="acc-card-eyebrow">{eyebrow}</p>
+      <h2>{title}</h2>
+      {products === null ? (
+        <div className="acc-skeleton-grid"><div /><div /><div /></div>
+      ) : products.length === 0 ? (
+        <div className="acc-empty">
+          <span className="acc-empty-icon">{icon}</span>
+          <p>{emptyText}</p>
+          {emptyCta}
+        </div>
+      ) : (
+        <div className="acc-product-grid">
+          {products.map((p) => <ProductCard key={p.id} product={p} />)}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function WishlistTab() {
+  const { wishlist } = useStore();
+  return (
+    <ProductGridTab
+      title="Your wishlist"
+      eyebrow="Saved for later"
+      productIds={wishlist}
+      icon={ICONS.wishlist}
+      emptyText="Nothing saved yet - tap the heart on any product to add it here."
+      emptyCta={<Link to="/category/indoor-plants" className="acc-btn-primary">Browse plants</Link>}
+    />
+  );
+}
+
+function RecentlyViewedTab() {
+  const { user } = useAuth();
+  const [ids, setIds] = useState(null);
+  useEffect(() => subscribeRecentlyViewed(user.uid, setIds), [user.uid]);
+  return (
+    <ProductGridTab
+      title="Recently viewed"
+      eyebrow="Your browsing"
+      productIds={ids}
+      icon={ICONS.recent}
+      emptyText="Products you view will show up here."
+    />
+  );
+}
+
+function MyPlantsTab() {
+  const { user } = useAuth();
+  const [orders, setOrders] = useState(null);
+  useEffect(() => subscribeMyOrders(user.uid, setOrders), [user.uid]);
+
+  // "My Plants" = every distinct product from delivered orders - a simple,
+  // honest reading of "plants you've bought", not a fabricated separate
+  // dataset.
+  const productIds = useMemo(() => {
+    if (orders === null) return null;
+    const delivered = orders.filter((o) => o.status === 'Delivered');
+    const ids = new Set();
+    delivered.forEach((o) => o.items?.forEach((it) => ids.add(it.productId)));
+    return Array.from(ids);
+  }, [orders]);
+
+  return (
+    <ProductGridTab
+      title="My Plants"
+      eyebrow="Delivered to you"
+      productIds={productIds}
+      icon={ICONS.plants}
+      emptyText="Plants from your delivered orders will appear here."
+    />
+  );
+}
+
+// ---------------------------------------------------------------- Rewards
+function RewardsTab({ profile }) {
+  const points = profile?.loyaltyPoints ?? 0;
+  return (
+    <div className="acc-card acc-rewards-card">
+      <p className="acc-card-eyebrow">Loyalty</p>
+      <h2>Rewards points</h2>
+      <div className="acc-rewards-hero">
+        <span className="acc-rewards-icon">{ICONS.rewards}</span>
+        <div>
+          <p className="acc-rewards-count">{points}</p>
+          <p className="acc-rewards-label">points earned</p>
+        </div>
+      </div>
+      <p className="acc-rewards-note">You earn 1 point for every ₹100 spent on a delivered order.</p>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------- Coupons
+function CouponsTab() {
+  return (
+    <div className="acc-card">
+      <p className="acc-card-eyebrow">Savings</p>
+      <h2>Coupons &amp; offers</h2>
+      <div className="acc-empty">
+        <span className="acc-empty-icon">{ICONS.coupons}</span>
+        <p>See every current site-wide offer on our Offers page.</p>
+        <Link to="/offers" className="acc-btn-primary">View offers</Link>
       </div>
     </div>
   );
 }
 
+// ---------------------------------------------------------------- Notifications
+function NotificationsTab() {
+  const { user } = useAuth();
+  const [notifications, setNotifications] = useState(null);
+  useEffect(() => subscribeNotifications(user.uid, setNotifications), [user.uid]);
+
+  const unreadCount = notifications?.filter((n) => !n.read).length ?? 0;
+
+  return (
+    <div className="acc-card">
+      <div className="acc-card-head">
+        <div>
+          <p className="acc-card-eyebrow">Inbox</p>
+          <h2>Notifications</h2>
+        </div>
+        {unreadCount > 0 && (
+          <button type="button" className="acc-btn-outline" onClick={() => markAllNotificationsRead(user.uid, notifications)}>
+            Mark all as read
+          </button>
+        )}
+      </div>
+      {notifications === null ? (
+        <div className="acc-skeleton-list"><div className="acc-skeleton-row" /><div className="acc-skeleton-row" /></div>
+      ) : notifications.length === 0 ? (
+        <div className="acc-empty">
+          <span className="acc-empty-icon">{ICONS.notifications}</span>
+          <p>No notifications yet - order updates will show up here.</p>
+        </div>
+      ) : (
+        <ul className="acc-notification-list">
+          {notifications.map((n) => (
+            <li
+              key={n.id}
+              className={`acc-notification-item${n.read ? '' : ' unread'}`}
+              onClick={() => !n.read && markNotificationRead(user.uid, n.id)}
+            >
+              <strong>{n.title}</strong>
+              <p>{n.message}</p>
+              <span>{n.createdAt?.toDate?.().toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) ?? ''}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------- Settings
+function SettingsTab({ user, profile, handleLogout }) {
+  return (
+    <div className="acc-card">
+      <p className="acc-card-eyebrow">Account</p>
+      <h2>Account settings</h2>
+      <div className="acc-info-grid acc-info-readonly">
+        <div className="acc-field"><span>Email</span><strong>{user.email}</strong></div>
+        <div className="acc-field"><span>Account type</span><strong>{profile?.role === 'admin' ? 'Admin' : 'Customer'}</strong></div>
+        <div className="acc-field"><span>Member since</span><strong>{formatDate(profile?.createdAt)}</strong></div>
+      </div>
+      <p className="acc-settings-note">To change your email or password, please contact customer support.</p>
+      <button type="button" className="acc-btn-danger" onClick={handleLogout}>{ICONS.logout} Log out</button>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------- Shell
+const SIDEBAR_ITEMS = [
+  { key: 'overview', label: 'Account Overview', icon: ICONS.overview },
+  { key: 'orders', label: 'My Orders', icon: ICONS.orders },
+  { key: 'addresses', label: 'My Addresses', icon: ICONS.addresses },
+  { key: 'wishlist', label: 'Wishlist', icon: ICONS.wishlist },
+  { key: 'recent', label: 'Recently Viewed', icon: ICONS.recent },
+  { key: 'plants', label: 'My Plants', icon: ICONS.plants },
+  { key: 'rewards', label: 'Rewards', icon: ICONS.rewards },
+  { key: 'coupons', label: 'Coupons', icon: ICONS.coupons },
+  { key: 'notifications', label: 'Notifications', icon: ICONS.notifications },
+  { key: 'settings', label: 'Account Settings', icon: ICONS.settings },
+];
+
 function Account() {
   const navigate = useNavigate();
-  const { user, profile, logout } = useAuth();
+  const { user, profile, logout, authLoading } = useAuth();
+  const { pushToast } = useStore();
   const [searchParams, setSearchParams] = useSearchParams();
-  const tab = searchParams.get('tab') ?? 'profile';
-  const name = profile?.name ?? user.displayName ?? 'Customer';
-  const initial = name.trim().charAt(0).toUpperCase() || 'C';
+  const tab = searchParams.get('tab') ?? 'overview';
 
   async function handleLogout() {
     await logout();
     navigate('/');
   }
 
-  const TABS = [
-    { key: 'profile', label: 'Profile' },
-    { key: 'addresses', label: 'Addresses' },
-    { key: 'orders', label: 'Orders' },
-  ];
+  function goToTab(key) {
+    setSearchParams({ tab: key });
+  }
+
+  if (authLoading || !user) {
+    return (
+      <div className="acc-shell">
+        <div className="acc-skeleton-list" style={{ maxWidth: 640, margin: '60px auto' }}>
+          <div className="acc-skeleton-row" /><div className="acc-skeleton-row" /><div className="acc-skeleton-row" />
+        </div>
+      </div>
+    );
+  }
+
+  const name = profile?.name ?? user.displayName ?? 'Customer';
+  const firstName = name.split(' ')[0];
+  const initial = firstName.charAt(0).toUpperCase() || 'C';
 
   return (
-    <div className="cart-page account-page">
-      <p className="eyebrow">MY ACCOUNT</p>
-      <h1>Hi, {name.split(' ')[0]}</h1>
-
-      <div className="account-layout">
-        <aside className="account-sidebar">
-          <div className="account-sidebar-user">
-            <span className="account-avatar">{initial}</span>
+    <div className="acc-shell">
+      <div className="acc-layout">
+        <aside className="acc-sidebar">
+          <div className="acc-sidebar-user">
+            <span className="acc-avatar">{initial}</span>
             <div>
               <strong>{name}</strong>
               <p>{user.email}</p>
             </div>
           </div>
 
-          <nav className="account-nav">
-            {TABS.map((t) => (
+          <nav className="acc-nav">
+            {SIDEBAR_ITEMS.map((item) => (
               <button
-                key={t.key}
+                key={item.key}
                 type="button"
-                className={`account-nav-link${tab === t.key ? ' active' : ''}`}
-                onClick={() => setSearchParams({ tab: t.key })}
+                className={`acc-nav-link${tab === item.key ? ' active' : ''}`}
+                onClick={() => goToTab(item.key)}
               >
-                {TAB_ICONS[t.key]}
-                {t.label}
+                {item.icon}
+                {item.label}
               </button>
             ))}
           </nav>
 
-          <button type="button" className="account-nav-link account-logout" onClick={handleLogout}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><path d="m16 17 5-5-5-5" /><path d="M21 12H9" />
-            </svg>
-            Log out
+          <button type="button" className="acc-nav-link acc-logout" onClick={handleLogout}>
+            {ICONS.logout} Log out
           </button>
+
+          <span className="acc-sidebar-leaf" aria-hidden="true">{ICONS.leafDivider}</span>
         </aside>
 
-        <div className="account-content">
-          {tab === 'profile' && <ProfileTab />}
-          {tab === 'addresses' && <AddressesTab />}
+        <div className="acc-content">
+          {tab === 'overview' && <OverviewTab user={user} profile={profile} pushToast={pushToast} goToTab={goToTab} firstName={firstName} />}
           {tab === 'orders' && <OrdersTab />}
+          {tab === 'addresses' && <AddressesTab />}
+          {tab === 'wishlist' && <WishlistTab />}
+          {tab === 'recent' && <RecentlyViewedTab />}
+          {tab === 'plants' && <MyPlantsTab />}
+          {tab === 'rewards' && <RewardsTab profile={profile} />}
+          {tab === 'coupons' && <CouponsTab />}
+          {tab === 'notifications' && <NotificationsTab />}
+          {tab === 'settings' && <SettingsTab user={user} profile={profile} handleLogout={handleLogout} />}
         </div>
       </div>
     </div>

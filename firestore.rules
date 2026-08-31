@@ -26,11 +26,15 @@ service cloud.firestore {
     // A user can read/create/update only their own profile document, and
     // can never set their own `role` to anything other than 'customer'
     // (admin promotion happens by an admin editing Firestore directly, or a
-    // future admin-only Cloud Function - never from the client).
+    // future admin-only Cloud Function - never from the client). An admin
+    // may also update a *customer's* doc - needed for the loyalty-points
+    // award on delivery (lib/orders.js) - but is held to the exact same
+    // `role` restriction, so this still can't be used to self-promote or
+    // demote anyone.
     match /users/{uid} {
       allow read: if isOwner(uid) || isAdmin();
       allow create: if isOwner(uid) && request.resource.data.role == 'customer';
-      allow update: if isOwner(uid) && request.resource.data.role == resource.data.role;
+      allow update: if request.resource.data.role == resource.data.role && (isOwner(uid) || isAdmin());
       allow delete: if false;
 
       // ---- users/{uid}/addresses/{addressId} ----
@@ -58,6 +62,11 @@ service cloud.firestore {
         allow read, update: if isOwner(uid);
         allow create: if isOwner(uid) || isAdmin();
         allow delete: if false;
+      }
+
+      // ---- users/{uid}/recentlyViewed/{productId} ----
+      match /recentlyViewed/{productId} {
+        allow read, write: if isOwner(uid);
       }
     }
 

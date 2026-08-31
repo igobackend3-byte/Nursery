@@ -4,12 +4,17 @@
 // creation time (name/price/image) so an order's history stays accurate
 // even if a product's price or listing changes later.
 import {
-  addDoc, arrayUnion, collection, doc, getDoc, getDocs, onSnapshot, orderBy, query,
+  addDoc, arrayUnion, collection, doc, getDoc, getDocs, increment, onSnapshot, orderBy, query,
   serverTimestamp, Timestamp, updateDoc, where, writeBatch,
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { notifyOrderEmail } from './emailNotify';
 import { addOrderNotification } from './notifications';
+
+// Loyalty points: 1 point per Rs.100 of a delivered order's total, awarded
+// once the order actually reaches Delivered (not on placement - a
+// cancelled or never-delivered order earns nothing).
+const LOYALTY_POINTS_PER_RUPEE_SPENT = 1 / 100;
 
 // The 8-stage lifecycle every order moves through, in order.
 export const ORDER_STATUSES = [
@@ -178,5 +183,17 @@ export async function updateOrderStatus(orderId, status) {
         ? `Your order #${order.id.slice(0, 8).toUpperCase()} has been cancelled.`
         : `Your order #${order.id.slice(0, 8).toUpperCase()} is now: ${status}.`,
     }).catch((err) => console.warn('[notifications] status_update write failed:', err));
+
+    if (status === 'Delivered' && order.userId && !order.loyaltyPointsAwarded) {
+      const points = Math.floor((order.total ?? 0) * LOYALTY_POINTS_PER_RUPEE_SPENT);
+      if (points > 0) {
+        updateDoc(doc(db, 'users', order.userId), { loyaltyPoints: increment(points) })
+          .catch((err) => console.warn('[loyalty] points award failed:', err));
+      }
+      // Marked on the order itself so re-delivering/re-saving the same
+      // status (or a future status change back to Delivered) never
+      // double-awards points for one order.
+      updateDoc(orderRef, { loyaltyPointsAwarded: true }).catch(() => {});
+    }
   }
 }
