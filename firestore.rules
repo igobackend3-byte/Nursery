@@ -47,6 +47,18 @@ service cloud.firestore {
       match /wishlist/{productId} {
         allow read, write: if isOwner(uid);
       }
+
+      // ---- users/{uid}/notifications/{notificationId} - in-site order inbox ----
+      // The owning customer can read/mark-read their own notifications, and
+      // can write their own (order placed, from their own checkout). An
+      // admin can also create one here (order status change, written to the
+      // *customer's* subcollection from the admin panel), but can't read or
+      // edit a customer's inbox.
+      match /notifications/{notificationId} {
+        allow read, update: if isOwner(uid);
+        allow create: if isOwner(uid) || isAdmin();
+        allow delete: if false;
+      }
     }
 
     // ---- products/{productId} - public catalogue, admin-managed ----

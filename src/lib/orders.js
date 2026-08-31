@@ -9,6 +9,7 @@ import {
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { notifyOrderEmail } from './emailNotify';
+import { addOrderNotification } from './notifications';
 
 // The 8-stage lifecycle every order moves through, in order.
 export const ORDER_STATUSES = [
@@ -107,6 +108,16 @@ export async function placeOrder(authUser, { cart, address, paymentMethod, getPr
     expectedDeliveryDate: expectedDelivery, createdAt: now,
   });
 
+  // Same moment, write the in-website inbox entry - shows up under the
+  // bell icon for this signed-in customer, independent of whether the
+  // email actually lands (spam filter, typo, etc).
+  addOrderNotification(uid, {
+    type: 'order_placed',
+    orderId: orderRef.id,
+    title: 'Order placed',
+    message: `Your order #${orderRef.id.slice(0, 8).toUpperCase()} has been placed - total ₹${total}.`,
+  }).catch((err) => console.warn('[notifications] order_placed write failed:', err));
+
   // Clear the cart now that the order has been placed.
   const cartSnap = await getDocs(collection(db, 'users', uid, 'cart'));
   const batch = writeBatch(db);
@@ -157,6 +168,15 @@ export async function updateOrderStatus(orderId, status) {
   // surface as a failed status update in the admin UI.
   const snap = await getDoc(orderRef);
   if (snap.exists()) {
-    notifyOrderEmail('status_update', { id: snap.id, ...snap.data() });
+    const order = { id: snap.id, ...snap.data() };
+    notifyOrderEmail('status_update', order);
+    addOrderNotification(order.userId, {
+      type: 'status_update',
+      orderId: order.id,
+      title: `Order ${status}`,
+      message: status === 'Cancelled'
+        ? `Your order #${order.id.slice(0, 8).toUpperCase()} has been cancelled.`
+        : `Your order #${order.id.slice(0, 8).toUpperCase()} is now: ${status}.`,
+    }).catch((err) => console.warn('[notifications] status_update write failed:', err));
   }
 }
