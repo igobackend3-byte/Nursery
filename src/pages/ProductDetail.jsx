@@ -7,16 +7,20 @@ import { useAuth } from '../context/AuthContext';
 import { trackRecentlyViewed } from '../lib/recentlyViewed';
 import { getDiscountPercent } from '../utils/pricing';
 import { useLanguage } from '../context/LanguageContext';
+import { getLocalizedProductName, getLocalizedCategoryLabel } from '../utils/localizedContent';
 
 function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getProductById, getProductsByCategory } = useCatalogue();
+  const { getProductById, getProductsByCategory, categories } = useCatalogue();
   const product = getProductById(id);
   const { addToCart, wishlist, toggleWishlist } = useStore();
   const { user } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [qty, setQty] = useState(1);
+  const localizedName = getLocalizedProductName(product, language);
+  const categoryDoc = categories.find((c) => c.slug === product?.category);
+  const localizedCategoryLabel = getLocalizedCategoryLabel(categoryDoc, language) || product?.categoryLabel;
 
   useEffect(() => {
     if (user && product) {
@@ -52,7 +56,7 @@ function ProductDetail() {
   return (
     <div className="product-detail-page">
       <p className="breadcrumb">
-        <Link to="/">{t('product.home')}</Link> / <Link to={`/category/${product.category}`}>{product.categoryLabel}</Link> / {product.name}
+        <Link to="/">{t('product.home')}</Link> / <Link to={`/category/${product.category}`}>{localizedCategoryLabel}</Link> / {localizedName}
       </p>
 
       <div className="product-detail-layout">
@@ -80,13 +84,13 @@ function ProductDetail() {
             {active?.type === 'video' ? (
               <video src={active.src} controls autoPlay muted loop />
             ) : (
-              <img src={active?.src ?? product.image} alt={product.name} />
+              <img src={active?.src ?? product.image} alt={localizedName} />
             )}
           </div>
         </div>
         <div className="product-detail-info">
-          <p className="eyebrow">{product.categoryLabel}</p>
-          <h1>{product.name}</h1>
+          <p className="eyebrow">{localizedCategoryLabel}</p>
+          <h1>{localizedName}</h1>
           <p className="product-detail-rating">{product.rating}/5</p>
           <div className="product-card-price large">
             <span className="price-now">₹{product.price}</span>
@@ -117,7 +121,7 @@ function ProductDetail() {
           </div>
 
           <p className="product-detail-desc">
-            {t('product.descTemplate').replace('{name}', product.name)}
+            {product.translations?.[language]?.description || t('product.descTemplate').replace('{name}', localizedName)}
           </p>
         </div>
       </div>

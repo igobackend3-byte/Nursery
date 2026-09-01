@@ -2,8 +2,37 @@ import { useMemo, useState } from 'react';
 import { useAdminData } from '../AdminDataContext';
 import { EditIcon } from '../adminIcons';
 import ImageField from '../ImageField';
+import { LANGUAGES } from '../../i18n/translations';
 
-const BLANK_CATEGORY = { label: '', tagline: '', image: '' };
+const BLANK_CATEGORY = { label: '', tagline: '', image: '', translations: {} };
+const TRANSLATABLE_LANGUAGES = LANGUAGES.filter((l) => l.code !== 'en');
+
+function CategoryTranslationsFields({ translations, onChange }) {
+  const [open, setOpen] = useState(false);
+
+  function setLang(code, field, value) {
+    onChange({ ...translations, [code]: { ...translations[code], [field]: value } });
+  }
+
+  return (
+    <div className="admin-field span-2">
+      <button type="button" className="admin-btn admin-btn-ghost admin-btn-sm" onClick={() => setOpen((v) => !v)}>
+        {open ? '▾' : '▸'} Translations (optional - English is the fallback when left blank)
+      </button>
+      {open && (
+        <div className="admin-translations-grid">
+          {TRANSLATABLE_LANGUAGES.map((lang) => (
+            <div className="admin-translation-row" key={lang.code}>
+              <span className="admin-translation-lang">{lang.label}</span>
+              <input placeholder="Label" value={translations[lang.code]?.label ?? ''} onChange={(e) => setLang(lang.code, 'label', e.target.value)} />
+              <input placeholder="Tagline" value={translations[lang.code]?.tagline ?? ''} onChange={(e) => setLang(lang.code, 'tagline', e.target.value)} />
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function CategoryAddModal({ onClose, onSave }) {
   const [form, setForm] = useState(BLANK_CATEGORY);
@@ -36,6 +65,7 @@ function CategoryAddModal({ onClose, onSave }) {
             <input id="cf-new-tagline" value={form.tagline} onChange={(e) => setForm({ ...form, tagline: e.target.value })} />
           </div>
           <ImageField id="cf-new-image" label="Image / banner" value={form.image} onChange={(v) => setForm({ ...form, image: v })} spanTwo />
+          <CategoryTranslationsFields translations={form.translations ?? {}} onChange={(v) => setForm({ ...form, translations: v })} />
         </div>
         {error && <p className="auth-error">{error}</p>}
         <div className="admin-modal-actions">
@@ -48,7 +78,7 @@ function CategoryAddModal({ onClose, onSave }) {
 }
 
 function CategoryEditModal({ category, onClose, onSave }) {
-  const [form, setForm] = useState({ label: category.label, tagline: category.tagline, image: category.image });
+  const [form, setForm] = useState({ label: category.label, tagline: category.tagline, image: category.image, translations: category.translations ?? {} });
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -72,6 +102,7 @@ function CategoryEditModal({ category, onClose, onSave }) {
             <input id="cf-tagline" value={form.tagline} onChange={(e) => setForm({ ...form, tagline: e.target.value })} />
           </div>
           <ImageField id="cf-image" label="Image / banner" value={form.image} onChange={(v) => setForm({ ...form, image: v })} spanTwo />
+          <CategoryTranslationsFields translations={form.translations ?? {}} onChange={(v) => setForm({ ...form, translations: v })} />
         </div>
         <div className="admin-modal-actions">
           <button type="button" className="admin-btn admin-btn-ghost" onClick={onClose}>Cancel</button>

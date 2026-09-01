@@ -3,10 +3,55 @@ import { useLocation } from 'react-router-dom';
 import { useAdminData } from '../AdminDataContext';
 import { EditIcon, TrashIcon, PlusIcon } from '../adminIcons';
 import ImageField, { MultiImageField, VideoField } from '../ImageField';
+import { LANGUAGES } from '../../i18n/translations';
 
 const BLANK_PRODUCT = {
   name: '', category: '', price: '', originalPrice: '', availability: 'In Stock', image: '', images: [], video: '',
 };
+
+// Languages the admin can enter real translated content for - every
+// language except English, which is always the base `name`/`description`
+// field above. See src/utils/localizedContent.js for how the storefront
+// reads these (falls back to English whenever a language is left blank).
+const TRANSLATABLE_LANGUAGES = LANGUAGES.filter((l) => l.code !== 'en');
+
+function TranslationsFields({ translations, onChange }) {
+  const [open, setOpen] = useState(false);
+
+  function setLang(code, field, value) {
+    onChange({
+      ...translations,
+      [code]: { ...translations[code], [field]: value },
+    });
+  }
+
+  return (
+    <div className="admin-field span-2">
+      <button type="button" className="admin-btn admin-btn-ghost admin-btn-sm" onClick={() => setOpen((v) => !v)}>
+        {open ? '▾' : '▸'} Translations (optional - shown to customers who select that language; English is the fallback when left blank)
+      </button>
+      {open && (
+        <div className="admin-translations-grid">
+          {TRANSLATABLE_LANGUAGES.map((lang) => (
+            <div className="admin-translation-row" key={lang.code}>
+              <span className="admin-translation-lang">{lang.label}</span>
+              <input
+                placeholder="Name"
+                value={translations[lang.code]?.name ?? ''}
+                onChange={(e) => setLang(lang.code, 'name', e.target.value)}
+              />
+              <input
+                placeholder="Description"
+                value={translations[lang.code]?.description ?? ''}
+                onChange={(e) => setLang(lang.code, 'description', e.target.value)}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // Shared by both "Add product" (product === null) and "Edit product". The
 // category is a real dropdown tied to categories.slug, not free text - so a
@@ -23,6 +68,7 @@ function ProductFormModal({ product, categories, onClose, onSave }) {
     image: product?.image ?? BLANK_PRODUCT.image,
     images: product?.images ?? BLANK_PRODUCT.images,
     video: product?.video ?? BLANK_PRODUCT.video,
+    translations: product?.translations ?? {},
   });
 
   function set(field, value) {
@@ -76,6 +122,7 @@ function ProductFormModal({ product, categories, onClose, onSave }) {
           <ImageField id="pf-image" label="Main product image" value={form.image} onChange={(v) => set('image', v)} spanTwo />
           <MultiImageField id="pf-gallery" label="Extra gallery photos" values={form.images} onChange={(v) => set('images', v)} />
           <VideoField id="pf-video" label="Product video (optional)" value={form.video} onChange={(v) => set('video', v)} />
+          <TranslationsFields translations={form.translations} onChange={(v) => set('translations', v)} />
         </div>
         <div className="admin-modal-actions">
           <button type="button" className="admin-btn admin-btn-ghost" onClick={onClose}>Cancel</button>

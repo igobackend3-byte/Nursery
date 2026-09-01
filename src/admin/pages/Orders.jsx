@@ -282,7 +282,7 @@ function AdminOrders() {
               </div>
             </div>
 
-            <OrderTimeline order={selected} />
+            <OrderTimeline order={selected} locale="en" />
 
             <div className="admin-modal-actions">
               <button type="button" className="admin-btn admin-btn-ghost" onClick={() => setSelected(null)}>Close</button>

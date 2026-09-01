@@ -1130,6 +1130,34 @@
 }
 .admin-checkbox-label input { width: 16px; height: 16px; }
 
+.admin-translations-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--admin-bg);
+  border-radius: 10px;
+}
+.admin-translation-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+}
+.admin-translation-lang { font-size: 0.8rem; font-weight: 700; color: var(--admin-muted); }
+.admin-translation-row input {
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  padding: 6px 9px;
+  font-size: 0.82rem;
+  background: var(--admin-surface);
+  color: var(--admin-ink);
+}
+@media (max-width: 640px) {
+  .admin-translation-row { grid-template-columns: 1fr; }
+}
+
 .admin-field textarea {
   border: 1px solid var(--admin-border);
   border-radius: 8px;

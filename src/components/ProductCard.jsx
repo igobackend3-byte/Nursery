@@ -2,12 +2,14 @@ import { Link } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
 import { useLanguage } from '../context/LanguageContext';
 import { getDiscountPercent } from '../utils/pricing';
+import { getLocalizedProductName } from '../utils/localizedContent';
 
 function ProductCard({ product }) {
   const { wishlist, toggleWishlist, addToCart } = useStore();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const isWishlisted = wishlist.includes(product.id);
   const discountPercent = getDiscountPercent(product.originalPrice, product.price);
+  const localizedName = getLocalizedProductName(product, language);
 
   return (
     <div className="product-card">
@@ -16,7 +18,7 @@ function ProductCard({ product }) {
         className={`product-card-media${product.isBestSeller ? ' has-bestseller' : ''}`}
       >
         {product.isBestSeller && <span className="bestseller-badge">Bestseller</span>}
-        <img src={product.image} alt={product.name} loading="lazy" />
+        <img src={product.image} alt={localizedName} loading="lazy" />
         <span className="rating-badge">{product.rating}/5</span>
         <button
           type="button"
@@ -43,7 +45,7 @@ function ProductCard({ product }) {
       </Link>
       <div className="product-card-body">
         <Link to={`/product/${product.id}`}>
-          <h3>{product.name}</h3>
+          <h3>{localizedName}</h3>
         </Link>
         <p className="product-card-category">{product.categoryLabel}</p>
         <div className="product-card-price">

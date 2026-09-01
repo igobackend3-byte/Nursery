@@ -5,6 +5,8 @@ import { UMBRELLA_GROUPS } from '../data/products';
 import { useCatalogue } from '../context/CatalogueContext';
 import CategoryFilters, { matchesFilters } from '../components/CategoryFilters';
 import { getFilterGroupsForCategory } from '../data/filterConfig';
+import { useLanguage } from '../context/LanguageContext';
+import { getLocalizedCategoryLabel, getLocalizedCategoryTagline } from '../utils/localizedContent';
 
 // Hero banner photos for every Plants sub-section, sourced from the real
 // photos in `Nursery project/images` (see public/images/plants-subcategories/).
@@ -99,6 +101,7 @@ function CategoryPage({ slugOverride }) {
   const slug = slugOverride ?? slugParam;
   const isGiftPage = slug === 'gifting' || slug === 'corporate-gifts';
   const { products, categories, getGiftProducts, getProductsByCategory } = useCatalogue();
+  const { t, language } = useLanguage();
 
   const baseProducts = useMemo(() => {
     if (isGiftPage) return getGiftProducts();
@@ -108,12 +111,14 @@ function CategoryPage({ slugOverride }) {
   }, [slug, isGiftPage, products]);
 
   const meta = categories.find((c) => c.slug === slug);
+  const localizedLabel = getLocalizedCategoryLabel(meta, language);
+  const localizedTagline = getLocalizedCategoryTagline(meta, language);
   const heading = isGiftPage
-    ? slug === 'gifting' ? 'Gifting' : 'Corporate Gifts'
-    : meta?.label ?? 'All Products';
+    ? slug === 'gifting' ? t('nav.gifting') : 'Corporate Gifts'
+    : localizedLabel || 'All Products';
   const tagline = isGiftPage
     ? 'Thoughtful, ready-to-gift plants and planters for every occasion.'
-    : meta?.tagline ?? '';
+    : localizedTagline;
 
   const prices = baseProducts.map((p) => p.price);
   const minPrice = prices.length ? Math.min(...prices) : 0;

@@ -6,33 +6,16 @@ import { useCatalogue } from '../context/CatalogueContext';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useSiteContent } from '../hooks/useSiteContent';
 import { useLanguage } from '../context/LanguageContext';
+import { getLocalizedCategoryLabel } from '../utils/localizedContent';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
+// `key` maps to whyIgo.title{Key}/desc{Key} in src/i18n/translations.js.
 const WHY_IGO = [
-  {
-    icon: 'wifi',
-    title: 'IoT-monitored nurseries',
-    desc: 'Every polyhouse tracks temperature, humidity and soil health in real time.',
-  },
-  {
-    icon: 'flask',
-    title: 'Precision trials',
-    desc: 'New varieties are tested for months before they ever reach your cart.',
-  },
-  {
-    icon: 'shield',
-    stat: '99.2%',
-    statLabel: 'health guarantee',
-    desc: 'Plants leave the lab only when they clear our quality checks.',
-    featured: true,
-    tag: 'Verified',
-  },
-  {
-    icon: 'headset',
-    title: 'Expert plant-care guidance',
-    desc: 'Free care notes and a support line for every plant you buy.',
-  },
+  { icon: 'wifi', key: 'Iot' },
+  { icon: 'flask', key: 'Precision' },
+  { icon: 'shield', stat: '99.2%', key: 'Guarantee', featured: true },
+  { icon: 'headset', key: 'Expert' },
 ];
 
 // Small original line-icon set (matches the stroke-icon style already used
@@ -74,11 +57,12 @@ const REVIEWS = [
   { name: 'Priya M.', rating: 4, text: 'Good range of pots and the care guide that came with my order was genuinely useful.' },
 ];
 
+// `key` maps to faq.q{Key}/a{Key} in src/i18n/translations.js.
 const FAQS = [
-  { q: 'How are plants packaged for delivery?', a: 'Every plant ships in a secure nursery pot with moisture-locking wrap and a care card, so it arrives ready to repot.' },
-  { q: 'Do you offer a health guarantee?', a: 'Yes — if a plant arrives damaged or unhealthy, we replace it free within 7 days of delivery.' },
-  { q: 'Can I get gardening help after I buy?', a: 'Every order includes access to our plant-care guidance line for as long as you own the plant.' },
-  { q: 'Do you deliver pots and planters separately?', a: 'Yes, pots, seeds and tools can be ordered on their own or bundled with a plant.' },
+  { key: 'Packaging' },
+  { key: 'Guarantee' },
+  { key: 'Help' },
+  { key: 'Separate' },
 ];
 
 function Hero() {
@@ -137,7 +121,7 @@ const MISSING_CATEGORY_SLUGS = [
 ];
 function ShopByCategory() {
   const { categories } = useCatalogue();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const missingTiles = MISSING_CATEGORY_SLUGS
     .map((slug) => categories.find((c) => c.slug === slug))
     .filter(Boolean);
@@ -155,7 +139,7 @@ function ShopByCategory() {
       <div className="category-grid">
         {tiles.map((cat) => (
           <Link to={`/category/${cat.slug}`} key={cat.slug} className="category-tile" style={{ backgroundImage: `linear-gradient(to top, rgba(15,17,21,0.75), rgba(15,17,21,0.05)), url('${cat.image}')` }}>
-            <span className="category-tile-label">{cat.label}</span>
+            <span className="category-tile-label">{getLocalizedCategoryLabel(cat, language)}</span>
             <span className="category-tile-link">{t('home.explore')}</span>
           </Link>
         ))}
@@ -459,22 +443,23 @@ function NurseryJourney() {
 
 function WhyIgoCard({ item, index }) {
   const [ref, visible] = useScrollReveal(0.2);
+  const { t } = useLanguage();
   return (
     <div
       ref={ref}
       className={`why-igo-card ${item.featured ? 'why-igo-card-featured' : ''} ${visible ? 'why-igo-card-visible' : ''}`}
       style={{ transitionDelay: `${index * 90}ms` }}
     >
-      {item.tag && <span className="why-igo-tag">{item.tag}</span>}
+      {item.featured && <span className="why-igo-tag">{t('whyIgo.tagVerified')}</span>}
       <span className="why-igo-icon">{WHY_IGO_ICONS[item.icon]}</span>
       {item.stat ? (
         <h3>
-          <span className="why-igo-stat">{item.stat}</span> {item.statLabel}
+          <span className="why-igo-stat">{item.stat}</span> {t(`whyIgo.title${item.key}`)}
         </h3>
       ) : (
-        <h3>{item.title}</h3>
+        <h3>{t(`whyIgo.title${item.key}`)}</h3>
       )}
-      <p>{item.desc}</p>
+      <p>{t(`whyIgo.desc${item.key}`)}</p>
     </div>
   );
 }
@@ -489,7 +474,7 @@ function WhyIGO() {
       </div>
       <div className="why-igo-grid">
         {WHY_IGO.map((item, i) => (
-          <WhyIgoCard item={item} index={i} key={item.stat || item.title} />
+          <WhyIgoCard item={item} index={i} key={item.key} />
         ))}
       </div>
       <div className="why-igo-cta-row">
@@ -827,12 +812,12 @@ function Faq() {
       </div>
       <div className="faq-list">
         {FAQS.map((item, idx) => (
-          <div className={`faq-item ${open === idx ? 'open' : ''}`} key={item.q}>
+          <div className={`faq-item ${open === idx ? 'open' : ''}`} key={item.key}>
             <button type="button" onClick={() => setOpen(open === idx ? -1 : idx)}>
-              <span>{item.q}</span>
+              <span>{t(`faq.q${item.key}`)}</span>
               <span className="faq-toggle">{open === idx ? '−' : '+'}</span>
             </button>
-            {open === idx && <p>{item.a}</p>}
+            {open === idx && <p>{t(`faq.a${item.key}`)}</p>}
           </div>
         ))}
       </div>
