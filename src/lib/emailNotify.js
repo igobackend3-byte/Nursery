@@ -3,20 +3,24 @@
 // which holds the real Resend API key. This just POSTs the order data the
 // caller already has and never touches the key itself.
 //
-// Deliberately fire-and-forget: a failed/slow email should never block or
-// fail checkout or an admin status update, so callers don't need to await
-// this or handle its errors - it logs a warning and moves on.
+// Returns the send promise (resolves on 2xx, rejects otherwise) so callers
+// that want to track delivery status (see lib/orders.js) can do so - but
+// nothing here awaits it itself, so a slow/failed email still never blocks
+// or fails checkout or an admin status update.
 const INTERNAL_SECRET = import.meta.env.VITE_INTERNAL_API_SECRET;
 
-export function notifyOrderEmail(type, order) {
-  fetch('/api/send-order-email', {
+export async function notifyOrderEmail(type, order) {
+  const res = await fetch('/api/send-order-email', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       ...(INTERNAL_SECRET ? { 'x-igo-secret': INTERNAL_SECRET } : {}),
     },
     body: JSON.stringify({ type, order }),
-  }).catch((err) => {
-    console.warn(`[email] ${type} notification failed to send:`, err);
   });
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`send-order-email responded ${res.status}: ${body}`);
+  }
+  return res.json();
 }

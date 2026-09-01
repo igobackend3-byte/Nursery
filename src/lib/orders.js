@@ -58,6 +58,7 @@ export async function placeOrder(authUser, { cart, address, paymentMethod, getPr
         productId: product.id,
         name: product.name,
         image: product.image,
+        category: product.categoryLabel ?? null,
         price: product.price,
         qty: item.qty,
         subtotal: product.price * item.qty,
@@ -106,23 +107,36 @@ export async function placeOrder(authUser, { cart, address, paymentMethod, getPr
   // for the admin_new_order type, which exists but is deliberately not
   // called here). Not awaited: a slow/failed email must never surface as a
   // failed checkout, and it must never block the cart-clear step below.
+  // The delivery result (sent/failed) is written back onto the order so
+  // the admin panel can show it and offer a manual resend - this write is
+  // scoped by firestore.rules to *only* the emailStatus/emailSentAt/
+  // emailLastError fields when it's the owning customer doing it (not an
+  // admin), so a customer can never use this path to touch anything else
+  // on their own order.
   notifyOrderEmail('confirmation', {
     id: orderRef.id, userId: uid, customerName: authUser.displayName || address.label || 'Customer',
     customerEmail: authUser.email, customerPhone: address.phone ?? '', items, subtotal, discount,
     deliveryCharge, total, address, paymentMethod, paymentStatus, status: 'Order Placed',
     expectedDeliveryDate: expectedDelivery, createdAt: now,
-  });
+  })
+    .then(() => updateDoc(orderRef, { emailStatus: 'sent', emailSentAt: serverTimestamp() }))
+    .catch((err) => {
+      console.warn('[email] confirmation failed:', err);
+      updateDoc(orderRef, { emailStatus: 'failed', emailLastError: String(err?.message ?? err) }).catch(() => {});
+    });
 
   // Same moment, write the in-website inbox entry - shows up under the
   // bell icon for this signed-in customer, independent of whether the
-  // email actually lands (spam filter, typo, etc).
+  // email actually lands (spam filter, typo, etc). Deep-links to this
+  // specific order (see Account.jsx's OrdersTab, which reads ?orderId=
+  // and scrolls/expands it), not just the generic Orders tab.
   addOrderNotification(uid, {
     type: 'order_placed',
     orderId: orderRef.id,
     icon: '📦',
     title: 'Order Placed',
     message: `Your order #${orderRef.id.slice(0, 8).toUpperCase()} has been placed - total ₹${total}.`,
-    actionUrl: '/account?tab=orders',
+    actionUrl: `/account?tab=orders&orderId=${orderRef.id}`,
   }).catch((err) => console.warn('[notifications] order_placed write failed:', err));
 
   if (paymentStatus === 'Paid') {
@@ -133,7 +147,7 @@ export async function placeOrder(authUser, { cart, address, paymentMethod, getPr
       icon: '💳',
       title: 'Payment Successful',
       message: `Your payment of ₹${total} was successfully processed.`,
-      actionUrl: '/account?tab=orders',
+      actionUrl: `/account?tab=orders&orderId=${orderRef.id}`,
     }).catch((err) => console.warn('[notifications] payment write failed:', err));
   }
 
@@ -188,7 +202,12 @@ export async function updateOrderStatus(orderId, status) {
   const snap = await getDoc(orderRef);
   if (snap.exists()) {
     const order = { id: snap.id, ...snap.data() };
-    notifyOrderEmail('status_update', order);
+    notifyOrderEmail('status_update', order)
+      .then(() => updateDoc(orderRef, { emailStatus: 'sent', emailSentAt: serverTimestamp() }))
+      .catch((err) => {
+        console.warn('[email] status_update failed:', err);
+        updateDoc(orderRef, { emailStatus: 'failed', emailLastError: String(err?.message ?? err) }).catch(() => {});
+      });
     const shortId = order.id.slice(0, 8).toUpperCase();
     const STATUS_COPY = {
       'Order Confirmed': { icon: '✅', title: 'Order Confirmed', message: `Your order #${shortId} has been confirmed.` },
@@ -206,7 +225,7 @@ export async function updateOrderStatus(orderId, status) {
       icon: copy.icon,
       title: copy.title,
       message: copy.message,
-      actionUrl: '/account?tab=orders',
+      actionUrl: `/account?tab=orders&orderId=${order.id}`,
       priority: status === 'Cancelled' ? 'high' : 'normal',
     }).catch((err) => console.warn('[notifications] status_update write failed:', err));
 
@@ -221,5 +240,22 @@ export async function updateOrderStatus(orderId, status) {
       // double-awards points for one order.
       updateDoc(orderRef, { loyaltyPointsAwarded: true }).catch(() => {});
     }
+  }
+}
+
+// Admin-side: re-send the order confirmation email using the order's
+// current data (spec section 15 - "Resend Confirmation Email"). Distinct
+// from updateOrderStatus's automatic status-update emails - this always
+// sends the *confirmation* template, on demand, regardless of the order's
+// current status. Awaited (unlike the automatic sends above) so the admin
+// UI can show a real pending/success/failure state for the click itself.
+export async function resendConfirmationEmail(order) {
+  const orderRef = doc(db, 'orders', order.id);
+  try {
+    await notifyOrderEmail('confirmation', order);
+    await updateDoc(orderRef, { emailStatus: 'sent', emailSentAt: serverTimestamp() });
+  } catch (err) {
+    await updateDoc(orderRef, { emailStatus: 'failed', emailLastError: String(err?.message ?? err) }).catch(() => {});
+    throw err;
   }
 }

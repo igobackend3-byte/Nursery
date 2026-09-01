@@ -3026,7 +3026,8 @@ section {
 
 /* ---------- Orders ---------- */
 .acc-orders-list { display: flex; flex-direction: column; gap: 16px; }
-.acc-order-card { border: 1px solid #f0f0e8; border-radius: 16px; padding: 18px; }
+.acc-order-card { border: 1px solid #f0f0e8; border-radius: 16px; padding: 18px; scroll-margin-top: 20px; }
+.acc-order-card.is-linked { border-color: var(--color-primary-green); box-shadow: 0 0 0 3px rgba(27, 75, 54, 0.12); }
 .acc-order-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #f5f5ee; }
 .acc-order-head strong { display: block; font-size: 0.95rem; }
 .acc-order-date { display: block; font-size: 0.78rem; color: var(--color-text-muted); margin-top: 2px; }

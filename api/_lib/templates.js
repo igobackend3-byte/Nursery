@@ -3,6 +3,11 @@
 // consistent; only the body block differs per email type.
 const GREEN = '#1b4b36';
 const LIGHT_GREEN = '#e4f3d9';
+// Absolute base URL for links inside the email - relative links don't
+// resolve inside an email client, so this is required for the CTA
+// buttons. Override via the SITE_URL env var if the production domain
+// ever changes; falls back to the known deployed URL.
+const SITE_URL = (process.env.SITE_URL || 'https://nursery-green.vercel.app').replace(/\/$/, '');
 
 function formatMoney(n) {
   return `Rs. ${Number(n ?? 0).toLocaleString('en-IN')}`;
@@ -74,7 +79,7 @@ function itemsTable(items = []) {
           ${it.image ? `<td style="padding-right:10px;"><img src="${it.image}" alt="" width="40" height="40" style="border-radius:6px;object-fit:cover;display:block;" /></td>` : ''}
           <td>
             ${it.name}<br/>
-            <span style="font-size:12px;color:#6b7a70;">₹${it.price} each</span>
+            <span style="font-size:12px;color:#6b7a70;">${it.category ? `${it.category} · ` : ''}₹${it.price} each</span>
           </td>
         </tr></table>
       </td>
@@ -112,6 +117,25 @@ function shortId(orderId) {
   return String(orderId).slice(0, 8).toUpperCase();
 }
 
+function orderUrl(orderId) {
+  return `${SITE_URL}/account?tab=orders&orderId=${orderId}`;
+}
+
+// No JS in the email (per spec) - a real, visible button using a table
+// cell + padding, which renders reliably across Gmail/Outlook/Yahoo/
+// mobile clients (unlike CSS-only button styling, which Outlook's Word
+// rendering engine drops).
+function ctaButton(label, url) {
+  return `
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:20px 0;">
+      <tr>
+        <td style="background:${GREEN};border-radius:8px;">
+          <a href="${url}" style="display:inline-block;padding:12px 26px;color:#ffffff;font-weight:700;font-size:14px;text-decoration:none;">${label}</a>
+        </td>
+      </tr>
+    </table>`;
+}
+
 export function orderConfirmationEmail(order) {
   const html = `
     <p style="margin:0 0 6px;">Hello ${order.customerName || 'there'},</p>
@@ -131,10 +155,10 @@ export function orderConfirmationEmail(order) {
     <p style="margin:18px 0 4px;font-size:13px;color:#6b7a70;">DELIVERY ADDRESS</p>
     <p style="margin:0;">${addressBlock(order.address)}</p>
     <p style="margin:12px 0 0;font-size:13px;color:#6b7a70;">Expected delivery: <strong style="color:#28352d;">${formatDate(order.expectedDeliveryDate)}</strong></p>
-    <p style="margin:22px 0 0;">You can track your order any time from your account's order history page.</p>
-    <p style="margin:16px 0 0;">Thank you for choosing IGO Nursery 🌿</p>
+    ${ctaButton('View Order Details', orderUrl(order.id))}
+    <p style="margin:0;">Thank you for choosing IGO Nursery 🌿</p>
   `;
-  return { subject: `Your IGO Nursery Order #${shortId(order.id)} Has Been Confirmed 🌱`, html: wrapEmail('Order confirmed 🌱', html) };
+  return { subject: `Order Confirmed – Order #${shortId(order.id)} | IGO Nursery`, html: wrapEmail('Order Confirmed! 🌱', html) };
 }
 
 export function orderStatusUpdateEmail(order) {
@@ -157,7 +181,7 @@ export function orderStatusUpdateEmail(order) {
     <p style="margin:0 0 4px;font-size:13px;color:#6b7a70;">ORDER #${shortId(order.id)}${!isDelivered && !isCancelled ? ` · Expected delivery ${formatDate(order.expectedDeliveryDate)}` : ''}</p>
     ${itemsTable(order.items)}
     ${totalsBlock(order)}
-    <p style="margin:22px 0 0;">You can track this order any time from your account's order history page.</p>
+    ${ctaButton(isCancelled ? 'View Order Details' : 'Track Your Order', orderUrl(order.id))}
   `;
   return { subject: `Order #${shortId(order.id)} – ${order.status}`, html: wrapEmail('Order update', html) };
 }

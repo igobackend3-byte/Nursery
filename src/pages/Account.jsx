@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useStore } from '../context/StoreContext';
@@ -192,10 +192,22 @@ function OverviewTab({ user, profile, pushToast, goToTab, firstName }) {
 // ---------------------------------------------------------------- Orders
 function OrdersTab() {
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
+  const linkedOrderId = searchParams.get('orderId');
   const [orders, setOrders] = useState(null);
-  const [expandedId, setExpandedId] = useState(null);
+  const [expandedId, setExpandedId] = useState(linkedOrderId ?? null);
+  const highlightedRef = useRef(null);
 
   useEffect(() => subscribeMyOrders(user.uid, setOrders), [user.uid]);
+
+  // Deep-linked from an order-confirmation/status email or notification
+  // (?orderId=...) - scroll straight to that order and open its tracker,
+  // instead of leaving the customer to hunt through their whole history.
+  useEffect(() => {
+    if (linkedOrderId && orders?.some((o) => o.id === linkedOrderId)) {
+      highlightedRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [linkedOrderId, orders]);
 
   if (orders === null) {
     return (
@@ -227,7 +239,11 @@ function OrdersTab() {
       <h2>Order history</h2>
       <div className="acc-orders-list">
         {orders.map((order) => (
-          <div className="acc-order-card" key={order.id}>
+          <div
+            className={`acc-order-card${order.id === linkedOrderId ? ' is-linked' : ''}`}
+            key={order.id}
+            ref={order.id === linkedOrderId ? highlightedRef : undefined}
+          >
             <div className="acc-order-head">
               <div>
                 <strong>Order #{order.id.slice(0, 8).toUpperCase()}</strong>

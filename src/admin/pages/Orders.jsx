@@ -1,7 +1,19 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { ORDER_STATUSES, STATUS_CLASS, subscribeAllOrders, updateOrderStatus } from '../../lib/orders';
+import { ORDER_STATUSES, STATUS_CLASS, subscribeAllOrders, updateOrderStatus, resendConfirmationEmail } from '../../lib/orders';
 import OrderTimeline from '../../components/OrderTimeline';
+
+const EMAIL_STATUS_LABEL = { sent: 'Sent', failed: 'Failed', pending: 'Pending' };
+const EMAIL_STATUS_CLASS = { sent: 'delivered', failed: 'cancelled', pending: 'confirmed' };
+
+function EmailStatusPill({ order }) {
+  const status = order.emailStatus ?? 'pending';
+  return (
+    <span className={`admin-status-pill ${EMAIL_STATUS_CLASS[status] ?? ''}`} title={order.emailLastError || ''}>
+      {EMAIL_STATUS_LABEL[status] ?? status}
+    </span>
+  );
+}
 
 function AdminOrders() {
   const [orders, setOrders] = useState(null); // null = loading
@@ -9,7 +21,25 @@ function AdminOrders() {
   const location = useLocation();
   const [selected, setSelected] = useState(null);
   const [query, setQuery] = useState('');
+  const [resending, setResending] = useState(false);
+  const [resendError, setResendError] = useState('');
   const statusFilter = searchParams.get('status') ?? '';
+
+  useEffect(() => { setResendError(''); }, [selected?.id]);
+
+  async function handleResend(order) {
+    setResending(true);
+    setResendError('');
+    try {
+      await resendConfirmationEmail(order);
+      setSelected((prev) => (prev ? { ...prev, emailStatus: 'sent', emailLastError: null } : prev));
+    } catch (err) {
+      setResendError(err.message || 'Failed to resend the email.');
+      setSelected((prev) => (prev ? { ...prev, emailStatus: 'failed', emailLastError: err.message } : prev));
+    } finally {
+      setResending(false);
+    }
+  }
 
   useEffect(() => subscribeAllOrders(setOrders), []);
 
@@ -93,7 +123,7 @@ function AdminOrders() {
         ) : (
           <div className="admin-table-wrap">
             <table className="admin-table">
-              <thead><tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th><th>Update</th></tr></thead>
+              <thead><tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th><th>Email</th><th>Update</th></tr></thead>
               <tbody>
                 {filtered.map((o) => (
                   <tr key={o.id} className="admin-row-clickable" onClick={() => setSelected(o)}>
@@ -103,6 +133,7 @@ function AdminOrders() {
                     <td>
                       <span className={`admin-status-pill ${STATUS_CLASS[o.status] ?? ''}`}>{o.status}</span>
                     </td>
+                    <td><EmailStatusPill order={o} /></td>
                     <td onClick={(e) => e.stopPropagation()}>
                       <select
                         className="admin-status-select"
@@ -230,6 +261,24 @@ function AdminOrders() {
                 >
                   {ORDER_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
+              </div>
+            </div>
+
+            <p className="admin-order-detail-section-title">Confirmation email</p>
+            <div className="admin-form-grid">
+              <div className="admin-field">
+                <label>Delivery status</label>
+                <EmailStatusPill order={selected} />
+              </div>
+              <div className="admin-field">
+                <label>Last sent</label>
+                <p>{selected.emailSentAt?.toDate?.().toLocaleString() ?? '—'}</p>
+              </div>
+              <div className="admin-field span-2">
+                <button type="button" className="admin-btn admin-btn-ghost admin-btn-sm" onClick={() => handleResend(selected)} disabled={resending}>
+                  {resending ? 'Sending…' : 'Resend Confirmation Email'}
+                </button>
+                {resendError && <p className="acc-error" style={{ marginTop: 8 }}>{resendError}</p>}
               </div>
             </div>
 

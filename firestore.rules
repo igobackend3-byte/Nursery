@@ -103,7 +103,14 @@ service cloud.firestore {
 
     // ---- orders/{orderId} - owner or admin only ----
     // Customers can create their own orders and read their own order
-    // history; only an admin can update order status or read every order.
+    // history; only an admin can freely update an order (status, payment,
+    // etc). The one exception: the owning customer may update *only* the
+    // three email-delivery-tracking fields (emailStatus/emailSentAt/
+    // emailLastError) on their own order - written client-side right after
+    // their own checkout confirmation email is sent, so the admin panel
+    // can show whether it actually delivered (see lib/orders.js). This
+    // can never be used to touch status/price/anything else - the
+    // `hasOnly` check below is the entire allowlist.
     // A customer's create is also validated so they can't forge a
     // pre-confirmed status or payment - every new order must start as
     // 'Order Placed', and paymentStatus can only be 'Pending' or 'Paid'
@@ -114,7 +121,10 @@ service cloud.firestore {
         && request.resource.data.userId == request.auth.uid
         && request.resource.data.status == 'Order Placed'
         && request.resource.data.paymentStatus in ['Pending', 'Paid'];
-      allow update: if isAdmin();
+      allow update: if isAdmin()
+        || (isSignedIn() && resource.data.userId == request.auth.uid
+            && request.resource.data.diff(resource.data).affectedKeys()
+                 .hasOnly(['emailStatus', 'emailSentAt', 'emailLastError']));
       allow delete: if false;
     }
   }
