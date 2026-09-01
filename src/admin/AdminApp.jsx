@@ -13,6 +13,7 @@ import AdminInventory from './pages/Inventory';
 import AdminCustomers from './pages/Customers';
 import AdminReports from './pages/Reports';
 import AdminCoupons from './pages/Coupons';
+import AdminNotifications from './pages/Notifications';
 import AdminContent from './pages/Content';
 import AdminStaff from './pages/Staff';
 import AdminSettings from './pages/Settings';
@@ -38,6 +39,7 @@ function AdminApp() {
             <Route path="customers" element={<AdminCustomers />} />
             <Route path="reports" element={<AdminReports />} />
             <Route path="coupons" element={<AdminCoupons />} />
+            <Route path="notifications" element={<AdminNotifications />} />
             <Route path="content" element={<AdminContent />} />
             <Route path="staff" element={<AdminStaff />} />
             <Route path="settings" element={<AdminSettings />} />

@@ -5,9 +5,10 @@ import { useStore } from '../context/StoreContext';
 import { useCatalogue } from '../context/CatalogueContext';
 import { subscribeAddresses, addAddress, updateAddress, deleteAddress, setDefaultAddress } from '../lib/addresses';
 import { subscribeMyOrders, STATUS_CLASS } from '../lib/orders';
-import { updateUserProfile } from '../lib/profile';
+import { updateUserProfile, updateNotificationPrefs } from '../lib/profile';
 import { subscribeRecentlyViewed } from '../lib/recentlyViewed';
-import { subscribeNotifications, markNotificationRead, markAllNotificationsRead } from '../lib/notifications';
+import { NOTIFICATION_CATEGORIES } from '../lib/notifications';
+import { useNotificationFeed } from '../hooks/useNotificationFeed';
 import AddressForm from '../components/AddressForm';
 import OrderTimeline from '../components/OrderTimeline';
 import ProductCard from '../components/ProductCard';
@@ -484,43 +485,53 @@ function CouponsTab() {
 
 // ---------------------------------------------------------------- Notifications
 function NotificationsTab() {
-  const { user } = useAuth();
-  const [notifications, setNotifications] = useState(null);
-  useEffect(() => subscribeNotifications(user.uid, setNotifications), [user.uid]);
+  const { user, profile } = useAuth();
+  const { feed, unreadCount, markRead, markAllRead } = useNotificationFeed(user, profile);
+  const navigate = useNavigate();
 
-  const unreadCount = notifications?.filter((n) => !n.read).length ?? 0;
+  function handleClick(n) {
+    markRead(n);
+    if (n.actionUrl) navigate(n.actionUrl);
+  }
 
   return (
     <div className="acc-card">
       <div className="acc-card-head">
         <div>
           <p className="acc-card-eyebrow">Inbox</p>
-          <h2>Notifications</h2>
+          <h2>Notifications{unreadCount > 0 ? ` (${unreadCount})` : ''}</h2>
         </div>
         {unreadCount > 0 && (
-          <button type="button" className="acc-btn-outline" onClick={() => markAllNotificationsRead(user.uid, notifications)}>
+          <button type="button" className="acc-btn-outline" onClick={markAllRead}>
             Mark all as read
           </button>
         )}
       </div>
-      {notifications === null ? (
+      {feed === null ? (
         <div className="acc-skeleton-list"><div className="acc-skeleton-row" /><div className="acc-skeleton-row" /></div>
-      ) : notifications.length === 0 ? (
+      ) : feed.length === 0 ? (
         <div className="acc-empty">
-          <span className="acc-empty-icon">{ICONS.notifications}</span>
-          <p>No notifications yet - order updates will show up here.</p>
+          <span className="acc-empty-icon">🔔</span>
+          <strong>No notifications yet</strong>
+          <p>You're all caught up!</p>
         </div>
       ) : (
         <ul className="acc-notification-list">
-          {notifications.map((n) => (
+          {feed.map((n) => (
             <li
               key={n.id}
               className={`acc-notification-item${n.read ? '' : ' unread'}`}
-              onClick={() => !n.read && markNotificationRead(user.uid, n.id)}
+              onClick={() => handleClick(n)}
             >
-              <strong>{n.title}</strong>
-              <p>{n.message}</p>
-              <span>{n.createdAt?.toDate?.().toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) ?? ''}</span>
+              <span className="acc-notification-icon">{n.icon}</span>
+              <div className="acc-notification-body">
+                <strong>{n.title}</strong>
+                <p>{n.message}</p>
+                <div className="acc-notification-foot">
+                  <span>{n.createdAt?.toDate?.().toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) ?? ''}</span>
+                  {n.actionLabel && <span className="acc-notification-cta">{n.actionLabel} →</span>}
+                </div>
+              </div>
             </li>
           ))}
         </ul>
@@ -530,19 +541,74 @@ function NotificationsTab() {
 }
 
 // ---------------------------------------------------------------- Settings
-function SettingsTab({ user, profile, handleLogout }) {
+const PREF_LABELS = {
+  offers: 'Offers & discounts', products: 'New products', stock: 'Stock alerts',
+  orders: 'Order updates', payments: 'Payment updates', wishlist: 'Wishlist alerts',
+  cart: 'Cart alerts', account: 'Account & security', general: 'General announcements',
+};
+
+function NotificationPreferencesCard({ user, profile, pushToast }) {
+  const [prefs, setPrefs] = useState(() => profile?.notificationPrefs ?? {});
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    setPrefs(profile?.notificationPrefs ?? {});
+  }, [profile?.notificationPrefs]);
+
+  function toggle(category) {
+    setPrefs((prev) => ({ ...prev, [category]: prev[category] === false ? true : false }));
+  }
+
+  async function handleSave() {
+    setSaving(true);
+    try {
+      await updateNotificationPrefs(user.uid, prefs);
+      pushToast({ type: 'cart', message: 'Notification preferences saved.' });
+    } catch {
+      pushToast({ type: 'wishlist-remove', message: 'Could not save preferences. Try again.' });
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return (
     <div className="acc-card">
-      <p className="acc-card-eyebrow">Account</p>
-      <h2>Account settings</h2>
-      <div className="acc-info-grid acc-info-readonly">
-        <div className="acc-field"><span>Email</span><strong>{user.email}</strong></div>
-        <div className="acc-field"><span>Account type</span><strong>{profile?.role === 'admin' ? 'Admin' : 'Customer'}</strong></div>
-        <div className="acc-field"><span>Member since</span><strong>{formatDate(profile?.createdAt)}</strong></div>
+      <p className="acc-card-eyebrow">Notifications</p>
+      <h2>Notification preferences</h2>
+      <div className="acc-pref-list">
+        {NOTIFICATION_CATEGORIES.filter((c) => c !== 'orders').map((category) => (
+          <label key={category} className="acc-pref-row">
+            <span>{PREF_LABELS[category] ?? category}</span>
+            <span className={`acc-toggle${prefs[category] !== false ? ' on' : ''}`} onClick={() => toggle(category)} role="switch" aria-checked={prefs[category] !== false} tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(category); } }}>
+              <span className="acc-toggle-knob" />
+            </span>
+          </label>
+        ))}
+        <p className="acc-settings-note" style={{ marginTop: 4 }}>Order updates are always on, so you never miss a delivery.</p>
       </div>
-      <p className="acc-settings-note">To change your email or password, please contact customer support.</p>
-      <button type="button" className="acc-btn-danger" onClick={handleLogout}>{ICONS.logout} Log out</button>
+      <button type="button" className="acc-btn-primary" onClick={handleSave} disabled={saving} style={{ marginTop: 14 }}>
+        {saving ? 'Saving…' : 'Save Preferences'}
+      </button>
     </div>
+  );
+}
+
+function SettingsTab({ user, profile, handleLogout, pushToast }) {
+  return (
+    <>
+      <div className="acc-card">
+        <p className="acc-card-eyebrow">Account</p>
+        <h2>Account settings</h2>
+        <div className="acc-info-grid acc-info-readonly">
+          <div className="acc-field"><span>Email</span><strong>{user.email}</strong></div>
+          <div className="acc-field"><span>Account type</span><strong>{profile?.role === 'admin' ? 'Admin' : 'Customer'}</strong></div>
+          <div className="acc-field"><span>Member since</span><strong>{formatDate(profile?.createdAt)}</strong></div>
+        </div>
+        <p className="acc-settings-note">To change your email or password, please contact customer support.</p>
+        <button type="button" className="acc-btn-danger" onClick={handleLogout}>{ICONS.logout} Log out</button>
+      </div>
+      <NotificationPreferencesCard user={user} profile={profile} pushToast={pushToast} />
+    </>
   );
 }
 
@@ -633,7 +699,7 @@ function Account() {
           {tab === 'rewards' && <RewardsTab profile={profile} />}
           {tab === 'coupons' && <CouponsTab />}
           {tab === 'notifications' && <NotificationsTab />}
-          {tab === 'settings' && <SettingsTab user={user} profile={profile} handleLogout={handleLogout} />}
+          {tab === 'settings' && <SettingsTab user={user} profile={profile} handleLogout={handleLogout} pushToast={pushToast} />}
         </div>
       </div>
     </div>

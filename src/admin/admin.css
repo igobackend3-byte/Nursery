@@ -1119,6 +1119,29 @@
 
 .admin-form-grid .admin-field.span-2 { grid-column: 1 / -1; }
 
+.admin-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--admin-ink);
+  cursor: pointer;
+}
+.admin-checkbox-label input { width: 16px; height: 16px; }
+
+.admin-field textarea {
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.86rem;
+  font-family: inherit;
+  color: var(--admin-ink);
+  background: var(--admin-surface);
+  resize: vertical;
+}
+.admin-field textarea:focus { outline: none; border-color: var(--admin-primary); }
+
 .admin-modal-wide { max-width: 760px; max-height: 88vh; overflow-y: auto; }
 
 .admin-order-detail-section-title {

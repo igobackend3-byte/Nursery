@@ -25,3 +25,11 @@ export function updateUserProfile(uid, patch) {
   }
   return updateDoc(doc(db, 'users', uid), clean);
 }
+
+// Per-category notification opt-out, read by useNotificationFeed.js.
+// Missing/undefined for a category means "on" (default), so existing
+// users with no prefs doc yet still see everything until they turn
+// something off.
+export function updateNotificationPrefs(uid, prefs) {
+  return updateDoc(doc(db, 'users', uid), { notificationPrefs: prefs });
+}

@@ -3056,14 +3056,65 @@ section {
 
 /* ---------- Notifications ---------- */
 .acc-notification-list { list-style: none; margin: 0; padding: 0; }
-.acc-notification-item { padding: 14px 4px; border-bottom: 1px solid #f5f5ee; cursor: pointer; border-radius: 10px; }
+.acc-notification-item {
+  padding: 14px 8px;
+  border-bottom: 1px solid #f5f5ee;
+  cursor: pointer;
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
 .acc-notification-item:hover { background: #f9faf6; }
 .acc-notification-item.unread { background: #f4faf1; }
+.acc-notification-icon { font-size: 1.3rem; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+.acc-notification-body { flex: 1; min-width: 0; }
 .acc-notification-item strong { display: block; font-size: 0.88rem; margin-bottom: 2px; }
 .acc-notification-item p { margin: 0 0 4px; color: var(--color-text-muted); font-size: 0.82rem; }
+.acc-notification-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .acc-notification-item span { font-size: 0.72rem; color: #9aa89f; }
+.acc-notification-cta { color: var(--color-primary-green) !important; font-weight: 700; }
 
 .acc-settings-note { color: var(--color-text-muted); font-size: 0.85rem; margin: 6px 0 18px; }
+
+/* ---------- Notification preferences toggles ---------- */
+.acc-pref-list { display: flex; flex-direction: column; }
+.acc-pref-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 4px;
+  border-bottom: 1px solid #f5f5ee;
+  font-size: 0.88rem;
+  color: var(--color-text-dark);
+  cursor: pointer;
+}
+.acc-pref-row:last-of-type { border-bottom: none; }
+
+.acc-toggle {
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  background: #e2e2d8;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+.acc-toggle.on { background: var(--color-primary-green); }
+.acc-toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease;
+}
+.acc-toggle.on .acc-toggle-knob { transform: translateX(18px); }
+.acc-toggle:focus-visible { outline: 2px solid var(--color-primary-green); outline-offset: 2px; }
 
 /* ---------- Order timeline (Order Placed -> ... -> Delivered) ---------- */
 .order-timeline {

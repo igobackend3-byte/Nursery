@@ -119,9 +119,23 @@ export async function placeOrder(authUser, { cart, address, paymentMethod, getPr
   addOrderNotification(uid, {
     type: 'order_placed',
     orderId: orderRef.id,
-    title: 'Order placed',
+    icon: '📦',
+    title: 'Order Placed',
     message: `Your order #${orderRef.id.slice(0, 8).toUpperCase()} has been placed - total ₹${total}.`,
+    actionUrl: '/account?tab=orders',
   }).catch((err) => console.warn('[notifications] order_placed write failed:', err));
+
+  if (paymentStatus === 'Paid') {
+    addOrderNotification(uid, {
+      type: 'payment_successful',
+      orderId: orderRef.id,
+      category: 'payments',
+      icon: '💳',
+      title: 'Payment Successful',
+      message: `Your payment of ₹${total} was successfully processed.`,
+      actionUrl: '/account?tab=orders',
+    }).catch((err) => console.warn('[notifications] payment write failed:', err));
+  }
 
   // Clear the cart now that the order has been placed.
   const cartSnap = await getDocs(collection(db, 'users', uid, 'cart'));
@@ -175,13 +189,25 @@ export async function updateOrderStatus(orderId, status) {
   if (snap.exists()) {
     const order = { id: snap.id, ...snap.data() };
     notifyOrderEmail('status_update', order);
+    const shortId = order.id.slice(0, 8).toUpperCase();
+    const STATUS_COPY = {
+      'Order Confirmed': { icon: '✅', title: 'Order Confirmed', message: `Your order #${shortId} has been confirmed.` },
+      'Order Processing': { icon: '⚙️', title: 'Order Processing', message: `Your order #${shortId} is being prepared.` },
+      Packed: { icon: '📦', title: 'Order Packed', message: `Your order #${shortId} has been packed.` },
+      Shipped: { icon: '🚚', title: 'Order Shipped', message: `Your order #${shortId} has been shipped and is on its way.` },
+      'Out for Delivery': { icon: '🛵', title: 'Out for Delivery', message: `Your order #${shortId} is out for delivery.` },
+      Delivered: { icon: '✅', title: 'Order Delivered', message: `Your order #${shortId} has been delivered. Enjoy your plants!` },
+      Cancelled: { icon: '❌', title: 'Order Cancelled', message: `Your order #${shortId} has been cancelled.` },
+    };
+    const copy = STATUS_COPY[status] ?? { icon: '📦', title: `Order ${status}`, message: `Your order #${shortId} is now: ${status}.` };
     addOrderNotification(order.userId, {
       type: 'status_update',
       orderId: order.id,
-      title: `Order ${status}`,
-      message: status === 'Cancelled'
-        ? `Your order #${order.id.slice(0, 8).toUpperCase()} has been cancelled.`
-        : `Your order #${order.id.slice(0, 8).toUpperCase()} is now: ${status}.`,
+      icon: copy.icon,
+      title: copy.title,
+      message: copy.message,
+      actionUrl: '/account?tab=orders',
+      priority: status === 'Cancelled' ? 'high' : 'normal',
     }).catch((err) => console.warn('[notifications] status_update write failed:', err));
 
     if (status === 'Delivered' && order.userId && !order.loyaltyPointsAwarded) {

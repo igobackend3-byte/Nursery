@@ -6,7 +6,7 @@ import { subscribeAllOrders } from '../lib/orders';
 import {
   ShieldIcon, MoonIcon, SunIcon, StoreIcon, RefreshIcon, LogoutIcon,
   DashboardIcon, CartIcon, LeadsIcon, BoxIcon, GridIcon, StackIcon, UsersIcon,
-  ReportsIcon, CouponIcon, FileIcon, StaffIcon, GearIcon,
+  ReportsIcon, CouponIcon, FileIcon, StaffIcon, GearIcon, BellIcon,
 } from './adminIcons';
 
 const NAV_ITEMS = [
@@ -19,6 +19,7 @@ const NAV_ITEMS = [
   { to: '/admin/customers', label: 'Customers', icon: UsersIcon },
   { to: '/admin/reports', label: 'Reports', icon: ReportsIcon },
   { to: '/admin/coupons', label: 'Coupons', icon: CouponIcon },
+  { to: '/admin/notifications', label: 'Notifications', icon: BellIcon },
   { to: '/admin/content', label: 'Content', icon: FileIcon },
   { to: '/admin/staff', label: 'Staff & Roles', icon: StaffIcon },
   { to: '/admin/settings', label: 'Settings', icon: GearIcon },

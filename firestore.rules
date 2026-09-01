@@ -68,6 +68,25 @@ service cloud.firestore {
       match /recentlyViewed/{productId} {
         allow read, write: if isOwner(uid);
       }
+
+      // ---- users/{uid}/readAnnouncements/{announcementId} ----
+      // Per-customer read-state for the site-wide `announcements` broadcast
+      // collection below - the announcement doc itself is never edited by a
+      // customer, only this personal marker.
+      match /readAnnouncements/{announcementId} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    // ---- announcements/{announcementId} - admin-authored broadcast
+    // notifications (offers, general announcements, etc), shown to every
+    // signed-in customer - see lib/announcements.js. Signed-out visitors
+    // don't see these (there's no notification bell for them), and an
+    // admin's own read/unread state isn't tracked, so read is restricted to
+    // signed-in users same as write is restricted to admins.
+    match /announcements/{announcementId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
     }
 
     // ---- products/{productId} - public catalogue, admin-managed ----
