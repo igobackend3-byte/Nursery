@@ -1,4 +1,5 @@
 import { ORDER_STATUSES } from '../lib/orders';
+import { useLanguage } from '../context/LanguageContext';
 
 // The normal (non-cancelled) lifecycle, in order - used to render the
 // Order Placed -> ... -> Delivered progress timeline (see spec section 11).
@@ -13,15 +14,20 @@ function formatWhen(ts) {
 // `order` needs `.status` and `.statusHistory` ([{status, at}]). Renders a
 // vertical step tracker; if the order was cancelled, shows that instead of
 // the normal progress (cancellation can happen from any stage, so it
-// doesn't fit a linear "steps completed so far" model).
+// doesn't fit a linear "steps completed so far" model). Stage labels are
+// translated via orders.statuses.* (shared with Account.jsx/admin) so this
+// one component works correctly on both the customer Account page and the
+// admin Orders page.
 function OrderTimeline({ order }) {
+  const { t } = useLanguage();
+
   if (order.status === 'Cancelled') {
     const cancelledAt = order.statusHistory?.find((h) => h.status === 'Cancelled');
     return (
       <div className="order-timeline order-timeline-cancelled">
         <span className="order-timeline-cancelled-icon">✕</span>
         <div>
-          <strong>Order Cancelled</strong>
+          <strong>{t('orders.statuses.Cancelled')}</strong>
           {formatWhen(cancelledAt?.at) && <p>{formatWhen(cancelledAt.at)}</p>}
         </div>
       </div>
@@ -40,7 +46,7 @@ function OrderTimeline({ order }) {
           <li key={stage} className={`order-timeline-step${done ? ' done' : ''}${current ? ' current' : ''}`}>
             <span className="order-timeline-dot" />
             <div>
-              <strong>{stage}</strong>
+              <strong>{t(`orders.statuses.${stage}`)}</strong>
               {historyEntry && formatWhen(historyEntry.at) && <p>{formatWhen(historyEntry.at)}</p>}
             </div>
           </li>

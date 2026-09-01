@@ -2,12 +2,13 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { getTranslation, LANGUAGES } from '../i18n/translations';
 
 const STORAGE_KEY = 'igo_lang';
+const VALID_CODES = LANGUAGES.map((l) => l.code);
 const LanguageContext = createContext(null);
 
 function getInitialLanguage() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === 'en' || stored === 'ta') return stored;
+    if (VALID_CODES.includes(stored)) return stored;
   } catch {
     // localStorage unavailable (private mode, etc.) - fall back silently.
   }
@@ -27,7 +28,7 @@ export function LanguageProvider({ children }) {
   }, [language]);
 
   function setLanguage(lang) {
-    if (lang === 'en' || lang === 'ta') setLanguageState(lang);
+    if (VALID_CODES.includes(lang)) setLanguageState(lang);
   }
 
   function t(path) {

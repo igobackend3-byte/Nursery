@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useStore } from '../context/StoreContext';
 import { useCatalogue } from '../context/CatalogueContext';
+import { useLanguage } from '../context/LanguageContext';
 import { subscribeAddresses, addAddress, updateAddress, deleteAddress, setDefaultAddress } from '../lib/addresses';
 import { subscribeMyOrders, STATUS_CLASS } from '../lib/orders';
 import { updateUserProfile, updateNotificationPrefs } from '../lib/profile';
@@ -192,6 +193,7 @@ function OverviewTab({ user, profile, pushToast, goToTab, firstName }) {
 // ---------------------------------------------------------------- Orders
 function OrdersTab() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [searchParams] = useSearchParams();
   const linkedOrderId = searchParams.get('orderId');
   const [orders, setOrders] = useState(null);
@@ -249,7 +251,7 @@ function OrdersTab() {
                 <strong>Order #{order.id.slice(0, 8).toUpperCase()}</strong>
                 <span className="acc-order-date">Placed {formatDate(order.createdAt)}</span>
               </div>
-              <span className={`admin-status-pill ${STATUS_CLASS[order.status] ?? ''}`}>{order.status}</span>
+              <span className={`admin-status-pill ${STATUS_CLASS[order.status] ?? ''}`}>{t(`orders.statuses.${order.status}`)}</span>
             </div>
             <div className="acc-order-items">
               {order.items.map((it) => (

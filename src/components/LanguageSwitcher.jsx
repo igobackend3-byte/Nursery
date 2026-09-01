@@ -1,25 +1,24 @@
 import { useLanguage } from '../context/LanguageContext';
 
-// Simple two-way EN / தமிழ் toggle - visible in the header, persists via
-// LanguageContext (localStorage). Kept as plain buttons rather than a
-// dropdown so it stays compact and doesn't add another click to switch.
+// A native <select> rather than a row of pill buttons - with 6 languages
+// (English, Tamil, Hindi, Malayalam, Telugu, Kannada) a button row would
+// overflow the header on anything narrower than a wide desktop. A select
+// stays compact at any width, is natively keyboard/screen-reader
+// accessible, and needs no custom open/close/outside-click handling.
 function LanguageSwitcher() {
   const { language, setLanguage, languages, t } = useLanguage();
 
   return (
-    <div className="language-switcher" role="group" aria-label={t('header.language')}>
+    <select
+      className="language-switcher-select"
+      value={language}
+      onChange={(e) => setLanguage(e.target.value)}
+      aria-label={t('header.language')}
+    >
       {languages.map((lang) => (
-        <button
-          key={lang.code}
-          type="button"
-          className={`language-switcher-btn${language === lang.code ? ' active' : ''}`}
-          onClick={() => setLanguage(lang.code)}
-          aria-pressed={language === lang.code}
-        >
-          {lang.label}
-        </button>
+        <option key={lang.code} value={lang.code}>{lang.label}</option>
       ))}
-    </div>
+    </select>
   );
 }
 
