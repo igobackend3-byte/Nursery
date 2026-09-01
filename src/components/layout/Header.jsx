@@ -15,6 +15,10 @@ const SpeechRecognitionCtor = typeof window !== 'undefined'
   ? (window.SpeechRecognition || window.webkitSpeechRecognition)
   : null;
 
+// Voice input locale per selected site language (spec: en-IN/ta-IN/hi-IN/
+// ml-IN/te-IN/kn-IN).
+const VOICE_LOCALES = { en: 'en-IN', ta: 'ta-IN', hi: 'hi-IN', ml: 'ml-IN', te: 'te-IN', kn: 'kn-IN' };
+
 function Header() {
   const navigate = useNavigate();
   const { cartCount, wishlistCount } = useStore();
@@ -50,7 +54,7 @@ function Header() {
     const recognition = new SpeechRecognitionCtor();
     // Voice input follows the site's selected language, per spec: English
     // input when the site is in English, Tamil input when it's in Tamil.
-    recognition.lang = language === 'ta' ? 'ta-IN' : 'en-IN';
+    recognition.lang = VOICE_LOCALES[language] ?? 'en-IN';
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 

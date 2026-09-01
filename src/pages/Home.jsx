@@ -5,6 +5,7 @@ import OffersSection from '../components/OffersSection';
 import { useCatalogue } from '../context/CatalogueContext';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useSiteContent } from '../hooks/useSiteContent';
+import { useLanguage } from '../context/LanguageContext';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -136,6 +137,7 @@ const MISSING_CATEGORY_SLUGS = [
 ];
 function ShopByCategory() {
   const { categories } = useCatalogue();
+  const { t } = useLanguage();
   const missingTiles = MISSING_CATEGORY_SLUGS
     .map((slug) => categories.find((c) => c.slug === slug))
     .filter(Boolean);
@@ -145,16 +147,16 @@ function ShopByCategory() {
     <section className="shop-by-category">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">EXPLORE</p>
-          <h2>Shop by category</h2>
+          <p className="eyebrow">{t('home.exploreEyebrow')}</p>
+          <h2>{t('home.shopByCategory')}</h2>
         </div>
-        <p className="section-sub">Everything you need to bring your garden to life</p>
+        <p className="section-sub">{t('home.shopByCategorySub')}</p>
       </div>
       <div className="category-grid">
         {tiles.map((cat) => (
           <Link to={`/category/${cat.slug}`} key={cat.slug} className="category-tile" style={{ backgroundImage: `linear-gradient(to top, rgba(15,17,21,0.75), rgba(15,17,21,0.05)), url('${cat.image}')` }}>
             <span className="category-tile-label">{cat.label}</span>
-            <span className="category-tile-link">Explore →</span>
+            <span className="category-tile-link">{t('home.explore')}</span>
           </Link>
         ))}
       </div>
@@ -206,6 +208,7 @@ function CompleteGardenVideo() {
 }
 
 function CompleteGarden() {
+  const { t } = useLanguage();
   return (
     <section className="complete-garden">
       <CompleteGardenVideo />
@@ -221,7 +224,7 @@ function CompleteGarden() {
           <span className="pill-plus">+</span>
           <span className="pill">💧 Plant nutrition</span>
         </div>
-        <Link to="/category/pots-planters" className="btn-build-garden">Build your garden →</Link>
+        <Link to="/category/pots-planters" className="btn-build-garden">{t('home.buildYourGarden')}</Link>
       </div>
     </section>
   );
@@ -229,15 +232,16 @@ function CompleteGarden() {
 
 function BestSellers() {
   const { getBestSellers } = useCatalogue();
+  const { t } = useLanguage();
   const products = getBestSellers(8);
   return (
     <section className="best-sellers">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">LOVED BY OUR GARDENERS</p>
-          <h2>Plants people love</h2>
+          <p className="eyebrow">{t('home.lovedEyebrow')}</p>
+          <h2>{t('home.plantsPeopleLove')}</h2>
         </div>
-        <Link to="/category/indoor-plants" className="see-all">See all →</Link>
+        <Link to="/category/indoor-plants" className="see-all">{t('home.seeAll')}</Link>
       </div>
       <div className="product-grid">
         {products.map((p) => (
@@ -250,12 +254,13 @@ function BestSellers() {
 
 function GardenServicesTeaser() {
   const { gardenServices: services } = useSiteContent();
+  const { t } = useLanguage();
   return (
     <section className="garden-services-teaser">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">BEYOND PRODUCTS</p>
-          <h2>Garden Services</h2>
+          <p className="eyebrow">{t('home.beyondProducts')}</p>
+          <h2>{t('home.gardenServices')}</h2>
         </div>
         <p className="section-sub">From terrace gardens to full landscaping, our team can help.</p>
       </div>
@@ -263,7 +268,7 @@ function GardenServicesTeaser() {
         {services.map((s) => (
           <Link to={s.to} key={s.title} className="service-card">
             <h3>{s.title}</h3>
-            <span>Learn more →</span>
+            <span>{t('home.learnMore')}</span>
           </Link>
         ))}
       </div>
@@ -433,12 +438,13 @@ function DeliveryRider() {
 }
 
 function NurseryJourney() {
+  const { t } = useLanguage();
   return (
     <section className="nursery-journey">
       <div className="section-heading center">
-        <p className="eyebrow">OUR PROCESS</p>
-        <h2>From IGO Nursery to Your Home</h2>
-        <p className="section-sub">Every plant's journey, start to finish.</p>
+        <p className="eyebrow">{t('home.ourProcess')}</p>
+        <h2>{t('home.journeyHeading')}</h2>
+        <p className="section-sub">{t('home.journeySub')}</p>
       </div>
       <div className="journey-track">
         <div className="journey-line" aria-hidden="true" />
@@ -474,11 +480,12 @@ function WhyIgoCard({ item, index }) {
 }
 
 function WhyIGO() {
+  const { t } = useLanguage();
   return (
     <section className="why-igo">
       <div className="section-heading center">
-        <p className="eyebrow">WHY IGO NURSERY</p>
-        <h2>Grown with data, delivered with care</h2>
+        <p className="eyebrow">{t('home.whyIgoEyebrow')}</p>
+        <h2>{t('home.whyIgoHeading')}</h2>
       </div>
       <div className="why-igo-grid">
         {WHY_IGO.map((item, i) => (
@@ -486,7 +493,7 @@ function WhyIGO() {
         ))}
       </div>
       <div className="why-igo-cta-row">
-        <Link to="/about" className="btn-discover">Discover More</Link>
+        <Link to="/about" className="btn-discover">{t('home.discoverMore')}</Link>
       </div>
     </section>
   );
@@ -750,35 +757,37 @@ function NurseryComparison() {
 }
 
 function PlantFinderBand() {
+  const { t } = useLanguage();
   return (
     <section className="plant-finder-band">
       <div>
-        <p className="eyebrow light">PLANT FINDER</p>
-        <h2>Not sure where to begin?</h2>
+        <p className="eyebrow light">{t('home.plantFinderEyebrow')}</p>
+        <h2>{t('home.plantFinderHeading')}</h2>
         <p>Start with easy-care plants, compact-space favourites or fruit and herb growers.</p>
       </div>
-      <Link to="/plant-finder" className="btn-find-plant">Find my plant</Link>
+      <Link to="/plant-finder" className="btn-find-plant">{t('home.findMyPlant')}</Link>
     </section>
   );
 }
 
 function GardenJournal() {
   const { journal } = useSiteContent();
+  const { t } = useLanguage();
   return (
     <section className="garden-journal">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">LEARN • GROW • THRIVE</p>
-          <h2>Garden journal</h2>
+          <p className="eyebrow">{t('home.learnGrowThrive')}</p>
+          <h2>{t('home.gardenJournal')}</h2>
         </div>
-        <Link to="/blog" className="see-all">See all →</Link>
+        <Link to="/blog" className="see-all">{t('home.seeAll')}</Link>
       </div>
       <div className="journal-grid">
         {journal.map((post) => (
           <Link to={post.to} key={post.id} className="journal-card">
             <div className="journal-media" style={{ backgroundImage: `url('${post.image}')` }} />
             <h3>{post.title}</h3>
-            <span>Read guide →</span>
+            <span>{t('home.readGuide')}</span>
           </Link>
         ))}
       </div>
@@ -787,10 +796,11 @@ function GardenJournal() {
 }
 
 function Reviews() {
+  const { t } = useLanguage();
   return (
     <section className="reviews-section">
       <div className="section-heading center">
-        <h2>Customer reviews</h2>
+        <h2>{t('home.customerReviews')}</h2>
         <p className="section-sub">4.8 / 5 average across 2,400+ orders</p>
       </div>
       <div className="reviews-grid">
@@ -807,12 +817,13 @@ function Reviews() {
 }
 
 function Faq() {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(0);
   return (
     <section className="faq-section" id="faq">
       <div className="section-heading center">
-        <p className="eyebrow">SUPPORT</p>
-        <h2>We've probably answered it already</h2>
+        <p className="eyebrow">{t('home.supportEyebrow')}</p>
+        <h2>{t('home.faqHeading')}</h2>
       </div>
       <div className="faq-list">
         {FAQS.map((item, idx) => (
@@ -830,12 +841,13 @@ function Faq() {
 }
 
 function Newsletter() {
+  const { t } = useLanguage();
   return (
     <section className="newsletter-section">
-      <h2>Get growing tips in your inbox.</h2>
+      <h2>{t('home.newsletterHeading')}</h2>
       <form onSubmit={(e) => e.preventDefault()} className="newsletter-form">
-        <input type="email" placeholder="you@example.com" required />
-        <button type="submit">SUBSCRIBE</button>
+        <input type="email" placeholder={t('home.newsletterPlaceholder')} required />
+        <button type="submit">{t('home.subscribe')}</button>
       </form>
     </section>
   );

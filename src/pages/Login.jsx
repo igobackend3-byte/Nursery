@@ -1,22 +1,23 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 // Friendlier text for the Firebase Auth error codes we're likely to hit here.
-function authErrorMessage(err) {
+function authErrorMessage(err, t) {
   switch (err?.code) {
     case 'auth/invalid-email':
-      return 'That email address doesn\'t look right.';
+      return t('auth.errInvalidEmail');
     case 'auth/user-not-found':
     case 'auth/wrong-password':
     case 'auth/invalid-credential':
-      return 'Incorrect email or password.';
+      return t('auth.invalidCredentials');
     case 'auth/email-already-in-use':
-      return 'An account already exists with this email - try signing in instead.';
+      return t('auth.errAccountExists');
     case 'auth/weak-password':
-      return 'Password should be at least 6 characters.';
+      return t('auth.errWeakPassword');
     default:
-      return 'Something went wrong. Please try again.';
+      return t('auth.errGeneric');
   }
 }
 
@@ -24,6 +25,7 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const { login, signup } = useAuth();
+  const { t } = useLanguage();
 
   const [mode, setMode] = useState('signin'); // 'signin' | 'signup'
   const [showPassword, setShowPassword] = useState(false);
@@ -48,7 +50,7 @@ function Login() {
       }
       navigate(redirectTo, { replace: true });
     } catch (err) {
-      setError(authErrorMessage(err));
+      setError(authErrorMessage(err, t));
     } finally {
       setSubmitting(false);
     }
@@ -57,37 +59,36 @@ function Login() {
   return (
     <div className="auth-page">
       <div className="auth-overlay" />
-      <button type="button" className="auth-close" aria-label="Close and return to homepage" onClick={() => navigate('/')}>
+      <button type="button" className="auth-close" aria-label={t('auth.close')} onClick={() => navigate('/')}>
         ×
       </button>
 
       <div className="auth-shell">
         <div className="auth-copy">
           <h1>
-            Future of
+            {t('auth.heroLine1')}
             <br />
-            Farming
+            {t('auth.heroLine2')}
             <br />
-            Starts Here
+            {t('auth.heroLine3')}
           </h1>
 
           <p>
-            Experience innovation through smart monitoring, intelligent
-            alerts, and advanced agricultural systems.
+            {t('auth.heroDesc')}
           </p>
         </div>
 
         <form className="auth-card" onSubmit={handleSubmit}>
-          <h2>{mode === 'signup' ? 'Create your account' : 'Sign in'}</h2>
+          <h2>{mode === 'signup' ? t('auth.createYourAccount') : t('auth.signIn')}</h2>
 
           {mode === 'signup' && (
             <>
-              <label htmlFor="name">Full Name</label>
+              <label htmlFor="name">{t('auth.fullName')}</label>
               <input
                 id="name"
                 type="text"
-                placeholder="Enter your name"
-                aria-label="Full Name"
+                placeholder={t('auth.fullName')}
+                aria-label={t('auth.fullName')}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -95,24 +96,24 @@ function Login() {
             </>
           )}
 
-          <label htmlFor="email">Email Address</label>
+          <label htmlFor="email">{t('auth.emailAddress')}</label>
           <input
             id="email"
             type="email"
-            placeholder="Enter your email"
-            aria-label="Email Address"
+            placeholder={t('auth.emailAddress')}
+            aria-label={t('auth.emailAddress')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
 
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">{t('auth.password')}</label>
           <div className="password-wrap">
             <input
               id="password"
               type={showPassword ? 'text' : 'password'}
-              placeholder="Enter your password"
-              aria-label="Password"
+              placeholder={t('auth.password')}
+              aria-label={t('auth.password')}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               minLength={6}
@@ -122,7 +123,7 @@ function Login() {
               type="button"
               onClick={() => setShowPassword((value) => !value)}
             >
-              {showPassword ? 'HIDE' : 'SHOW'}
+              {showPassword ? t('auth.hide') : t('auth.show')}
             </button>
           </div>
 
@@ -134,7 +135,7 @@ function Login() {
                   checked={rememberMe}
                   onChange={() => setRememberMe((value) => !value)}
                 />
-                <span>Remember Me</span>
+                <span>{t('auth.rememberMe')}</span>
               </label>
             </div>
           )}
@@ -143,22 +144,22 @@ function Login() {
 
           <button type="submit" className="auth-submit" disabled={submitting}>
             {submitting
-              ? (mode === 'signup' ? 'CREATING ACCOUNT…' : 'SIGNING IN…')
-              : (mode === 'signup' ? 'CREATE ACCOUNT' : 'SIGN IN NOW')}
+              ? (mode === 'signup' ? t('auth.creatingAccount') : t('auth.signingIn'))
+              : (mode === 'signup' ? t('auth.createAccountBtn') : t('auth.signInNow'))}
           </button>
 
           {mode === 'signin' ? (
             <p className="auth-signup">
-              Not a member yet?{' '}
+              {t('auth.notMemberYet')}{' '}
               <a href="#signup" onClick={(e) => { e.preventDefault(); setError(''); setMode('signup'); }}>
-                Join Now!
+                {t('auth.joinNow')}
               </a>
             </p>
           ) : (
             <p className="auth-signup">
-              Already have an account?{' '}
+              {t('auth.alreadyHaveAccount')}{' '}
               <a href="#signin" onClick={(e) => { e.preventDefault(); setError(''); setMode('signin'); }}>
-                Sign in
+                {t('auth.signIn')}
               </a>
             </p>
           )}

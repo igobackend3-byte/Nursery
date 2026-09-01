@@ -6,6 +6,7 @@ import { useCatalogue } from '../context/CatalogueContext';
 import { useAuth } from '../context/AuthContext';
 import { trackRecentlyViewed } from '../lib/recentlyViewed';
 import { getDiscountPercent } from '../utils/pricing';
+import { useLanguage } from '../context/LanguageContext';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -14,6 +15,7 @@ function ProductDetail() {
   const product = getProductById(id);
   const { addToCart, wishlist, toggleWishlist } = useStore();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [qty, setQty] = useState(1);
 
   useEffect(() => {
@@ -34,8 +36,8 @@ function ProductDetail() {
   if (!product) {
     return (
       <div className="empty-page">
-        <h2>Product not found</h2>
-        <button type="button" onClick={() => navigate('/')} className="btn-build-garden">Back to home</button>
+        <h2>{t('product.notFound')}</h2>
+        <button type="button" onClick={() => navigate('/')} className="btn-build-garden">{t('product.backToHome')}</button>
       </div>
     );
   }
@@ -50,7 +52,7 @@ function ProductDetail() {
   return (
     <div className="product-detail-page">
       <p className="breadcrumb">
-        <Link to="/">Home</Link> / <Link to={`/category/${product.category}`}>{product.categoryLabel}</Link> / {product.name}
+        <Link to="/">{t('product.home')}</Link> / <Link to={`/category/${product.category}`}>{product.categoryLabel}</Link> / {product.name}
       </p>
 
       <div className="product-detail-layout">
@@ -93,11 +95,11 @@ function ProductDetail() {
           </div>
 
           <div className="product-detail-specs">
-            <div><span>Size</span><strong>{product.size}</strong></div>
-            <div><span>Light</span><strong>{product.light}</strong></div>
-            <div><span>Ideal location</span><strong>{product.location}</strong></div>
-            <div><span>Maintenance</span><strong>{product.maintenance}</strong></div>
-            <div><span>Watering</span><strong>{product.water}</strong></div>
+            <div><span>{t('product.size')}</span><strong>{product.size}</strong></div>
+            <div><span>{t('product.light')}</span><strong>{product.light}</strong></div>
+            <div><span>{t('product.idealLocation')}</span><strong>{product.location}</strong></div>
+            <div><span>{t('product.maintenance')}</span><strong>{product.maintenance}</strong></div>
+            <div><span>{t('product.watering')}</span><strong>{product.water}</strong></div>
           </div>
 
           <div className="qty-row">
@@ -107,24 +109,22 @@ function ProductDetail() {
               <button type="button" onClick={() => setQty((q) => q + 1)}>+</button>
             </div>
             <button type="button" className="btn-build-garden" onClick={() => addToCart(product, qty)}>
-              Add to cart
+              {t('common.addToCart')}
             </button>
             <button type="button" className={`wishlist-pill ${isWishlisted ? 'active' : ''}`} onClick={() => toggleWishlist(product)}>
-              {isWishlisted ? '♥ Saved' : '♡ Save for later'}
+              {isWishlisted ? `♥ ${t('product.saved')}` : `♡ ${t('product.saveForLater')}`}
             </button>
           </div>
 
           <p className="product-detail-desc">
-            {product.name} is grown at our Muttukadu lab under monitored conditions and passes our
-            99.2% health check before it ships. Pairs well with our terracotta pots and organic
-            potting mix for the best start.
+            {t('product.descTemplate').replace('{name}', product.name)}
           </p>
         </div>
       </div>
 
       {related.length > 0 && (
         <section className="related-products">
-          <h2>You may also like</h2>
+          <h2>{t('product.youMayAlsoLike')}</h2>
           <div className="product-grid">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />

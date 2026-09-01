@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useStore } from '../context/StoreContext';
 import { useCatalogue } from '../context/CatalogueContext';
+import { useLanguage } from '../context/LanguageContext';
 import { subscribeAddresses, addAddress } from '../lib/addresses';
 import { placeOrder } from '../lib/orders';
 import AddressForm from '../components/AddressForm';
@@ -14,6 +15,7 @@ function Checkout() {
   const { user } = useAuth();
   const { cart, pushToast } = useStore();
   const { getProductById } = useCatalogue();
+  const { t } = useLanguage();
 
   const [addresses, setAddresses] = useState(null); // null = loading
   const [selectedAddressId, setSelectedAddressId] = useState('');
@@ -40,10 +42,10 @@ function Checkout() {
   if (items.length === 0) {
     return (
       <div className="empty-page">
-        <h1>Checkout</h1>
+        <h1>{t('checkout.title')}</h1>
         <div className="empty-page-icon">🛒</div>
-        <p>Your cart is empty - add something before checking out.</p>
-        <Link to="/category/indoor-plants" className="btn-build-garden">Continue shopping</Link>
+        <p>{t('checkout.emptyCart')}</p>
+        <Link to="/category/indoor-plants" className="btn-build-garden">{t('cart.continueShopping')}</Link>
       </div>
     );
   }
@@ -54,14 +56,14 @@ function Checkout() {
     if (addingNew) {
       const required = ['line1', 'city', 'state', 'pincode', 'phone'];
       if (required.some((f) => !newAddress[f].trim())) {
-        setError('Please fill in all the required address fields.');
+        setError(t('checkout.fillRequiredFields'));
         return;
       }
       address = newAddress;
     } else {
       address = addresses.find((a) => a.id === selectedAddressId);
       if (!address) {
-        setError('Please select or add a delivery address.');
+        setError(t('checkout.selectOrAddAddress'));
         return;
       }
     }
@@ -74,10 +76,10 @@ function Checkout() {
         try { await addAddress(user.uid, address); } catch { /* non-fatal */ }
       }
       const orderId = await placeOrder(user, { cart, address, paymentMethod, getProductById });
-      pushToast({ type: 'cart', message: 'Order placed! Thank you for shopping with us.', actionLabel: 'View Orders', actionTo: '/account?tab=orders' });
+      pushToast({ type: 'cart', message: t('checkout.orderPlacedToast'), actionLabel: t('checkout.viewOrders'), actionTo: '/account?tab=orders' });
       navigate('/account?tab=orders', { state: { placedOrderId: orderId } });
     } catch (err) {
-      setError('Could not place your order. Please try again.');
+      setError(t('checkout.couldNotPlaceOrder'));
     } finally {
       setPlacing(false);
     }
@@ -85,17 +87,17 @@ function Checkout() {
 
   return (
     <div className="cart-page checkout-page">
-      <p className="eyebrow">SECURE CHECKOUT</p>
-      <h1>Checkout</h1>
+      <p className="eyebrow">{t('checkout.secureCheckout').toUpperCase()}</p>
+      <h1>{t('checkout.title')}</h1>
       <div className="cart-layout">
         <div className="cart-items">
           <div className="cart-summary" style={{ marginBottom: 0 }}>
             <div className="checkout-section-head">
               <span className="checkout-step-badge">1</span>
-              <h2>Delivery address</h2>
+              <h2>{t('checkout.step1')}</h2>
             </div>
 
-            {addresses === null && <p>Loading addresses…</p>}
+            {addresses === null && <p>{t('checkout.loadingAddresses')}</p>}
 
             {addresses !== null && addresses.length > 0 && !addingNew && (
               <div className="checkout-address-list">
@@ -116,7 +118,7 @@ function Checkout() {
                   </label>
                 ))}
                 <button type="button" className="checkout-add-address-btn" onClick={() => setAddingNew(true)}>
-                  + Add a new address
+                  {t('checkout.addNewAddress')}
                 </button>
               </div>
             )}
@@ -125,7 +127,7 @@ function Checkout() {
               <div className="checkout-address-form">
                 {addresses !== null && addresses.length > 0 && (
                   <button type="button" className="checkout-add-address-btn" onClick={() => setAddingNew(false)}>
-                    ← Use a saved address
+                    {t('checkout.useSavedAddress')}
                   </button>
                 )}
                 <AddressForm value={newAddress} onChange={setNewAddress} />
@@ -136,13 +138,13 @@ function Checkout() {
           <div className="cart-summary" style={{ marginTop: 16 }}>
             <div className="checkout-section-head">
               <span className="checkout-step-badge">2</span>
-              <h2>Payment method</h2>
+              <h2>{t('checkout.step2')}</h2>
             </div>
             <div className="checkout-payment-options">
               {['COD', 'UPI'].map((method) => (
                 <label className={`checkout-address-option${paymentMethod === method ? ' selected' : ''}`} key={method}>
                   <input type="radio" name="payment" checked={paymentMethod === method} onChange={() => setPaymentMethod(method)} />
-                  <span>{method === 'COD' ? 'Cash on Delivery' : 'UPI'}</span>
+                  <span>{method === 'COD' ? t('checkout.cashOnDelivery') : t('checkout.upi')}</span>
                 </label>
               ))}
             </div>
@@ -151,7 +153,7 @@ function Checkout() {
           <div className="cart-summary" style={{ marginTop: 16, marginBottom: 0 }}>
             <div className="checkout-section-head">
               <span className="checkout-step-badge">3</span>
-              <h2>Review your order</h2>
+              <h2>{t('checkout.step3')}</h2>
             </div>
             <div className="cart-items" style={{ marginTop: 0 }}>
               {items.map(({ product, qty }) => (
@@ -159,7 +161,7 @@ function Checkout() {
                   <img src={product.image} alt={product.name} />
                   <div className="cart-row-info">
                     <span>{product.name}</span>
-                    <p>{product.categoryLabel} · Qty {qty}</p>
+                    <p>{product.categoryLabel} · {t('cart.quantity')} {qty}</p>
                   </div>
                   <p className="cart-row-total">₹{product.price * qty}</p>
                 </div>
@@ -169,24 +171,24 @@ function Checkout() {
         </div>
 
         <aside className="cart-summary checkout-summary-sticky">
-          <h2>Order summary</h2>
+          <h2>{t('checkout.orderSummary')}</h2>
           <div className="cart-summary-row">
             <span>{items.length} item{items.length > 1 ? 's' : ''}</span>
             <span>₹{subtotal}</span>
           </div>
           <div className="cart-summary-row">
-            <span>Delivery</span>
-            <span>Free</span>
+            <span>{t('checkout.delivery')}</span>
+            <span>{t('checkout.free')}</span>
           </div>
           <div className="checkout-total-row">
-            <span>Total</span>
+            <span>{t('checkout.total')}</span>
             <span>₹{subtotal}</span>
           </div>
           {error && <p className="auth-error">{error}</p>}
           <button type="button" className="btn-build-garden full-width" onClick={handlePlaceOrder} disabled={placing}>
-            {placing ? 'Placing order…' : `Place order · ₹${subtotal}`}
+            {placing ? t('checkout.placingOrder') : `${t('checkout.placeOrder')} · ₹${subtotal}`}
           </button>
-          <p className="checkout-secure-note">🔒 Your information is encrypted and secure.</p>
+          <p className="checkout-secure-note">{t('checkout.secureNote')}</p>
         </aside>
       </div>
     </div>

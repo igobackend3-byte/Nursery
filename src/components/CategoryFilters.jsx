@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../styles/indoor-plant-filters.css';
 import { FILTER_ICONS, SlidersIcon, ChevronIcon, CloseIcon } from './filterIcons';
+import { useLanguage } from '../context/LanguageContext';
 
 // Small visual indicator next to each color option (any category with a
 // `hasSwatch` color-like group gets this, not just plants).
@@ -77,6 +78,7 @@ export function matchesFilters(product, filters, groups) {
 }
 
 function PriceGroup({ filters, priceBounds, onApply }) {
+  const { t } = useLanguage();
   const [from, setFrom] = useState(filters.priceFrom ?? '');
   const [to, setTo] = useState(filters.priceTo ?? '');
 
@@ -102,25 +104,26 @@ function PriceGroup({ filters, priceBounds, onApply }) {
     <div className="ip-price-block">
       <div className="ip-price-inputs">
         <label>
-          <span>From ₹</span>
+          <span>{t('filters.from')} ₹</span>
           <input type="number" min={priceBounds.min} max={priceBounds.max} placeholder={String(priceBounds.min)}
             value={from} onChange={(e) => setFrom(e.target.value)} />
         </label>
         <label>
-          <span>To ₹</span>
+          <span>{t('filters.to')} ₹</span>
           <input type="number" min={priceBounds.min} max={priceBounds.max} placeholder={String(priceBounds.max)}
             value={to} onChange={(e) => setTo(e.target.value)} />
         </label>
       </div>
       <div className="ip-price-actions">
-        <button type="button" className="ip-btn-ghost" onClick={clear}>Clear</button>
-        <button type="button" className="ip-btn-primary small" onClick={apply}>Apply</button>
+        <button type="button" className="ip-btn-ghost" onClick={clear}>{t('filters.clear')}</button>
+        <button type="button" className="ip-btn-primary small" onClick={apply}>{t('filters.apply')}</button>
       </div>
     </div>
   );
 }
 
 function FilterGroupOptions({ group, options, filters, onToggle }) {
+  const { t } = useLanguage();
   const [expanded, setExpanded] = useState(false);
   const visible = expanded ? options : options.slice(0, VISIBLE_OPTION_LIMIT);
   const hasMore = options.length > VISIBLE_OPTION_LIMIT;
@@ -147,7 +150,7 @@ function FilterGroupOptions({ group, options, filters, onToggle }) {
       </ul>
       {hasMore && (
         <button type="button" className="ip-show-more" onClick={() => setExpanded((v) => !v)}>
-          {expanded ? 'Show Less' : 'Show More'}
+          {expanded ? t('filters.showLess') : t('filters.showMore')}
         </button>
       )}
     </>
@@ -193,6 +196,7 @@ function FilterAccordion({ groups, products, filters, openKeys, onToggleOpen, on
 }
 
 function ActiveChips({ groups, filters, onRemoveValue, onRemovePrice }) {
+  const { t } = useLanguage();
   const chips = [];
   groups.forEach(({ key, isPrice }) => {
     if (isPrice) return;
@@ -207,7 +211,7 @@ function ActiveChips({ groups, filters, onRemoveValue, onRemovePrice }) {
   if (chips.length === 0) return null;
   return (
     <div className="ip-chip-section">
-      <p className="ip-chip-heading">Selected Filters</p>
+      <p className="ip-chip-heading">{t('filters.selectedFilters')}</p>
       <div className="ip-chip-row">
         {chips.map((chip) => (
           <span className="ip-chip" key={chip.id}>
@@ -225,6 +229,7 @@ function ActiveChips({ groups, filters, onRemoveValue, onRemovePrice }) {
 // options actually show for the current category/subcategory - this
 // component itself has no category-specific knowledge at all.
 function CategoryFilters({ products, groups, filters, setFilters, resultCount, priceBounds }) {
+  const { t } = useLanguage();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [openKeys, setOpenKeys] = useState([]);
 
@@ -259,28 +264,28 @@ function CategoryFilters({ products, groups, filters, setFilters, resultCount, p
     // otherwise land as a stray extra grid child.
     <div className="ip-filter-root">
       <div className="ip-toolbar">
-        <p className="ip-toolbar-count">{resultCount} products</p>
+        <p className="ip-toolbar-count">{resultCount} {t('filters.products')}</p>
         <button type="button" className="ip-filter-trigger" onClick={openDrawer}>
           <SlidersIcon />
-          Filter
+          {t('filters.filter')}
           {activeCount > 0 && <span className="ip-trigger-badge">{activeCount}</span>}
         </button>
       </div>
 
       {drawerOpen && (
         <div className="ip-drawer-overlay" onClick={closeDrawer}>
-          <div className="ip-drawer" onClick={(e) => e.stopPropagation()} role="dialog" aria-label="Filters">
+          <div className="ip-drawer" onClick={(e) => e.stopPropagation()} role="dialog" aria-label={t('filters.filter')}>
             <div className="ip-drawer-handle" aria-hidden="true" />
             <div className="ip-drawer-header">
               <div>
-                <h3>Filter</h3>
-                <p className="ip-drawer-count">{resultCount} products</p>
+                <h3>{t('filters.filter')}</h3>
+                <p className="ip-drawer-count">{resultCount} {t('filters.products')}</p>
               </div>
               <div className="ip-drawer-header-actions">
                 {activeCount > 0 && (
-                  <button type="button" className="ip-clear-all" onClick={() => setFilters({})}>Clear All</button>
+                  <button type="button" className="ip-clear-all" onClick={() => setFilters({})}>{t('filters.clearAll')}</button>
                 )}
-                <button type="button" className="ip-drawer-close" onClick={closeDrawer} aria-label="Close filters">
+                <button type="button" className="ip-drawer-close" onClick={closeDrawer} aria-label={t('filters.closeFilters')}>
                   <CloseIcon />
                 </button>
               </div>
@@ -303,7 +308,7 @@ function CategoryFilters({ products, groups, filters, setFilters, resultCount, p
             </div>
             <div className="ip-drawer-footer">
               <button type="button" className="ip-btn-full" onClick={closeDrawer}>
-                Show {resultCount} Products
+                {t('filters.showProducts').replace('{n}', resultCount)}
               </button>
             </div>
           </div>
