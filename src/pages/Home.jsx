@@ -7,7 +7,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useSiteContent } from '../hooks/useSiteContent';
 import { useLanguage } from '../context/LanguageContext';
 import { getLocalizedCategoryLabel } from '../utils/localizedContent';
-import { getHeroFieldTranslation } from '../i18n/translations';
+import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTranslation, getReviewTranslation } from '../i18n/translations';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -241,7 +241,7 @@ function BestSellers() {
 
 function GardenServicesTeaser() {
   const { gardenServices: services } = useSiteContent();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <section className="garden-services-teaser">
       <div className="section-heading">
@@ -249,12 +249,12 @@ function GardenServicesTeaser() {
           <p className="eyebrow">{t('home.beyondProducts')}</p>
           <h2>{t('home.gardenServices')}</h2>
         </div>
-        <p className="section-sub">From terrace gardens to full landscaping, our team can help.</p>
+        <p className="section-sub">{t('home.gardenServicesTeaserSub')}</p>
       </div>
       <div className="services-grid">
         {services.map((s) => (
           <Link to={s.to} key={s.title} className="service-card">
-            <h3>{s.title}</h3>
+            <h3>{getGardenServiceTranslation(s.title, language)?.title ?? s.title}</h3>
             <span>{t('home.learnMore')}</span>
           </Link>
         ))}
@@ -751,7 +751,7 @@ function PlantFinderBand() {
       <div>
         <p className="eyebrow light">{t('home.plantFinderEyebrow')}</p>
         <h2>{t('home.plantFinderHeading')}</h2>
-        <p>Start with easy-care plants, compact-space favourites or fruit and herb growers.</p>
+        <p>{t('home.plantFinderBandDesc')}</p>
       </div>
       <Link to="/plant-finder" className="btn-find-plant">{t('home.findMyPlant')}</Link>
     </section>
@@ -760,7 +760,7 @@ function PlantFinderBand() {
 
 function GardenJournal() {
   const { journal } = useSiteContent();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <section className="garden-journal">
       <div className="section-heading">
@@ -774,7 +774,7 @@ function GardenJournal() {
         {journal.map((post) => (
           <Link to={post.to} key={post.id} className="journal-card">
             <div className="journal-media" style={{ backgroundImage: `url('${post.image}')` }} />
-            <h3>{post.title}</h3>
+            <h3>{getBlogPostTranslation(post.title, language)?.title ?? post.title}</h3>
             <span>{t('home.readGuide')}</span>
           </Link>
         ))}
@@ -784,18 +784,18 @@ function GardenJournal() {
 }
 
 function Reviews() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <section className="reviews-section">
       <div className="section-heading center">
         <h2>{t('home.customerReviews')}</h2>
-        <p className="section-sub">4.8 / 5 average across 2,400+ orders</p>
+        <p className="section-sub">{t('home.reviewsSub')}</p>
       </div>
       <div className="reviews-grid">
         {REVIEWS.map((r) => (
           <div className="review-card" key={r.name}>
             <p className="review-stars">{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</p>
-            <p className="review-text">&ldquo;{r.text}&rdquo;</p>
+            <p className="review-text">&ldquo;{getReviewTranslation(r.text, language)}&rdquo;</p>
             <p className="review-name">{r.name}</p>
           </div>
         ))}

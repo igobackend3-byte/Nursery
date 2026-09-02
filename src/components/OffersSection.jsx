@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useSiteContent } from '../hooks/useSiteContent';
 import { useLanguage } from '../context/LanguageContext';
+import { getOfferNoteTranslation } from '../i18n/translations';
 
 function OffersSection() {
   const { offers: OFFERS } = useSiteContent();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <section className="offers-section">
       <div className="section-heading center">
@@ -19,7 +20,7 @@ function OffersSection() {
           <div className="offer-card" key={offer.id}>
             <div className="offer-copy">
               <h3>{t('offers.buyAny')} {offer.qty} @ ₹{offer.price}</h3>
-              <p>{offer.note}</p>
+              <p>{getOfferNoteTranslation(offer.note, language)}</p>
               <Link to="/category/indoor-plants" className="btn-shop-now">{t('offers.shopNow')}</Link>
             </div>
             <div className="offer-badge">{t('offers.buildBundle')}</div>

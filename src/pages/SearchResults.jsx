@@ -48,9 +48,9 @@ function SearchResults() {
   return (
     <div className="category-page">
       <div className="category-hero">
-        <p className="eyebrow">SEARCH</p>
-        <h1>{q ? `Results for "${q}"` : 'Search'}</h1>
-        <p className="category-tagline">{results.length} product{results.length === 1 ? '' : 's'} found</p>
+        <p className="eyebrow">{t('common.search')}</p>
+        <h1>{q ? t('pages.resultsFor').replace('{q}', q) : t('common.search')}</h1>
+        <p className="category-tagline">{t('filters.productsFound').replace('{n}', results.length)}</p>
       </div>
 
       <div className="category-layout ip-fullwidth">

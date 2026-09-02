@@ -105,8 +105,8 @@ function NotificationBell() {
           ) : feed.length === 0 ? (
             <div className="notification-dropdown-empty">
               <span className="notification-empty-icon">🔔</span>
-              <strong>No notifications yet</strong>
-              <p>You're all caught up!</p>
+              <strong>{t('common.noNotificationsYet')}</strong>
+              <p>{t('notifications.allCaughtUp')}</p>
             </div>
           ) : (
             <ul className="notification-dropdown-list">

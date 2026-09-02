@@ -73,8 +73,8 @@ const SEEDS_SUBCATEGORY_HERO_IMAGES = {
 // own small, unrelated facet sidebar rather than the category filter
 // system below (out of scope for this change, and not broken by it).
 const GIFT_FACETS = [
-  { key: 'giftType', title: 'Gift Type' },
-  { key: 'productType', title: 'Product Type' },
+  { key: 'giftType', titleKey: 'giftType' },
+  { key: 'productType', titleKey: 'productType' },
 ];
 
 function GiftFacetGroup({ title, options, selected, onToggle }) {
@@ -114,10 +114,10 @@ function CategoryPage({ slugOverride }) {
   const localizedLabel = getLocalizedCategoryLabel(meta, language);
   const localizedTagline = getLocalizedCategoryTagline(meta, language);
   const heading = isGiftPage
-    ? slug === 'gifting' ? t('nav.gifting') : 'Corporate Gifts'
-    : localizedLabel || 'All Products';
+    ? slug === 'gifting' ? t('nav.gifting') : t('pages.corporateGiftsTitle')
+    : localizedLabel || t('common.allProducts');
   const tagline = isGiftPage
-    ? 'Thoughtful, ready-to-gift plants and planters for every occasion.'
+    ? t('pages.corporateGiftsTagline')
     : localizedTagline;
 
   const prices = baseProducts.map((p) => p.price);
@@ -163,7 +163,7 @@ function CategoryPage({ slugOverride }) {
         className={`category-hero${heroImage ? ' category-hero-has-image' : ''}`}
         style={heroImage ? { backgroundImage: `url('${heroImage}')` } : undefined}
       >
-        <p className="eyebrow">{isGiftPage ? 'GIFTING' : 'CATEGORY'}</p>
+        <p className="eyebrow">{isGiftPage ? t('nav.gifting').toUpperCase() : t('common.categoryEyebrow')}</p>
         <h1>{heading}</h1>
         <p className="category-tagline">{tagline}</p>
       </div>
@@ -171,10 +171,10 @@ function CategoryPage({ slugOverride }) {
       <div className={`category-layout${isGiftPage ? '' : ' ip-fullwidth'}`}>
         {isGiftPage ? (
           <aside className="filter-sidebar">
-            <p className="filter-count">{filtered.length} products found</p>
+            <p className="filter-count">{t('filters.productsFound').replace('{n}', filtered.length)}</p>
 
             <div className="facet-group price-facet">
-              <h4>Price</h4>
+              <h4>{t('common.price')}</h4>
               <div className="price-inputs">
                 <span>₹{minPrice}</span>
                 <span>—</span>
@@ -189,7 +189,7 @@ function CategoryPage({ slugOverride }) {
               />
             </div>
 
-            {GIFT_FACETS.map(({ key, title }) => {
+            {GIFT_FACETS.map(({ key, titleKey }) => {
               const counts = new Map();
               baseProducts.forEach((p) => {
                 const val = p[key];
@@ -201,7 +201,7 @@ function CategoryPage({ slugOverride }) {
               return (
                 <GiftFacetGroup
                   key={key}
-                  title={title}
+                  title={t(`common.${titleKey}`)}
                   options={options}
                   selected={giftFacets[key] ?? []}
                   onToggle={(value) => toggleGiftFacet(key, value)}
@@ -226,11 +226,11 @@ function CategoryPage({ slugOverride }) {
           ))}
           {filtered.length === 0 && (
             isGiftPage ? (
-              <p className="empty-state">No products match your filters.</p>
+              <p className="empty-state">{t('common.noProductsMatchFilters')}</p>
             ) : (
               <div className="empty-state ip-empty-state">
-                <p className="ip-empty-title">No products found</p>
-                <p className="ip-empty-sub">Try removing some filters or changing your selection.</p>
+                <p className="ip-empty-title">{t('common.noProductsFound')}</p>
+                <p className="ip-empty-sub">{t('common.tryRemovingFilters')}</p>
                 {Object.keys(filters).length > 0 && (
                   <button type="button" className="ip-btn-primary" onClick={() => setFilters({})}>
                     Clear All Filters
