@@ -1,3 +1,5 @@
+import { useLanguage } from '../context/LanguageContext';
+
 const SERVICES = [
   { title: 'Terrace Garden', desc: 'Turn an unused terrace into a shaded, plant-filled retreat — from layout to irrigation.' },
   { title: 'Balcony Garden', desc: 'Compact planting plans designed for railing planters, vertical racks and tight corners.' },
@@ -6,29 +8,30 @@ const SERVICES = [
 ];
 
 function GardenServices() {
+  const { t } = useLanguage();
   return (
     <div className="garden-services-page">
-      <p className="eyebrow">BEYOND PRODUCTS</p>
-      <h1>Garden Services</h1>
-      <p className="category-tagline">From terrace gardens to full landscaping, our team can help.</p>
+      <p className="eyebrow">{t('pages.beyondProducts')}</p>
+      <h1>{t('pages.gardenServicesTitle')}</h1>
+      <p className="category-tagline">{t('pages.gardenServicesTagline')}</p>
 
       <div className="services-grid large">
         {SERVICES.map((service) => (
           <div className="service-card static" key={service.title}>
             <h3>{service.title}</h3>
             <p>{service.desc}</p>
-            <span>Learn more →</span>
+            <span>{t('pages.learnMore')}</span>
           </div>
         ))}
       </div>
 
       <div className="plant-finder-band">
         <div>
-          <p className="eyebrow light">GET STARTED</p>
-          <h2>Tell us about your space</h2>
-          <p>Share a few photos and dimensions, and our team will put together a plan and quote.</p>
+          <p className="eyebrow light">{t('pages.getStarted')}</p>
+          <h2>{t('pages.tellUsAboutSpace')}</h2>
+          <p>{t('pages.tellUsDesc')}</p>
         </div>
-        <a href="mailto:hello@igonursery.com" className="btn-find-plant">Request a consultation</a>
+        <a href="mailto:hello@igonursery.com" className="btn-find-plant">{t('pages.requestConsultation')}</a>
       </div>
     </div>
   );

@@ -1,3 +1,5 @@
+import { useLanguage } from '../context/LanguageContext';
+
 const POSTS = [
   { title: 'How to choose your first indoor plant', excerpt: 'Light, space and how much time you actually have — the three questions that matter most.', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=600&auto=format&fit=crop' },
   { title: 'A simple guide to potting mix', excerpt: 'What goes into a good mix, and why the bag from the hardware store usually isn’t it.', image: 'https://images.unsplash.com/photo-1502394202744-021cfbb17454?q=80&w=600&auto=format&fit=crop' },
@@ -8,11 +10,12 @@ const POSTS = [
 ];
 
 function Blog() {
+  const { t } = useLanguage();
   return (
     <div className="blog-page">
-      <p className="eyebrow">LEARN • GROW • THRIVE</p>
-      <h1>Garden journal</h1>
-      <p className="category-tagline">Care guides and ideas from the IGO Nursery team.</p>
+      <p className="eyebrow">{t('pages.blogEyebrow')}</p>
+      <h1>{t('pages.blogTitle')}</h1>
+      <p className="category-tagline">{t('pages.blogTagline')}</p>
 
       <div className="journal-grid large">
         {POSTS.map((post) => (
@@ -20,7 +23,7 @@ function Blog() {
             <div className="journal-media" style={{ backgroundImage: `url('${post.image}')` }} />
             <h3>{post.title}</h3>
             <p>{post.excerpt}</p>
-            <span>Read guide →</span>
+            <span>{t('pages.readGuide')}</span>
           </article>
         ))}
       </div>

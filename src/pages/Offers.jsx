@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom';
 import OffersSection from '../components/OffersSection';
+import { useLanguage } from '../context/LanguageContext';
 
 function Offers() {
+  const { t } = useLanguage();
   return (
     <div className="offers-page">
-      <p className="breadcrumb"><Link to="/">Home</Link> / Offers</p>
-      <p className="eyebrow">OFFERS</p>
-      <h1>All offers, in one place</h1>
+      <p className="breadcrumb"><Link to="/">{t('pages.home')}</Link> / {t('pages.offersEyebrow')}</p>
+      <p className="eyebrow">{t('pages.offersEyebrow')}</p>
+      <h1>{t('pages.offersTitle')}</h1>
       <p className="category-tagline">
-        Plant bundles, category discounts and seasonal deals across the IGO catalogue.
+        {t('pages.offersTagline')}
       </p>
       <OffersSection />
     </div>

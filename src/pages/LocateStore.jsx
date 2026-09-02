@@ -1,8 +1,11 @@
+import { useLanguage } from '../context/LanguageContext';
+
 function LocateStore() {
+  const { t } = useLanguage();
   return (
     <div className="locate-store-page">
-      <p className="eyebrow">VISIT US</p>
-      <h1>Locate our store</h1>
+      <p className="eyebrow">{t('pages.visitUs')}</p>
+      <h1>{t('pages.locateStoreTitle')}</h1>
       <p className="category-tagline">IGO Nursery — Muttukadu Lab &amp; Store</p>
 
       <div className="store-layout">
@@ -16,9 +19,9 @@ function LocateStore() {
         <div className="store-details">
           <h3>Muttukadu Lab &amp; Store</h3>
           <p>ECR Road, Muttukadu, Chennai, Tamil Nadu 603112</p>
-          <h4>Store hours</h4>
+          <h4>{t('pages.storeHours')}</h4>
           <p>Mon–Sat: 9:00 AM – 7:00 PM<br />Sun: 10:00 AM – 5:00 PM</p>
-          <h4>Contact</h4>
+          <h4>{t('pages.contact')}</h4>
           <p>+91 98765 43210<br />hello@igonursery.com</p>
         </div>
       </div>

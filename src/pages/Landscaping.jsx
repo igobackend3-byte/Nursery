@@ -1,3 +1,5 @@
+import { useLanguage } from '../context/LanguageContext';
+
 const LANDSCAPING_SERVICES = [
   'Villa Landscaping', 'Balcony Garden', 'Terrace Garden', 'Rooftop Garden', 'Vertical Garden',
   'Courtyard Garden', 'Backyard Garden', 'Frontyard Landscaping', 'Farmhouse Landscaping',
@@ -27,13 +29,13 @@ function serviceImage(title, index) {
 }
 
 function Landscaping() {
+  const { t } = useLanguage();
   return (
     <div className="garden-services-page">
-      <p className="eyebrow">BEYOND PRODUCTS</p>
-      <h1>Landscaping</h1>
+      <p className="eyebrow">{t('pages.beyondProducts')}</p>
+      <h1>{t('pages.landscapingTitle')}</h1>
       <p className="category-tagline">
-        End-to-end landscaping design and build - from a single balcony to a full campus. Browse the
-        services below and reach out for a site visit and quote.
+        {t('pages.landscapingTagline')}
       </p>
 
       <div className="services-grid large landscaping-grid">
@@ -50,11 +52,11 @@ function Landscaping() {
 
       <div className="plant-finder-band">
         <div>
-          <p className="eyebrow light">GET STARTED</p>
-          <h2>Tell us about your space</h2>
-          <p>Share a few photos and dimensions, and our team will put together a plan and quote.</p>
+          <p className="eyebrow light">{t('pages.getStarted')}</p>
+          <h2>{t('pages.tellUsAboutSpace')}</h2>
+          <p>{t('pages.tellUsDesc')}</p>
         </div>
-        <a href="mailto:hello@igonursery.com" className="btn-find-plant">Request a consultation</a>
+        <a href="mailto:hello@igonursery.com" className="btn-find-plant">{t('pages.requestConsultation')}</a>
       </div>
     </div>
   );
