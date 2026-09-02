@@ -10,8 +10,10 @@ import { useLanguage } from '../context/LanguageContext';
 // which never even read `q`, so results never actually matched the typed
 // query - see Header.jsx's onSubmit).
 function scoreMatch(product, terms) {
+  const translatedNames = Object.values(product.translations ?? {}).map((tr) => tr?.name).filter(Boolean);
   const haystack = [
     product.name,
+    ...translatedNames,
     product.categoryLabel,
     product.category,
     ...(product.tags ?? []),

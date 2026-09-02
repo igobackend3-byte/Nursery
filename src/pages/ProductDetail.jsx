@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { trackRecentlyViewed } from '../lib/recentlyViewed';
 import { getDiscountPercent } from '../utils/pricing';
 import { useLanguage } from '../context/LanguageContext';
-import { getLocalizedProductName, getLocalizedCategoryLabel } from '../utils/localizedContent';
+import { getLocalizedProductName, getLocalizedCategoryLabel, getLocalizedSpecValue } from '../utils/localizedContent';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -99,11 +99,11 @@ function ProductDetail() {
           </div>
 
           <div className="product-detail-specs">
-            <div><span>{t('product.size')}</span><strong>{product.size}</strong></div>
-            <div><span>{t('product.light')}</span><strong>{product.light}</strong></div>
-            <div><span>{t('product.idealLocation')}</span><strong>{product.location}</strong></div>
-            <div><span>{t('product.maintenance')}</span><strong>{product.maintenance}</strong></div>
-            <div><span>{t('product.watering')}</span><strong>{product.water}</strong></div>
+            <div><span>{t('product.size')}</span><strong>{getLocalizedSpecValue(product.size, language)}</strong></div>
+            <div><span>{t('product.light')}</span><strong>{getLocalizedSpecValue(product.light, language)}</strong></div>
+            <div><span>{t('product.idealLocation')}</span><strong>{getLocalizedSpecValue(product.location, language)}</strong></div>
+            <div><span>{t('product.maintenance')}</span><strong>{getLocalizedSpecValue(product.maintenance, language)}</strong></div>
+            <div><span>{t('product.watering')}</span><strong>{getLocalizedSpecValue(product.water, language)}</strong></div>
           </div>
 
           <div className="qty-row">

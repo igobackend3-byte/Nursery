@@ -220,6 +220,69 @@ const finder = {
     qBudget: 'ನಿಮ್ಮ ಬಜೆಟ್ ಎಷ್ಟು?', qBudgetLow: '₹250 ಕ್ಕಿಂತ ಕಡಿಮೆ', qBudgetMid: '₹250 – ₹500', qBudgetHigh: '₹500+' },
 };
 
+// Translations for the fixed set of enum-like values used in product specs
+// (maintenance level, watering instructions, light needs, ideal location,
+// size band). Unlike product names/descriptions (~800 items, admin-entered
+// per product - see the note at the top of this file), this is a small,
+// closed vocabulary reused across every product, so it's safe to translate
+// once here and apply everywhere via getLocalizedSpecValue().
+const specValues = {
+  en: {
+    'Low Maintenance': 'Low Maintenance', 'High Maintenance': 'High Maintenance', 'Medium Maintenance': 'Medium Maintenance', 'Moderate': 'Moderate', 'Easy': 'Easy', 'Very Easy': 'Very Easy',
+    'Water when topsoil dries': 'Water when topsoil dries', 'Keep soil consistently moist': 'Keep soil consistently moist', 'Water sparingly': 'Water sparingly', 'Water When Dry': 'Water When Dry', 'Regular Watering': 'Regular Watering', 'Keep Soil Moist': 'Keep Soil Moist', 'Water Sparingly': 'Water Sparingly', '2-3 Times a Week': '2-3 Times a Week', 'Low Water': 'Low Water', 'Once a Week': 'Once a Week', 'Frequent Watering': 'Frequent Watering',
+    'Low Light': 'Low Light', 'Indirect Light': 'Indirect Light', 'Bright Indirect Light': 'Bright Indirect Light', 'Direct Sunlight': 'Direct Sunlight', 'Bright Light': 'Bright Light', 'Medium Light': 'Medium Light',
+    'Indoors, tabletop or hanging': 'Indoors, tabletop or hanging', 'Indoors, low light corner': 'Indoors, low light corner', 'Garden bed or grow bag': 'Garden bed or grow bag', 'Living Room': 'Living Room', 'Bedroom': 'Bedroom', 'Bathroom': 'Bathroom', 'Office Desk': 'Office Desk', 'Office': 'Office Desk', 'Balcony': 'Balcony', 'Kitchen': 'Kitchen', 'Terrace': 'Terrace', 'Garden': 'Garden',
+    'Large (Above 60cm)': 'Large (Above 60cm)', 'Small (Under 20cm)': 'Small (Under 20cm)', 'Medium (20-60cm)': 'Medium (20-60cm)',
+    'Full sun to partial shade': 'Full sun to partial shade', 'Garden bed, terrace or balcony': 'Garden bed, terrace or balcony', 'Regular watering, more in summer': 'Regular watering, more in summer',
+  },
+  ta: {
+    'Low Maintenance': 'குறைந்த பராமரிப்பு', 'High Maintenance': 'அதிக பராமரிப்பு', 'Medium Maintenance': 'நடுத்தர பராமரிப்பு', 'Moderate': 'மிதமான', 'Easy': 'எளிதானது', 'Very Easy': 'மிக எளிதானது',
+    'Water when topsoil dries': 'மேல் மண் உலரும்போது நீர் ஊற்றவும்', 'Keep soil consistently moist': 'மண்ணை எப்போதும் ஈரமாக வைக்கவும்', 'Water sparingly': 'குறைவாக நீர் ஊற்றவும்', 'Water When Dry': 'உலரும்போது நீர் ஊற்றவும்', 'Regular Watering': 'தொடர்ந்து நீர் ஊற்றவும்', 'Keep Soil Moist': 'மண்ணை ஈரமாக வைக்கவும்', 'Water Sparingly': 'குறைவாக நீர் ஊற்றவும்', '2-3 Times a Week': 'வாரத்திற்கு 2-3 முறை', 'Low Water': 'குறைந்த நீர்', 'Once a Week': 'வாரத்திற்கு ஒரு முறை', 'Frequent Watering': 'அடிக்கடி நீர் ஊற்றவும்',
+    'Low Light': 'குறைந்த ஒளி', 'Indirect Light': 'மறைமுக ஒளி', 'Bright Indirect Light': 'பிரகாசமான மறைமுக ஒளி', 'Direct Sunlight': 'நேரடி சூரிய ஒளி', 'Bright Light': 'பிரகாசமான ஒளி', 'Medium Light': 'நடுத்தர ஒளி',
+    'Indoors, tabletop or hanging': 'உட்புறம், மேசை மேல் அல்லது தொங்கவிடலாம்', 'Indoors, low light corner': 'உட்புறம், குறைந்த ஒளியுள்ள மூலையில்', 'Garden bed or grow bag': 'தோட்ட படுக்கை அல்லது வளர்ப்பு பை', 'Living Room': 'வரவேற்பறை', 'Bedroom': 'படுக்கையறை', 'Bathroom': 'குளியலறை', 'Office Desk': 'அலுவலக மேசை', 'Office': 'அலுவலக மேசை', 'Balcony': 'பால்கனி', 'Kitchen': 'சமையலறை', 'Terrace': 'மொட்டை மாடி', 'Garden': 'தோட்டம்',
+    'Large (Above 60cm)': 'பெரியது (60செமீக்கு மேல்)', 'Small (Under 20cm)': 'சிறியது (20செமீக்கு கீழ்)', 'Medium (20-60cm)': 'நடுத்தரம் (20-60செமீ)',
+    'Full sun to partial shade': 'முழு வெயில் முதல் பகுதி நிழல் வரை', 'Garden bed, terrace or balcony': 'தோட்ட படுக்கை, மொட்டை மாடி அல்லது பால்கனி', 'Regular watering, more in summer': 'தொடர்ந்து நீர் ஊற்றவும், கோடையில் அதிகமாக',
+  },
+  hi: {
+    'Low Maintenance': 'कम रखरखाव', 'High Maintenance': 'अधिक रखरखाव', 'Medium Maintenance': 'मध्यम रखरखाव', 'Moderate': 'मध्यम', 'Easy': 'आसान', 'Very Easy': 'बहुत आसान',
+    'Water when topsoil dries': 'ऊपरी मिट्टी सूखने पर पानी दें', 'Keep soil consistently moist': 'मिट्टी को हमेशा नम रखें', 'Water sparingly': 'कम पानी दें', 'Water When Dry': 'सूखने पर पानी दें', 'Regular Watering': 'नियमित पानी दें', 'Keep Soil Moist': 'मिट्टी को नम रखें', 'Water Sparingly': 'कम पानी दें', '2-3 Times a Week': 'सप्ताह में 2-3 बार', 'Low Water': 'कम पानी', 'Once a Week': 'सप्ताह में एक बार', 'Frequent Watering': 'बार-बार पानी दें',
+    'Low Light': 'कम रोशनी', 'Indirect Light': 'अप्रत्यक्ष रोशनी', 'Bright Indirect Light': 'उज्ज्वल अप्रत्यक्ष रोशनी', 'Direct Sunlight': 'सीधी धूप', 'Bright Light': 'तेज रोशनी', 'Medium Light': 'मध्यम रोशनी',
+    'Indoors, tabletop or hanging': 'घर के अंदर, टेबल पर या लटकाकर', 'Indoors, low light corner': 'घर के अंदर, कम रोशनी वाले कोने में', 'Garden bed or grow bag': 'गार्डन बेड या ग्रो बैग', 'Living Room': 'लिविंग रूम', 'Bedroom': 'शयनकक्ष', 'Bathroom': 'बाथरूम', 'Office Desk': 'ऑफिस डेस्क', 'Office': 'ऑफिस डेस्क', 'Balcony': 'बालकनी', 'Kitchen': 'रसोई', 'Terrace': 'छत', 'Garden': 'बगीचा',
+    'Large (Above 60cm)': 'बड़ा (60सेमी से ऊपर)', 'Small (Under 20cm)': 'छोटा (20सेमी से कम)', 'Medium (20-60cm)': 'मध्यम (20-60सेमी)',
+    'Full sun to partial shade': 'पूर्ण धूप से आंशिक छाया तक', 'Garden bed, terrace or balcony': 'गार्डन बेड, छत या बालकनी', 'Regular watering, more in summer': 'नियमित पानी, गर्मियों में अधिक',
+  },
+  ml: {
+    'Low Maintenance': 'കുറഞ്ഞ പരിപാലനം', 'High Maintenance': 'കൂടിയ പരിപാലനം', 'Medium Maintenance': 'ഇടത്തരം പരിപാലനം', 'Moderate': 'മിതമായ', 'Easy': 'എളുപ്പം', 'Very Easy': 'വളരെ എളുപ്പം',
+    'Water when topsoil dries': 'മേൽമണ്ണ് ഉണങ്ങുമ്പോൾ വെള്ളം നൽകുക', 'Keep soil consistently moist': 'മണ്ണ് എപ്പോഴും ഈർപ്പമുള്ളതാക്കി വയ്ക്കുക', 'Water sparingly': 'കുറച്ച് വെള്ളം മാത്രം നൽകുക', 'Water When Dry': 'ഉണങ്ങുമ്പോൾ വെള്ളം നൽകുക', 'Regular Watering': 'സ്ഥിരമായി വെള്ളം നൽകുക', 'Keep Soil Moist': 'മണ്ണ് ഈർപ്പമുള്ളതാക്കി വയ്ക്കുക', 'Water Sparingly': 'കുറച്ച് വെള്ളം മാത്രം നൽകുക', '2-3 Times a Week': 'ആഴ്ചയിൽ 2-3 തവണ', 'Low Water': 'കുറഞ്ഞ വെള്ളം', 'Once a Week': 'ആഴ്ചയിൽ ഒരിക്കൽ', 'Frequent Watering': 'ഇടയ്ക്കിടെ വെള്ളം നൽകുക',
+    'Low Light': 'കുറഞ്ഞ വെളിച്ചം', 'Indirect Light': 'പരോക്ഷ വെളിച്ചം', 'Bright Indirect Light': 'തിളക്കമുള്ള പരോക്ഷ വെളിച്ചം', 'Direct Sunlight': 'നേരിട്ടുള്ള സൂര്യപ്രകാശം', 'Bright Light': 'തിളക്കമുള്ള വെളിച്ചം', 'Medium Light': 'ഇടത്തരം വെളിച്ചം',
+    'Indoors, tabletop or hanging': 'അകത്ത്, മേശപ്പുറത്ത് അല്ലെങ്കിൽ തൂക്കിയിടാം', 'Indoors, low light corner': 'അകത്ത്, കുറഞ്ഞ വെളിച്ചമുള്ള മൂലയിൽ', 'Garden bed or grow bag': 'ഗാർഡൻ ബെഡ് അല്ലെങ്കിൽ ഗ്രോ ബാഗ്', 'Living Room': 'ലിവിംഗ് റൂം', 'Bedroom': 'ബെഡ്റൂം', 'Bathroom': 'ബാത്ത്റൂം', 'Office Desk': 'ഓഫീസ് ഡെസ്ക്', 'Office': 'ഓഫീസ് ഡെസ്ക്', 'Balcony': 'ബാൽക്കണി', 'Kitchen': 'അടുക്കള', 'Terrace': 'ടെറസ്', 'Garden': 'പൂന്തോട്ടം',
+    'Large (Above 60cm)': 'വലുത് (60സെമീയിൽ കൂടുതൽ)', 'Small (Under 20cm)': 'ചെറുത് (20സെമീയിൽ താഴെ)', 'Medium (20-60cm)': 'ഇടത്തരം (20-60സെമീ)',
+    'Full sun to partial shade': 'പൂർണ്ണ വെയിൽ മുതൽ ഭാഗിക തണൽ വരെ', 'Garden bed, terrace or balcony': 'ഗാർഡൻ ബെഡ്, ടെറസ് അല്ലെങ്കിൽ ബാൽക്കണി', 'Regular watering, more in summer': 'സ്ഥിരമായി വെള്ളം നൽകുക, വേനലിൽ കൂടുതൽ',
+  },
+  te: {
+    'Low Maintenance': 'తక్కువ నిర్వహణ', 'High Maintenance': 'ఎక్కువ నిర్వహణ', 'Medium Maintenance': 'మధ్యస్థ నిర్వహణ', 'Moderate': 'మధ్యస్థమైన', 'Easy': 'సులభం', 'Very Easy': 'చాలా సులభం',
+    'Water when topsoil dries': 'పైమట్టి ఎండినప్పుడు నీరు పోయండి', 'Keep soil consistently moist': 'మట్టిని ఎప్పుడూ తడిగా ఉంచండి', 'Water sparingly': 'తక్కువగా నీరు పోయండి', 'Water When Dry': 'ఎండినప్పుడు నీరు పోయండి', 'Regular Watering': 'క్రమం తప్పకుండా నీరు పోయండి', 'Keep Soil Moist': 'మట్టిని తడిగా ఉంచండి', 'Water Sparingly': 'తక్కువగా నీరు పోయండి', '2-3 Times a Week': 'వారానికి 2-3 సార్లు', 'Low Water': 'తక్కువ నీరు', 'Once a Week': 'వారానికి ఒకసారి', 'Frequent Watering': 'తరచుగా నీరు పోయండి',
+    'Low Light': 'తక్కువ వెలుతురు', 'Indirect Light': 'పరోక్ష వెలుతురు', 'Bright Indirect Light': 'ప్రకాశవంతమైన పరోక్ష వెలుతురు', 'Direct Sunlight': 'ప్రత్యక్ష సూర్యకాంతి', 'Bright Light': 'ప్రకాశవంతమైన వెలుతురు', 'Medium Light': 'మధ్యస్థ వెలుతురు',
+    'Indoors, tabletop or hanging': 'ఇంటి లోపల, టేబుల్ పైన లేదా వేలాడదీయవచ్చు', 'Indoors, low light corner': 'ఇంటి లోపల, తక్కువ వెలుతురు ఉన్న మూలలో', 'Garden bed or grow bag': 'గార్డెన్ బెడ్ లేదా గ్రో బ్యాగ్', 'Living Room': 'లివింగ్ రూమ్', 'Bedroom': 'బెడ్రూమ్', 'Bathroom': 'బాత్రూమ్', 'Office Desk': 'ఆఫీస్ డెస్క్', 'Office': 'ఆఫీస్ డెస్క్', 'Balcony': 'బాల్కనీ', 'Kitchen': 'వంటగది', 'Terrace': 'టెర్రస్', 'Garden': 'తోట',
+    'Large (Above 60cm)': 'పెద్దది (60సెం.మీ పైన)', 'Small (Under 20cm)': 'చిన్నది (20సెం.మీ కంటే తక్కువ)', 'Medium (20-60cm)': 'మధ్యస్థం (20-60సెం.మీ)',
+    'Full sun to partial shade': 'పూర్తి ఎండ నుండి పాక్షిక నీడ వరకు', 'Garden bed, terrace or balcony': 'గార్డెన్ బెడ్, టెర్రస్ లేదా బాల్కనీ', 'Regular watering, more in summer': 'క్రమం తప్పకుండా నీరు, వేసవిలో ఎక్కువ',
+  },
+  kn: {
+    'Low Maintenance': 'ಕಡಿಮೆ ನಿರ್ವಹಣೆ', 'High Maintenance': 'ಹೆಚ್ಚು ನಿರ್ವಹಣೆ', 'Medium Maintenance': 'ಮಧ್ಯಮ ನಿರ್ವಹಣೆ', 'Moderate': 'ಮಧ್ಯಮ', 'Easy': 'ಸುಲಭ', 'Very Easy': 'ಬಹಳ ಸುಲಭ',
+    'Water when topsoil dries': 'ಮೇಲ್ಮಣ್ಣು ಒಣಗಿದಾಗ ನೀರು ಹಾಕಿ', 'Keep soil consistently moist': 'ಮಣ್ಣನ್ನು ಯಾವಾಗಲೂ ತೇವವಾಗಿಡಿ', 'Water sparingly': 'ಕಡಿಮೆ ನೀರು ಹಾಕಿ', 'Water When Dry': 'ಒಣಗಿದಾಗ ನೀರು ಹಾಕಿ', 'Regular Watering': 'ನಿಯಮಿತವಾಗಿ ನೀರು ಹಾಕಿ', 'Keep Soil Moist': 'ಮಣ್ಣನ್ನು ತೇವವಾಗಿಡಿ', 'Water Sparingly': 'ಕಡಿಮೆ ನೀರು ಹಾಕಿ', '2-3 Times a Week': 'ವಾರಕ್ಕೆ 2-3 ಬಾರಿ', 'Low Water': 'ಕಡಿಮೆ ನೀರು', 'Once a Week': 'ವಾರಕ್ಕೊಮ್ಮೆ', 'Frequent Watering': 'ಆಗಾಗ್ಗೆ ನೀರು ಹಾಕಿ',
+    'Low Light': 'ಕಡಿಮೆ ಬೆಳಕು', 'Indirect Light': 'ಪರೋಕ್ಷ ಬೆಳಕು', 'Bright Indirect Light': 'ಪ್ರಕಾಶಮಾನ ಪರೋಕ್ಷ ಬೆಳಕು', 'Direct Sunlight': 'ನೇರ ಸೂರ್ಯನ ಬೆಳಕು', 'Bright Light': 'ಪ್ರಕಾಶಮಾನ ಬೆಳಕು', 'Medium Light': 'ಮಧ್ಯಮ ಬೆಳಕು',
+    'Indoors, tabletop or hanging': 'ಒಳಾಂಗಣ, ಮೇಜಿನ ಮೇಲೆ ಅಥವಾ ನೇತುಹಾಕಬಹುದು', 'Indoors, low light corner': 'ಒಳಾಂಗಣ, ಕಡಿಮೆ ಬೆಳಕಿನ ಮೂಲೆಯಲ್ಲಿ', 'Garden bed or grow bag': 'ಗಾರ್ಡನ್ ಬೆಡ್ ಅಥವಾ ಗ್ರೋ ಬ್ಯಾಗ್', 'Living Room': 'ಲಿವಿಂಗ್ ರೂಮ್', 'Bedroom': 'ಬೆಡ್ ರೂಮ್', 'Bathroom': 'ಬಾತ್ ರೂಮ್', 'Office Desk': 'ಆಫೀಸ್ ಡೆಸ್ಕ್', 'Office': 'ಆಫೀಸ್ ಡೆಸ್ಕ್', 'Balcony': 'ಬಾಲ್ಕನಿ', 'Kitchen': 'ಅಡುಗೆಮನೆ', 'Terrace': 'ಟೆರೇಸ್', 'Garden': 'ಉದ್ಯಾನ',
+    'Large (Above 60cm)': 'ದೊಡ್ಡದು (60ಸೆಂ.ಮೀ ಗಿಂತ ಹೆಚ್ಚು)', 'Small (Under 20cm)': 'ಚಿಕ್ಕದು (20ಸೆಂ.ಮೀ ಗಿಂತ ಕಡಿಮೆ)', 'Medium (20-60cm)': 'ಮಧ್ಯಮ (20-60ಸೆಂ.ಮೀ)',
+    'Full sun to partial shade': 'ಪೂರ್ಣ ಬಿಸಿಲಿನಿಂದ ಭಾಗಶಃ ನೆರಳಿನವರೆಗೆ', 'Garden bed, terrace or balcony': 'ಗಾರ್ಡನ್ ಬೆಡ್, ಟೆರೇಸ್ ಅಥವಾ ಬಾಲ್ಕನಿ', 'Regular watering, more in summer': 'ನಿಯಮಿತ ನೀರುಣಿಸುವಿಕೆ, ಬೇಸಿಗೆಯಲ್ಲಿ ಹೆಚ್ಚು',
+  },
+};
+
+export function getSpecValueTranslation(value, lang) {
+  if (!value) return value;
+  const dict = specValues[lang] ?? specValues.en;
+  return dict[value] ?? specValues.en[value] ?? value;
+}
+
 function merge(section) {
   const out = {};
   for (const code of LANGUAGES.map((l) => l.code)) out[code] = section[code] ?? section.en;

@@ -1,15 +1,19 @@
 import { Link } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useCatalogue } from '../context/CatalogueContext';
 import { getDiscountPercent } from '../utils/pricing';
-import { getLocalizedProductName } from '../utils/localizedContent';
+import { getLocalizedProductName, getLocalizedCategoryLabel } from '../utils/localizedContent';
 
 function ProductCard({ product }) {
   const { wishlist, toggleWishlist, addToCart } = useStore();
   const { t, language } = useLanguage();
+  const { categories } = useCatalogue();
   const isWishlisted = wishlist.includes(product.id);
   const discountPercent = getDiscountPercent(product.originalPrice, product.price);
   const localizedName = getLocalizedProductName(product, language);
+  const categoryDoc = categories.find((c) => c.slug === product.category);
+  const localizedCategoryLabel = getLocalizedCategoryLabel(categoryDoc, language) || product.categoryLabel;
 
   return (
     <div className="product-card">
@@ -47,7 +51,7 @@ function ProductCard({ product }) {
         <Link to={`/product/${product.id}`}>
           <h3>{localizedName}</h3>
         </Link>
-        <p className="product-card-category">{product.categoryLabel}</p>
+        <p className="product-card-category">{localizedCategoryLabel}</p>
         <div className="product-card-price">
           <span className="price-now">₹{product.price}</span>
           <span className="price-was">₹{product.originalPrice}</span>

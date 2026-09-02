@@ -3,13 +3,14 @@ import { useStore } from '../context/StoreContext';
 import { useAuth } from '../context/AuthContext';
 import { useCatalogue } from '../context/CatalogueContext';
 import { useLanguage } from '../context/LanguageContext';
+import { getLocalizedProductName, getLocalizedCategoryLabel } from '../utils/localizedContent';
 
 function Cart() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const { cart, updateCartQty, removeFromCart } = useStore();
-  const { getProductById } = useCatalogue();
-  const { t } = useLanguage();
+  const { getProductById, categories } = useCatalogue();
+  const { t, language } = useLanguage();
   const items = cart
     .map((item) => ({ ...item, product: getProductById(item.id) }))
     .filter((item) => item.product);
@@ -31,12 +32,16 @@ function Cart() {
       <h1>{t('cart.title')}</h1>
       <div className="cart-layout">
         <div className="cart-items">
-          {items.map(({ product, qty }) => (
+          {items.map(({ product, qty }) => {
+            const localizedName = getLocalizedProductName(product, language);
+            const categoryDoc = categories.find((c) => c.slug === product.category);
+            const localizedCategoryLabel = getLocalizedCategoryLabel(categoryDoc, language) || product.categoryLabel;
+            return (
             <div className="cart-row" key={product.id}>
-              <img src={product.image} alt={product.name} />
+              <img src={product.image} alt={localizedName} />
               <div className="cart-row-info">
-                <Link to={`/product/${product.id}`}>{product.name}</Link>
-                <p>{product.categoryLabel}</p>
+                <Link to={`/product/${product.id}`}>{localizedName}</Link>
+                <p>{localizedCategoryLabel}</p>
                 <p className="price-now">₹{product.price}</p>
               </div>
               <div className="qty-stepper">
@@ -49,7 +54,8 @@ function Cart() {
                 {t('cart.remove')}
               </button>
             </div>
-          ))}
+            );
+          })}
         </div>
         <aside className="cart-summary">
           <h2>{t('cart.orderSummary')}</h2>

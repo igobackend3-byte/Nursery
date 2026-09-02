@@ -7,6 +7,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { subscribeAddresses, addAddress } from '../lib/addresses';
 import { placeOrder } from '../lib/orders';
 import AddressForm from '../components/AddressForm';
+import { getLocalizedProductName, getLocalizedCategoryLabel } from '../utils/localizedContent';
 
 const BLANK_ADDRESS = { label: 'Home', line1: '', line2: '', city: '', state: '', pincode: '', phone: '' };
 
@@ -14,8 +15,8 @@ function Checkout() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { cart, pushToast } = useStore();
-  const { getProductById } = useCatalogue();
-  const { t } = useLanguage();
+  const { getProductById, categories } = useCatalogue();
+  const { t, language } = useLanguage();
 
   const [addresses, setAddresses] = useState(null); // null = loading
   const [selectedAddressId, setSelectedAddressId] = useState('');
@@ -156,16 +157,21 @@ function Checkout() {
               <h2>{t('checkout.step3')}</h2>
             </div>
             <div className="cart-items" style={{ marginTop: 0 }}>
-              {items.map(({ product, qty }) => (
+              {items.map(({ product, qty }) => {
+                const localizedName = getLocalizedProductName(product, language);
+                const categoryDoc = categories.find((c) => c.slug === product.category);
+                const localizedCategoryLabel = getLocalizedCategoryLabel(categoryDoc, language) || product.categoryLabel;
+                return (
                 <div className="cart-row" key={product.id}>
-                  <img src={product.image} alt={product.name} />
+                  <img src={product.image} alt={localizedName} />
                   <div className="cart-row-info">
-                    <span>{product.name}</span>
-                    <p>{product.categoryLabel} · {t('cart.quantity')} {qty}</p>
+                    <span>{localizedName}</span>
+                    <p>{localizedCategoryLabel} · {t('cart.quantity')} {qty}</p>
                   </div>
                   <p className="cart-row-total">₹{product.price * qty}</p>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
