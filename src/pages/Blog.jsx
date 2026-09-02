@@ -1,4 +1,5 @@
 import { useLanguage } from '../context/LanguageContext';
+import { getBlogPostTranslation } from '../i18n/translations';
 
 const POSTS = [
   { title: 'How to choose your first indoor plant', excerpt: 'Light, space and how much time you actually have — the three questions that matter most.', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=600&auto=format&fit=crop' },
@@ -10,7 +11,7 @@ const POSTS = [
 ];
 
 function Blog() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <div className="blog-page">
       <p className="eyebrow">{t('pages.blogEyebrow')}</p>
@@ -18,14 +19,17 @@ function Blog() {
       <p className="category-tagline">{t('pages.blogTagline')}</p>
 
       <div className="journal-grid large">
-        {POSTS.map((post) => (
-          <article className="journal-card" key={post.title}>
-            <div className="journal-media" style={{ backgroundImage: `url('${post.image}')` }} />
-            <h3>{post.title}</h3>
-            <p>{post.excerpt}</p>
-            <span>{t('pages.readGuide')}</span>
-          </article>
-        ))}
+        {POSTS.map((post) => {
+          const tr = getBlogPostTranslation(post.title, language);
+          return (
+            <article className="journal-card" key={post.title}>
+              <div className="journal-media" style={{ backgroundImage: `url('${post.image}')` }} />
+              <h3>{tr?.title ?? post.title}</h3>
+              <p>{tr?.excerpt ?? post.excerpt}</p>
+              <span>{t('pages.readGuide')}</span>
+            </article>
+          );
+        })}
       </div>
     </div>
   );
