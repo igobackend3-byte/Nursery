@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { detectCurrentAddress } from '../lib/geolocation';
+import { useLanguage } from '../context/LanguageContext';
 
 // Shared address entry form - used by Checkout (new address) and Account
 // (add/edit address) so both get the same fields, layout and "use my
 // current location" auto-fill behaviour.
 function AddressForm({ value, onChange }) {
+  const { t } = useLanguage();
   const [detecting, setDetecting] = useState(false);
   const [detectError, setDetectError] = useState('');
   const [detectedOk, setDetectedOk] = useState(false);
@@ -35,38 +37,38 @@ function AddressForm({ value, onChange }) {
           <path d="M12 22s8-7.5 8-13a8 8 0 1 0-16 0c0 5.5 8 13 8 13z" />
           <circle cx="12" cy="9" r="3" />
         </svg>
-        {detecting ? 'Detecting your location…' : 'Use my current location'}
+        {detecting ? t('account.detectingLocation') : t('account.useCurrentLocation')}
       </button>
       {detectError && <p className="address-locate-status error">{detectError}</p>}
-      {detectedOk && !detectError && <p className="address-locate-status ok">Address filled from your current location - please double-check it below.</p>}
+      {detectedOk && !detectError && <p className="address-locate-status ok">{t('account.addressFilledFromLocation')}</p>}
 
       <div className="checkout-form-grid">
         <label>
-          Label
-          <input value={value.label} onChange={(e) => set('label', e.target.value)} placeholder="Home / Work" />
+          {t('account.addressLabel')}
+          <input value={value.label} onChange={(e) => set('label', e.target.value)} placeholder={t('account.addressLabelPlaceholder')} />
         </label>
         <label>
-          Phone
-          <input value={value.phone} onChange={(e) => set('phone', e.target.value)} placeholder="Phone number" />
+          {t('account.phone')}
+          <input value={value.phone} onChange={(e) => set('phone', e.target.value)} placeholder={t('account.phonePlaceholder')} />
         </label>
         <label className="span-2">
-          Address line 1
-          <input value={value.line1} onChange={(e) => set('line1', e.target.value)} placeholder="House no., street" />
+          {t('account.addressLine1')}
+          <input value={value.line1} onChange={(e) => set('line1', e.target.value)} placeholder={t('account.addressLine1Placeholder')} />
         </label>
         <label className="span-2">
-          Address line 2 (optional)
-          <input value={value.line2} onChange={(e) => set('line2', e.target.value)} placeholder="Landmark, area" />
+          {t('account.addressLine2')}
+          <input value={value.line2} onChange={(e) => set('line2', e.target.value)} placeholder={t('account.addressLine2Placeholder')} />
         </label>
         <label>
-          City
+          {t('account.city')}
           <input value={value.city} onChange={(e) => set('city', e.target.value)} />
         </label>
         <label>
-          State
+          {t('account.state')}
           <input value={value.state} onChange={(e) => set('state', e.target.value)} />
         </label>
         <label>
-          Pincode
+          {t('account.pincode')}
           <input value={value.pincode} onChange={(e) => set('pincode', e.target.value)} />
         </label>
       </div>

@@ -40,6 +40,7 @@ function formatDate(value, opts = { day: 'numeric', month: 'short', year: 'numer
 
 // ---------------------------------------------------------------- Overview
 function PersonalInfoCard({ user, profile, pushToast }) {
+  const { t } = useLanguage();
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -58,9 +59,9 @@ function PersonalInfoCard({ user, profile, pushToast }) {
   }
 
   function validate(f) {
-    if (!f.firstName.trim()) return 'First name is required.';
-    if (f.phone && !/^[0-9+\-\s]{7,15}$/.test(f.phone)) return 'Enter a valid phone number.';
-    if (f.dob && new Date(f.dob) > new Date()) return 'Date of birth can\'t be in the future.';
+    if (!f.firstName.trim()) return t('account.firstNameRequired');
+    if (f.phone && !/^[0-9+\-\s]{7,15}$/.test(f.phone)) return t('account.invalidPhone');
+    if (f.dob && new Date(f.dob) > new Date()) return t('account.dobFuture');
     return '';
   }
 
@@ -75,28 +76,29 @@ function PersonalInfoCard({ user, profile, pushToast }) {
     setError('');
     try {
       await updateUserProfile(user.uid, form);
-      pushToast({ type: 'cart', message: 'Profile updated successfully.' });
+      pushToast({ type: 'cart', message: t('account.profileUpdated') });
       setEditing(false);
     } catch (err) {
-      setError('Could not save your changes. Please try again.');
-      pushToast({ type: 'wishlist-remove', message: 'Failed to save profile changes.' });
+      setError(t('account.profileSaveFailed'));
+      pushToast({ type: 'wishlist-remove', message: t('account.profileSaveFailed') });
     } finally {
       setSaving(false);
     }
   }
 
-  const displayFirst = profile?.firstName ?? (profile?.name ?? user.displayName ?? 'Customer').split(' ')[0];
+  const displayFirst = profile?.firstName ?? (profile?.name ?? user.displayName ?? t('account.customer')).split(' ')[0];
   const displayLast = profile?.lastName ?? (profile?.name ?? '').split(' ').slice(1).join(' ');
+  const genderLabel = { female: t('account.female'), male: t('account.male'), other: t('account.other') };
 
   return (
     <div className="acc-card acc-info-card">
       <div className="acc-card-head">
         <div>
-          <p className="acc-card-eyebrow">Personal Information</p>
-          <h2>Your details</h2>
+          <p className="acc-card-eyebrow">{t('account.personalInformation')}</p>
+          <h2>{t('account.yourDetails')}</h2>
         </div>
         {!editing && (
-          <button type="button" className="acc-btn-outline" onClick={startEdit}>Edit Profile</button>
+          <button type="button" className="acc-btn-outline" onClick={startEdit}>{t('account.editProfile')}</button>
         )}
       </div>
 
@@ -104,78 +106,78 @@ function PersonalInfoCard({ user, profile, pushToast }) {
         <form onSubmit={handleSave} className="acc-info-form">
           <div className="acc-info-grid">
             <label className="acc-field">
-              <span>First Name</span>
+              <span>{t('account.firstName')}</span>
               <input value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} required />
             </label>
             <label className="acc-field">
-              <span>Last Name</span>
+              <span>{t('account.lastName')}</span>
               <input value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} />
             </label>
             <label className="acc-field">
-              <span>Email Address</span>
+              <span>{t('account.emailAddress')}</span>
               <input value={user.email} disabled title="Contact support to change your email" />
             </label>
             <label className="acc-field">
-              <span>Phone Number</span>
+              <span>{t('account.phoneNumber')}</span>
               <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+91 98765 43210" />
             </label>
             <label className="acc-field">
-              <span>Date of Birth</span>
+              <span>{t('account.dateOfBirth')}</span>
               <input type="date" value={form.dob} onChange={(e) => setForm({ ...form, dob: e.target.value })} max={new Date().toISOString().slice(0, 10)} />
             </label>
             <label className="acc-field">
-              <span>Gender</span>
+              <span>{t('account.gender')}</span>
               <select value={form.gender} onChange={(e) => setForm({ ...form, gender: e.target.value })}>
-                <option value="">Prefer not to say</option>
-                <option value="female">Female</option>
-                <option value="male">Male</option>
-                <option value="other">Other</option>
+                <option value="">{t('account.preferNotToSay')}</option>
+                <option value="female">{t('account.female')}</option>
+                <option value="male">{t('account.male')}</option>
+                <option value="other">{t('account.other')}</option>
               </select>
             </label>
           </div>
           {error && <p className="acc-error">{error}</p>}
           <div className="acc-info-actions">
-            <button type="button" className="acc-btn-ghost" onClick={() => setEditing(false)} disabled={saving}>Cancel</button>
-            <button type="submit" className="acc-btn-primary" disabled={saving}>{saving ? 'Saving…' : 'Save Changes'}</button>
+            <button type="button" className="acc-btn-ghost" onClick={() => setEditing(false)} disabled={saving}>{t('account.cancel')}</button>
+            <button type="submit" className="acc-btn-primary" disabled={saving}>{saving ? t('account.saving') : t('account.saveChanges')}</button>
           </div>
         </form>
       ) : (
         <div className="acc-info-grid acc-info-readonly">
-          <div className="acc-field"><span>First Name</span><strong>{displayFirst || '—'}</strong></div>
-          <div className="acc-field"><span>Last Name</span><strong>{displayLast || '—'}</strong></div>
-          <div className="acc-field"><span>Email Address</span><strong>{user.email}</strong></div>
-          <div className="acc-field"><span>Phone Number</span><strong>{profile?.phone || '—'}</strong></div>
-          <div className="acc-field"><span>Date of Birth</span><strong>{profile?.dob ? new Date(profile.dob).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}</strong></div>
-          <div className="acc-field"><span>Gender</span><strong>{profile?.gender ? profile.gender.charAt(0).toUpperCase() + profile.gender.slice(1) : '—'}</strong></div>
-          <div className="acc-field"><span>Member Since</span><strong>{formatDate(profile?.createdAt)}</strong></div>
+          <div className="acc-field"><span>{t('account.firstName')}</span><strong>{displayFirst || '—'}</strong></div>
+          <div className="acc-field"><span>{t('account.lastName')}</span><strong>{displayLast || '—'}</strong></div>
+          <div className="acc-field"><span>{t('account.emailAddress')}</span><strong>{user.email}</strong></div>
+          <div className="acc-field"><span>{t('account.phoneNumber')}</span><strong>{profile?.phone || '—'}</strong></div>
+          <div className="acc-field"><span>{t('account.dateOfBirth')}</span><strong>{profile?.dob ? new Date(profile.dob).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}</strong></div>
+          <div className="acc-field"><span>{t('account.gender')}</span><strong>{profile?.gender ? (genderLabel[profile.gender] ?? profile.gender) : '—'}</strong></div>
+          <div className="acc-field"><span>{t('account.memberSince')}</span><strong>{formatDate(profile?.createdAt)}</strong></div>
         </div>
       )}
     </div>
   );
 }
 
-const QUICK_ACTIONS = [
-  { key: 'orders', icon: ICONS.orders, title: 'My Orders', desc: 'Track and review your past orders' },
-  { key: 'wishlist', icon: ICONS.wishlist, title: 'Wishlist', desc: 'Plants and products you\'ve saved' },
-  { key: 'addresses', icon: ICONS.addresses, title: 'My Addresses', desc: 'Manage your delivery addresses' },
-  { key: 'coupons', icon: ICONS.coupons, title: 'Coupons', desc: 'View active offers and discounts' },
-];
-
 function OverviewTab({ user, profile, pushToast, goToTab, firstName }) {
+  const { t } = useLanguage();
+  const QUICK_ACTIONS = [
+    { key: 'orders', icon: ICONS.orders, title: t('account.qaOrdersTitle'), desc: t('account.qaOrdersDesc') },
+    { key: 'wishlist', icon: ICONS.wishlist, title: t('account.qaWishlistTitle'), desc: t('account.qaWishlistDesc') },
+    { key: 'addresses', icon: ICONS.addresses, title: t('account.qaAddressesTitle'), desc: t('account.qaAddressesDesc') },
+    { key: 'coupons', icon: ICONS.coupons, title: t('account.qaCouponsTitle'), desc: t('account.qaCouponsDesc') },
+  ];
   return (
     <>
       <div className="acc-welcome">
         <div>
-          <p className="acc-card-eyebrow">Welcome back!</p>
-          <h1>Hi, {firstName} 🌿</h1>
-          <p className="acc-welcome-sub">Manage your account, orders and gardening preferences.</p>
+          <p className="acc-card-eyebrow">{t('account.welcomeBack')}</p>
+          <h1>{t('account.hiGreeting').replace('{name}', firstName)}</h1>
+          <p className="acc-welcome-sub">{t('account.manageAccountSub')}</p>
         </div>
       </div>
 
       <PersonalInfoCard user={user} profile={profile} pushToast={pushToast} />
 
       <div className="acc-quick-head">
-        <h2>Quick Actions</h2>
+        <h2>{t('account.quickActions')}</h2>
       </div>
       <div className="acc-quick-grid">
         {QUICK_ACTIONS.map((qa) => (
@@ -224,12 +226,12 @@ function OrdersTab() {
   if (orders.length === 0) {
     return (
       <div className="acc-card">
-        <p className="acc-card-eyebrow">Purchases</p>
-        <h2>Order history</h2>
+        <p className="acc-card-eyebrow">{t('account.purchases')}</p>
+        <h2>{t('account.orderHistory')}</h2>
         <div className="acc-empty">
           <span className="acc-empty-icon">{ICONS.orders}</span>
-          <p>No orders yet - once you place one, it'll show up here.</p>
-          <Link to="/category/indoor-plants" className="acc-btn-primary">Start shopping</Link>
+          <p>{t('account.noOrdersYet')}</p>
+          <Link to="/category/indoor-plants" className="acc-btn-primary">{t('account.startShopping')}</Link>
         </div>
       </div>
     );
@@ -237,8 +239,8 @@ function OrdersTab() {
 
   return (
     <div className="acc-card">
-      <p className="acc-card-eyebrow">Purchases</p>
-      <h2>Order history</h2>
+      <p className="acc-card-eyebrow">{t('account.purchases')}</p>
+      <h2>{t('account.orderHistory')}</h2>
       <div className="acc-orders-list">
         {orders.map((order) => (
           <div
@@ -248,8 +250,8 @@ function OrdersTab() {
           >
             <div className="acc-order-head">
               <div>
-                <strong>Order #{order.id.slice(0, 8).toUpperCase()}</strong>
-                <span className="acc-order-date">Placed {formatDate(order.createdAt)}</span>
+                <strong>{t('account.orderHash').replace('{id}', order.id.slice(0, 8).toUpperCase())}</strong>
+                <span className="acc-order-date">{t('account.placed').replace('{date}', formatDate(order.createdAt))}</span>
               </div>
               <span className={`admin-status-pill ${STATUS_CLASS[order.status] ?? ''}`}>{t(`orders.statuses.${order.status}`)}</span>
             </div>
@@ -259,20 +261,20 @@ function OrdersTab() {
                   <img src={it.image} alt="" />
                   <div>
                     <span>{it.name}</span>
-                    <p>Qty {it.qty} × ₹{it.price}</p>
+                    <p>{t('account.qtyLine').replace('{n}', it.qty).replace('{price}', it.price)}</p>
                   </div>
                   <strong>₹{it.subtotal}</strong>
                 </div>
               ))}
             </div>
             <div className="acc-order-meta">
-              <span>Payment: {order.paymentMethod ?? '—'} · {order.paymentStatus ?? '—'}</span>
+              <span>{t('account.paymentLine').replace('{method}', order.paymentMethod ?? '—').replace('{status}', order.paymentStatus ?? '—')}</span>
               {order.status !== 'Cancelled' && order.status !== 'Delivered' && (
-                <span>Expected delivery: {formatDate(order.expectedDeliveryDate)}</span>
+                <span>{t('account.expectedDelivery').replace('{date}', formatDate(order.expectedDeliveryDate))}</span>
               )}
             </div>
             <div className="acc-order-foot">
-              <span>Total</span>
+              <span>{t('account.total')}</span>
               <strong>₹{order.total}</strong>
             </div>
             <button
@@ -280,7 +282,7 @@ function OrdersTab() {
               className="acc-order-toggle"
               onClick={() => setExpandedId((id) => (id === order.id ? null : order.id))}
             >
-              {expandedId === order.id ? 'Hide tracking ▲' : 'Track order ▼'}
+              {expandedId === order.id ? t('account.hideTracking') : t('account.trackOrderBtn')}
             </button>
             {expandedId === order.id && <OrderTimeline order={order} />}
           </div>
@@ -293,6 +295,7 @@ function OrdersTab() {
 // ---------------------------------------------------------------- Addresses
 function AddressesTab() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [addresses, setAddresses] = useState(null);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(BLANK_ADDRESS);
@@ -310,7 +313,7 @@ function AddressesTab() {
     e.preventDefault();
     const required = ['line1', 'city', 'state', 'pincode', 'phone'];
     if (required.some((f) => !form[f].trim())) {
-      setSaveError('Please fill in all the required address fields.');
+      setSaveError(t('account.fillRequiredAddressFields'));
       return;
     }
     setSaveError('');
@@ -323,7 +326,7 @@ function AddressesTab() {
   }
 
   async function handleDelete(id) {
-    if (!confirm('Remove this address?')) return;
+    if (!confirm(t('account.removeAddressConfirm'))) return;
     await deleteAddress(user.uid, id);
   }
 
@@ -331,11 +334,11 @@ function AddressesTab() {
     <div className="acc-card">
       <div className="acc-card-head">
         <div>
-          <p className="acc-card-eyebrow">Delivery</p>
-          <h2>Saved addresses</h2>
+          <p className="acc-card-eyebrow">{t('account.delivery')}</p>
+          <h2>{t('account.savedAddresses')}</h2>
         </div>
         {!editing && (
-          <button type="button" className="acc-btn-outline" onClick={() => startEdit(null)}>+ Add address</button>
+          <button type="button" className="acc-btn-outline" onClick={() => startEdit(null)}>{t('account.addAddressBtn')}</button>
         )}
       </div>
 
@@ -348,15 +351,15 @@ function AddressesTab() {
           <AddressForm value={form} onChange={setForm} />
           {saveError && <p className="acc-error">{saveError}</p>}
           <div className="acc-info-actions">
-            <button type="button" className="acc-btn-ghost" onClick={() => setEditing(null)}>Cancel</button>
-            <button type="submit" className="acc-btn-primary">Save address</button>
+            <button type="button" className="acc-btn-ghost" onClick={() => setEditing(null)}>{t('account.cancel')}</button>
+            <button type="submit" className="acc-btn-primary">{t('account.saveAddress')}</button>
           </div>
         </form>
       ) : (
         addresses?.length === 0 ? (
           <div className="acc-empty">
             <span className="acc-empty-icon">{ICONS.addresses}</span>
-            <p>No saved addresses yet. Add one to check out faster next time.</p>
+            <p>{t('account.noAddressesYet')}</p>
           </div>
         ) : (
           <div className="acc-address-grid">
@@ -364,17 +367,17 @@ function AddressesTab() {
               <div className={`acc-address-card${addr.isDefault ? ' is-default' : ''}`} key={addr.id}>
                 <div className="acc-address-card-top">
                   <span className="acc-address-card-label">{addr.label}</span>
-                  {addr.isDefault && <span className="acc-default-badge">Default</span>}
+                  {addr.isDefault && <span className="acc-default-badge">{t('account.defaultLabel')}</span>}
                 </div>
                 <p>{addr.line1}{addr.line2 ? `, ${addr.line2}` : ''}</p>
                 <p>{addr.city}, {addr.state} {addr.pincode}</p>
                 <p className="acc-address-phone">📞 {addr.phone}</p>
                 <div className="acc-address-card-actions">
                   {!addr.isDefault && (
-                    <button type="button" className="acc-btn-ghost-sm" onClick={() => setDefaultAddress(user.uid, addr.id)}>Set default</button>
+                    <button type="button" className="acc-btn-ghost-sm" onClick={() => setDefaultAddress(user.uid, addr.id)}>{t('account.setDefault')}</button>
                   )}
-                  <button type="button" className="acc-btn-ghost-sm" onClick={() => startEdit(addr)}>Edit</button>
-                  <button type="button" className="acc-btn-danger-sm" onClick={() => handleDelete(addr.id)}>Remove</button>
+                  <button type="button" className="acc-btn-ghost-sm" onClick={() => startEdit(addr)}>{t('account.edit')}</button>
+                  <button type="button" className="acc-btn-danger-sm" onClick={() => handleDelete(addr.id)}>{t('account.remove')}</button>
                 </div>
               </div>
             ))}
@@ -413,35 +416,38 @@ function ProductGridTab({ title, eyebrow, productIds, icon, emptyText, emptyCta 
 
 function WishlistTab() {
   const { wishlist } = useStore();
+  const { t } = useLanguage();
   return (
     <ProductGridTab
-      title="Your wishlist"
-      eyebrow="Saved for later"
+      title={t('account.yourWishlist')}
+      eyebrow={t('account.savedForLater')}
       productIds={wishlist}
       icon={ICONS.wishlist}
-      emptyText="Nothing saved yet - tap the heart on any product to add it here."
-      emptyCta={<Link to="/category/indoor-plants" className="acc-btn-primary">Browse plants</Link>}
+      emptyText={t('account.nothingSavedYet')}
+      emptyCta={<Link to="/category/indoor-plants" className="acc-btn-primary">{t('account.browsePlants')}</Link>}
     />
   );
 }
 
 function RecentlyViewedTab() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [ids, setIds] = useState(null);
   useEffect(() => subscribeRecentlyViewed(user.uid, setIds), [user.uid]);
   return (
     <ProductGridTab
-      title="Recently viewed"
-      eyebrow="Your browsing"
+      title={t('account.recentlyViewedTitle')}
+      eyebrow={t('account.yourBrowsing')}
       productIds={ids}
       icon={ICONS.recent}
-      emptyText="Products you view will show up here."
+      emptyText={t('account.productsViewShowHere')}
     />
   );
 }
 
 function MyPlantsTab() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [orders, setOrders] = useState(null);
   useEffect(() => subscribeMyOrders(user.uid, setOrders), [user.uid]);
 
@@ -458,44 +464,46 @@ function MyPlantsTab() {
 
   return (
     <ProductGridTab
-      title="My Plants"
-      eyebrow="Delivered to you"
+      title={t('account.myPlantsTitle')}
+      eyebrow={t('account.deliveredToYou')}
       productIds={productIds}
       icon={ICONS.plants}
-      emptyText="Plants from your delivered orders will appear here."
+      emptyText={t('account.plantsFromDeliveredOrders')}
     />
   );
 }
 
 // ---------------------------------------------------------------- Rewards
 function RewardsTab({ profile }) {
+  const { t } = useLanguage();
   const points = profile?.loyaltyPoints ?? 0;
   return (
     <div className="acc-card acc-rewards-card">
-      <p className="acc-card-eyebrow">Loyalty</p>
-      <h2>Rewards points</h2>
+      <p className="acc-card-eyebrow">{t('account.loyalty')}</p>
+      <h2>{t('account.rewardsPoints')}</h2>
       <div className="acc-rewards-hero">
         <span className="acc-rewards-icon">{ICONS.rewards}</span>
         <div>
           <p className="acc-rewards-count">{points}</p>
-          <p className="acc-rewards-label">points earned</p>
+          <p className="acc-rewards-label">{t('account.pointsEarned')}</p>
         </div>
       </div>
-      <p className="acc-rewards-note">You earn 1 point for every ₹100 spent on a delivered order.</p>
+      <p className="acc-rewards-note">{t('account.rewardsNote')}</p>
     </div>
   );
 }
 
 // ---------------------------------------------------------------- Coupons
 function CouponsTab() {
+  const { t } = useLanguage();
   return (
     <div className="acc-card">
-      <p className="acc-card-eyebrow">Savings</p>
-      <h2>Coupons &amp; offers</h2>
+      <p className="acc-card-eyebrow">{t('account.savings')}</p>
+      <h2>{t('account.couponsOffers')}</h2>
       <div className="acc-empty">
         <span className="acc-empty-icon">{ICONS.coupons}</span>
-        <p>See every current site-wide offer on our Offers page.</p>
-        <Link to="/offers" className="acc-btn-primary">View offers</Link>
+        <p>{t('account.seeOffersPage')}</p>
+        <Link to="/offers" className="acc-btn-primary">{t('account.viewOffers')}</Link>
       </div>
     </div>
   );
@@ -503,6 +511,7 @@ function CouponsTab() {
 
 // ---------------------------------------------------------------- Notifications
 function NotificationsTab() {
+  const { t } = useLanguage();
   const { user, profile } = useAuth();
   const { feed, unreadCount, markRead, markAllRead } = useNotificationFeed(user, profile);
   const navigate = useNavigate();
@@ -516,12 +525,12 @@ function NotificationsTab() {
     <div className="acc-card">
       <div className="acc-card-head">
         <div>
-          <p className="acc-card-eyebrow">Inbox</p>
-          <h2>Notifications{unreadCount > 0 ? ` (${unreadCount})` : ''}</h2>
+          <p className="acc-card-eyebrow">{t('account.inbox')}</p>
+          <h2>{t('account.notificationsTitle')}{unreadCount > 0 ? ` (${unreadCount})` : ''}</h2>
         </div>
         {unreadCount > 0 && (
           <button type="button" className="acc-btn-outline" onClick={markAllRead}>
-            Mark all as read
+            {t('account.markAllReadBtn')}
           </button>
         )}
       </div>
@@ -530,8 +539,8 @@ function NotificationsTab() {
       ) : feed.length === 0 ? (
         <div className="acc-empty">
           <span className="acc-empty-icon">🔔</span>
-          <strong>No notifications yet</strong>
-          <p>You're all caught up!</p>
+          <strong>{t('common.noNotificationsYet')}</strong>
+          <p>{t('notifications.allCaughtUp')}</p>
         </div>
       ) : (
         <ul className="acc-notification-list">
@@ -559,13 +568,13 @@ function NotificationsTab() {
 }
 
 // ---------------------------------------------------------------- Settings
-const PREF_LABELS = {
-  offers: 'Offers & discounts', products: 'New products', stock: 'Stock alerts',
-  orders: 'Order updates', payments: 'Payment updates', wishlist: 'Wishlist alerts',
-  cart: 'Cart alerts', account: 'Account & security', general: 'General announcements',
-};
-
 function NotificationPreferencesCard({ user, profile, pushToast }) {
+  const { t } = useLanguage();
+  const PREF_LABELS = {
+    offers: t('account.prefOffers'), products: t('account.prefProducts'), stock: t('account.prefStock'),
+    orders: t('account.prefOrders'), payments: t('account.prefPayments'), wishlist: t('account.prefWishlist'),
+    cart: t('account.prefCart'), account: t('account.prefAccount'), general: t('account.prefGeneral'),
+  };
   const [prefs, setPrefs] = useState(() => profile?.notificationPrefs ?? {});
   const [saving, setSaving] = useState(false);
 
@@ -581,9 +590,9 @@ function NotificationPreferencesCard({ user, profile, pushToast }) {
     setSaving(true);
     try {
       await updateNotificationPrefs(user.uid, prefs);
-      pushToast({ type: 'cart', message: 'Notification preferences saved.' });
+      pushToast({ type: 'cart', message: t('notifications.title') + ' ' + t('common.success') });
     } catch {
-      pushToast({ type: 'wishlist-remove', message: 'Could not save preferences. Try again.' });
+      pushToast({ type: 'wishlist-remove', message: t('common.error') });
     } finally {
       setSaving(false);
     }
@@ -591,8 +600,8 @@ function NotificationPreferencesCard({ user, profile, pushToast }) {
 
   return (
     <div className="acc-card">
-      <p className="acc-card-eyebrow">Notifications</p>
-      <h2>Notification preferences</h2>
+      <p className="acc-card-eyebrow">{t('account.notificationsSection')}</p>
+      <h2>{t('account.notificationPreferences')}</h2>
       <div className="acc-pref-list">
         {NOTIFICATION_CATEGORIES.filter((c) => c !== 'orders').map((category) => (
           <label key={category} className="acc-pref-row">
@@ -602,28 +611,29 @@ function NotificationPreferencesCard({ user, profile, pushToast }) {
             </span>
           </label>
         ))}
-        <p className="acc-settings-note" style={{ marginTop: 4 }}>Order updates are always on, so you never miss a delivery.</p>
+        <p className="acc-settings-note" style={{ marginTop: 4 }}>{t('account.orderUpdatesAlwaysOn')}</p>
       </div>
       <button type="button" className="acc-btn-primary" onClick={handleSave} disabled={saving} style={{ marginTop: 14 }}>
-        {saving ? 'Saving…' : 'Save Preferences'}
+        {saving ? t('account.saving') : t('account.savePreferences')}
       </button>
     </div>
   );
 }
 
 function SettingsTab({ user, profile, handleLogout, pushToast }) {
+  const { t } = useLanguage();
   return (
     <>
       <div className="acc-card">
-        <p className="acc-card-eyebrow">Account</p>
-        <h2>Account settings</h2>
+        <p className="acc-card-eyebrow">{t('account.accountSection')}</p>
+        <h2>{t('account.accountSettings')}</h2>
         <div className="acc-info-grid acc-info-readonly">
-          <div className="acc-field"><span>Email</span><strong>{user.email}</strong></div>
-          <div className="acc-field"><span>Account type</span><strong>{profile?.role === 'admin' ? 'Admin' : 'Customer'}</strong></div>
-          <div className="acc-field"><span>Member since</span><strong>{formatDate(profile?.createdAt)}</strong></div>
+          <div className="acc-field"><span>{t('account.email')}</span><strong>{user.email}</strong></div>
+          <div className="acc-field"><span>{t('account.accountType')}</span><strong>{profile?.role === 'admin' ? t('account.admin') : t('account.customer')}</strong></div>
+          <div className="acc-field"><span>{t('account.memberSince')}</span><strong>{formatDate(profile?.createdAt)}</strong></div>
         </div>
-        <p className="acc-settings-note">To change your email or password, please contact customer support.</p>
-        <button type="button" className="acc-btn-danger" onClick={handleLogout}>{ICONS.logout} Log out</button>
+        <p className="acc-settings-note">{t('account.contactSupportEmail')}</p>
+        <button type="button" className="acc-btn-danger" onClick={handleLogout}>{ICONS.logout} {t('account.logOut')}</button>
       </div>
       <NotificationPreferencesCard user={user} profile={profile} pushToast={pushToast} />
     </>
@@ -631,25 +641,26 @@ function SettingsTab({ user, profile, handleLogout, pushToast }) {
 }
 
 // ---------------------------------------------------------------- Shell
-const SIDEBAR_ITEMS = [
-  { key: 'overview', label: 'Account Overview', icon: ICONS.overview },
-  { key: 'orders', label: 'My Orders', icon: ICONS.orders },
-  { key: 'addresses', label: 'My Addresses', icon: ICONS.addresses },
-  { key: 'wishlist', label: 'Wishlist', icon: ICONS.wishlist },
-  { key: 'recent', label: 'Recently Viewed', icon: ICONS.recent },
-  { key: 'plants', label: 'My Plants', icon: ICONS.plants },
-  { key: 'rewards', label: 'Rewards', icon: ICONS.rewards },
-  { key: 'coupons', label: 'Coupons', icon: ICONS.coupons },
-  { key: 'notifications', label: 'Notifications', icon: ICONS.notifications },
-  { key: 'settings', label: 'Account Settings', icon: ICONS.settings },
-];
-
 function Account() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const { user, profile, logout, authLoading } = useAuth();
   const { pushToast } = useStore();
   const [searchParams, setSearchParams] = useSearchParams();
   const tab = searchParams.get('tab') ?? 'overview';
+
+  const SIDEBAR_ITEMS = [
+    { key: 'overview', label: t('account.sidebarOverview'), icon: ICONS.overview },
+    { key: 'orders', label: t('account.sidebarOrders'), icon: ICONS.orders },
+    { key: 'addresses', label: t('account.sidebarAddresses'), icon: ICONS.addresses },
+    { key: 'wishlist', label: t('account.sidebarWishlist'), icon: ICONS.wishlist },
+    { key: 'recent', label: t('account.sidebarRecent'), icon: ICONS.recent },
+    { key: 'plants', label: t('account.sidebarPlants'), icon: ICONS.plants },
+    { key: 'rewards', label: t('account.sidebarRewards'), icon: ICONS.rewards },
+    { key: 'coupons', label: t('account.sidebarCoupons'), icon: ICONS.coupons },
+    { key: 'notifications', label: t('account.sidebarNotifications'), icon: ICONS.notifications },
+    { key: 'settings', label: t('account.sidebarSettings'), icon: ICONS.settings },
+  ];
 
   async function handleLogout() {
     await logout();
@@ -670,7 +681,7 @@ function Account() {
     );
   }
 
-  const name = profile?.name ?? user.displayName ?? 'Customer';
+  const name = profile?.name ?? user.displayName ?? t('account.customer');
   const firstName = name.split(' ')[0];
   const initial = firstName.charAt(0).toUpperCase() || 'C';
 
@@ -701,7 +712,7 @@ function Account() {
           </nav>
 
           <button type="button" className="acc-nav-link acc-logout" onClick={handleLogout}>
-            {ICONS.logout} Log out
+            {ICONS.logout} {t('account.logOut')}
           </button>
 
           <span className="acc-sidebar-leaf" aria-hidden="true">{ICONS.leafDivider}</span>
