@@ -7,7 +7,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useSiteContent } from '../hooks/useSiteContent';
 import { useLanguage } from '../context/LanguageContext';
 import { getLocalizedCategoryLabel } from '../utils/localizedContent';
-import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTranslation, getReviewTranslation } from '../i18n/translations';
+import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTranslation, getReviewTranslation, getJourneyStepTranslation, getCompareHeaderTranslation, getCompareTitleTranslation, getCompareRowTranslation, getTrustBadgeTranslation } from '../i18n/translations';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -339,6 +339,8 @@ const JOURNEY_STEPS = [
 function JourneyStep({ step, index }) {
   const [ref, visible] = useScrollReveal(0.25);
   const { Icon } = step;
+  const { language } = useLanguage();
+  const tr = getJourneyStepTranslation(step.title, language);
   return (
     <div
       ref={ref}
@@ -346,13 +348,13 @@ function JourneyStep({ step, index }) {
       style={{ transitionDelay: `${index * 130}ms` }}
     >
       <div className="journey-step-media">
-        <img src={step.image} alt={step.title} loading="lazy" />
+        <img src={step.image} alt={tr?.title ?? step.title} loading="lazy" />
         <span className="journey-step-icon"><Icon /></span>
       </div>
       <div className="journey-step-body">
         <span className="journey-step-number">{step.number}</span>
-        <h3>{step.title}</h3>
-        <p>{step.desc}</p>
+        <h3>{tr?.title ?? step.title}</h3>
+        <p>{tr?.desc ?? step.desc}</p>
       </div>
     </div>
   );
@@ -637,6 +639,8 @@ function HighlightText({ text, part }) {
 
 function ComparisonRow({ row, index, hovered, onHover, onLeave }) {
   const [ref, visible] = useScrollReveal(0.15);
+  const { language } = useLanguage();
+  const tr = getCompareRowTranslation(row.label, language);
   const delay = `${index * 90}ms`;
   const rowHovered = hovered === index;
   const cellClass = (extra) =>
@@ -652,7 +656,7 @@ function ComparisonRow({ row, index, hovered, onHover, onLeave }) {
         onMouseLeave={onLeave}
       >
         <span className="compare-row-icon"><row.Icon /></span>
-        <span>{row.label}</span>
+        <span>{tr?.label ?? row.label}</span>
       </div>
       <div
         className={cellClass('compare-local')}
@@ -661,11 +665,11 @@ function ComparisonRow({ row, index, hovered, onHover, onLeave }) {
         onMouseLeave={onLeave}
       >
         <span className={`compare-status compare-status-local ${visible ? 'compare-status-pop' : ''}`} aria-hidden="true">✕</span>
-        <span>{row.local}</span>
+        <span>{tr?.local ?? row.local}</span>
       </div>
       <div className={cellClass('compare-igo')} style={{ transitionDelay: delay, gridRow: index + 2 }}>
         <span className={`compare-status compare-status-igo ${visible ? 'compare-status-pop' : ''}`} aria-hidden="true">✓</span>
-        <span><HighlightText text={row.igoText} part={row.igoHighlight} /></span>
+        <span><HighlightText text={tr?.igoText ?? row.igoText} part={tr?.igoHighlight ?? row.igoHighlight} /></span>
       </div>
       <div
         className={cellClass('compare-others')}
@@ -674,7 +678,7 @@ function ComparisonRow({ row, index, hovered, onHover, onLeave }) {
         onMouseLeave={onLeave}
       >
         <span className={`compare-status compare-status-others ${visible ? 'compare-status-pop' : ''}`} aria-hidden="true">~</span>
-        <span>{row.others}</span>
+        <span>{tr?.others ?? row.others}</span>
       </div>
     </div>
   );
@@ -682,6 +686,8 @@ function ComparisonRow({ row, index, hovered, onHover, onLeave }) {
 
 function NurseryComparison() {
   const [hoveredRow, setHoveredRow] = useState(null);
+  const { language } = useLanguage();
+  const titleTr = getCompareTitleTranslation(language);
 
   return (
     <section className="compare-section">
@@ -695,7 +701,7 @@ function NurseryComparison() {
           <span className="compare-ornament-line" />
         </p>
         <h2 className="compare-title">
-          How we compare to <em>buying plants</em> elsewhere.
+          {titleTr ? <>{titleTr.pre}<em>{titleTr.em}</em>{titleTr.post}</> : <>How we compare to <em>buying plants</em> elsewhere.</>}
         </h2>
       </div>
 
@@ -704,7 +710,7 @@ function NurseryComparison() {
           <div className="compare-header compare-header-blank" style={{ gridRow: 1 }} />
           <div className="compare-header compare-header-local" style={{ gridRow: 1 }}>
             <span className="compare-header-icon compare-header-icon-local"><ShopIcon /></span>
-            Local Nurseries
+            {getCompareHeaderTranslation('Local Nurseries', language)}
           </div>
           <div className="compare-featured-bg" style={{ gridRow: '1 / -1' }} aria-hidden="true" />
           <div className="compare-header compare-header-igo" style={{ gridRow: 1 }}>
@@ -713,7 +719,7 @@ function NurseryComparison() {
           </div>
           <div className="compare-header compare-header-others" style={{ gridRow: 1 }}>
             <span className="compare-header-icon compare-header-icon-others"><GlobeIcon /></span>
-            Others (Online)
+            {getCompareHeaderTranslation('Others (Online)', language)}
           </div>
 
           {COMPARISON_ROWS.map((row, i) => (
@@ -730,15 +736,18 @@ function NurseryComparison() {
       </div>
 
       <div className="compare-trust-row">
-        {TRUST_BADGES.map(({ title, desc, Icon }) => (
-          <div className="compare-trust-badge" key={title}>
-            <span className="compare-trust-icon"><Icon /></span>
-            <div>
-              <h4>{title}</h4>
-              <p>{desc}</p>
+        {TRUST_BADGES.map(({ title, desc, Icon }) => {
+          const tr = getTrustBadgeTranslation(title, language);
+          return (
+            <div className="compare-trust-badge" key={title}>
+              <span className="compare-trust-icon"><Icon /></span>
+              <div>
+                <h4>{tr?.title ?? title}</h4>
+                <p>{tr?.desc ?? desc}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
