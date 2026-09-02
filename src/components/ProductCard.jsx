@@ -21,7 +21,7 @@ function ProductCard({ product }) {
         to={`/product/${product.id}`}
         className={`product-card-media${product.isBestSeller ? ' has-bestseller' : ''}`}
       >
-        {product.isBestSeller && <span className="bestseller-badge">Bestseller</span>}
+        {product.isBestSeller && <span className="bestseller-badge">{t('common.bestseller')}</span>}
         <img src={product.image} alt={localizedName} loading="lazy" />
         <span className="rating-badge">{product.rating}/5</span>
         <button

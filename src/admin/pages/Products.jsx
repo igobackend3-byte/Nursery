@@ -203,9 +203,9 @@ function AdminProducts() {
     setSyncing(true);
     setSyncResult('');
     try {
-      const { matched } = await syncBuiltInTranslations();
+      const { matched, products: p, categories: c } = await syncBuiltInTranslations();
       setSyncResult(matched > 0
-        ? `Synced Tamil/Hindi/Malayalam/Telugu/Kannada names for ${matched} product${matched === 1 ? '' : 's'}.`
+        ? `Synced Tamil/Hindi/Malayalam/Telugu/Kannada names for ${p} product${p === 1 ? '' : 's'} and ${c} categor${c === 1 ? 'y' : 'ies'}.`
         : 'No matching built-in translations found for the current catalogue.');
     } catch (err) {
       setSyncResult(`Sync failed: ${err.message}`);

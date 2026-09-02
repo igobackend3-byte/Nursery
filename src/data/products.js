@@ -1,5 +1,6 @@
 // Mock product catalogue for IGO Nursery
 import { PRODUCT_NAME_TRANSLATIONS } from './productTranslations';
+import { CATEGORY_LABEL_TRANSLATIONS } from './categoryTranslations';
 
 export const CATEGORIES = [
   { slug: 'indoor-plants', label: 'Indoor Plants', tagline: 'Easy greenery for every room', image: '/category-banners/indoor plants banner image.png' },
@@ -88,7 +89,16 @@ export const CATEGORIES = [
   { slug: 'coastal-plants', label: 'Coastal Plants', tagline: 'Built to handle salt air and wind', image: '/category-banners/outdoor plants banner image.png' },
   { slug: 'landscaping-trees', label: 'Landscaping Tree', tagline: 'Statement trees for large gardens', image: '/category-banners/outdoor plants banner image.png' },
   { slug: 'landscaping-plants', label: 'Landscaping Plant', tagline: 'Reliable colour for landscaped beds', image: '/category-banners/outdoor plants banner image.png' },
-];
+].map((cat) => {
+  // Auto-attach real per-language label translations by slug (see
+  // data/categoryTranslations.js) - same fallback pattern as makeProduct()
+  // for products above; admin-entered translations on the live Firestore
+  // doc still win over this if ever set.
+  const labelTranslations = CATEGORY_LABEL_TRANSLATIONS[cat.slug];
+  return labelTranslations
+    ? { ...cat, translations: Object.fromEntries(Object.entries(labelTranslations).map(([lang, label]) => [lang, { label }])) }
+    : cat;
+});
 
 // Shared category-family groupings - single source of truth used both by
 // CategoryPage (umbrella "All Seeds"/"All Pots" pages) and by the filter

@@ -9,6 +9,7 @@ import {
 import { db } from './firebase';
 import { PRODUCTS, CATEGORIES } from '../data/products';
 import { PRODUCT_NAME_TRANSLATIONS } from '../data/productTranslations';
+import { CATEGORY_LABEL_TRANSLATIONS } from '../data/categoryTranslations';
 
 const PRODUCTS_COL = 'products';
 const CATEGORIES_COL = 'categories';
@@ -104,6 +105,31 @@ export async function syncBuiltInProductTranslations(allProducts) {
     await batch.commit();
   }
   return { matched: toWrite.length, written };
+}
+
+// Same idea as syncBuiltInProductTranslations, for category labels
+// (data/categoryTranslations.js) - matched by slug this time, since a
+// category's slug is stable while its label text could change. Only ever
+// merges translations.<lang>.label - never touches the tagline/image/
+// anything else, and never overwrites a label an admin already entered.
+export async function syncBuiltInCategoryTranslations(allCategories) {
+  const toWrite = allCategories.filter((c) => CATEGORY_LABEL_TRANSLATIONS[c.slug]);
+  const writes = toWrite.map((c) => {
+    const incoming = CATEGORY_LABEL_TRANSLATIONS[c.slug];
+    const merged = { ...c.translations };
+    for (const [lang, label] of Object.entries(incoming)) {
+      if (!merged[lang]?.label) merged[lang] = { ...merged[lang], label };
+    }
+    return { slug: c.slug, translations: stripUndefined(merged) };
+  });
+  for (let i = 0; i < writes.length; i += BATCH_SIZE) {
+    const batch = writeBatch(db);
+    writes.slice(i, i + BATCH_SIZE).forEach((w) => {
+      batch.set(doc(db, CATEGORIES_COL, w.slug), { translations: w.translations }, { merge: true });
+    });
+    await batch.commit();
+  }
+  return { matched: writes.length, written: writes.length };
 }
 
 export function updateCategoryDoc(slug, patch) {

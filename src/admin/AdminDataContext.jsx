@@ -3,6 +3,7 @@ import {
   seedCatalogueIfEmpty, subscribeProducts, subscribeCategories,
   updateProductDoc, deleteProductDoc, addProductDoc, updateCategoryDoc,
   addCategoryDoc, deleteCategoryDoc, syncBuiltInProductTranslations,
+  syncBuiltInCategoryTranslations,
 } from '../lib/catalogue';
 
 // Products & Categories are now Firestore-backed (see lib/catalogue.js) -
@@ -85,8 +86,17 @@ export function AdminDataProvider({ children }) {
     return deleteCategoryDoc(slug);
   }
 
-  function syncBuiltInTranslations() {
-    return syncBuiltInProductTranslations(products);
+  async function syncBuiltInTranslations() {
+    const [productResult, categoryResult] = await Promise.all([
+      syncBuiltInProductTranslations(products),
+      syncBuiltInCategoryTranslations(categories),
+    ]);
+    return {
+      matched: productResult.matched + categoryResult.matched,
+      written: productResult.written + categoryResult.written,
+      products: productResult.matched,
+      categories: categoryResult.matched,
+    };
   }
 
   function addCoupon(coupon) {
