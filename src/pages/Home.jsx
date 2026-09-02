@@ -7,6 +7,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useSiteContent } from '../hooks/useSiteContent';
 import { useLanguage } from '../context/LanguageContext';
 import { getLocalizedCategoryLabel } from '../utils/localizedContent';
+import { getHeroFieldTranslation } from '../i18n/translations';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -67,6 +68,8 @@ const FAQS = [
 
 function Hero() {
   const { hero } = useSiteContent();
+  const { language } = useLanguage();
+  const t = (v) => getHeroFieldTranslation(v, language);
   return (
     <section className="hero-section">
       <video
@@ -83,24 +86,24 @@ function Hero() {
       <div className="hero-content">
         <div className="tag">
           <div className="tag-dot"></div>
-          {hero.tag}
+          {t(hero.tag)}
         </div>
         <h1 className="hero-title">
-          {hero.titleLine1}<br />
-          <span className="highlight-text">{hero.titleLine2}</span>
+          {t(hero.titleLine1)}<br />
+          <span className="highlight-text">{t(hero.titleLine2)}</span>
           <svg style={{ display: 'inline-block', marginLeft: '12px' }} width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary-lime)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 22C12 22 20 18 20 12V5l-8-3-8 3v7C4 18 12 22 12 22z"></path>
           </svg>
         </h1>
         <p className="hero-description">
-          {hero.description}
+          {t(hero.description)}
         </p>
         <div className="hero-buttons">
           <button type="button" className="btn btn-primary">
-            {hero.primaryButtonText}
+            {t(hero.primaryButtonText)}
           </button>
           <Link to={hero.secondaryButtonLink} className="btn btn-secondary">
-            {hero.secondaryButtonText}
+            {t(hero.secondaryButtonText)}
           </Link>
         </div>
       </div>
@@ -197,16 +200,16 @@ function CompleteGarden() {
     <section className="complete-garden">
       <CompleteGardenVideo />
       <div className="complete-garden-copy">
-        <h2>Complete your garden, not just your cart.</h2>
-        <p>Pair a plant with the right pot, growing media and nutrition. Our catalogue brings the complete gardening journey together.</p>
+        <h2>{t('home.completeGardenHeading')}</h2>
+        <p>{t('home.completeGardenDesc')}</p>
         <div className="pill-row">
-          <span className="pill">🌱 Your plant</span>
+          <span className="pill">{t('home.pillYourPlant')}</span>
           <span className="pill-plus">+</span>
-          <span className="pill">🪴 Right pot</span>
+          <span className="pill">{t('home.pillRightPot')}</span>
           <span className="pill-plus">+</span>
-          <span className="pill">🌾 Growing mix</span>
+          <span className="pill">{t('home.pillGrowingMix')}</span>
           <span className="pill-plus">+</span>
-          <span className="pill">💧 Plant nutrition</span>
+          <span className="pill">{t('home.pillPlantNutrition')}</span>
         </div>
         <Link to="/category/pots-planters" className="btn-build-garden">{t('home.buildYourGarden')}</Link>
       </div>
