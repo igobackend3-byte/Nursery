@@ -1,4 +1,5 @@
 import { useLanguage } from '../context/LanguageContext';
+import { getLandscapingServiceTranslation } from '../i18n/translations';
 
 const LANDSCAPING_SERVICES = [
   'Villa Landscaping', 'Balcony Garden', 'Terrace Garden', 'Rooftop Garden', 'Vertical Garden',
@@ -29,7 +30,7 @@ function serviceImage(title, index) {
 }
 
 function Landscaping() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <div className="garden-services-page">
       <p className="eyebrow">{t('pages.beyondProducts')}</p>
@@ -41,10 +42,11 @@ function Landscaping() {
       <div className="services-grid large landscaping-grid">
         {LANDSCAPING_SERVICES.map((title, index) => {
           const image = serviceImage(title, index);
+          const localizedTitle = getLandscapingServiceTranslation(title, language);
           return (
             <div className={`service-card static compact${image ? ' has-image' : ''}`} key={title}>
-              {image && <img src={image} alt={title} loading="lazy" />}
-              <h3>{title}</h3>
+              {image && <img src={image} alt={localizedTitle} loading="lazy" />}
+              <h3>{localizedTitle}</h3>
             </div>
           );
         })}
