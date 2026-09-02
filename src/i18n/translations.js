@@ -761,6 +761,49 @@ export function getTrustBadgeTranslation(title, lang) {
   return trustBadgeTranslations[title]?.[lang] ?? null;
 }
 
+// Home.jsx's StatsStrip band (below Offers) - number label + 2-line
+// caption, keyed by the English title.
+const statsStripTranslations = {
+  'Happy Customers': {
+    ta: { title: 'மகிழ்ச்சியான வாடிக்கையாளர்கள்', subtitle: 'எங்கள் பசுமையில் நம்பிக்கை' },
+    hi: { title: 'खुश ग्राहक', subtitle: 'हमारी हरियाली पर भरोसा' },
+    ml: { title: 'സന്തുഷ്ട ഉപഭോക്താക്കൾ', subtitle: 'ഞങ്ങളുടെ പച്ചപ്പിലുള്ള വിശ്വാസം' },
+    te: { title: 'సంతోషకరమైన కస్టమర్లు', subtitle: 'మా పచ్చదనంపై నమ్మకం' },
+    kn: { title: 'ಸಂತೃಪ್ತ ಗ್ರಾಹಕರು', subtitle: 'ನಮ್ಮ ಹಸಿರಿನ ಮೇಲಿನ ನಂಬಿಕೆ' },
+  },
+  'Plant Varieties': {
+    ta: { title: 'செடி வகைகள்', subtitle: 'ஒவ்வொரு இடத்திற்கும் ஏற்றது' },
+    hi: { title: 'पौधों की किस्में', subtitle: 'हर जगह के लिए' },
+    ml: { title: 'ചെടി ഇനങ്ങൾ', subtitle: 'ഏത് സ്ഥലത്തിനും അനുയോജ്യം' },
+    te: { title: 'మొక్కల రకాలు', subtitle: 'ప్రతి స్థలానికి తగినది' },
+    kn: { title: 'ಗಿಡಗಳ ವಿಧಗಳು', subtitle: 'ಪ್ರತಿ ಸ್ಥಳಕ್ಕೂ ಸೂಕ್ತ' },
+  },
+  'Customer Rating': {
+    ta: { title: 'வாடிக்கையாளர் மதிப்பீடு', subtitle: 'செடி பெற்றோர்களால் விரும்பப்படுகிறது' },
+    hi: { title: 'ग्राहक रेटिंग', subtitle: 'पौधे प्रेमियों की पसंद' },
+    ml: { title: 'ഉപഭോക്തൃ റേറ്റിംഗ്', subtitle: 'ചെടി സ്നേഹികൾക്ക് പ്രിയപ്പെട്ടത്' },
+    te: { title: 'కస్టమర్ రేటింగ్', subtitle: 'మొక్క ప్రేమికుల ఇష్టం' },
+    kn: { title: 'ಗ್ರಾಹಕ ರೇಟಿಂಗ್', subtitle: 'ಗಿಡ ಪ್ರೇಮಿಗಳ ಇಷ್ಟ' },
+  },
+  'Orders Delivered': {
+    ta: { title: 'டெலிவரி செய்யப்பட்ட ஆர்டர்கள்', subtitle: 'வெற்றிகரமாக' },
+    hi: { title: 'डिलीवर किए गए ऑर्डर', subtitle: 'सफलतापूर्वक' },
+    ml: { title: 'ഡെലിവർ ചെയ്ത ഓർഡറുകൾ', subtitle: 'വിജയകരമായി' },
+    te: { title: 'డెలివరీ చేసిన ఆర్డర్‌లు', subtitle: 'విజయవంతంగా' },
+    kn: { title: 'ವಿತರಿಸಿದ ಆರ್ಡರ್‌ಗಳು', subtitle: 'ಯಶಸ್ವಿಯಾಗಿ' },
+  },
+  'Cities Served': {
+    ta: { title: 'சேவை செய்யப்படும் நகரங்கள்', subtitle: 'இந்தியா முழுவதும்' },
+    hi: { title: 'सेवा प्राप्त शहर', subtitle: 'पूरे भारत में' },
+    ml: { title: 'സേവനം നൽകുന്ന നഗരങ്ങൾ', subtitle: 'ഇന്ത്യയിലുടനീളം' },
+    te: { title: 'సేవలు అందించే నగరాలు', subtitle: 'భారతదేశం అంతటా' },
+    kn: { title: 'ಸೇವೆ ಸಲ್ಲಿಸುವ ನಗರಗಳು', subtitle: 'ಭಾರತದಾದ್ಯಂತ' },
+  },
+};
+export function getStatsStripTranslation(title, lang) {
+  return statsStripTranslations[title]?.[lang] ?? null;
+}
+
 // pages/Account.jsx - the customer account shell (overview, orders,
 // addresses, wishlist, recently viewed, my plants, rewards, coupons,
 // notifications, settings). Large page, one section for all of it.

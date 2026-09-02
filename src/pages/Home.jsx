@@ -7,7 +7,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useSiteContent } from '../hooks/useSiteContent';
 import { useLanguage } from '../context/LanguageContext';
 import { getLocalizedCategoryLabel } from '../utils/localizedContent';
-import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTranslation, getReviewTranslation, getJourneyStepTranslation, getCompareHeaderTranslation, getCompareTitleTranslation, getCompareRowTranslation, getTrustBadgeTranslation } from '../i18n/translations';
+import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTranslation, getReviewTranslation, getJourneyStepTranslation, getCompareHeaderTranslation, getCompareTitleTranslation, getCompareRowTranslation, getTrustBadgeTranslation, getStatsStripTranslation } from '../i18n/translations';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -850,11 +850,87 @@ function Newsletter() {
   );
 }
 
+// ---------------------------------------------------------------- Stats strip
+function StatsUsersIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  );
+}
+function StatsPottedPlantIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 21V11" />
+      <path d="M12 11C12 6 8 4 4 4c0 5 3 7 8 7Z" />
+      <path d="M12 11c0-5 4-7 8-7 0 5-3 7-8 7Z" />
+      <path d="M7 21h10l-1.2-7H8.2z" />
+    </svg>
+  );
+}
+function StatsBadgeStarIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 15.9 6.4 19.1l1.4-6.3L3 8.5l6.4-.6z" />
+    </svg>
+  );
+}
+function StatsPackageIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 8 12 3 3 8l9 5 9-5Z" /><path d="M3 8v8l9 5 9-5V8" /><path d="M12 13v8" />
+    </svg>
+  );
+}
+function StatsPinIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-7.5 8-13a8 8 0 1 0-16 0c0 5.5 8 13 8 13z" /><circle cx="12" cy="9" r="3" />
+    </svg>
+  );
+}
+
+const STATS_ITEMS = [
+  { key: 'Happy Customers', value: '1L+', title: 'Happy Customers', subtitle: 'Trust in Our Greenery', Icon: StatsUsersIcon },
+  { key: 'Plant Varieties', value: '1000+', title: 'Plant Varieties', subtitle: 'For Every Space', Icon: StatsPottedPlantIcon },
+  { key: 'Customer Rating', value: '4.7+', title: 'Customer Rating', subtitle: 'Loved by Plant Parents', Icon: StatsBadgeStarIcon },
+  { key: 'Orders Delivered', value: '2L+', title: 'Orders Delivered', subtitle: 'Successfully', Icon: StatsPackageIcon },
+  { key: 'Cities Served', value: '500+', title: 'Cities Served', subtitle: 'Across India', Icon: StatsPinIcon },
+];
+
+function StatsStrip() {
+  const { language } = useLanguage();
+  return (
+    <section className="stats-strip">
+      <div className="stats-strip-leaf" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2"><path d="M12 22V12" /><path d="M12 12C12 7 8 5 4 5c0 5 3 7 8 7Z" /><path d="M12 12c0-5 4-7 8-7 0 5-3 7-8 7Z" /></svg>
+      </div>
+      {STATS_ITEMS.map((item) => {
+        const tr = getStatsStripTranslation(item.key, language);
+        return (
+          <div className="stats-strip-item" key={item.key}>
+            <span className="stats-strip-icon"><item.Icon /></span>
+            <div className="stats-strip-copy">
+              <strong className="stats-strip-value">{item.value}</strong>
+              <span className="stats-strip-title">{tr?.title ?? item.title}</span>
+              <span className="stats-strip-subtitle">{tr?.subtitle ?? item.subtitle}</span>
+            </div>
+          </div>
+        );
+      })}
+    </section>
+  );
+}
+
 function Home() {
   return (
     <>
       <Hero />
       <OffersSection />
+      <StatsStrip />
       <ShopByCategory />
       <BestSellers />
       <CompleteGarden />
