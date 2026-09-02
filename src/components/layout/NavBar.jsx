@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import { NAV_ITEMS } from '../../data/navigation';
 import { useLanguage } from '../../context/LanguageContext';
+import { getNavLabelTranslation } from '../../i18n/translations';
 
 function NavBar() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <nav className="secondary-header">
@@ -24,7 +25,7 @@ function NavBar() {
                 <ul className={`dropdown-menu${item.children.length > 6 ? ' dropdown-menu-mega' : ''}`}>
                   {item.children.map((child) => (
                     <li key={child.label}>
-                      <NavLink to={child.to}>{child.label}</NavLink>
+                      <NavLink to={child.to}>{getNavLabelTranslation(child.to, child.label, language)}</NavLink>
                     </li>
                   ))}
                 </ul>
