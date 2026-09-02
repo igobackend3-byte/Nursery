@@ -1,4 +1,5 @@
 import { useLanguage } from '../context/LanguageContext';
+import { getGardenServiceTranslation } from '../i18n/translations';
 
 const SERVICES = [
   { title: 'Terrace Garden', desc: 'Turn an unused terrace into a shaded, plant-filled retreat — from layout to irrigation.' },
@@ -8,7 +9,7 @@ const SERVICES = [
 ];
 
 function GardenServices() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <div className="garden-services-page">
       <p className="eyebrow">{t('pages.beyondProducts')}</p>
@@ -16,13 +17,16 @@ function GardenServices() {
       <p className="category-tagline">{t('pages.gardenServicesTagline')}</p>
 
       <div className="services-grid large">
-        {SERVICES.map((service) => (
-          <div className="service-card static" key={service.title}>
-            <h3>{service.title}</h3>
-            <p>{service.desc}</p>
-            <span>{t('pages.learnMore')}</span>
-          </div>
-        ))}
+        {SERVICES.map((service) => {
+          const tr = getGardenServiceTranslation(service.title, language);
+          return (
+            <div className="service-card static" key={service.title}>
+              <h3>{tr?.title ?? service.title}</h3>
+              <p>{tr?.desc ?? service.desc}</p>
+              <span>{t('pages.learnMore')}</span>
+            </div>
+          );
+        })}
       </div>
 
       <div className="plant-finder-band">
