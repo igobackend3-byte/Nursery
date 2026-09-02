@@ -191,11 +191,28 @@ function ComboOfferPanel({ products, comboOffer, setComboOffer }) {
 }
 
 function AdminProducts() {
-  const { products, categories, updateProduct, deleteProduct, addProduct, comboOffer, setComboOffer } = useAdminData();
+  const { products, categories, updateProduct, deleteProduct, addProduct, comboOffer, setComboOffer, syncBuiltInTranslations } = useAdminData();
   const location = useLocation();
   const [query, setQuery] = useState('');
   const [editing, setEditing] = useState(null);
   const [adding, setAdding] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const [syncResult, setSyncResult] = useState('');
+
+  async function handleSyncTranslations() {
+    setSyncing(true);
+    setSyncResult('');
+    try {
+      const { matched } = await syncBuiltInTranslations();
+      setSyncResult(matched > 0
+        ? `Synced Tamil/Hindi/Malayalam/Telugu/Kannada names for ${matched} product${matched === 1 ? '' : 's'}.`
+        : 'No matching built-in translations found for the current catalogue.');
+    } catch (err) {
+      setSyncResult(`Sync failed: ${err.message}`);
+    } finally {
+      setSyncing(false);
+    }
+  }
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -226,6 +243,9 @@ function AdminProducts() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
+          <button type="button" className="admin-btn admin-btn-ghost" style={{ width: 'auto' }} onClick={handleSyncTranslations} disabled={syncing}>
+            {syncing ? 'Syncing…' : 'Sync Built-in Translations'}
+          </button>
           <button type="button" className="admin-btn admin-btn-primary" style={{ width: 'auto' }} onClick={() => setAdding(true)}>
             <PlusIcon width="15" height="15" /> Add Product
           </button>
@@ -235,6 +255,14 @@ function AdminProducts() {
       <div className="admin-mock-banner">
         Products &amp; categories are Firestore-backed - edits here save permanently. Product images/gallery/video
         still upload as data URLs (Firebase Storage isn't enabled yet).
+      </div>
+      <div className="admin-mock-banner">
+        <strong>Sync Built-in Translations</strong> fills in the Tamil/Hindi/Malayalam/Telugu/Kannada product
+        <em> name</em> for every product that has a matching entry in the codebase's built-in translation list -
+        no manual per-product typing needed. It never overwrites a translation you've already entered by hand for
+        a product, and never touches price/stock/description/anything else. Safe to click again any time more
+        built-in translations are added.
+        {syncResult && <div style={{ marginTop: 8, fontWeight: 600 }}>{syncResult}</div>}
       </div>
 
       <ComboOfferPanel products={products} comboOffer={comboOffer} setComboOffer={setComboOffer} />

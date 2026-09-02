@@ -8,6 +8,7 @@ import {
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { PRODUCTS, CATEGORIES } from '../data/products';
+import { PRODUCT_NAME_TRANSLATIONS } from '../data/productTranslations';
 
 const PRODUCTS_COL = 'products';
 const CATEGORIES_COL = 'categories';
@@ -74,6 +75,35 @@ export async function addProductDoc(product, allProducts) {
   const id = `p-${maxNum + 1}`;
   await setDoc(doc(db, PRODUCTS_COL, id), stripUndefined({ ...product, id }));
   return id;
+}
+
+// One-time (repeatable) sync: pushes the built-in name translations from
+// data/productTranslations.js onto the *live* Firestore product docs that
+// already exist (matched by exact English `name`), so the admin doesn't
+// have to hand-type them into the per-product Translations panel one by
+// one. Only ever merges the `translations.<lang>.name` field - never
+// touches price/stock/description/anything else, and never overwrites a
+// translation an admin already entered by hand for a language (existing
+// entries win). Safe to re-run any time new entries are added to
+// productTranslations.js - already-synced products are just re-merged
+// with the same values.
+export async function syncBuiltInProductTranslations(allProducts) {
+  const toWrite = allProducts.filter((p) => PRODUCT_NAME_TRANSLATIONS[p.name]);
+  let written = 0;
+  for (let i = 0; i < toWrite.length; i += BATCH_SIZE) {
+    const batch = writeBatch(db);
+    toWrite.slice(i, i + BATCH_SIZE).forEach((p) => {
+      const incoming = PRODUCT_NAME_TRANSLATIONS[p.name];
+      const merged = { ...p.translations };
+      for (const [lang, name] of Object.entries(incoming)) {
+        if (!merged[lang]?.name) merged[lang] = { ...merged[lang], name };
+      }
+      batch.set(doc(db, PRODUCTS_COL, String(p.id)), { translations: stripUndefined(merged) }, { merge: true });
+      written += 1;
+    });
+    await batch.commit();
+  }
+  return { matched: toWrite.length, written };
 }
 
 export function updateCategoryDoc(slug, patch) {

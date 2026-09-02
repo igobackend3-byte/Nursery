@@ -1,4 +1,5 @@
 // Mock product catalogue for IGO Nursery
+import { PRODUCT_NAME_TRANSLATIONS } from './productTranslations';
 
 export const CATEGORIES = [
   { slug: 'indoor-plants', label: 'Indoor Plants', tagline: 'Easy greenery for every room', image: '/category-banners/indoor plants banner image.png' },
@@ -172,6 +173,12 @@ function makeProduct({
   water = 'Regular watering, more in summer', rating, reviews,
   gift = false, giftType, productType,
 }) {
+  // Auto-attach real per-language name translations by exact name match
+  // (see data/productTranslations.js) - admin-entered `translations` on the
+  // live Firestore doc still wins over this if ever set (see
+  // getLocalizedProductName), this is just the built-in fallback set.
+  const nameTranslations = PRODUCT_NAME_TRANSLATIONS[name];
+
   return {
     id: nextId(),
     name,
@@ -186,6 +193,7 @@ function makeProduct({
     image,
     size, light, location, maintenance, water,
     gift, giftType, productType: productType ?? categoryLabel,
+    ...(nameTranslations ? { translations: Object.fromEntries(Object.entries(nameTranslations).map(([lang, name]) => [lang, { name }])) } : {}),
   };
 }
 
