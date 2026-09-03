@@ -5,7 +5,10 @@ import { useCatalogue } from '../context/CatalogueContext';
 import { getDiscountPercent } from '../utils/pricing';
 import { getLocalizedProductName, getLocalizedCategoryLabel } from '../utils/localizedContent';
 
-function ProductCard({ product }) {
+// `isNew` is opt-in per usage (e.g. the homepage "Just In" section) - never
+// set by default, so every other place ProductCard is already used is
+// unaffected.
+function ProductCard({ product, isNew = false }) {
   const { wishlist, toggleWishlist, addToCart } = useStore();
   const { t, language } = useLanguage();
   const { categories } = useCatalogue();
@@ -19,9 +22,10 @@ function ProductCard({ product }) {
     <div className="product-card">
       <Link
         to={`/product/${product.id}`}
-        className={`product-card-media${product.isBestSeller ? ' has-bestseller' : ''}`}
+        className={`product-card-media${product.isBestSeller ? ' has-bestseller' : ''}${isNew ? ' has-new' : ''}`}
       >
         {product.isBestSeller && <span className="bestseller-badge">{t('common.bestseller')}</span>}
+        {isNew && <span className="new-badge">{t('home.newBadge')}</span>}
         <img src={product.image} alt={localizedName} loading="lazy" />
         <span className="rating-badge">{product.rating}/5</span>
         <button

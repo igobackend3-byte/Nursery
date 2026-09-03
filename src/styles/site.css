@@ -739,6 +739,29 @@ section {
   background: var(--section-featured);
 }
 
+/* ============ Just In ============ */
+.just-in {
+  background: var(--section-just-in);
+  border-top: 1px dashed rgba(27, 75, 54, 0.18);
+  border-bottom: 1px dashed rgba(27, 75, 54, 0.18);
+}
+
+.just-in-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 22px;
+  padding: 0 48px;
+}
+
+.just-in .product-card {
+  border-color: rgba(27, 75, 54, 0.12);
+}
+
+.just-in .product-card:hover {
+  box-shadow: 0 14px 28px rgba(27, 75, 54, 0.14);
+  transform: translateY(-5px) scale(1.01);
+}
+
 .related-products {
   background: white;
 }
@@ -803,6 +826,36 @@ section {
   left: 122px;
 }
 
+/* "Just In" section badge - visually distinct (green, not the bestseller
+   yellow) so a product can carry both without reading as one badge. */
+.new-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  background: var(--color-primary-green);
+  color: var(--color-text-light);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+.product-card-media.has-bestseller .new-badge {
+  top: 40px;
+}
+
+.product-card-media.has-new .rating-badge {
+  left: 78px;
+}
+
+.product-card-media.has-new.has-bestseller .rating-badge {
+  left: 122px;
+}
+
 .wishlist-btn,
 .cart-quick-btn {
   position: absolute;
@@ -840,6 +893,25 @@ section {
   .product-card-media.has-bestseller .rating-badge {
     left: 10px;
     top: 34px;
+  }
+
+  .new-badge {
+    font-size: 0.58rem;
+    padding: 4px 8px;
+  }
+
+  .product-card-media.has-new .rating-badge {
+    left: 10px;
+    top: 34px;
+  }
+
+  .product-card-media.has-new.has-bestseller .new-badge {
+    top: 34px;
+  }
+
+  .product-card-media.has-new.has-bestseller .rating-badge {
+    left: 10px;
+    top: 58px;
   }
 }
 
@@ -3781,6 +3853,10 @@ section {
     grid-template-columns: repeat(3, 1fr);
   }
 
+  .just-in-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .footer-top {
     grid-template-columns: 1fr 1fr;
   }
@@ -3827,6 +3903,7 @@ section {
   .offers-grid,
   .category-grid,
   .product-grid,
+  .just-in-grid,
   .services-grid,
   .why-igo-grid,
   .journal-grid,
@@ -3837,6 +3914,11 @@ section {
   .filter-sidebar {
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  .just-in-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
   }
 
   .category-hero.category-hero-has-image {
