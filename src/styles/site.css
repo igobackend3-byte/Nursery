@@ -2555,6 +2555,174 @@ section {
   margin: 8px 0 12px;
 }
 
+/* ============ Gifting band (below Garden Journal) ============ */
+.gifting-band {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  padding: 72px 48px;
+  background: var(--section-gifting);
+}
+
+.gifting-band-copy h2 {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-primary-green);
+  margin-bottom: 20px;
+  max-width: 480px;
+}
+
+.gifting-band-copy > p {
+  color: var(--color-text-muted);
+  font-size: 1.02rem;
+  line-height: 1.6;
+  max-width: 460px;
+  margin-bottom: 10px;
+}
+
+.gifting-band-highlight {
+  color: var(--color-primary-green) !important;
+  font-weight: 600;
+  margin-bottom: 28px !important;
+}
+
+.gifting-band-points {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.gifting-band-point {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--color-text-dark);
+}
+
+.gifting-band-point-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--section-journey);
+  color: var(--color-primary-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gifting-band-divider {
+  width: 1px;
+  height: 20px;
+  background: #d8cdb9;
+}
+
+.gifting-band-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.btn-gift-primary,
+.btn-gift-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.btn-gift-primary {
+  background: var(--color-primary-green);
+  color: white;
+  border: 1px solid var(--color-primary-green);
+}
+
+.btn-gift-primary:hover {
+  background: #143d2c;
+}
+
+.btn-gift-secondary {
+  background: transparent;
+  color: var(--color-primary-green);
+  border: 1px solid var(--color-primary-green);
+}
+
+.btn-gift-secondary:hover {
+  background: rgba(27, 75, 54, 0.06);
+}
+
+.gifting-band-media {
+  border-radius: 20px;
+  overflow: hidden;
+  height: 420px;
+  box-shadow: 0 16px 40px rgba(27, 75, 54, 0.14);
+}
+
+.gifting-band-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 1024px) {
+  .gifting-band {
+    gap: 36px;
+    padding: 56px 32px;
+  }
+
+  .gifting-band-copy h2 {
+    font-size: 2.1rem;
+  }
+
+  .gifting-band-media {
+    height: 340px;
+  }
+}
+
+@media (max-width: 860px) {
+  .gifting-band {
+    grid-template-columns: 1fr;
+    padding: 48px 20px;
+  }
+
+  .gifting-band-copy h2,
+  .gifting-band-copy > p {
+    max-width: none;
+  }
+
+  .gifting-band-media {
+    height: 280px;
+    order: 2;
+  }
+
+  .gifting-band-copy {
+    order: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .gifting-band-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-gift-primary,
+  .btn-gift-secondary {
+    justify-content: center;
+  }
+}
+
 /* ============ Reviews ============ */
 .reviews-section {
   background: var(--section-reviews);
