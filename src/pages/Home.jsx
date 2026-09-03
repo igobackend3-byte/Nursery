@@ -364,6 +364,144 @@ function JustIn() {
   );
 }
 
+// ---------------------------------------------------------------- Choose Your Plant Size
+// The catalogue's `product.size` field is real but sparse (only ~13
+// products explicitly override the 'Medium (20-60cm)' default - see
+// data/products.js's makeProduct()), so an honest 4-tier picker (Small/
+// Medium/Large/XL) can't rely on that field alone. Per the brief's
+// fallback instruction, this maps tiers from the catalogue's own category
+// data instead - a plant category is a genuine, non-fabricated signal of
+// typical size (mini/table-top/succulents are small by definition,
+// landscaping trees are the only genuinely "statement size" category) -
+// and still honours an explicit product.size override where one exists.
+const PLANT_SIZE_CATEGORIES = new Set([
+  'indoor-plants', 'outdoor-plants', 'bonsai', 'palms', 'cycads', 'succulents', 'cactus',
+  'table-top-plants', 'mini-plants', 'orchids', 'bromeliads', 'ferns', 'carnivorous-plants',
+  'aquatic-pond-plants', 'vertical-garden-plants', 'green-wall-plants', 'terrace-garden-plants',
+  'balcony-plants', 'hanging-basket-plants', 'fruit-plants', 'herbs', 'medicinal-plants',
+  'aromatic-plants', 'spice-plants', 'sacred-plants', 'butterfly-garden-plants',
+  'bee-friendly-plants', 'bird-attracting-plants', 'fragrant-plants', 'edible-flowers',
+  'coastal-plants', 'landscaping-trees', 'landscaping-plants',
+]);
+const SMALL_CATEGORIES = new Set(['mini-plants', 'table-top-plants', 'succulents', 'cactus', 'bromeliads', 'ferns', 'carnivorous-plants', 'herbs', 'spice-plants', 'aromatic-plants', 'edible-flowers']);
+const LARGE_CATEGORIES = new Set(['outdoor-plants', 'palms', 'cycads', 'landscaping-plants']);
+const XL_CATEGORIES = new Set(['landscaping-trees']);
+
+function sizeTierOf(product) {
+  if (product.size === 'Small (Under 20cm)') return 'small';
+  if (product.size === 'Large (Above 60cm)' && !XL_CATEGORIES.has(product.category)) return 'large';
+  if (XL_CATEGORIES.has(product.category)) return 'xl';
+  if (SMALL_CATEGORIES.has(product.category)) return 'small';
+  if (LARGE_CATEGORIES.has(product.category)) return 'large';
+  return 'medium';
+}
+
+function TinySproutBadgeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 21V15" /><path d="M12 15c0-3.5-2.5-5-6-5 0 3.5 2.5 5 6 5Z" /><path d="M12 15c0-3.5 2.5-5 6-5 0 3.5-2.5 5-6 5Z" />
+    </svg>
+  );
+}
+function PottedBadgeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 15V9" /><path d="M12 9C12 5.5 9 4 6 4c0 4 2 5.5 6 5Z" /><path d="M12 9c0-3.5 3-5 6-5 0 4-2 5.5-6 5Z" />
+      <path d="M7 15h10l-1.3 6H8.3z" />
+    </svg>
+  );
+}
+function TallLeafBadgeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22V6" /><path d="M12 6C12 6 6 7 6 13c6 0 6-4 6-7Z" /><path d="M12 12C12 12 6 13 6 19c6 0 6-4 6-7Z" />
+      <path d="M12 6c0 0 6 1 6 7-6 0-6-4-6-7Z" />
+    </svg>
+  );
+}
+function StatementTreeBadgeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22V13" />
+      <circle cx="12" cy="8" r="6" />
+    </svg>
+  );
+}
+
+const PLANT_SIZES = [
+  { key: 'small', emoji: '🌱', image: '/images/plant-sizes/small.jpg', Icon: TinySproutBadgeIcon, exploreSlug: 'table-top-plants' },
+  { key: 'medium', emoji: '🪴', image: '/images/plant-sizes/medium.jpg', Icon: PottedBadgeIcon, exploreSlug: 'indoor-plants' },
+  { key: 'large', emoji: '🌿', image: '/images/plant-sizes/large.jpg', Icon: TallLeafBadgeIcon, exploreSlug: 'outdoor-plants' },
+  { key: 'xl', emoji: '🌴', image: '/images/plant-sizes/xl.jpg', Icon: StatementTreeBadgeIcon, exploreSlug: 'landscaping-trees' },
+];
+
+function PlantSizePicker() {
+  const { products } = useCatalogue();
+  const { t } = useLanguage();
+  const [selected, setSelected] = useState('small');
+
+  const productsBySize = useMemo(() => {
+    const buckets = { small: [], medium: [], large: [], xl: [] };
+    products.forEach((p) => {
+      if (!PLANT_SIZE_CATEGORIES.has(p.category)) return;
+      buckets[sizeTierOf(p)].push(p);
+    });
+    return buckets;
+  }, [products]);
+
+  const activeCategory = PLANT_SIZES.find((s) => s.key === selected);
+  const activeProducts = useMemo(
+    () => seededShuffle(productsBySize[selected] ?? [], 20240915).slice(0, 8),
+    [productsBySize, selected]
+  );
+
+  return (
+    <section className="plant-size-picker">
+      <div className="section-heading center">
+        <p className="eyebrow">{t('home.plantSizeEyebrow')}</p>
+        <h2>{t('home.plantSizeHeading')}</h2>
+        <p className="section-sub">{t('home.plantSizeSub')}</p>
+      </div>
+
+      <div className="plant-size-cards">
+        {PLANT_SIZES.map((size) => (
+          <button
+            type="button"
+            key={size.key}
+            className={`plant-size-card${selected === size.key ? ' is-selected' : ''}`}
+            onClick={() => setSelected(size.key)}
+            aria-pressed={selected === size.key}
+          >
+            <div className="plant-size-card-media">
+              <img src={size.image} alt={t(`home.plantSize${size.key.charAt(0).toUpperCase()}${size.key.slice(1)}Title`)} loading="lazy" />
+            </div>
+            <span className="plant-size-card-icon"><size.Icon /></span>
+            <h3>{size.emoji} {t(`home.plantSize${size.key.charAt(0).toUpperCase()}${size.key.slice(1)}Title`)}</h3>
+            <p>{t(`home.plantSize${size.key.charAt(0).toUpperCase()}${size.key.slice(1)}Desc`)}</p>
+          </button>
+        ))}
+      </div>
+
+      <div className="plant-size-results" key={selected}>
+        {activeProducts.length > 0 ? (
+          <div className="just-in-grid plant-size-grid">
+            {activeProducts.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        ) : (
+          <p className="empty-state">{t('common.noProductsFound')}</p>
+        )}
+        <div className="plant-size-explore">
+          <Link to={`/category/${activeCategory.exploreSlug}`} className="btn-build-garden">
+            {t('home.plantSizeExplore')}
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function GardenServicesTeaser() {
   const { gardenServices: services } = useSiteContent();
   const { t, language } = useLanguage();
@@ -1060,6 +1198,7 @@ function Home() {
       <HomeCorners />
       <BestSellers />
       <JustIn />
+      <PlantSizePicker />
       <CompleteGarden />
       <GardenServicesTeaser />
       <NurseryJourney />
