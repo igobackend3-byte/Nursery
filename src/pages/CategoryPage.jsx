@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { UMBRELLA_GROUPS } from '../data/products';
 import { useCatalogue } from '../context/CatalogueContext';
@@ -129,8 +129,17 @@ function CategoryPage({ slugOverride }) {
   // Plants to Seeds automatically swaps in seed-relevant filters instead
   // of leaving plant filters showing (requirement #11).
   const filterGroups = useMemo(() => (isGiftPage ? null : getFilterGroupsForCategory(slug)), [slug, isGiftPage]);
-  const [filters, setFilters] = useState({});
-  useEffect(() => { setFilters({}); }, [slug]);
+  // A "Shop Now" card (e.g. Home's "Plants for Every Corner" section) can
+  // deep-link straight into a pre-filtered view via ?location=Living Room -
+  // reuses the existing `location` filter facet indoor-plants already has,
+  // rather than adding a separate mechanism.
+  const [searchParams] = useSearchParams();
+  const initialLocation = searchParams.get('location');
+  const [filters, setFilters] = useState(() => (initialLocation ? { location: [initialLocation] } : {}));
+  useEffect(() => {
+    setFilters(initialLocation ? { location: [initialLocation] } : {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug]);
 
   // Gift page's own unrelated facet state (unchanged from before).
   const [giftFacets, setGiftFacets] = useState({});

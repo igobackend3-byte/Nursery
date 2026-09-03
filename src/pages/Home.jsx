@@ -151,6 +151,89 @@ function ShopByCategory() {
   );
 }
 
+// ---------------------------------------------------------------- Plants for every corner of your home
+function SofaIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 12V9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3" />
+      <path d="M2.5 12h19a.5.5 0 0 1 .5.5V16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-3.5a.5.5 0 0 1 .5-.5Z" />
+      <path d="M4 17v2M20 17v2" />
+    </svg>
+  );
+}
+function BedIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" />
+      <path d="M3 18h18" />
+      <path d="M4 10V7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" />
+      <path d="M14 10V8a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+      <path d="M3 21v-3M21 21v-3" />
+    </svg>
+  );
+}
+function BalconyIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="9" rx="1" />
+      <path d="M8 3v9M16 3v9" />
+      <path d="M4 20v-6M20 20v-6M3 20h18" />
+    </svg>
+  );
+}
+function OfficeChairIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="7" y="3" width="10" height="7" rx="2" />
+      <path d="M9 10v3h6v-3" />
+      <path d="M12 13v4" />
+      <path d="M8 21l4-3 4 3" />
+      <path d="M6 20h12" />
+    </svg>
+  );
+}
+
+// Photos are real project photography (see project images folder), not
+// placeholders - each cropped/compressed to a consistent card aspect ratio.
+const HOME_CORNERS = [
+  { key: 'livingRoom', location: 'Living Room', image: '/images/home-corners/living-room.jpg', Icon: SofaIcon },
+  { key: 'bedroom', location: 'Bedroom', image: '/images/home-corners/bedroom.jpg', Icon: BedIcon },
+  { key: 'balcony', location: 'Balcony', image: '/images/home-corners/balcony.jpg', Icon: BalconyIcon },
+  { key: 'office', location: 'Office', image: '/images/home-corners/office.jpg', Icon: OfficeChairIcon },
+];
+
+function HomeCorners() {
+  const { t } = useLanguage();
+  return (
+    <section className="home-corners">
+      <div className="home-corners-heading">
+        <span className="home-corners-leaf home-corners-leaf-left" aria-hidden="true"><SproutIcon /></span>
+        <h2>{t('home.cornersHeading')}</h2>
+        <span className="home-corners-leaf home-corners-leaf-right" aria-hidden="true"><SproutIcon /></span>
+      </div>
+      <div className="home-corners-grid">
+        {HOME_CORNERS.map((corner) => {
+          const label = t(`home.corner${corner.key.charAt(0).toUpperCase()}${corner.key.slice(1)}`);
+          return (
+            <Link
+              to={`/category/indoor-plants?location=${encodeURIComponent(corner.location)}`}
+              className="home-corner-card"
+              key={corner.key}
+            >
+              <div className="home-corner-media">
+                <img src={corner.image} alt={label} loading="lazy" />
+              </div>
+              <span className="home-corner-icon"><corner.Icon /></span>
+              <h3>{label}</h3>
+              <span className="home-corner-cta">{t('offers.shopNow')}</span>
+            </Link>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 // Custom play/pause overlay for the autoplaying, muted background video -
 // the video itself has no native controls (cleaner look), this button is
 // the only way to pause/resume it.
@@ -932,6 +1015,7 @@ function Home() {
       <OffersSection />
       <StatsStrip />
       <ShopByCategory />
+      <HomeCorners />
       <BestSellers />
       <CompleteGarden />
       <GardenServicesTeaser />
