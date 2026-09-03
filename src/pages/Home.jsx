@@ -6,7 +6,8 @@ import { useCatalogue } from '../context/CatalogueContext';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useSiteContent } from '../hooks/useSiteContent';
 import { useLanguage } from '../context/LanguageContext';
-import { getLocalizedCategoryLabel } from '../utils/localizedContent';
+import { getLocalizedCategoryLabel, getLocalizedProductName } from '../utils/localizedContent';
+import { getDiscountPercent } from '../utils/pricing';
 import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTranslation, getReviewTranslation, getJourneyStepTranslation, getCompareHeaderTranslation, getCompareTitleTranslation, getCompareRowTranslation, getTrustBadgeTranslation, getStatsStripTranslation } from '../i18n/translations';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
@@ -396,49 +397,37 @@ function sizeTierOf(product) {
   return 'medium';
 }
 
-function TinySproutBadgeIcon() {
+// A simple person silhouette used purely as a scale reference next to the
+// plant photo (the "how tall is this really" cue Ugaoo's size-finder is
+// built around) - not a real height measurement, just a visual anchor.
+function PersonSilhouetteIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 21V15" /><path d="M12 15c0-3.5-2.5-5-6-5 0 3.5 2.5 5 6 5Z" /><path d="M12 15c0-3.5 2.5-5 6-5 0 3.5-2.5 5-6 5Z" />
-    </svg>
-  );
-}
-function PottedBadgeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 15V9" /><path d="M12 9C12 5.5 9 4 6 4c0 4 2 5.5 6 5Z" /><path d="M12 9c0-3.5 3-5 6-5 0 4-2 5.5-6 5Z" />
-      <path d="M7 15h10l-1.3 6H8.3z" />
-    </svg>
-  );
-}
-function TallLeafBadgeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22V6" /><path d="M12 6C12 6 6 7 6 13c6 0 6-4 6-7Z" /><path d="M12 12C12 12 6 13 6 19c6 0 6-4 6-7Z" />
-      <path d="M12 6c0 0 6 1 6 7-6 0-6-4-6-7Z" />
-    </svg>
-  );
-}
-function StatementTreeBadgeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22V13" />
-      <circle cx="12" cy="8" r="6" />
+    <svg viewBox="0 0 40 140" fill="currentColor">
+      <circle cx="20" cy="14" r="12" />
+      <path d="M20 28c-11 0-18 8-18 22v50c0 4 3 7 7 7h4v29a4 4 0 0 0 8 0v-29h-2 4v29a4 4 0 0 0 8 0v-29h4c4 0 7-3 7-7V50c0-14-7-22-18-22Z" />
     </svg>
   );
 }
 
-const PLANT_SIZES = [
-  { key: 'small', emoji: '🌱', image: '/images/plant-sizes/small.jpg', Icon: TinySproutBadgeIcon, exploreSlug: 'table-top-plants' },
-  { key: 'medium', emoji: '🪴', image: '/images/plant-sizes/medium.jpg', Icon: PottedBadgeIcon, exploreSlug: 'indoor-plants' },
-  { key: 'large', emoji: '🌿', image: '/images/plant-sizes/large.jpg', Icon: TallLeafBadgeIcon, exploreSlug: 'outdoor-plants' },
-  { key: 'xl', emoji: '🌴', image: '/images/plant-sizes/xl.jpg', Icon: StatementTreeBadgeIcon, exploreSlug: 'landscaping-trees' },
+// Visual-only scale each tier's plant bar rises to, relative to the person
+// silhouette beside it (100% ≈ eye-level with an average adult) - purely
+// illustrative, matched loosely to each tier's real height range below.
+const SIZE_TIERS = [
+  { key: 'small', letter: 'S', barPct: 22, exploreSlug: 'table-top-plants' },
+  { key: 'medium', letter: 'M', barPct: 42, exploreSlug: 'indoor-plants' },
+  { key: 'large', letter: 'L', barPct: 72, exploreSlug: 'outdoor-plants' },
+  { key: 'xl', letter: 'XL', barPct: 100, exploreSlug: 'landscaping-trees' },
 ];
 
-function PlantSizePicker() {
-  const { products } = useCatalogue();
-  const { t } = useLanguage();
+function tierLabelKey(key, suffix) {
+  return `home.plantSize${key.charAt(0).toUpperCase()}${key.slice(1)}${suffix}`;
+}
+
+function PlantSizeFinder() {
+  const { products, categories } = useCatalogue();
+  const { t, language } = useLanguage();
   const [selected, setSelected] = useState('small');
+  const [heroId, setHeroId] = useState(null);
 
   const productsBySize = useMemo(() => {
     const buckets = { small: [], medium: [], large: [], xl: [] };
@@ -449,53 +438,98 @@ function PlantSizePicker() {
     return buckets;
   }, [products]);
 
-  const activeCategory = PLANT_SIZES.find((s) => s.key === selected);
-  const activeProducts = useMemo(
-    () => seededShuffle(productsBySize[selected] ?? [], 20240915).slice(0, 8),
+  const tier = SIZE_TIERS.find((s) => s.key === selected);
+  const tierProducts = useMemo(
+    () => seededShuffle(productsBySize[selected] ?? [], 20240915).slice(0, 4),
     [productsBySize, selected]
   );
+  const hero = tierProducts.find((p) => p.id === heroId) ?? tierProducts[0];
+
+  function selectTier(key) {
+    setSelected(key);
+    setHeroId(null);
+  }
+
+  if (!hero) return null;
+
+  const heroName = getLocalizedProductName(hero, language);
+  const categoryDoc = categories.find((c) => c.slug === hero.category);
+  const heroCategoryLabel = getLocalizedCategoryLabel(categoryDoc, language) || hero.categoryLabel;
+  const discountPercent = getDiscountPercent(hero.originalPrice, hero.price);
 
   return (
-    <section className="plant-size-picker">
+    <section className="plant-size-finder">
       <div className="section-heading center">
         <p className="eyebrow">{t('home.plantSizeEyebrow')}</p>
         <h2>{t('home.plantSizeHeading')}</h2>
-        <p className="section-sub">{t('home.plantSizeSub')}</p>
+        <p className="section-sub">{t('home.plantSizeTapHint')}</p>
       </div>
 
-      <div className="plant-size-cards">
-        {PLANT_SIZES.map((size) => (
+      <div className="size-tabs" role="tablist" aria-label={t('home.plantSizeHeading')}>
+        {SIZE_TIERS.map((s) => (
           <button
             type="button"
-            key={size.key}
-            className={`plant-size-card${selected === size.key ? ' is-selected' : ''}`}
-            onClick={() => setSelected(size.key)}
-            aria-pressed={selected === size.key}
+            role="tab"
+            key={s.key}
+            aria-selected={selected === s.key}
+            className={`size-tab${selected === s.key ? ' is-active' : ''}`}
+            onClick={() => selectTier(s.key)}
           >
-            <div className="plant-size-card-media">
-              <img src={size.image} alt={t(`home.plantSize${size.key.charAt(0).toUpperCase()}${size.key.slice(1)}Title`)} loading="lazy" />
-            </div>
-            <span className="plant-size-card-icon"><size.Icon /></span>
-            <h3>{size.emoji} {t(`home.plantSize${size.key.charAt(0).toUpperCase()}${size.key.slice(1)}Title`)}</h3>
-            <p>{t(`home.plantSize${size.key.charAt(0).toUpperCase()}${size.key.slice(1)}Desc`)}</p>
+            <span className="size-tab-letter">{s.letter}</span>
+            <span className="size-tab-label">{t(tierLabelKey(s.key, 'Title'))}</span>
           </button>
         ))}
       </div>
 
-      <div className="plant-size-results" key={selected}>
-        {activeProducts.length > 0 ? (
-          <div className="just-in-grid plant-size-grid">
-            {activeProducts.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
+      <div className="size-panel" key={selected}>
+        <div className="size-panel-visual">
+          <div className="size-height-indicator" aria-hidden="true">
+            <span className="size-height-person"><PersonSilhouetteIcon /></span>
+            <span className="size-height-track">
+              <span className="size-height-bar" style={{ height: `${tier.barPct}%` }} />
+            </span>
           </div>
-        ) : (
-          <p className="empty-state">{t('common.noProductsFound')}</p>
-        )}
-        <div className="plant-size-explore">
-          <Link to={`/category/${activeCategory.exploreSlug}`} className="btn-build-garden">
-            {t('home.plantSizeExplore')}
-          </Link>
+          <div className="size-panel-image">
+            <img src={hero.image} alt={heroName} />
+            {hero.isBestSeller && <span className="bestseller-badge">{t('common.bestseller')}</span>}
+          </div>
+        </div>
+
+        <div className="size-panel-info">
+          <p className="size-panel-eyebrow">{t(tierLabelKey(selected, 'Title'))} · {heroCategoryLabel}</p>
+          <h3>{heroName}</h3>
+          <p className="size-panel-height">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4" /></svg>
+            {t(tierLabelKey(selected, 'Height'))}
+          </p>
+          <p className="size-panel-desc">{t(tierLabelKey(selected, 'Desc'))}</p>
+
+          <div className="product-card-price size-panel-price">
+            <span className="price-now">₹{hero.price}</span>
+            {hero.originalPrice > hero.price && <span className="price-was">₹{hero.originalPrice}</span>}
+            {discountPercent > 0 && <span className="price-off">{discountPercent}% OFF</span>}
+          </div>
+
+          <div className="size-panel-actions">
+            <Link to={`/product/${hero.id}`} className="btn-build-garden">{t('offers.shopNow')}</Link>
+            <Link to={`/category/${tier.exploreSlug}`} className="size-panel-view-all">{t('home.plantSizeExplore')}</Link>
+          </div>
+
+          {tierProducts.length > 1 && (
+            <div className="size-panel-thumbs">
+              {tierProducts.map((p) => (
+                <button
+                  type="button"
+                  key={p.id}
+                  className={`size-panel-thumb${p.id === hero.id ? ' is-active' : ''}`}
+                  onClick={() => setHeroId(p.id)}
+                  aria-label={getLocalizedProductName(p, language)}
+                >
+                  <img src={p.image} alt="" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -1198,7 +1232,7 @@ function Home() {
       <HomeCorners />
       <BestSellers />
       <JustIn />
-      <PlantSizePicker />
+      <PlantSizeFinder />
       <CompleteGarden />
       <GardenServicesTeaser />
       <NurseryJourney />

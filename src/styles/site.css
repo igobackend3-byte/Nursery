@@ -762,122 +762,247 @@ section {
   transform: translateY(-5px) scale(1.01);
 }
 
-/* ============ Choose Your Plant Size ============ */
-.plant-size-picker {
+/* ============ Find Your Perfect Plant Size ============ */
+.plant-size-finder {
   background: var(--section-plant-size);
 }
 
-.plant-size-cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 26px;
-  padding: 0 48px;
-  margin-bottom: 48px;
-}
-
-.plant-size-card {
-  background: var(--color-bg-light);
-  border: 2px solid transparent;
-  border-radius: 22px;
-  overflow: hidden;
-  padding: 0 0 22px;
-  text-align: center;
-  cursor: pointer;
+.size-tabs {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  padding: 0 48px;
+  margin-bottom: 44px;
+  flex-wrap: wrap;
+}
+
+.size-tab {
+  display: flex;
   align-items: center;
-  box-shadow: 0 6px 18px rgba(27, 75, 54, 0.08);
-  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+  gap: 10px;
+  background: var(--color-bg-light);
+  border: 1.5px solid rgba(27, 75, 54, 0.15);
+  border-radius: 999px;
+  padding: 10px 22px 10px 10px;
+  cursor: pointer;
+  transition: border-color 0.22s ease, background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
 }
 
-.plant-size-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 16px 30px rgba(27, 75, 54, 0.16);
+.size-tab:hover {
+  transform: translateY(-2px);
+  border-color: rgba(27, 75, 54, 0.35);
+  box-shadow: 0 6px 16px rgba(27, 75, 54, 0.1);
 }
 
-.plant-size-card.is-selected {
+.size-tab.is-active {
+  background: var(--color-primary-green);
   border-color: var(--color-primary-green);
-  box-shadow: 0 0 0 4px rgba(27, 75, 54, 0.12), 0 16px 32px rgba(27, 75, 54, 0.2);
+  box-shadow: 0 8px 20px rgba(27, 75, 54, 0.28);
 }
 
-.plant-size-card-media {
+.size-tab-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--color-bg-cream);
+  color: var(--color-primary-green);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  transition: background 0.22s ease, color 0.22s ease;
+}
+
+.size-tab.is-active .size-tab-letter {
+  background: var(--color-primary-lime);
+  color: var(--color-primary-green);
+}
+
+.size-tab-label {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--color-text-dark);
+  transition: color 0.22s ease;
+}
+
+.size-tab.is-active .size-tab-label {
+  color: var(--color-text-light);
+}
+
+.size-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  padding: 0 48px;
+  animation: sizePanelFade 0.4s ease;
+}
+
+@keyframes sizePanelFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.size-panel-visual {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.size-height-indicator {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 340px;
+  flex-shrink: 0;
+  color: rgba(27, 75, 54, 0.3);
+}
+
+.size-height-person {
+  width: 34px;
+  height: 100%;
+}
+
+.size-height-person svg {
   width: 100%;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  margin-bottom: -26px;
+  height: 100%;
 }
 
-.plant-size-card-media img {
+.size-height-track {
+  position: relative;
+  width: 10px;
+  height: 100%;
+  background: rgba(27, 75, 54, 0.1);
+  border-radius: 999px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.size-height-bar {
+  width: 100%;
+  background: linear-gradient(to top, var(--color-primary-green), var(--color-primary-lime));
+  border-radius: 999px;
+  transition: height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.size-panel-image {
+  position: relative;
+  flex: 1;
+  aspect-ratio: 1 / 1;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(27, 75, 54, 0.18);
+  transition: transform 0.4s ease;
+}
+
+.size-panel-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.45s ease;
 }
 
-.plant-size-card:hover .plant-size-card-media img {
-  transform: scale(1.07);
+.size-panel-info {
+  min-width: 0;
 }
 
-.plant-size-card-icon {
-  position: relative;
-  z-index: 1;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--color-bg-cream);
-  border: 4px solid var(--color-bg-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.size-panel-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-size: 0.78rem;
+  font-weight: 700;
   color: var(--color-primary-green);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
-  transition: background 0.28s ease, color 0.28s ease;
+  margin-bottom: 8px;
 }
 
-.plant-size-card.is-selected .plant-size-card-icon {
-  background: var(--color-primary-green);
-  color: var(--color-text-light);
-}
-
-.plant-size-card-icon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.plant-size-card h3 {
-  margin-top: 12px;
+.size-panel-info h3 {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--color-text-dark);
+  margin-bottom: 12px;
 }
 
-.plant-size-card p {
-  margin-top: 6px;
-  padding: 0 18px;
-  font-size: 0.82rem;
+.size-panel-height {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-bg-cream);
+  color: var(--color-primary-green);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.size-panel-desc {
   color: var(--color-text-muted);
-  line-height: 1.4;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  max-width: 420px;
 }
 
-.plant-size-results {
-  animation: plantSizeFade 0.35s ease;
+.size-panel-price {
+  margin-bottom: 24px;
 }
 
-@keyframes plantSizeFade {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.plant-size-grid {
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.plant-size-explore {
+.size-panel-actions {
   display: flex;
-  justify-content: center;
-  margin-top: 36px;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.size-panel-view-all {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-primary-green);
+  border-bottom: 1.5px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.size-panel-view-all:hover {
+  border-color: var(--color-primary-green);
+}
+
+.size-panel-thumbs {
+  display: flex;
+  gap: 12px;
+}
+
+.size-panel-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  overflow: hidden;
+  padding: 0;
+  border: 2px solid transparent;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.size-panel-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.size-panel-thumb:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+.size-panel-thumb.is-active {
+  opacity: 1;
+  border-color: var(--color-primary-green);
 }
 
 .related-products {
@@ -3975,12 +4100,12 @@ section {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .plant-size-cards {
-    grid-template-columns: repeat(2, 1fr);
+  .size-panel {
+    gap: 36px;
   }
 
-  .plant-size-grid {
-    grid-template-columns: repeat(3, 1fr);
+  .size-height-indicator {
+    height: 280px;
   }
 
   .footer-top {
@@ -4030,7 +4155,8 @@ section {
   .category-grid,
   .product-grid,
   .just-in-grid,
-  .plant-size-cards,
+  .size-tabs,
+  .size-panel,
   .services-grid,
   .why-igo-grid,
   .journal-grid,
@@ -4048,18 +4174,39 @@ section {
     gap: 14px;
   }
 
-  .plant-size-cards {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+  /* Mobile: image on top, info below, no horizontal overflow - the S/M/L/XL
+     tab row scrolls horizontally instead of wrapping awkwardly. */
+  .size-tabs {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    gap: 10px;
   }
 
-  .plant-size-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+  .size-tab {
+    flex-shrink: 0;
   }
 
-  .plant-size-card p {
-    font-size: 0.72rem;
+  .size-panel {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .size-panel-visual {
+    justify-content: center;
+  }
+
+  .size-height-indicator {
+    height: 220px;
+  }
+
+  .size-panel-info h3 {
+    font-size: 1.5rem;
+  }
+
+  .size-panel-desc {
+    max-width: none;
   }
 
   .category-hero.category-hero-has-image {
