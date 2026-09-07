@@ -72,6 +72,11 @@ function About() {
         <div>
           <h3>{t('pages.founderLabel')}</h3>
           <p className="about-founder-name">{founderName}</p>
+          <p className="about-founder-title">{t('pages.founderTitle')}</p>
+          <p className="about-founder-bio">{t('pages.founderBio')}</p>
+          <a href="https://ceodrjohnyesudhas.com/" target="_blank" rel="noopener noreferrer" className="about-founder-link">
+            {t('pages.founderReadMore')}
+          </a>
         </div>
       </div>
 
@@ -107,6 +112,32 @@ function About() {
             <p>{t('pages.differentDeliveryText')}</p>
           </div>
         </div>
+      </div>
+
+      <div className="about-group">
+        <h2>{t('pages.groupTitle')}</h2>
+        <p className="about-group-text">{t('pages.groupText')}</p>
+        <div className="about-group-stats">
+          <div className="about-group-stat">
+            <strong>10+</strong>
+            <span>{t('pages.groupStatYears')}</span>
+          </div>
+          <div className="about-group-stat">
+            <strong>15,000+</strong>
+            <span>{t('pages.groupStatProjects')}</span>
+          </div>
+          <div className="about-group-stat">
+            <strong>{t('pages.groupStatIsoValue')}</strong>
+            <span>{t('pages.groupStatIso')}</span>
+          </div>
+          <div className="about-group-stat">
+            <strong>{t('pages.groupStatPanIndiaValue')}</strong>
+            <span>{t('pages.groupStatPanIndia')}</span>
+          </div>
+        </div>
+        <a href="https://igoagritechfarms.com/" target="_blank" rel="noopener noreferrer" className="about-group-link">
+          {t('pages.groupCta')}
+        </a>
       </div>
 
       <div className="about-cta">

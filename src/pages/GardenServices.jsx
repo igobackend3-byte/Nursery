@@ -35,7 +35,7 @@ function GardenServices() {
           <h2>{t('pages.tellUsAboutSpace')}</h2>
           <p>{t('pages.tellUsDesc')}</p>
         </div>
-        <a href="mailto:hello@igonursery.com" className="btn-find-plant">{t('pages.requestConsultation')}</a>
+        <a href="mailto:ceojohnyesudas@gmail.com" className="btn-find-plant">{t('pages.requestConsultation')}</a>
       </div>
     </div>
   );

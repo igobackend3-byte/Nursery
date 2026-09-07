@@ -14,7 +14,7 @@ function Contact() {
     e.preventDefault();
     const subject = encodeURIComponent(`Enquiry from ${name || 'website visitor'}`);
     const body = encodeURIComponent(`${message}\n\nFrom: ${name}\nEmail: ${email}`);
-    window.location.href = `mailto:hello@igonursery.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:ceojohnyesudas@gmail.com?subject=${subject}&body=${body}`;
   }
 
   return (
@@ -48,7 +48,7 @@ function Contact() {
           <p>8:00 AM – 6:00 PM, {t('pages.everyDay')}</p>
           <p className="store-visits-note">{t('pages.customerVisitsWelcome')}</p>
           <h4>{t('pages.contact')}</h4>
-          <p>+91 98765 43210<br />hello@igonursery.com</p>
+          <p>+91 73973 86189<br />ceojohnyesudas@gmail.com</p>
           <h4>{t('pages.supportHoursLabel')}</h4>
           <p>{t('pages.support247')}</p>
         </div>
