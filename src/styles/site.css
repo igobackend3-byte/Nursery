@@ -5314,6 +5314,35 @@ section {
   overflow: hidden;
 }
 
+/* The reference hero image (public/images/about-us/18_contact_hero.png)
+   already bakes in its own heading/description/leaf art/curved bottom
+   edge at a fixed 2172x724 (~3:1) ratio. Sizing the section to that
+   exact ratio and using `cover` means the full image always shows with
+   zero cropping and zero distortion at any width - no separate overlay,
+   wave cutout or text layer needed on top of it. */
+.ctc-hero-image-only {
+  aspect-ratio: 2172 / 724;
+  min-height: 0;
+  height: auto;
+  padding: 0;
+  border-radius: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.ctc-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .ctc-hero-leaf {
   position: absolute;
   left: 24px;
@@ -5650,12 +5679,14 @@ section {
   .ctc-farm { grid-template-columns: 1fr; margin: 0 32px 32px; }
   .ctc-whatsapp { margin: 0 32px 40px; }
   .ctc-hero { padding: 0 32px; }
+  .ctc-hero-image-only { padding: 0; }
 }
 
 @media (max-width: 640px) {
   .ctc-hero { min-height: 220px; border-radius: 0 0 30% 8% / 0 0 30px 30px; }
   .ctc-hero-copy h1 { font-size: 2rem; }
   .ctc-hero-leaf { display: none; }
+  .ctc-hero-image-only { min-height: 0; border-radius: 0; }
   .ctc-form-row { grid-template-columns: 1fr; }
   .ctc-whatsapp { flex-direction: column; align-items: flex-start; text-align: left; }
 }

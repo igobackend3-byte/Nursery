@@ -57,14 +57,19 @@ const Icon = {
 // Same coordinates already used on /locate-store - Muttukadu, Chennai.
 const MAP_EMBED_SRC = 'https://www.openstreetmap.org/export/embed.html?bbox=80.22%2C12.79%2C80.28%2C12.85&layer=mapnik&marker=12.82%2C80.25';
 
+// This reference image is a complete, pre-composited hero banner - the
+// "Get in Touch" heading, description, leaf line-art and curved bottom
+// edge are already baked into the photo. The heading/paragraph below
+// are kept as real text (visually hidden, not removed) purely so the
+// page still has a real <h1> for accessibility/SEO - nothing textual
+// was changed, and nothing renders twice on screen.
 function ContactHero() {
   return (
     <section
-      className="ctc-hero"
-      style={{ backgroundImage: `linear-gradient(90deg, rgba(9,32,22,0.72) 0%, rgba(9,32,22,0.35) 55%, rgba(9,32,22,0.12) 100%), url(/images/about-us/03_vision_growing_plant.png)` }}
+      className="ctc-hero ctc-hero-image-only"
+      style={{ backgroundImage: `url(/images/about-us/18_contact_hero.png)` }}
     >
-      <span className="ctc-hero-leaf" aria-hidden="true"><Icon.Leaf /></span>
-      <div className="ctc-hero-copy">
+      <div className="ctc-hero-copy ctc-sr-only">
         <h1>Get in Touch</h1>
         <p>Let's grow better together. We're here to help with your gardening and farming needs.</p>
       </div>
