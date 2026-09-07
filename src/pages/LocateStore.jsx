@@ -20,7 +20,8 @@ function LocateStore() {
           <h3>Muttukadu Lab &amp; Store</h3>
           <p>ECR Road, Muttukadu, Chennai, Tamil Nadu 603112</p>
           <h4>{t('pages.storeHours')}</h4>
-          <p>Mon–Sat: 9:00 AM – 7:00 PM<br />Sun: 10:00 AM – 5:00 PM</p>
+          <p>8:00 AM – 6:00 PM, {t('pages.everyDay')}</p>
+          <p className="store-visits-note">{t('pages.customerVisitsWelcome')}</p>
           <h4>{t('pages.contact')}</h4>
           <p>+91 98765 43210<br />hello@igonursery.com</p>
         </div>

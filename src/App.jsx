@@ -25,6 +25,9 @@ import LocateStore from './pages/LocateStore';
 import About from './pages/About';
 import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
+import ShippingPolicy from './pages/ShippingPolicy';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Terms from './pages/Terms';
 import NotFound from './pages/NotFound';
 import './App.css';
 import './styles/site.css';
@@ -60,6 +63,9 @@ function App() {
                 <Route path="about" element={<About />} />
                 <Route path="gallery" element={<Gallery />} />
                 <Route path="contact" element={<Contact />} />
+                <Route path="shipping-policy" element={<ShippingPolicy />} />
+                <Route path="privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="terms" element={<Terms />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>

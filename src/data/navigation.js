@@ -115,6 +115,7 @@ export const FOOTER_LINKS = {
     { label: 'Gifting', to: '/gifting' },
     { label: 'Garden Services', to: '/garden-services' },
     { label: 'Blog', to: '/blog' },
+    { label: 'Gallery', to: '/gallery' },
     { label: 'FAQ', to: '/#faq' },
     { label: 'Locate Store', to: '/locate-store' },
   ],
@@ -123,6 +124,11 @@ export const FOOTER_LINKS = {
     { label: 'Orders', to: '/login' },
     { label: 'Wishlist', to: '/wishlist' },
     { label: 'Cart', to: '/cart' },
-    { label: 'Contact', to: '/locate-store' },
+    { label: 'Contact', to: '/contact' },
+  ],
+  legal: [
+    { label: 'Privacy Policy', to: '/privacy-policy' },
+    { label: 'Terms & Conditions', to: '/terms' },
+    { label: 'Shipping Policy', to: '/shipping-policy' },
   ],
 };

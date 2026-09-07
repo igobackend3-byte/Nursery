@@ -65,6 +65,8 @@ const FAQS = [
   { key: 'Guarantee' },
   { key: 'Help' },
   { key: 'Separate' },
+  { key: 'Delivery' },
+  { key: 'Cod' },
 ];
 
 function Hero() {

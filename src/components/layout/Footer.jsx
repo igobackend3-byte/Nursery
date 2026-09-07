@@ -14,9 +14,11 @@ const FOOTER_LABEL_KEYS = {
   'Plants': 'nav.plants', 'Seeds': 'nav.seeds', 'Pots & Planters': 'nav.potsPlanters',
   'Plant Care': 'nav.plantCare', 'Offers': 'nav.offers',
   'Our Story': 'pages.ourStory', 'Gifting': 'nav.gifting', 'Garden Services': 'nav.gardenServices',
-  'Blog': 'nav.blog', 'Locate Store': 'nav.locateStore',
+  'Blog': 'nav.blog', 'Locate Store': 'nav.locateStore', 'Gallery': 'nav.gallery',
   'My Account': 'header.account', 'Orders': 'orders.myOrders', 'Wishlist': 'header.wishlist',
-  'Cart': 'header.cart', 'Contact': 'pages.contact',
+  'Cart': 'header.cart', 'Contact': 'nav.contactUs',
+  'Privacy Policy': 'pages.privacyTitle', 'Terms & Conditions': 'pages.termsTitle',
+  'Shipping Policy': 'pages.shippingTitle',
 };
 
 function FooterColumn({ title, links, t, language }) {
@@ -58,6 +60,14 @@ function Footer() {
       </div>
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} IGO Nursery. {t('footer.rights')}</span>
+        <span className="footer-legal-links">
+          {FOOTER_LINKS.legal.map((link, i) => (
+            <span key={link.label}>
+              {i > 0 && <span aria-hidden="true"> · </span>}
+              <Link to={link.to}>{t(FOOTER_LABEL_KEYS[link.label])}</Link>
+            </span>
+          ))}
+        </span>
         <span>{t('footer.builtFor')}</span>
       </div>
     </footer>
