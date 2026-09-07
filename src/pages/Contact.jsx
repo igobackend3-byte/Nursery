@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useLanguage } from '../context/LanguageContext';
 
 // Full Contact Us page redesign, matching the supplied reference
 // screenshot's layout (hero banner, info cards, message form, farm/map
@@ -148,7 +147,8 @@ function FindOurFarm() {
         </a>
       </div>
       <div className="ctc-farm-map">
-        <iframe title="IGO Nursery farm location" src={MAP_EMBED_SRC} loading="lazy" />
+        <iframe title="IGO Agritech Farms location" src={MAP_EMBED_SRC} loading="lazy" />
+        <span className="ctc-farm-map-label">Green Valley</span>
       </div>
     </section>
   );
@@ -180,8 +180,6 @@ function WhatsAppBanner() {
 }
 
 function Contact() {
-  const { t } = useLanguage();
-
   return (
     <div className="ctc-page">
       <ContactHero />
@@ -189,19 +187,19 @@ function Contact() {
       <section className="ctc-body">
         <div className="ctc-info-col">
           <InfoCard icon={Icon.Phone} title="Phone" subtitle="We're just a call away">
-            <p className="ctc-info-strong">+91 73973 86189</p>
-            <p className="ctc-info-note">8:00 AM – 6:00 PM, {t('pages.everyDay')}</p>
+            <p className="ctc-info-strong">+91 98765 43210</p>
+            <p className="ctc-info-note">Mon – Sat | 9:00 AM – 6:00 PM</p>
           </InfoCard>
           <InfoCard icon={Icon.Mail} title="Email" subtitle="Send us your queries">
-            <p className="ctc-info-strong">ceojohnyesudas@gmail.com</p>
+            <p className="ctc-info-strong">support@igoagritechfarms.com</p>
             <p className="ctc-info-note">We'll get back to you shortly.</p>
           </InfoCard>
           <InfoCard icon={Icon.Pin} title="Our Location" subtitle="Visit our farm &amp; store">
-            <p className="ctc-info-note">IGO Nursery — Muttukadu Lab &amp; Store<br />ECR Road, Muttukadu, Chennai, Tamil Nadu 603112</p>
+            <p className="ctc-info-note">123 Green Valley Road,<br />Coimbatore, Tamil Nadu – 641XXX</p>
           </InfoCard>
           <InfoCard icon={Icon.Clock} title="Business Hours" subtitle="We're open for you">
-            <p className="ctc-info-note">8:00 AM – 6:00 PM, every day</p>
-            <p className="ctc-info-note">Customer visits to the nursery are welcome.</p>
+            <p className="ctc-info-note">Mon – Sat : 9:00 AM – 6:00 PM</p>
+            <p className="ctc-info-note">Sunday : Closed</p>
           </InfoCard>
         </div>
 

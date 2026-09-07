@@ -4,6 +4,7 @@
 // untranslated deliberately - see the note in translations.js.
 export const NAV_ITEMS = [
   { label: 'Home', i18nKey: 'home', to: '/' },
+  { label: 'About Us', i18nKey: 'aboutUs', to: '/about' },
   {
     label: 'Products',
     i18nKey: 'products',
@@ -95,9 +96,7 @@ export const NAV_ITEMS = [
       { label: 'B2B Sales', to: '/corporate-gifts' },
     ],
   },
-  { label: 'Gallery', i18nKey: 'gallery', to: '/gallery' },
   { label: 'Blog', i18nKey: 'blog', to: '/blog' },
-  { label: 'About Us', i18nKey: 'aboutUs', to: '/about' },
   { label: 'Contact Us', i18nKey: 'contactUs', to: '/contact' },
 ];
 

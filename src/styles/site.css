@@ -183,6 +183,68 @@ section {
   background-color: var(--section-footer);
   color: rgba(255, 255, 255, 0.85);
   margin-top: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.ftr-leaf-decor {
+  position: absolute;
+  right: 24px;
+  bottom: 44px;
+  color: rgba(255, 255, 255, 0.08);
+  transform: scale(4);
+  pointer-events: none;
+}
+
+.ftr-top-grid {
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+}
+
+.ftr-desc {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 280px;
+  margin-bottom: 16px;
+}
+
+.ftr-social {
+  display: flex;
+  gap: 10px;
+}
+
+.ftr-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.ftr-social-btn:hover {
+  background: var(--color-primary-lime);
+  color: #0b0f0a;
+  transform: translateY(-2px);
+}
+
+.ftr-contact-col p {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.ftr-contact-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--color-primary-lime);
 }
 
 .footer-top {
@@ -5491,7 +5553,26 @@ section {
 }
 
 .ctc-farm-map {
+  position: relative;
   min-height: 260px;
+}
+
+/* The map is a real OpenStreetMap embed of the nursery's actual location
+   (see MAP_EMBED_SRC) - it has no native "Green Valley" place label, so
+   this overlay approximates that part of the reference visually. */
+.ctc-farm-map-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 40%);
+  background: white;
+  color: var(--ctc-green, #0b3d2e);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
 }
 
 .ctc-farm-map iframe {
