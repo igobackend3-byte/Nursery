@@ -23,6 +23,8 @@ import Landscaping from './pages/Landscaping';
 import Blog from './pages/Blog';
 import LocateStore from './pages/LocateStore';
 import About from './pages/About';
+import Gallery from './pages/Gallery';
+import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 import './App.css';
 import './styles/site.css';
@@ -56,6 +58,8 @@ function App() {
                 <Route path="blog" element={<Blog />} />
                 <Route path="locate-store" element={<LocateStore />} />
                 <Route path="about" element={<About />} />
+                <Route path="gallery" element={<Gallery />} />
+                <Route path="contact" element={<Contact />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>

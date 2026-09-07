@@ -3,9 +3,10 @@
 // as the English fallback/source of truth. Subcategory children are left
 // untranslated deliberately - see the note in translations.js.
 export const NAV_ITEMS = [
+  { label: 'Home', i18nKey: 'home', to: '/' },
   {
-    label: 'Plants',
-    i18nKey: 'plants',
+    label: 'Products',
+    i18nKey: 'products',
     to: '/category/indoor-plants',
     children: [
       { label: 'Indoor Plants', to: '/category/indoor-plants' },
@@ -41,13 +42,6 @@ export const NAV_ITEMS = [
       { label: 'Coastal Plants', to: '/category/coastal-plants' },
       { label: 'Landscaping Tree', to: '/category/landscaping-trees' },
       { label: 'Landscaping Plant', to: '/category/landscaping-plants' },
-    ],
-  },
-  {
-    label: 'Seeds',
-    i18nKey: 'seeds',
-    to: '/category/seeds',
-    children: [
       { label: 'All Seeds', to: '/category/seeds' },
       { label: 'Vegetable Seeds', to: '/category/vegetable-seeds' },
       { label: 'Flower Seeds', to: '/category/flower-seeds' },
@@ -59,13 +53,6 @@ export const NAV_ITEMS = [
       { label: 'Medicinal Seeds', to: '/category/medicinal-seeds' },
       { label: 'Exotic Seeds', to: '/category/exotic-seeds' },
       { label: 'Native & Ornamental Seeds', to: '/category/native-ornamental-seeds' },
-    ],
-  },
-  {
-    label: 'Pots & Planters',
-    i18nKey: 'potsPlanters',
-    to: '/category/pots-planters',
-    children: [
       { label: 'All Pots & Planters', to: '/category/pots-planters' },
       { label: 'Terracotta', to: '/category/terracotta-pots' },
       { label: 'Ceramic', to: '/category/ceramic-pots' },
@@ -86,13 +73,6 @@ export const NAV_ITEMS = [
       { label: 'Upcycled', to: '/category/upcycled-planters' },
       { label: 'Gardening Tools', to: '/category/gardening-tools' },
       { label: 'Garden Décor', to: '/category/garden-decor' },
-    ],
-  },
-  {
-    label: 'Plant Care',
-    i18nKey: 'plantCare',
-    to: '/category/plant-care',
-    children: [
       { label: 'Shop Plant Care', to: '/category/plant-care' },
       { label: 'Potting Media', to: '/category/potting-media' },
       { label: 'Organic Fertilizers', to: '/category/organic-fertilizers' },
@@ -102,17 +82,23 @@ export const NAV_ITEMS = [
       { label: 'Plant Protection', to: '/category/plant-protection' },
       { label: 'Propagation Supplies', to: '/category/propagation-supplies' },
       { label: 'Composting Products', to: '/category/composting-products' },
-      { label: 'Garden Journal', to: '/blog' },
-      { label: 'FAQ', to: '/#faq' },
     ],
   },
-  { label: 'Landscaping', i18nKey: 'landscaping', to: '/landscaping' },
-  { label: 'Gifting', i18nKey: 'gifting', to: '/gifting' },
-  { label: 'B2B Sales', i18nKey: 'b2bSales', to: '/corporate-gifts' },
-  { label: 'Garden Services', i18nKey: 'gardenServices', to: '/garden-services' },
+  {
+    label: 'Services',
+    i18nKey: 'services',
+    to: '/garden-services',
+    children: [
+      { label: 'Garden Services', to: '/garden-services' },
+      { label: 'Landscaping', to: '/landscaping' },
+      { label: 'Gifting', to: '/gifting' },
+      { label: 'B2B Sales', to: '/corporate-gifts' },
+    ],
+  },
+  { label: 'Gallery', i18nKey: 'gallery', to: '/gallery' },
   { label: 'Blog', i18nKey: 'blog', to: '/blog' },
-  { label: 'Offers', i18nKey: 'offers', to: '/offers', highlight: true },
-  { label: 'Locate Store', i18nKey: 'locateStore', to: '/locate-store' },
+  { label: 'About Us', i18nKey: 'aboutUs', to: '/about' },
+  { label: 'Contact Us', i18nKey: 'contactUs', to: '/contact' },
 ];
 
 export const FOOTER_LINKS = {
