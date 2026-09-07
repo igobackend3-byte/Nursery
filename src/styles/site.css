@@ -4327,12 +4327,16 @@ section {
 
 .about-founder {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 20px;
   margin-top: 40px;
   padding: 24px 28px;
   background: var(--color-bg-cream);
   border-radius: 16px;
+}
+
+.about-founder-avatar {
+  margin-top: 4px;
 }
 
 .about-founder-avatar {
@@ -4561,7 +4565,12 @@ section {
 
   .about-founder {
     flex-direction: column;
+    align-items: center;
     text-align: center;
+  }
+
+  .about-founder-bio {
+    max-width: none;
   }
 }
 
