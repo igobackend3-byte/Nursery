@@ -1,34 +1,37 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useCatalogue } from '../context/CatalogueContext';
 
 // ------------------------------------------------------------------
 // About Us page - complete visual redesign per the supplied reference
 // screenshot. Scoped entirely to this page: every class below is
 // prefixed `abt-` (or reuses the site-wide `.eyebrow` utility) so
 // nothing here can leak into or collide with any other page's styles.
-// Real product photos are pulled live from the catalogue (useCatalogue)
-// wherever the card represents an actual product category; the purely
-// decorative/lifestyle shots (greenhouse interior, a hand holding a
-// plant, a macro soil shot, journey thumbnails) reuse the same
-// Unsplash sourcing convention already used across Home.jsx/products.js
-// elsewhere in this project.
+//
+// Images: every photo below is a real file from the user-supplied
+// reference folder (public/images/about-us/), mapped 1:1 by filename to
+// the section it belongs to - nothing invented or substituted.
 // ------------------------------------------------------------------
 
 const PHOTO = {
-  greenhouse: 'https://images.unsplash.com/photo-1508022713622-df2d8fb7b4cd?q=80&w=1400&auto=format&fit=crop',
-  handWithPlant: 'https://images.unsplash.com/photo-1493957988430-a5f2e15f39a3?q=80&w=900&auto=format&fit=crop',
-  landscaping: 'https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?q=80&w=700&auto=format&fit=crop',
-  plantCare: 'https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?q=80&w=700&auto=format&fit=crop',
-  soilMacro: 'https://images.unsplash.com/photo-1611048267451-e6ed903d4a38?q=80&w=1100&auto=format&fit=crop',
+  greenhouse: '/images/about-us/01_hero_nursery_greenhouse.png',
+  handWithPlant: '/images/about-us/02_our_story_person_holding_plant.png',
+  vision: '/images/about-us/03_vision_growing_plant.png',
+  mission: '/images/about-us/04_mission_plant.png',
+  offerIndoorOutdoor: '/images/about-us/05_indoor_outdoor_plants.png',
+  offerPots: '/images/about-us/06_pots_and_planters.png',
+  offerSeeds: '/images/about-us/07_seeds_and_gardening.png',
+  plantCare: '/images/about-us/08_plant_care.png',
+  landscaping: '/images/about-us/09_landscaping.png',
+  corporateGifting: '/images/about-us/10_corporate_gifting.png',
+  soilMacro: '/images/about-us/11_our_values_plant_orbit.png',
   journey: [
-    'https://images.unsplash.com/photo-1591958911259-bee2173bdccc?q=80&w=400&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1533038590840-1cde6e668a91?q=80&w=400&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=400&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?q=80&w=400&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1508022713622-df2d8fb7b4cd?q=80&w=400&auto=format&fit=crop',
+    '/images/about-us/12_journey_seedlings.png',
+    '/images/about-us/13_journey_nursery_beds.png',
+    '/images/about-us/14_journey_plant_care.png',
+    '/images/about-us/15_journey_greenhouse.png',
+    '/images/about-us/16_journey_nursery.png',
   ],
-  finalCta: 'https://images.unsplash.com/photo-1591958911259-bee2173bdccc?q=80&w=1600&auto=format&fit=crop',
+  finalCta: '/images/about-us/17_final_cta_background.png',
 };
 
 // ---------------------------------------------------------------- Icons
@@ -228,8 +231,9 @@ function AboutHero() {
       </div>
 
       <div className="abt-hero-right">
-        <img src={PHOTO.greenhouse} alt="Lush greenhouse full of nursery plants" loading="eager" />
-        <p className="abt-hero-script">Green<br />Spaces<br />Happier<br />Lives</p>
+        {/* "Green Spaces Happier Lives" is already composited into this
+            reference image, so it isn't repeated as a separate overlay. */}
+        <img src={PHOTO.greenhouse} alt="Lush greenhouse full of nursery plants - Green Spaces, Happier Lives" loading="eager" />
       </div>
     </section>
   );
@@ -242,10 +246,10 @@ function AboutStory() {
       <FloatingLeaf style={{ top: '6%', left: '4%' }} size={18} />
       <FloatingLeaf style={{ bottom: '10%', right: '30%' }} size={16} flip />
 
+      {/* The play button and "From Seed to Green" caption are already
+          composited into this reference image. */}
       <Reveal className="abt-story-media">
-        <img src={PHOTO.handWithPlant} alt="A hand holding a small potted plant" loading="lazy" />
-        <span className="abt-play-btn" aria-hidden="true"><Icon.Play /></span>
-        <p className="abt-hero-script abt-story-script">From<br />Seed to<br />Green</p>
+        <img src={PHOTO.handWithPlant} alt="A hand holding a small potted plant - From Seed to Green" loading="lazy" />
       </Reveal>
 
       <Reveal className="abt-story-copy" delay={120}>
@@ -295,6 +299,7 @@ function AboutVisionMission() {
   return (
     <div className="abt-vm-grid">
       <Reveal className="abt-vm-card abt-vm-vision">
+        <img className="abt-vm-media" src={PHOTO.vision} alt="A young seedling growing in soft sunlight" loading="lazy" />
         <span className="abt-vm-icon"><Icon.Eye /></span>
         <p className="eyebrow">OUR VISION</p>
         <h3>A Greener Tomorrow</h3>
@@ -304,6 +309,7 @@ function AboutVisionMission() {
         </p>
       </Reveal>
       <Reveal className="abt-vm-card abt-vm-mission" delay={120}>
+        <img className="abt-vm-media" src={PHOTO.mission} alt="A lush green leafy plant" loading="lazy" />
         <span className="abt-vm-icon"><Icon.Target /></span>
         <p className="eyebrow">OUR MISSION</p>
         <h3>Plants for a Better Life</h3>
@@ -318,16 +324,13 @@ function AboutVisionMission() {
 
 // ----------------------------------------------------------- What We Offer
 function AboutOffer() {
-  const { products } = useCatalogue();
-  const findImage = (slug, fallback) => products.find((p) => p.category === slug)?.image ?? fallback;
-
   const cards = [
-    { title: 'Indoor & Outdoor Plants', desc: 'Beautiful plants for every space, inside and out.', icon: 'Leaf', image: findImage('indoor-plants', PHOTO.greenhouse), to: '/category/indoor-plants' },
-    { title: 'Pots & Planters', desc: 'Stylish and durable pots to complement your plants.', icon: 'Pot', image: findImage('pots-planters', PHOTO.handWithPlant), to: '/category/pots-planters' },
-    { title: 'Seeds & Gardening', desc: 'High-quality seeds for a bountiful garden.', icon: 'Sprout', image: findImage('seeds', PHOTO.soilMacro), to: '/category/seeds' },
+    { title: 'Indoor & Outdoor Plants', desc: 'Beautiful plants for every space, inside and out.', icon: 'Leaf', image: PHOTO.offerIndoorOutdoor, to: '/category/indoor-plants' },
+    { title: 'Pots & Planters', desc: 'Stylish and durable pots to complement your plants.', icon: 'Pot', image: PHOTO.offerPots, to: '/category/pots-planters' },
+    { title: 'Seeds & Gardening', desc: 'High-quality seeds for a bountiful garden.', icon: 'Sprout', image: PHOTO.offerSeeds, to: '/category/seeds' },
     { title: 'Plant Care', desc: 'Expert tips and products to keep your plants healthy.', icon: 'Watering', image: PHOTO.plantCare, to: '/category/plant-care' },
     { title: 'Landscaping', desc: 'Transform your space with beautiful green designs.', icon: 'Landscape', image: PHOTO.landscaping, to: '/landscaping' },
-    { title: 'Corporate Gifting', desc: 'Thoughtful green gifts for clients and teams.', icon: 'Gift', image: findImage('bonsai', PHOTO.soilMacro), to: '/corporate-gifts' },
+    { title: 'Corporate Gifting', desc: 'Thoughtful green gifts for clients and teams.', icon: 'Gift', image: PHOTO.corporateGifting, to: '/corporate-gifts' },
   ];
 
   return (
