@@ -247,6 +247,34 @@ section {
   color: rgba(255, 255, 255, 0.55);
 }
 
+/* ============ About IGO (homepage teaser) ============ */
+.about-igo-section {
+  background: var(--color-bg-light);
+  padding: 64px 48px;
+  display: flex;
+  justify-content: center;
+}
+
+.about-igo-copy {
+  max-width: 720px;
+  text-align: center;
+}
+
+.about-igo-copy h2 {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 20px;
+}
+
+.about-igo-text {
+  color: var(--color-text-muted);
+  font-size: 1.02rem;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
 /* ============ Offers ============ */
 .offers-section {
   background: var(--section-offers);

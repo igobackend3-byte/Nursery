@@ -123,6 +123,24 @@ const MISSING_CATEGORY_SLUGS = [
   'smart-garden-tech', 'garden-decor', 'greenhouse-supplies', 'pest-control-devices',
   'nursery-packaging-supplies', 'indoor-plant-accessories',
 ];
+// About Us teaser - the same real "aboutStory" copy used on the /about
+// page (see pages.aboutStory in i18n/translations.js), not new/invented
+// text. Greening-Wonders-style placement (early on the page, right after
+// Hero) but IGO's own green/white/black brand colors, not their teal.
+function AboutIgo() {
+  const { t } = useLanguage();
+  return (
+    <section className="about-igo-section">
+      <div className="about-igo-copy">
+        <p className="eyebrow">{t('pages.ourStory')}</p>
+        <h2>{t('home.whyIgoHeading')}</h2>
+        <p className="about-igo-text">{t('pages.aboutStory')}</p>
+        <Link to="/about" className="btn-build-garden">{t('home.discoverMore')}</Link>
+      </div>
+    </section>
+  );
+}
+
 function ShopByCategory() {
   const { categories } = useCatalogue();
   const { t, language } = useLanguage();
@@ -1317,6 +1335,7 @@ function Home() {
   return (
     <>
       <Hero />
+      <AboutIgo />
       <OffersSection />
       <StatsStrip />
       <ShopByCategory />
