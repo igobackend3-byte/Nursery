@@ -5594,38 +5594,45 @@ section {
 .ctc-form-perks {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 28px;
 }
 
 .ctc-form-perk {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 14px;
 }
 
 .ctc-form-perk-icon {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--ctc-green-soft);
-  color: var(--ctc-green-mid);
+  width: 24px;
+  height: 24px;
+  color: var(--ctc-green);
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 2px;
+}
+
+.ctc-form-perk-icon svg {
+  width: 100%;
+  height: 100%;
 }
 
 .ctc-form-perk h4 {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--ctc-green);
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  line-height: 1.3;
 }
 
 .ctc-form-perk p {
-  color: #5c6b60;
-  font-size: 0.82rem;
-  line-height: 1.45;
+  color: #6b7a70;
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 1.55;
 }
 
 /* -------------------------------------------------------------- Farm */
