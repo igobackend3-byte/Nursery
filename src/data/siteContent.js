@@ -18,6 +18,7 @@ export const DEFAULT_SITE_CONTENT = {
     { id: 1, qty: 4, price: 799, note: 'WITH GROW POT', image: 'https://images.unsplash.com/photo-1509587584298-0f3b3a3a1797?q=80&w=500&auto=format&fit=crop' },
     { id: 2, qty: 4, price: 999, note: 'WITH KRISH POT', image: 'https://images.unsplash.com/photo-1459156212016-c812468e2115?q=80&w=500&auto=format&fit=crop' },
     { id: 3, qty: 4, price: 1199, note: 'WITH LAGOS POT', image: 'https://images.unsplash.com/photo-1611048267451-e6ed903d4a38?q=80&w=500&auto=format&fit=crop' },
+    { id: 4, qty: 4, price: 999, note: 'WITH POT SET', image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=500&auto=format&fit=crop' },
   ],
   journal: [
     { id: 1, title: 'How to choose your first indoor plant', to: '/blog', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=500&auto=format&fit=crop' },
