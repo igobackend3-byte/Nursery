@@ -1001,6 +1001,94 @@ function ComparisonRow({ row, index, hovered, onHover, onLeave }) {
   );
 }
 
+// A small original animated illustration (pot, sprout, floating leaves)
+// used in place of a founder photo - the user confirmed no real photo
+// exists yet, and asked for an "animation" in that spot instead of a
+// generated/stock photo standing in for one.
+function StoryIllustration() {
+  return (
+    <svg className="os-illustration-svg" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="160" cy="170" r="120" className="os-illustration-glow" />
+      <g className="os-illustration-leaf os-illustration-leaf-1">
+        <path d="M40 70c18-14 40-10 48 6-18 10-38 8-48-6z" fill="#a7f822" opacity="0.5" />
+      </g>
+      <g className="os-illustration-leaf os-illustration-leaf-2">
+        <path d="M270 60c-18-10-38-4-44 12 18 8 36 4 44-12z" fill="#a7f822" opacity="0.4" />
+      </g>
+      <g className="os-illustration-leaf os-illustration-leaf-3">
+        <path d="M60 240c-16 12-20 32-10 44 16-8 26-26 10-44z" fill="#a7f822" opacity="0.35" />
+      </g>
+      <rect x="120" y="210" width="80" height="70" rx="10" className="os-illustration-pot" />
+      <rect x="112" y="200" width="96" height="18" rx="9" className="os-illustration-pot-rim" />
+      <g className="os-illustration-plant">
+        <path d="M160 205C160 205 156 150 160 120" stroke="#dff7bf" strokeWidth="6" strokeLinecap="round" />
+        <path d="M160 165c-22-6-34-30-30-52 24 2 42 22 46 46" fill="#8fd94a" />
+        <path d="M160 145c20-8 30-30 26-50-22 4-38 22-42 44" fill="#a7f822" />
+        <path d="M160 120c10-14 12-30 6-44-16 8-24 24-22 40" fill="#c9f57a" />
+      </g>
+    </svg>
+  );
+}
+
+function OurStoryBand() {
+  const [ref, visible] = useScrollReveal(0.2);
+  const { language } = useLanguage();
+
+  return (
+    <section ref={ref} className={`os-band${visible ? ' os-band-visible' : ''}`}>
+      <div className="os-story">
+        <div className="os-media">
+          <span className="os-badge">Our Story</span>
+          <StoryIllustration />
+          <div className="os-media-caption">
+            <p className="os-media-name">Dr John Yesudhas</p>
+            <p className="os-media-title">Founder, IGO Nursery</p>
+          </div>
+        </div>
+
+        <div className="os-copy">
+          <h2>Our Story.</h2>
+          <p className="os-quote">
+            Anyone can grow <span className="os-quote-highlight">something beautiful.</span>
+            <span className="os-quote-leaf" aria-hidden="true"><LeafGlyph /></span>
+          </p>
+          <p>
+            IGO Nursery started as a small AgriTech lab in Muttukadu, testing how IoT monitoring and precision
+            trials could grow healthier plants at scale. Today every plant that reaches your door has passed
+            through that same lab before it ever reaches the catalogue.
+          </p>
+          <p>
+            We believe that once you feel a real connection to nature, <strong>it stays with you</strong> - which
+            is why every plant, pot and seed in our catalogue is chosen to make that connection easier to find,
+            whether you're growing your first leaf or your hundredth.
+          </p>
+          <p>Welcome to IGO Nursery, your one-stop gardening shop! <span aria-hidden="true">🌿</span></p>
+        </div>
+      </div>
+
+      <div className="os-testimonials">
+        <div className="section-heading center">
+          <h2>What Our Customers Say</h2>
+        </div>
+        <div className="os-testimonial-grid">
+          {REVIEWS.map((r) => (
+            <div className="os-testimonial-card" key={r.name}>
+              <div className="os-testimonial-head">
+                <span className="os-avatar" aria-hidden="true">{r.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}</span>
+                <div>
+                  <p className="os-testimonial-name">{r.name}</p>
+                  <p className="os-testimonial-stars">{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</p>
+                </div>
+              </div>
+              <p className="os-testimonial-text">&ldquo;{getReviewTranslation(r.text, language)}&rdquo;</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function NurseryComparison() {
   const [hoveredRow, setHoveredRow] = useState(null);
   const { language } = useLanguage();
@@ -1386,6 +1474,7 @@ function Home() {
       <GardenServicesTeaser />
       <NurseryJourney />
       <WhyIGO />
+      <OurStoryBand />
       <NurseryComparison />
       <PlantFinderBand />
       <GardenJournal />
