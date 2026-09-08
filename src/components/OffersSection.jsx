@@ -30,12 +30,12 @@ function OffersSection() {
             <div className="offer-copy">
               <h3>{t('offers.buyAny')} {offer.qty} @ ₹{offer.price}</h3>
               <p>{getOfferNoteTranslation(offer.note, language)}</p>
-              <Link to="/category/indoor-plants" className="btn-shop-now">{t('offers.shopNow')}</Link>
             </div>
             <div className="offer-badge"><span>{t('offers.buildBundle')}</span></div>
             <div className="offer-card-media">
               <img src={offer.image} alt="" loading="lazy" />
             </div>
+            <Link to="/category/indoor-plants" className="btn-shop-now">{t('offers.shopNow')}</Link>
           </div>
         ))}
       </div>
