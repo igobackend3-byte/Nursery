@@ -32,6 +32,7 @@ import Terms from './pages/Terms';
 import NotFound from './pages/NotFound';
 import './App.css';
 import './styles/site.css';
+import './styles/animations.css';
 
 function App() {
   return (

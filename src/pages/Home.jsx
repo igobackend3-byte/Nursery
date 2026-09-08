@@ -132,8 +132,9 @@ const MISSING_CATEGORY_SLUGS = [
 // Hero) but IGO's own green/white/black brand colors, not their teal.
 function AboutIgo() {
   const { t } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.15);
   return (
-    <section className="about-igo-section">
+    <section ref={ref} className={`about-igo-section reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="about-igo-copy">
         <p className="eyebrow">{t('pages.ourStory')}</p>
         <h2>{t('home.whyIgoHeading')}</h2>
@@ -147,13 +148,14 @@ function AboutIgo() {
 function ShopByCategory() {
   const { categories } = useCatalogue();
   const { t, language } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.1);
   const missingTiles = MISSING_CATEGORY_SLUGS
     .map((slug) => categories.find((c) => c.slug === slug))
     .filter(Boolean);
   const tiles = missingTiles.length ? missingTiles : categories.slice(0, 6);
 
   return (
-    <section className="shop-by-category">
+    <section ref={ref} className={`shop-by-category reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="section-heading">
         <div>
           <p className="eyebrow">{t('home.exploreEyebrow')}</p>
@@ -226,8 +228,9 @@ const HOME_CORNERS = [
 
 function HomeCorners() {
   const { t } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.1);
   return (
-    <section className="home-corners">
+    <section ref={ref} className={`home-corners reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="home-corners-heading">
         <span className="home-corners-leaf home-corners-leaf-left" aria-hidden="true"><SproutIcon /></span>
         <h2>{t('home.cornersHeading')}</h2>
@@ -301,8 +304,9 @@ function CompleteGardenVideo() {
 
 function CompleteGarden() {
   const { t } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.15);
   return (
-    <section className="complete-garden">
+    <section ref={ref} className={`complete-garden reveal-section${visible ? ' is-visible' : ''}`}>
       <CompleteGardenVideo />
       <div className="complete-garden-copy">
         <h2>{t('home.completeGardenHeading')}</h2>
@@ -325,9 +329,10 @@ function CompleteGarden() {
 function BestSellers() {
   const { getBestSellers } = useCatalogue();
   const { t } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.1);
   const products = getBestSellers(8);
   return (
-    <section className="best-sellers">
+    <section ref={ref} className={`best-sellers reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="section-heading">
         <div>
           <p className="eyebrow">{t('home.lovedEyebrow')}</p>
@@ -353,6 +358,7 @@ function BestSellers() {
 function JustIn() {
   const { products } = useCatalogue();
   const { t } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.1);
   // Homepage shows a 5-product preview; the full 10-product list lives on
   // /just-in (JustInPage.jsx) - both read from the same seeded ordering
   // via getJustInProducts, just sliced to a different length.
@@ -361,7 +367,7 @@ function JustIn() {
   if (justInProducts.length === 0) return null;
 
   return (
-    <section className="just-in">
+    <section ref={ref} className={`just-in reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="section-heading">
         <div>
           <h2>{t('home.justInTitle')}</h2>
@@ -381,8 +387,9 @@ function JustIn() {
 function GardenServicesTeaser() {
   const { gardenServices: services } = useSiteContent();
   const { t, language } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.15);
   return (
-    <section className="garden-services-teaser">
+    <section ref={ref} className={`garden-services-teaser reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="section-heading">
         <div>
           <p className="eyebrow">{t('home.beyondProducts')}</p>
@@ -567,8 +574,9 @@ function DeliveryRider() {
 
 function NurseryJourney() {
   const { t } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.15);
   return (
-    <section className="nursery-journey">
+    <section ref={ref} className={`nursery-journey reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="section-heading center">
         <p className="eyebrow">{t('home.ourProcess')}</p>
         <h2>{t('home.journeyHeading')}</h2>
@@ -610,8 +618,9 @@ function WhyIgoCard({ item, index }) {
 
 function WhyIGO() {
   const { t } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.15);
   return (
-    <section className="why-igo">
+    <section ref={ref} className={`why-igo reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="section-heading center">
         <p className="eyebrow">{t('home.whyIgoEyebrow')}</p>
         <h2>{t('home.whyIgoHeading')}</h2>
@@ -915,9 +924,10 @@ function NurseryComparison() {
   const [hoveredRow, setHoveredRow] = useState(null);
   const { language } = useLanguage();
   const titleTr = getCompareTitleTranslation(language);
+  const [ref, visible] = useScrollReveal(0.1);
 
   return (
-    <section className="compare-section">
+    <section ref={ref} className={`compare-section reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="compare-leaf-decor compare-leaf-decor-left" aria-hidden="true"><LeafBranchIcon /></div>
       <div className="compare-leaf-decor compare-leaf-decor-right" aria-hidden="true"><LeafBranchIcon /></div>
 
@@ -982,8 +992,9 @@ function NurseryComparison() {
 
 function PlantFinderBand() {
   const { t } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.2);
   return (
-    <section className="plant-finder-band">
+    <section ref={ref} className={`plant-finder-band reveal-section${visible ? ' is-visible' : ''}`}>
       <div>
         <p className="eyebrow light">{t('home.plantFinderEyebrow')}</p>
         <h2>{t('home.plantFinderHeading')}</h2>
@@ -997,8 +1008,9 @@ function PlantFinderBand() {
 function GardenJournal() {
   const { journal } = useSiteContent();
   const { t, language } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.1);
   return (
-    <section className="garden-journal">
+    <section ref={ref} className={`garden-journal reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="section-heading">
         <div>
           <p className="eyebrow">{t('home.learnGrowThrive')}</p>
@@ -1068,9 +1080,10 @@ function GiftingBand() {
   const { t } = useLanguage();
   const { getGiftProducts } = useCatalogue();
   const showcase = getGiftProducts()[0];
+  const [ref, visible] = useScrollReveal(0.15);
 
   return (
-    <section className="gifting-band">
+    <section ref={ref} className={`gifting-band reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="gifting-band-copy">
         <h2>{t('home.giftingHeading')}</h2>
         <p>{t('home.giftingDesc')}</p>
@@ -1112,8 +1125,9 @@ function GiftingBand() {
 
 function Reviews() {
   const { t, language } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.1);
   return (
-    <section className="reviews-section">
+    <section ref={ref} className={`reviews-section reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="section-heading center">
         <h2>{t('home.customerReviews')}</h2>
         <p className="section-sub">{t('home.reviewsSub')}</p>
@@ -1134,8 +1148,9 @@ function Reviews() {
 function Faq() {
   const { t } = useLanguage();
   const [open, setOpen] = useState(0);
+  const [ref, visible] = useScrollReveal(0.15);
   return (
-    <section className="faq-section" id="faq">
+    <section ref={ref} className={`faq-section reveal-section${visible ? ' is-visible' : ''}`} id="faq">
       <div className="section-heading center">
         <p className="eyebrow">{t('home.supportEyebrow')}</p>
         <h2>{t('home.faqHeading')}</h2>
@@ -1157,8 +1172,9 @@ function Faq() {
 
 function Newsletter() {
   const { t } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.2);
   return (
-    <section className="newsletter-section">
+    <section ref={ref} className={`newsletter-section reveal-section${visible ? ' is-visible' : ''}`}>
       <h2>{t('home.newsletterHeading')}</h2>
       <form onSubmit={(e) => e.preventDefault()} className="newsletter-form">
         <input type="email" placeholder={t('home.newsletterPlaceholder')} required />
@@ -1221,8 +1237,9 @@ const STATS_ITEMS = [
 
 function StatsStrip() {
   const { language } = useLanguage();
+  const [ref, visible] = useScrollReveal(0.2);
   return (
-    <section className="stats-strip">
+    <section ref={ref} className={`stats-strip reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="stats-strip-leaf" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2"><path d="M12 22V12" /><path d="M12 12C12 7 8 5 4 5c0 5 3 7 8 7Z" /><path d="M12 12c0-5 4-7 8-7 0 5-3 7-8 7Z" /></svg>
       </div>

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import igoLogo from '../../assets/igo-nursery-logo.jpeg';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 // Footer content matches the user-supplied reference screenshot exactly
 // (brand text, columns, contact details) - see the Contact page redesign
@@ -67,8 +68,9 @@ const IconPin = () => (
 );
 
 function Footer() {
+  const [ref, visible] = useScrollReveal(0.1);
   return (
-    <footer className="site-footer ftr-agritech">
+    <footer ref={ref} className={`site-footer ftr-agritech${visible ? ' is-visible' : ''}`}>
       <span className="ftr-leaf-decor" aria-hidden="true"><FooterLeafIcon /></span>
 
       <div className="footer-top ftr-top-grid">

@@ -1,0 +1,432 @@
+/* ============================================================
+   Premium nature-themed micro-animations - homepage only.
+
+   Adds only entrance/hover motion on top of the existing design
+   (colors, layout, typography, content untouched). Everything here
+   uses transform/opacity/box-shadow so it stays GPU-friendly, and
+   every animated rule is neutralised under prefers-reduced-motion.
+
+   Sections already had their own scroll-reveal treatment (Offers,
+   Our Story, Why IGO cards, Journey steps, Comparison rows) - those
+   are left as-is. This file fills in the sections that had no
+   entrance animation yet, plus the navbar/hero load-in, ambient
+   leaf/badge motion, and a few missing hover details.
+   ============================================================ */
+
+/* ---------- Global scroll-reveal utility (JS toggles .is-visible
+   once, via the existing useScrollReveal hook) ---------- */
+.reveal-section .section-heading {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-section.is-visible .section-heading {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Grid children fade up one after another, scoped to each section's
+   own class so no other page's product/journal/review grids are
+   touched. */
+.reveal-section.is-visible .category-grid > *,
+.reveal-section.is-visible .home-corners-grid > *,
+.reveal-section.is-visible .services-grid > *,
+.reveal-section.is-visible .journal-grid > *,
+.reveal-section.is-visible .reviews-grid > *,
+.best-sellers.reveal-section.is-visible .product-grid > *,
+.just-in.reveal-section.is-visible .just-in-grid > * {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.reveal-section .category-grid > *,
+.reveal-section .home-corners-grid > *,
+.reveal-section .services-grid > *,
+.reveal-section .journal-grid > *,
+.reveal-section .reviews-grid > *,
+.best-sellers.reveal-section .product-grid > *,
+.just-in.reveal-section .just-in-grid > * {
+  opacity: 0;
+  transform: translateY(22px) scale(0.98);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Stagger: nth-child delay, capped at 8 items so a long grid doesn't
+   keep animating forever. */
+.reveal-section .category-grid > *:nth-child(1),
+.reveal-section .home-corners-grid > *:nth-child(1),
+.reveal-section .services-grid > *:nth-child(1),
+.reveal-section .journal-grid > *:nth-child(1),
+.reveal-section .reviews-grid > *:nth-child(1),
+.best-sellers.reveal-section .product-grid > *:nth-child(1),
+.just-in.reveal-section .just-in-grid > *:nth-child(1) { transition-delay: 0ms; }
+.reveal-section .category-grid > *:nth-child(2),
+.reveal-section .home-corners-grid > *:nth-child(2),
+.reveal-section .services-grid > *:nth-child(2),
+.reveal-section .journal-grid > *:nth-child(2),
+.reveal-section .reviews-grid > *:nth-child(2),
+.best-sellers.reveal-section .product-grid > *:nth-child(2),
+.just-in.reveal-section .just-in-grid > *:nth-child(2) { transition-delay: 90ms; }
+.reveal-section .category-grid > *:nth-child(3),
+.reveal-section .home-corners-grid > *:nth-child(3),
+.reveal-section .services-grid > *:nth-child(3),
+.reveal-section .journal-grid > *:nth-child(3),
+.reveal-section .reviews-grid > *:nth-child(3),
+.best-sellers.reveal-section .product-grid > *:nth-child(3),
+.just-in.reveal-section .just-in-grid > *:nth-child(3) { transition-delay: 180ms; }
+.reveal-section .category-grid > *:nth-child(4),
+.reveal-section .home-corners-grid > *:nth-child(4),
+.reveal-section .services-grid > *:nth-child(4),
+.reveal-section .journal-grid > *:nth-child(4),
+.reveal-section .reviews-grid > *:nth-child(4),
+.best-sellers.reveal-section .product-grid > *:nth-child(4),
+.just-in.reveal-section .just-in-grid > *:nth-child(4) { transition-delay: 270ms; }
+.reveal-section .category-grid > *:nth-child(5),
+.best-sellers.reveal-section .product-grid > *:nth-child(5),
+.just-in.reveal-section .just-in-grid > *:nth-child(5) { transition-delay: 360ms; }
+.reveal-section .category-grid > *:nth-child(6),
+.best-sellers.reveal-section .product-grid > *:nth-child(6) { transition-delay: 420ms; }
+.best-sellers.reveal-section .product-grid > *:nth-child(7) { transition-delay: 480ms; }
+.best-sellers.reveal-section .product-grid > *:nth-child(8) { transition-delay: 540ms; }
+
+/* Split image/content sections (Complete Your Garden, Gifting band) -
+   image drifts in from the left, copy from the right. Small movement
+   only, per spec (max ~24px). */
+.complete-garden.reveal-section .complete-garden-media,
+.gifting-band.reveal-section .gifting-band-media {
+  opacity: 0;
+  transform: translateX(-22px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.complete-garden.reveal-section .complete-garden-copy,
+.gifting-band.reveal-section .gifting-band-copy {
+  opacity: 0;
+  transform: translateX(22px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
+.complete-garden.reveal-section.is-visible .complete-garden-media,
+.complete-garden.reveal-section.is-visible .complete-garden-copy,
+.gifting-band.reveal-section.is-visible .gifting-band-media,
+.gifting-band.reveal-section.is-visible .gifting-band-copy {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Simple sections with only a heading/content block (no grid) still
+   get the base .section-heading reveal above; a few also need their
+   standalone content block to fade with it. */
+.plant-finder-band.reveal-section > div,
+.plant-finder-band.reveal-section > a,
+.newsletter-section.reveal-section > *,
+.faq-section.reveal-section .faq-list,
+.stats-strip.reveal-section .stats-strip-item {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.plant-finder-band.reveal-section.is-visible > div,
+.plant-finder-band.reveal-section.is-visible > a,
+.newsletter-section.reveal-section.is-visible > *,
+.faq-section.reveal-section.is-visible .faq-list,
+.stats-strip.reveal-section.is-visible .stats-strip-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+.stats-strip.reveal-section .stats-strip-item:nth-child(2) { transition-delay: 70ms; }
+.stats-strip.reveal-section .stats-strip-item:nth-child(3) { transition-delay: 140ms; }
+.stats-strip.reveal-section .stats-strip-item:nth-child(4) { transition-delay: 210ms; }
+.stats-strip.reveal-section .stats-strip-item:nth-child(5) { transition-delay: 280ms; }
+
+/* Sections with a custom (non `.section-heading`) heading block. */
+.about-igo-section.reveal-section .about-igo-copy,
+.home-corners.reveal-section .home-corners-heading {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.about-igo-section.reveal-section.is-visible .about-igo-copy,
+.home-corners.reveal-section.is-visible .home-corners-heading {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Footer columns fade up together with a small stagger, once, when the
+   footer enters view. */
+.site-footer .footer-top > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.site-footer.is-visible .footer-top > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+.site-footer .footer-top > *:nth-child(1) { transition-delay: 0ms; }
+.site-footer .footer-top > *:nth-child(2) { transition-delay: 80ms; }
+.site-footer .footer-top > *:nth-child(3) { transition-delay: 160ms; }
+.site-footer .footer-top > *:nth-child(4) { transition-delay: 240ms; }
+
+/* ---------- Navbar entrance (plays once, on load) ---------- */
+@keyframes av-nav-fade-down {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.primary-header {
+  animation: av-nav-fade-down 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Nav link underline grows from left to right on hover. */
+.nav-links a {
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.nav-links a:hover::after {
+  transform: scaleX(1);
+}
+
+.logo-container {
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+.logo-container:hover {
+  transform: scale(1.02);
+}
+
+.action-icon {
+  display: inline-flex;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.action-icon:hover {
+  transform: scale(1.08);
+}
+
+/* ---------- Hero: staggered entrance + slow Ken Burns on the video ---------- */
+@keyframes av-hero-fade-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-title {
+  animation: av-hero-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.hero-description {
+  animation: av-hero-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+.hero-buttons {
+  animation: av-hero-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+.tag {
+  animation: av-hero-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes av-ken-burns {
+  from { transform: scale(1); }
+  to { transform: scale(1.03); }
+}
+.hero-video {
+  animation: av-ken-burns 11s ease-in-out infinite alternate;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 10px 22px rgba(167, 248, 34, 0.35);
+}
+
+/* ---------- Gentle leaf float for existing decorative leaf elements ---------- */
+@keyframes av-leaf-float-a {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(-3deg); }
+}
+@keyframes av-leaf-float-b {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(6px) rotate(3deg); }
+}
+.home-corners-leaf-left,
+.compare-leaf-decor-left,
+.stats-strip-leaf {
+  animation: av-leaf-float-a 5.5s ease-in-out infinite;
+}
+.home-corners-leaf-right,
+.compare-leaf-decor-right {
+  animation: av-leaf-float-b 6.5s ease-in-out infinite 0.6s;
+}
+.ftr-leaf-decor {
+  animation: av-leaf-float-a 7s ease-in-out infinite 1s;
+}
+
+/* Offer badge: a very subtle ambient glow pulse (box-shadow only, so it
+   never fights the existing hover scale which animates transform). */
+@keyframes av-badge-pulse {
+  0%, 100% { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18), 0 0 0 0 rgba(167, 248, 34, 0.35); }
+  50% { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18), 0 0 0 6px rgba(167, 248, 34, 0); }
+}
+.offer-badge {
+  animation: av-badge-pulse 3.2s ease-in-out infinite;
+}
+
+/* ---------- Product image hover zoom (Best Sellers / Just In / everywhere
+   ProductCard is used - matches the existing card lift/shadow already in
+   place, just adds the missing image zoom). ---------- */
+.product-card-media img {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.product-card:hover .product-card-media img {
+  transform: scale(1.03);
+}
+
+/* ---------- Scroll progress bar ---------- */
+.av-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2.5px;
+  background: linear-gradient(to right, var(--color-primary-green), var(--color-primary-lime));
+  z-index: 999;
+  transform-origin: left;
+  will-change: width;
+}
+
+/* ---------- Back to top ---------- */
+.av-back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-primary-green);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(27, 75, 54, 0.3);
+  cursor: pointer;
+  z-index: 998;
+  opacity: 0;
+  transform: scale(0.7) translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease;
+}
+.av-back-to-top.is-shown {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+}
+.av-back-to-top:hover {
+  transform: scale(1.06) translateY(-2px);
+  background: #143d2c;
+}
+
+@media (max-width: 720px) {
+  .av-back-to-top {
+    right: 16px;
+    bottom: 16px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* ---------- Mobile: keep movement + duration lighter ---------- */
+@media (max-width: 720px) {
+  .reveal-section .category-grid > *,
+  .reveal-section .home-corners-grid > *,
+  .reveal-section .services-grid > *,
+  .reveal-section .journal-grid > *,
+  .reveal-section .reviews-grid > *,
+  .best-sellers.reveal-section .product-grid > *,
+  .just-in.reveal-section .just-in-grid > *,
+  .reveal-section .section-heading,
+  .complete-garden.reveal-section .complete-garden-media,
+  .complete-garden.reveal-section .complete-garden-copy,
+  .gifting-band.reveal-section .gifting-band-media,
+  .gifting-band.reveal-section .gifting-band-copy,
+  .site-footer .footer-top > * {
+    transform: translateY(12px);
+    transition-duration: 0.45s;
+  }
+  .complete-garden.reveal-section .complete-garden-media,
+  .gifting-band.reveal-section .gifting-band-media {
+    transform: translateY(12px);
+  }
+  .complete-garden.reveal-section .complete-garden-copy,
+  .gifting-band.reveal-section .gifting-band-copy {
+    transform: translateY(12px);
+  }
+  .home-corners-leaf-left,
+  .home-corners-leaf-right,
+  .compare-leaf-decor-left,
+  .compare-leaf-decor-right,
+  .stats-strip-leaf,
+  .ftr-leaf-decor {
+    animation-duration: 6s;
+  }
+  @keyframes av-leaf-float-a {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-4px) rotate(-2deg); }
+  }
+  @keyframes av-leaf-float-b {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(4px) rotate(2deg); }
+  }
+  @keyframes av-ken-burns {
+    from { transform: scale(1); }
+    to { transform: scale(1.02); }
+  }
+}
+
+/* ---------- Respect prefers-reduced-motion: reveal content immediately,
+   disable every decorative/ambient animation. ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-section .section-heading,
+  .reveal-section .category-grid > *,
+  .reveal-section .home-corners-grid > *,
+  .reveal-section .services-grid > *,
+  .reveal-section .journal-grid > *,
+  .reveal-section .reviews-grid > *,
+  .best-sellers.reveal-section .product-grid > *,
+  .just-in.reveal-section .just-in-grid > *,
+  .complete-garden.reveal-section .complete-garden-media,
+  .complete-garden.reveal-section .complete-garden-copy,
+  .gifting-band.reveal-section .gifting-band-media,
+  .gifting-band.reveal-section .gifting-band-copy,
+  .plant-finder-band.reveal-section > div,
+  .plant-finder-band.reveal-section > a,
+  .newsletter-section.reveal-section > *,
+  .faq-section.reveal-section .faq-list,
+  .stats-strip.reveal-section .stats-strip-item,
+  .about-igo-section.reveal-section .about-igo-copy,
+  .home-corners.reveal-section .home-corners-heading,
+  .site-footer .footer-top > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .primary-header,
+  .hero-title,
+  .hero-description,
+  .hero-buttons,
+  .tag,
+  .hero-video,
+  .home-corners-leaf-left,
+  .home-corners-leaf-right,
+  .compare-leaf-decor-left,
+  .compare-leaf-decor-right,
+  .stats-strip-leaf,
+  .ftr-leaf-decor,
+  .offer-badge {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+  .av-back-to-top.is-shown {
+    transition: opacity 0.15s ease;
+  }
+}

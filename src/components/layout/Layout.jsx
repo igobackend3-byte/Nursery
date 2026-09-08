@@ -4,6 +4,8 @@ import TopBar from './TopBar';
 import Header from './Header';
 import NavBar from './NavBar';
 import Footer from './Footer';
+import ScrollProgress from '../ScrollProgress';
+import BackToTop from '../BackToTop';
 
 // The Account page keeps the utility header (logo, search, language,
 // notifications, account/wishlist/cart icons) but drops the announcement
@@ -23,6 +25,7 @@ function Layout() {
 
   return (
     <div className="app-container">
+      <ScrollProgress />
       {!isAccountPage && <TopBar />}
       <Header />
       {!isAccountPage && <NavBar />}
@@ -30,6 +33,7 @@ function Layout() {
         <Outlet />
       </main>
       {!isAccountPage && <Footer />}
+      <BackToTop />
     </div>
   );
 }
