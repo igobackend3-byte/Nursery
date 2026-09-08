@@ -946,6 +946,42 @@ section {
   border-bottom: 1px dashed rgba(27, 75, 54, 0.18);
 }
 
+/* Scoped to this section only: the shared .section-heading is a
+   space-between flex row (heading block left, "View All" right), which
+   centers the heading only within the leftover space next to the link,
+   not the full section width. Switching to relative/absolute here keeps
+   "Just In" + its subtitle mathematically centered on the section
+   regardless of the link, while "View All" stays pinned to the right. */
+.just-in .section-heading {
+  position: relative;
+  display: block;
+  text-align: center;
+}
+
+.just-in .section-heading > div {
+  margin: 0 auto;
+}
+
+.just-in .section-heading .see-all {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 480px) {
+  .just-in .section-heading {
+    padding-bottom: 44px;
+  }
+
+  .just-in .section-heading .see-all {
+    top: auto;
+    bottom: 0;
+    right: 50%;
+    transform: translateX(50%);
+  }
+}
+
 .just-in-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
