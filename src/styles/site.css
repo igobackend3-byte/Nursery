@@ -962,6 +962,15 @@ section {
   margin: 0 auto;
 }
 
+/* .section-sub has a global max-width: 480px cap with no auto margin,
+   so its text centers within its own box but that (narrower) box stays
+   left-anchored inside the full-width wrapper above - this centers the
+   box itself, matching the already-centered "Just In" heading. */
+.just-in .section-heading .section-sub {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .just-in .section-heading .see-all {
   position: absolute;
   top: 50%;
