@@ -9,6 +9,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { getLocalizedCategoryLabel, getLocalizedProductName } from '../utils/localizedContent';
 import { getDiscountPercent } from '../utils/pricing';
 import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTranslation, getReviewTranslation, getJourneyStepTranslation, getCompareHeaderTranslation, getCompareTitleTranslation, getCompareRowTranslation, getTrustBadgeTranslation, getStatsStripTranslation } from '../i18n/translations';
+import { seededShuffle, getJustInProducts } from '../utils/seededShuffle';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -349,21 +350,13 @@ function BestSellers() {
 // reload/render, which reads as broken rather than curated. This picks the
 // same 10 consistently while still looking like a real, non-alphabetical,
 // non-price-sorted selection - not a fabricated "new arrivals" dataset.
-function seededShuffle(array, seed) {
-  const result = [...array];
-  let s = seed;
-  for (let i = result.length - 1; i > 0; i -= 1) {
-    s = (s * 1103515245 + 12345) & 0x7fffffff;
-    const j = s % (i + 1);
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
-}
-
 function JustIn() {
   const { products } = useCatalogue();
   const { t } = useLanguage();
-  const justInProducts = useMemo(() => seededShuffle(products, 20240601).slice(0, 10), [products]);
+  // Homepage shows a 5-product preview; the full 10-product list lives on
+  // /just-in (JustInPage.jsx) - both read from the same seeded ordering
+  // via getJustInProducts, just sliced to a different length.
+  const justInProducts = useMemo(() => getJustInProducts(products, 5), [products]);
 
   if (justInProducts.length === 0) return null;
 
@@ -371,10 +364,10 @@ function JustIn() {
     <section className="just-in">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">{t('home.justInEyebrow')}</p>
           <h2>{t('home.justInTitle')}</h2>
           <p className="section-sub">{t('home.justInSubtitle')}</p>
         </div>
+        <Link to="/just-in" className="see-all">{t('home.viewAll')}</Link>
       </div>
       <div className="just-in-grid">
         {justInProducts.map((p) => (

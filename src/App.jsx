@@ -18,6 +18,7 @@ import Login from './pages/Login';
 import AdminApp from './admin/AdminApp';
 import CustomerProtectedRoute from './components/CustomerProtectedRoute';
 import Offers from './pages/Offers';
+import JustInPage from './pages/JustInPage';
 import GardenServices from './pages/GardenServices';
 import Landscaping from './pages/Landscaping';
 import Blog from './pages/Blog';
@@ -56,6 +57,7 @@ function App() {
                 <Route path="account" element={<CustomerProtectedRoute><Account /></CustomerProtectedRoute>} />
                 <Route path="wishlist" element={<Wishlist />} />
                 <Route path="offers" element={<Offers />} />
+                <Route path="just-in" element={<JustInPage />} />
                 <Route path="garden-services" element={<GardenServices />} />
                 <Route path="landscaping" element={<Landscaping />} />
                 <Route path="blog" element={<Blog />} />
