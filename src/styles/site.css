@@ -371,14 +371,15 @@ section {
 }
 
 .offers-icon {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: 1.5px solid var(--color-primary-green);
   color: var(--color-primary-green);
+}
+
+.offers-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .offers-section .section-sub {
