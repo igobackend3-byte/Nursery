@@ -10,6 +10,7 @@ import { getLocalizedCategoryLabel, getLocalizedProductName } from '../utils/loc
 import { getDiscountPercent } from '../utils/pricing';
 import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTranslation, getReviewTranslation, getJourneyStepTranslation, getCompareHeaderTranslation, getCompareTitleTranslation, getCompareRowTranslation, getTrustBadgeTranslation, getStatsStripTranslation } from '../i18n/translations';
 import { getJustInProducts } from '../utils/seededShuffle';
+import DecorativeLeaves from '../components/DecorativeLeaves';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -87,6 +88,7 @@ function Hero() {
         aria-hidden="true"
       />
       <div className="hero-video-overlay" aria-hidden="true" />
+      <DecorativeLeaves variant="hero" count={2} />
       <div className="hero-content">
         <div className="tag">
           <div className="tag-dot"></div>
@@ -156,6 +158,7 @@ function ShopByCategory() {
 
   return (
     <section ref={ref} className={`shop-by-category reveal-section${visible ? ' is-visible' : ''}`}>
+      <DecorativeLeaves variant="category" count={3} />
       <div className="section-heading">
         <div>
           <p className="eyebrow">{t('home.exploreEyebrow')}</p>
@@ -333,10 +336,14 @@ function BestSellers() {
   const products = getBestSellers(8);
   return (
     <section ref={ref} className={`best-sellers reveal-section${visible ? ' is-visible' : ''}`}>
+      <DecorativeLeaves variant="best-sellers" count={2} />
       <div className="section-heading">
         <div>
           <p className="eyebrow">{t('home.lovedEyebrow')}</p>
-          <h2>{t('home.plantsPeopleLove')}</h2>
+          <h2>
+            {t('home.plantsPeopleLove')}
+            <span className="heading-leaf-accent" aria-hidden="true"><LeafGlyph /></span>
+          </h2>
         </div>
         <Link to="/category/indoor-plants" className="see-all">{t('home.seeAll')}</Link>
       </div>
@@ -368,9 +375,13 @@ function JustIn() {
 
   return (
     <section ref={ref} className={`just-in reveal-section${visible ? ' is-visible' : ''}`}>
+      <DecorativeLeaves variant="just-in" count={2} />
       <div className="section-heading">
         <div>
-          <h2>{t('home.justInTitle')}</h2>
+          <h2>
+            {t('home.justInTitle')}
+            <span className="just-in-fresh-accent" aria-hidden="true"><LeafGlyph /></span>
+          </h2>
           <p className="section-sub">{t('home.justInSubtitle')}</p>
         </div>
         <Link to="/just-in" className="see-all">{t('home.viewAll')}</Link>
@@ -867,6 +878,7 @@ function OurStoryBand() {
 
   return (
     <section ref={ref} className={`os-band${visible ? ' os-band-visible' : ''}`}>
+      <DecorativeLeaves variant="story" count={2} />
       <div className="os-story">
         <div className="os-media">
           <span className="os-badge">Our Story</span>
@@ -898,6 +910,7 @@ function OurStoryBand() {
       </div>
 
       <div className="os-testimonials">
+        <DecorativeLeaves variant="testimonials" count={2} />
         <div className="section-heading center">
           <h2>What Our Customers Say</h2>
         </div>

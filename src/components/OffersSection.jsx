@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useSiteContent } from '../hooks/useSiteContent';
 import { useLanguage } from '../context/LanguageContext';
 import { getOfferNoteTranslation } from '../i18n/translations';
+import DecorativeLeaves from './DecorativeLeaves';
 
 // Small decorative leaf icon, replacing the old circled-number (①②)
 // glyphs either side of the heading and the emoji in the divider -
@@ -17,6 +18,7 @@ function OffersSection() {
   const { t, language } = useLanguage();
   return (
     <section className="offers-section">
+      <DecorativeLeaves variant="offers" count={3} />
       <div className="section-heading center">
         <p className="offers-title">
           <span className="offers-icon"><OfferLeafIcon /></span> {t('offers.offersForYou')} <span className="offers-icon"><OfferLeafIcon /></span>

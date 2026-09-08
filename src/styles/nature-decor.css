@@ -1,0 +1,289 @@
+/* ============================================================
+   Ambient / decorative nature animations - homepage only.
+
+   This is a second, separate layer on top of animations.css: that
+   file covers interaction-based motion (hover, load, scroll-reveal -
+   back-to-top, scroll progress, navbar fade-down, hero stagger,
+   card/category hover, section fade-ups). NONE of that is touched or
+   repeated here. This file only adds new decorative leaf/vine
+   elements that live in section whitespace - never over text,
+   products, offers or buttons - to make the page read as a living
+   garden rather than a normal site.
+
+   Every decorative element is aria-hidden, pointer-events: none, and
+   fully neutralised under prefers-reduced-motion.
+   ============================================================ */
+
+/* ---------- Leaf field container ----------
+   Absolutely fills its (already relatively-positioned) section,
+   clips at the section edge so leaves never bleed into the next
+   section, and never intercepts clicks/hover. */
+.decor-leaves {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* Negative z-index keeps leaves behind every normal (non-positioned)
+     in-flow element in the section - headings, grids, cards - so they
+     never visually sit on top of real content even where a leaf's
+     whitespace slot happens to graze a card's corner. */
+  z-index: -1;
+}
+
+/* Hero is the one section that already manages its own stacking
+   (video 0 / overlay 1 / content 10) - sit the leaves just above the
+   video+overlay instead, since at their bottom-right whitespace
+   position they never overlap the text column regardless. */
+.decor-leaves-hero {
+  z-index: 2;
+}
+
+.decor-leaf {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  color: var(--color-primary-green);
+  opacity: 0.38;
+  will-change: transform;
+}
+.decor-leaf svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Sections that host a leaf field need to be a positioning context.
+   `position: relative` alone never changes layout/spacing. */
+.shop-by-category,
+.best-sellers,
+.just-in,
+.offers-section,
+.os-band,
+.os-testimonials,
+.reviews-section,
+.site-footer {
+  position: relative;
+}
+
+/* ---------- Motion vocabulary ----------
+   Two base moods - a gentle in-place sway, and a slow diagonal drift
+   that fades in/out as it crosses a corner of the section - plus a
+   parallax-aware variant of the sway for a couple of leaves per
+   cluster. Durations/delays are varied per nth-child below so no two
+   leaves in a cluster move in sync. */
+@keyframes decor-leaf-sway-a {
+  0%, 100% { transform: translateY(0) rotate(-3deg); opacity: 0.32; }
+  50% { transform: translateY(-12px) rotate(3deg); opacity: 0.42; }
+}
+@keyframes decor-leaf-sway-b {
+  0%, 100% { transform: translateY(0) rotate(2deg); opacity: 0.3; }
+  50% { transform: translateY(10px) rotate(-4deg); opacity: 0.4; }
+}
+@keyframes decor-leaf-sway-parallax {
+  0%, 100% {
+    transform: translate(calc(var(--leaf-mx, 0) * 6px), calc(var(--leaf-my, 0) * 6px)) translateY(0) rotate(-2deg);
+    opacity: 0.34;
+  }
+  50% {
+    transform: translate(calc(var(--leaf-mx, 0) * 6px), calc(var(--leaf-my, 0) * 6px)) translateY(-9px) rotate(2deg);
+    opacity: 0.44;
+  }
+}
+/* A single slow diagonal drift-and-fade loop (not literal snowfall - one
+   leaf, a long 20s+ cycle, gone for most of it). */
+@keyframes decor-leaf-drift {
+  0% { transform: translate(0, 0) rotate(-4deg); opacity: 0; }
+  8% { opacity: 0.4; }
+  50% { transform: translate(26px, -34px) rotate(10deg); opacity: 0.32; }
+  85% { opacity: 0; }
+  100% { transform: translate(46px, -58px) rotate(16deg); opacity: 0; }
+}
+
+.decor-leaf:nth-child(1) { animation: decor-leaf-sway-a 6.5s ease-in-out infinite; }
+.decor-leaf:nth-child(2) { animation: decor-leaf-drift 22s ease-in-out infinite 2s; }
+.decor-leaf:nth-child(3) { animation: decor-leaf-sway-b 7.5s ease-in-out infinite 0.8s; }
+.decor-leaf:nth-child(4) { animation: decor-leaf-sway-parallax 8.5s ease-in-out infinite 1.4s; }
+
+/* ---------- Per-section placement ----------
+   Each cluster's leaves sit in real whitespace for that section's
+   layout (corners / side margins), sized and delayed slightly
+   differently so no two sections breathe in unison. */
+
+/* Hero: video background, so a lime tint reads instead of green.
+   Bottom-right, below/right of the copy column. */
+.decor-leaves-hero .decor-leaf {
+  color: var(--color-primary-lime);
+  opacity: 0.5;
+}
+.decor-leaves-hero .decor-leaf:nth-child(1) { top: 60%; right: 8%; width: 30px; height: 30px; }
+.decor-leaves-hero .decor-leaf:nth-child(2) { top: 78%; right: 18%; width: 20px; height: 20px; animation-delay: 1.2s; }
+
+.decor-leaves-category .decor-leaf:nth-child(1) { top: 4%; left: 1.5%; }
+.decor-leaves-category .decor-leaf:nth-child(2) { top: 6%; right: 2%; width: 20px; height: 20px; }
+.decor-leaves-category .decor-leaf:nth-child(3) { bottom: 4%; left: 46%; width: 18px; height: 18px; }
+
+.decor-leaves-best-sellers .decor-leaf:nth-child(1) { top: 2%; right: 2%; }
+.decor-leaves-best-sellers .decor-leaf:nth-child(2) { bottom: 3%; left: 1.5%; width: 20px; height: 20px; }
+
+.decor-leaves-just-in .decor-leaf:nth-child(1) { top: 3%; right: 3%; width: 20px; height: 20px; }
+.decor-leaves-just-in .decor-leaf:nth-child(2) { bottom: 4%; left: 2%; width: 18px; height: 18px; }
+
+.decor-leaves-offers .decor-leaf:nth-child(1) { top: 2%; left: 2%; }
+.decor-leaves-offers .decor-leaf:nth-child(2) { top: 3%; right: 2.5%; width: 20px; height: 20px; }
+.decor-leaves-offers .decor-leaf:nth-child(3) { bottom: 3%; left: 47%; width: 18px; height: 18px; }
+
+.decor-leaves-story .decor-leaf:nth-child(1) { top: 4%; left: 1.5%; }
+.decor-leaves-story .decor-leaf:nth-child(2) { bottom: 6%; right: 2%; width: 20px; height: 20px; }
+
+/* Testimonials: very low opacity, sits behind the (opaque, white)
+   testimonial cards - only visible in the gaps around them. */
+.decor-leaves-testimonials .decor-leaf {
+  opacity: 0.14;
+  width: 34px;
+  height: 34px;
+}
+.decor-leaves-testimonials .decor-leaf:nth-child(1) { top: 0%; left: 2%; }
+.decor-leaves-testimonials .decor-leaf:nth-child(2) { bottom: 2%; right: 3%; width: 28px; height: 28px; }
+
+.decor-leaves-footer .decor-leaf:nth-child(1) { top: 6%; left: 6%; width: 20px; height: 20px; }
+.decor-leaves-footer .decor-leaf:nth-child(2) { top: 4%; right: 9%; width: 18px; height: 18px; }
+
+/* ---------- Just In: one small "fresh arrival" accent -----------
+   A tiny leaf that pulses once next to the heading when the section
+   first enters view (not the badge/card animations, untouched). */
+.just-in-fresh-accent {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  color: var(--color-primary-lime);
+  opacity: 0;
+  transform: scale(0.6);
+  vertical-align: middle;
+}
+.just-in.is-visible .just-in-fresh-accent {
+  animation: just-in-spark 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+@keyframes just-in-spark {
+  0% { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+  55% { opacity: 1; transform: scale(1.15) rotate(6deg); }
+  100% { opacity: 0.9; transform: scale(1) rotate(0deg); }
+}
+
+/* ---------- Best Sellers: small leaf reveal beside the heading -----
+   A distinct effect from the existing heading fade-up: the heading
+   fades up as before, then this leaf slides/fades in from the side
+   with a tiny settle afterwards. */
+.heading-leaf-accent {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  margin-left: 8px;
+  color: var(--color-primary-lime);
+  opacity: 0;
+  transform: translateX(-8px) rotate(-8deg);
+  vertical-align: middle;
+}
+.reveal-section.is-visible .heading-leaf-accent {
+  animation: heading-leaf-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both, decor-leaf-sway-a 6s ease-in-out infinite 1s;
+}
+@keyframes heading-leaf-in {
+  to { opacity: 0.85; transform: translateX(0) rotate(0deg); }
+}
+
+/* ---------- Footer: a small vine reveal along the top edge -------- */
+.footer-vine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 28px;
+  color: var(--color-primary-lime);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.footer-vine path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 620;
+  stroke-dashoffset: 620;
+}
+.site-footer.is-visible .footer-vine path {
+  animation: footer-vine-draw 1.6s ease-out 0.2s forwards;
+}
+@keyframes footer-vine-draw {
+  to { stroke-dashoffset: 0; }
+}
+.footer-vine .vine-leaf {
+  opacity: 0;
+  transform-origin: center;
+}
+.site-footer.is-visible .footer-vine .vine-leaf {
+  animation: vine-leaf-in 0.5s ease-out both, decor-leaf-sway-b 6s ease-in-out infinite;
+}
+.footer-vine .vine-leaf:nth-child(2) { animation-delay: 0.6s, 1s; }
+.footer-vine .vine-leaf:nth-child(3) { animation-delay: 1s, 1.6s; }
+.footer-vine .vine-leaf:nth-child(4) { animation-delay: 1.4s, 2.2s; }
+@keyframes vine-leaf-in {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 0.55; transform: scale(1); }
+}
+
+/* ---------- Responsive: fewer leaves, smaller movement ---------- */
+@media (max-width: 1024px) {
+  .decor-leaf:nth-child(4) { display: none; }
+}
+@media (max-width: 720px) {
+  .decor-leaf:nth-child(3),
+  .decor-leaf:nth-child(4) { display: none; }
+  .decor-leaf {
+    width: 18px;
+    height: 18px;
+  }
+  @keyframes decor-leaf-sway-a {
+    0%, 100% { transform: translateY(0) rotate(-2deg); opacity: 0.3; }
+    50% { transform: translateY(-7px) rotate(2deg); opacity: 0.38; }
+  }
+  @keyframes decor-leaf-sway-b {
+    0%, 100% { transform: translateY(0) rotate(1deg); opacity: 0.28; }
+    50% { transform: translateY(6px) rotate(-2deg); opacity: 0.36; }
+  }
+  @keyframes decor-leaf-drift {
+    0% { transform: translate(0, 0) rotate(-3deg); opacity: 0; }
+    8% { opacity: 0.3; }
+    50% { transform: translate(14px, -18px) rotate(6deg); opacity: 0.24; }
+    85% { opacity: 0; }
+    100% { transform: translate(24px, -30px) rotate(10deg); opacity: 0; }
+  }
+}
+
+/* ---------- Reduced motion: hide ambient/floating leaves entirely,
+   keep only static (or nothing) - never blocks real content. ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .decor-leaves {
+    display: none;
+  }
+  .just-in-fresh-accent {
+    animation: none !important;
+    opacity: 0.85;
+    transform: none;
+  }
+  .heading-leaf-accent {
+    animation: none !important;
+    opacity: 0.85;
+    transform: none;
+  }
+  .footer-vine path,
+  .footer-vine .vine-leaf {
+    animation: none !important;
+  }
+  .footer-vine path {
+    stroke-dashoffset: 0;
+  }
+  .footer-vine .vine-leaf {
+    opacity: 0.5;
+    transform: none;
+  }
+}

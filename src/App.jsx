@@ -33,6 +33,7 @@ import NotFound from './pages/NotFound';
 import './App.css';
 import './styles/site.css';
 import './styles/animations.css';
+import './styles/nature-decor.css';
 
 function App() {
   return (

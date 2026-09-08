@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import igoLogo from '../../assets/igo-nursery-logo.jpeg';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
+import DecorativeLeaves from '../DecorativeLeaves';
 
 // Footer content matches the user-supplied reference screenshot exactly
 // (brand text, columns, contact details) - see the Contact page redesign
@@ -67,10 +68,28 @@ const IconPin = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-7.5 8-13a8 8 0 1 0-16 0c0 5.5 8 13 8 13z" /><circle cx="12" cy="9" r="3" /></svg>
 );
 
+// A small decorative vine tracing the very top edge of the footer, with a
+// few tiny leaves along it - purely ambient, never overlapping the real
+// footer content beneath it. Draws itself in (stroke-dashoffset) the first
+// time the footer scrolls into view, reusing the same `is-visible` class
+// the footer columns already fade in with.
+function FooterVine() {
+  return (
+    <svg className="footer-vine" viewBox="0 0 1200 28" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 6 C 150 24, 300 -6, 450 10 S 750 22, 900 8 S 1100 -4, 1200 12" />
+      <g className="vine-leaf" transform="translate(210,8)"><FooterLeafIcon /></g>
+      <g className="vine-leaf" transform="translate(560,14) scale(0.85)"><FooterLeafIcon /></g>
+      <g className="vine-leaf" transform="translate(830,10) scale(0.9)"><FooterLeafIcon /></g>
+    </svg>
+  );
+}
+
 function Footer() {
   const [ref, visible] = useScrollReveal(0.1);
   return (
     <footer ref={ref} className={`site-footer ftr-agritech${visible ? ' is-visible' : ''}`}>
+      <FooterVine />
+      <DecorativeLeaves variant="footer" count={2} />
       <span className="ftr-leaf-decor" aria-hidden="true"><FooterLeafIcon /></span>
 
       <div className="footer-top ftr-top-grid">

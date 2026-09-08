@@ -6,6 +6,7 @@ import NavBar from './NavBar';
 import Footer from './Footer';
 import ScrollProgress from '../ScrollProgress';
 import BackToTop from '../BackToTop';
+import useLeafParallax from '../../hooks/useLeafParallax';
 
 // The Account page keeps the utility header (logo, search, language,
 // notifications, account/wishlist/cart icons) but drops the announcement
@@ -18,6 +19,8 @@ const ACCOUNT_ROUTE = '/account';
 function Layout() {
   const location = useLocation();
   const isAccountPage = location.pathname === ACCOUNT_ROUTE;
+
+  useLeafParallax();
 
   useEffect(() => {
     window.scrollTo(0, 0);
