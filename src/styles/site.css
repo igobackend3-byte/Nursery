@@ -5595,6 +5595,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 28px;
+  margin-left: 18px;
 }
 
 .ctc-form-perk {
@@ -5798,6 +5799,7 @@ section {
   .ctc-hero-leaf { display: none; }
   .ctc-hero-image-only { min-height: 0; border-radius: 0; }
   .ctc-form-row { grid-template-columns: 1fr; }
+  .ctc-form-perks { margin-left: 0; }
   .ctc-whatsapp { flex-direction: column; align-items: flex-start; text-align: left; }
 }
 
