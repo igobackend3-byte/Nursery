@@ -5445,13 +5445,20 @@ section {
 .ctc-form-card {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
-  gap: 36px;
+  flex-direction: column;
   background: linear-gradient(160deg, var(--ctc-cream) 0%, var(--ctc-green-soft) 100%);
   border-radius: 28px;
   padding: 40px;
   box-shadow: 0 20px 50px rgba(11, 61, 46, 0.1);
   overflow: hidden;
+}
+
+/* Form + plant image row - the support-info row below is a separate,
+   full-width block so it never sits beside or overlaps a form field. */
+.ctc-form-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 36px;
 }
 
 .ctc-form-leaf {
@@ -5591,17 +5598,22 @@ section {
   object-fit: cover;
 }
 
-.ctc-form-perks {
+.ctc-form-perks-row {
+  position: relative;
+  z-index: 2;
   display: flex;
-  flex-direction: column;
-  gap: 28px;
-  margin-left: 18px;
+  gap: 32px;
+  margin-top: 36px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(11, 61, 46, 0.12);
 }
 
 .ctc-form-perk {
   display: flex;
   align-items: flex-start;
   gap: 14px;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .ctc-form-perk-icon {
@@ -5799,7 +5811,7 @@ section {
   .ctc-hero-leaf { display: none; }
   .ctc-hero-image-only { min-height: 0; border-radius: 0; }
   .ctc-form-row { grid-template-columns: 1fr; }
-  .ctc-form-perks { margin-left: 0; }
+  .ctc-form-perks-row { flex-direction: column; gap: 24px; }
   .ctc-whatsapp { flex-direction: column; align-items: flex-start; text-align: left; }
 }
 

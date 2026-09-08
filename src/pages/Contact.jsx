@@ -130,59 +130,62 @@ function ContactForm() {
       <span className="ctc-form-leaf ctc-form-leaf-bl" aria-hidden="true"><Icon.Leaf /></span>
       <span className="ctc-form-leaf ctc-form-leaf-br" aria-hidden="true"><Icon.Leaf /></span>
 
-      <div className="ctc-form-main">
-        <h2>Send Us a Message</h2>
-        <p className="ctc-form-sub">
-          Have a question, suggestion or need assistance? Fill out the form below and we'll get back to you as soon as possible.
-        </p>
-        <form onSubmit={handleSubmit} className="ctc-form">
-          <div className="ctc-form-row">
+      <div className="ctc-form-top">
+        <div className="ctc-form-main">
+          <h2>Send Us a Message</h2>
+          <p className="ctc-form-sub">
+            Have a question, suggestion or need assistance? Fill out the form below and we'll get back to you as soon as possible.
+          </p>
+          <form onSubmit={handleSubmit} className="ctc-form">
+            <div className="ctc-form-row">
+              <label>
+                <span className="ctc-form-label"><Icon.User /> Full Name *</span>
+                <input type="text" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} required />
+              </label>
+              <label>
+                <span className="ctc-form-label"><Icon.Mail /> Email Address *</span>
+                <input type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              </label>
+            </div>
             <label>
-              <span className="ctc-form-label"><Icon.User /> Full Name *</span>
-              <input type="text" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} required />
+              <span className="ctc-form-label"><Icon.Phone /> Phone Number *</span>
+              <input type="tel" placeholder="Enter your phone number" value={phone} onChange={(e) => setPhone(e.target.value)} required />
             </label>
             <label>
-              <span className="ctc-form-label"><Icon.Mail /> Email Address *</span>
-              <input type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <span className="ctc-form-label"><Icon.Message /> Message *</span>
+              <textarea rows={5} placeholder="Write your message here..." value={message} onChange={(e) => setMessage(e.target.value)} required />
             </label>
+            <button type="submit" className="ctc-send-btn"><Icon.Send /> Send Message</button>
+          </form>
+        </div>
+
+        <div className="ctc-form-side">
+          <div className="ctc-form-side-media">
+            <img src="/images/about-us/04_mission_plant.png" alt="A healthy potted plant" loading="lazy" />
           </div>
-          <label>
-            <span className="ctc-form-label"><Icon.Phone /> Phone Number *</span>
-            <input type="tel" placeholder="Enter your phone number" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-          </label>
-          <label>
-            <span className="ctc-form-label"><Icon.Message /> Message *</span>
-            <textarea rows={5} placeholder="Write your message here..." value={message} onChange={(e) => setMessage(e.target.value)} required />
-          </label>
-          <button type="submit" className="ctc-send-btn"><Icon.Send /> Send Message</button>
-        </form>
+        </div>
       </div>
 
-      <div className="ctc-form-side">
-        <div className="ctc-form-side-media">
-          <img src="/images/about-us/04_mission_plant.png" alt="A healthy potted plant" loading="lazy" />
+      <div className="ctc-form-perks-row">
+        <div className="ctc-form-perk">
+          <span className="ctc-form-perk-icon"><Icon.Leaf /></span>
+          <div>
+            <h4>We're Here to Help</h4>
+            <p>Get quick and friendly support from our team.</p>
+          </div>
         </div>
-        <div className="ctc-form-perks">
-          <div className="ctc-form-perk">
-            <span className="ctc-form-perk-icon"><Icon.Leaf /></span>
-            <div>
-              <h4>We're Here to Help</h4>
-              <p>Get quick and friendly support from our team.</p>
-            </div>
+        <div className="ctc-form-perk">
+          <span className="ctc-form-perk-icon"><Icon.Headset /></span>
+          <div>
+            <h4>Response Within 24 Hours</h4>
+            <p>Your queries matter to us.</p>
           </div>
-          <div className="ctc-form-perk">
-            <span className="ctc-form-perk-icon"><Icon.Headset /></span>
-            <div>
-              <h4>Response Within 24 Hours</h4>
-              <p>Your queries matter to us.</p>
-            </div>
-          </div>
-          <div className="ctc-form-perk">
-            <span className="ctc-form-perk-icon"><Icon.ShieldCheck /></span>
-            <div>
-              <h4>Trusted &amp; Secure</h4>
-              <p>Your information is always safe with us.</p>
-            </div>
+        </div>
+        <div className="ctc-form-perk">
+          <span className="ctc-form-perk-icon"><Icon.ShieldCheck /></span>
+          <div>
+            <h4>Trusted &amp; Secure</h4>
+            <p>Your information is always safe with us.</p>
           </div>
         </div>
       </div>
