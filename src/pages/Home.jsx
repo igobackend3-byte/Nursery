@@ -1200,6 +1200,43 @@ function GiftingBand() {
   );
 }
 
+// "Thoughtful gifts, beautifully packaged" - Our-Story-style layout
+// directly below the GiftingBand section above. Reuses the same real
+// gift-tagged product image already used for the "Corporate Gifting"
+// card on the About page (public/images/about-us/10_corporate_gifting.png)
+// - no new/stock/generated image, per the project's asset-reuse rule.
+function GiftingStoryBand() {
+  return (
+    <section className="tg-band">
+      <div className="tg-heading">
+        <p className="tg-heading-row">
+          <span className="tg-leaf" aria-hidden="true"><LeafGlyph /></span>
+          Thoughtful gifts, beautifully packaged.
+          <span className="tg-leaf" aria-hidden="true"><LeafGlyph /></span>
+        </p>
+        <p className="tg-sub">A plant gift comes wrapped in more than paper - it carries a little bit of care.</p>
+      </div>
+
+      <div className="tg-grid">
+        <div className="tg-media">
+          <span className="tg-badge">Thoughtful Gifts</span>
+          <img src="/images/about-us/10_corporate_gifting.png" alt="A potted plant gift, beautifully wrapped" loading="lazy" />
+        </div>
+
+        <div className="tg-panel">
+          <h2>Thoughtful gifts,<br />beautifully packaged.</h2>
+          <p>
+            Looking for the perfect gift? Our plants come beautifully packaged, making them a thoughtful and
+            meaningful present for your loved ones. Whether it's a birthday, anniversary, or just a little
+            gesture of love, a green gift always speaks from the heart.
+          </p>
+          <p className="tg-highlight">Give the gift of greenery. <span aria-hidden="true">🌿</span></p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Reviews() {
   const { t, language } = useLanguage();
   return (
@@ -1353,6 +1390,7 @@ function Home() {
       <PlantFinderBand />
       <GardenJournal />
       <GiftingBand />
+      <GiftingStoryBand />
       <Reviews />
       <Newsletter />
       <Faq />

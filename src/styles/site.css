@@ -2915,6 +2915,182 @@ section {
   }
 }
 
+/* ============ Thoughtful gifts story band (below Gifting band) ======== */
+.tg-band {
+  background: var(--section-gifting, #f2ece0);
+  padding: 56px 48px 64px;
+}
+
+.tg-heading {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 40px;
+  opacity: 0;
+  transform: translateY(18px);
+  animation: tg-fade-in 0.7s ease forwards;
+}
+
+@keyframes tg-fade-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tg-heading, .tg-media, .tg-panel { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
+
+.tg-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--color-primary-green);
+  line-height: 1.25;
+}
+
+.tg-leaf {
+  display: inline-flex;
+  color: var(--color-primary-green);
+  animation: tg-leaf-sway 4s ease-in-out infinite;
+}
+
+.tg-leaf svg {
+  width: 22px;
+  height: 22px;
+}
+
+@keyframes tg-leaf-sway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-8deg); }
+}
+
+.tg-sub {
+  margin-top: 12px;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.tg-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: stretch;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.tg-media {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: 360px;
+  box-shadow: 0 20px 44px rgba(27, 75, 54, 0.14);
+  opacity: 0;
+  transform: translateY(18px);
+  animation: tg-fade-in 0.7s ease 0.1s forwards;
+  transition: transform 0.3s ease;
+}
+
+.tg-media:hover {
+  transform: translateY(-4px);
+}
+
+.tg-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.tg-media:hover img {
+  transform: scale(1.05);
+}
+
+.tg-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+  background: var(--color-primary-green);
+  color: white;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.tg-panel {
+  background: var(--section-plant-size, #eef2e4);
+  border-radius: 24px;
+  padding: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 10px 28px rgba(27, 75, 54, 0.06);
+  opacity: 0;
+  transform: translateY(18px);
+  animation: tg-fade-in 0.7s ease 0.2s forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tg-panel:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 36px rgba(27, 75, 54, 0.12);
+}
+
+.tg-panel h2 {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--color-primary-green);
+  margin-bottom: 18px;
+}
+
+.tg-panel p {
+  color: var(--color-text-muted);
+  font-size: 0.98rem;
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+.tg-highlight {
+  color: var(--color-primary-green) !important;
+  font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+  .tg-grid {
+    gap: 28px;
+  }
+
+  .tg-panel {
+    padding: 32px;
+  }
+}
+
+@media (max-width: 860px) {
+  .tg-band {
+    padding: 48px 24px 56px;
+  }
+
+  .tg-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tg-media {
+    min-height: 280px;
+  }
+
+  .tg-heading-row {
+    font-size: 1.5rem;
+  }
+}
+
 /* ============ Reviews ============ */
 .reviews-section {
   background: var(--section-reviews);
