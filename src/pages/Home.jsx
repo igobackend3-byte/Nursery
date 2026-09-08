@@ -9,7 +9,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { getLocalizedCategoryLabel, getLocalizedProductName } from '../utils/localizedContent';
 import { getDiscountPercent } from '../utils/pricing';
 import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTranslation, getReviewTranslation, getJourneyStepTranslation, getCompareHeaderTranslation, getCompareTitleTranslation, getCompareRowTranslation, getTrustBadgeTranslation, getStatsStripTranslation } from '../i18n/translations';
-import { seededShuffle, getJustInProducts } from '../utils/seededShuffle';
+import { getJustInProducts } from '../utils/seededShuffle';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -373,177 +373,6 @@ function JustIn() {
         {justInProducts.map((p) => (
           <ProductCard key={p.id} product={p} isNew />
         ))}
-      </div>
-    </section>
-  );
-}
-
-// ---------------------------------------------------------------- Choose Your Plant Size
-// The catalogue's `product.size` field is real but sparse (only ~13
-// products explicitly override the 'Medium (20-60cm)' default - see
-// data/products.js's makeProduct()), so an honest 4-tier picker (Small/
-// Medium/Large/XL) can't rely on that field alone. Per the brief's
-// fallback instruction, this maps tiers from the catalogue's own category
-// data instead - a plant category is a genuine, non-fabricated signal of
-// typical size (mini/table-top/succulents are small by definition,
-// landscaping trees are the only genuinely "statement size" category) -
-// and still honours an explicit product.size override where one exists.
-const PLANT_SIZE_CATEGORIES = new Set([
-  'indoor-plants', 'outdoor-plants', 'bonsai', 'palms', 'cycads', 'succulents', 'cactus',
-  'table-top-plants', 'mini-plants', 'orchids', 'bromeliads', 'ferns', 'carnivorous-plants',
-  'aquatic-pond-plants', 'vertical-garden-plants', 'green-wall-plants', 'terrace-garden-plants',
-  'balcony-plants', 'hanging-basket-plants', 'fruit-plants', 'herbs', 'medicinal-plants',
-  'aromatic-plants', 'spice-plants', 'sacred-plants', 'butterfly-garden-plants',
-  'bee-friendly-plants', 'bird-attracting-plants', 'fragrant-plants', 'edible-flowers',
-  'coastal-plants', 'landscaping-trees', 'landscaping-plants',
-]);
-const SMALL_CATEGORIES = new Set(['mini-plants', 'table-top-plants', 'succulents', 'cactus', 'bromeliads', 'ferns', 'carnivorous-plants', 'herbs', 'spice-plants', 'aromatic-plants', 'edible-flowers']);
-const LARGE_CATEGORIES = new Set(['outdoor-plants', 'palms', 'cycads', 'landscaping-plants']);
-const XL_CATEGORIES = new Set(['landscaping-trees']);
-
-function sizeTierOf(product) {
-  if (product.size === 'Small (Under 20cm)') return 'small';
-  if (product.size === 'Large (Above 60cm)' && !XL_CATEGORIES.has(product.category)) return 'large';
-  if (XL_CATEGORIES.has(product.category)) return 'xl';
-  if (SMALL_CATEGORIES.has(product.category)) return 'small';
-  if (LARGE_CATEGORIES.has(product.category)) return 'large';
-  return 'medium';
-}
-
-// A simple person silhouette used purely as a scale reference next to the
-// plant photo (the "how tall is this really" cue Ugaoo's size-finder is
-// built around) - not a real height measurement, just a visual anchor.
-function PersonSilhouetteIcon() {
-  return (
-    <svg viewBox="0 0 40 140" fill="currentColor">
-      <circle cx="20" cy="14" r="12" />
-      <path d="M20 28c-11 0-18 8-18 22v50c0 4 3 7 7 7h4v29a4 4 0 0 0 8 0v-29h-2 4v29a4 4 0 0 0 8 0v-29h4c4 0 7-3 7-7V50c0-14-7-22-18-22Z" />
-    </svg>
-  );
-}
-
-// Visual-only scale each tier's plant bar rises to, relative to the person
-// silhouette beside it (100% ≈ eye-level with an average adult) - purely
-// illustrative, matched loosely to each tier's real height range below.
-const SIZE_TIERS = [
-  { key: 'small', letter: 'S', barPct: 22, exploreSlug: 'table-top-plants' },
-  { key: 'medium', letter: 'M', barPct: 42, exploreSlug: 'indoor-plants' },
-  { key: 'large', letter: 'L', barPct: 72, exploreSlug: 'outdoor-plants' },
-  { key: 'xl', letter: 'XL', barPct: 100, exploreSlug: 'landscaping-trees' },
-];
-
-function tierLabelKey(key, suffix) {
-  return `home.plantSize${key.charAt(0).toUpperCase()}${key.slice(1)}${suffix}`;
-}
-
-function PlantSizeFinder() {
-  const { products, categories } = useCatalogue();
-  const { t, language } = useLanguage();
-  const [selected, setSelected] = useState('small');
-  const [heroId, setHeroId] = useState(null);
-
-  const productsBySize = useMemo(() => {
-    const buckets = { small: [], medium: [], large: [], xl: [] };
-    products.forEach((p) => {
-      if (!PLANT_SIZE_CATEGORIES.has(p.category)) return;
-      buckets[sizeTierOf(p)].push(p);
-    });
-    return buckets;
-  }, [products]);
-
-  const tier = SIZE_TIERS.find((s) => s.key === selected);
-  const tierProducts = useMemo(
-    () => seededShuffle(productsBySize[selected] ?? [], 20240915).slice(0, 4),
-    [productsBySize, selected]
-  );
-  const hero = tierProducts.find((p) => p.id === heroId) ?? tierProducts[0];
-
-  function selectTier(key) {
-    setSelected(key);
-    setHeroId(null);
-  }
-
-  if (!hero) return null;
-
-  const heroName = getLocalizedProductName(hero, language);
-  const categoryDoc = categories.find((c) => c.slug === hero.category);
-  const heroCategoryLabel = getLocalizedCategoryLabel(categoryDoc, language) || hero.categoryLabel;
-  const discountPercent = getDiscountPercent(hero.originalPrice, hero.price);
-
-  return (
-    <section className="plant-size-finder">
-      <div className="section-heading center">
-        <p className="eyebrow">{t('home.plantSizeEyebrow')}</p>
-        <h2>{t('home.plantSizeHeading')}</h2>
-        <p className="section-sub">{t('home.plantSizeTapHint')}</p>
-      </div>
-
-      <div className="size-tabs" role="tablist" aria-label={t('home.plantSizeHeading')}>
-        {SIZE_TIERS.map((s) => (
-          <button
-            type="button"
-            role="tab"
-            key={s.key}
-            aria-selected={selected === s.key}
-            className={`size-tab${selected === s.key ? ' is-active' : ''}`}
-            onClick={() => selectTier(s.key)}
-          >
-            <span className="size-tab-letter">{s.letter}</span>
-            <span className="size-tab-label">{t(tierLabelKey(s.key, 'Title'))}</span>
-          </button>
-        ))}
-      </div>
-
-      <div className="size-panel" key={selected}>
-        <div className="size-panel-visual">
-          <div className="size-height-indicator" aria-hidden="true">
-            <span className="size-height-person"><PersonSilhouetteIcon /></span>
-            <span className="size-height-track">
-              <span className="size-height-bar" style={{ height: `${tier.barPct}%` }} />
-            </span>
-          </div>
-          <div className="size-panel-image">
-            <img src={hero.image} alt={heroName} />
-            {hero.isBestSeller && <span className="bestseller-badge">{t('common.bestseller')}</span>}
-          </div>
-        </div>
-
-        <div className="size-panel-info">
-          <p className="size-panel-eyebrow">{t(tierLabelKey(selected, 'Title'))} · {heroCategoryLabel}</p>
-          <h3>{heroName}</h3>
-          <p className="size-panel-height">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4" /></svg>
-            {t(tierLabelKey(selected, 'Height'))}
-          </p>
-          <p className="size-panel-desc">{t(tierLabelKey(selected, 'Desc'))}</p>
-
-          <div className="product-card-price size-panel-price">
-            <span className="price-now">₹{hero.price}</span>
-            {hero.originalPrice > hero.price && <span className="price-was">₹{hero.originalPrice}</span>}
-            {discountPercent > 0 && <span className="price-off">{discountPercent}% OFF</span>}
-          </div>
-
-          <div className="size-panel-actions">
-            <Link to={`/product/${hero.id}`} className="btn-build-garden">{t('offers.shopNow')}</Link>
-            <Link to={`/category/${tier.exploreSlug}`} className="size-panel-view-all">{t('home.plantSizeExplore')}</Link>
-          </div>
-
-          {tierProducts.length > 1 && (
-            <div className="size-panel-thumbs">
-              {tierProducts.map((p) => (
-                <button
-                  type="button"
-                  key={p.id}
-                  className={`size-panel-thumb${p.id === hero.id ? ' is-active' : ''}`}
-                  onClick={() => setHeroId(p.id)}
-                  aria-label={getLocalizedProductName(p, language)}
-                >
-                  <img src={p.image} alt="" loading="lazy" />
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
       </div>
     </section>
   );
@@ -1425,7 +1254,6 @@ function Home() {
       <HomeCorners />
       <BestSellers />
       <JustIn />
-      <PlantSizeFinder />
       <CompleteGarden />
       <GardenServicesTeaser />
       <NurseryJourney />
