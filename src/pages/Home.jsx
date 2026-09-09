@@ -152,6 +152,29 @@ function AboutIgo() {
   );
 }
 
+// Overrides the live (Firestore-backed) category image for these 10
+// slugs with the real, correctly-matched photos supplied for this
+// section - the Firestore `categories` collection still has its old
+// placeholder images and this storefront has no write access to fix
+// that data directly, so the override happens here at render time
+// instead. Every other category (image, label, link, layout) is
+// untouched - only the `image` used for the background is swapped.
+const CATEGORY_IMAGE_OVERRIDES = {
+  'grow-bags-containers': '/images/shop-by-category/grow-bags-containers.png',
+  'irrigation-watering': '/images/shop-by-category/irrigation-watering.png',
+  'plant-support': '/images/shop-by-category/plant-support.png',
+  'hydroponic-supplies': '/images/shop-by-category/hydroponic-supplies.png',
+  'vertical-gardening': '/images/shop-by-category/vertical-gardening.png',
+  'lawn-landscaping': '/images/shop-by-category/lawn-landscaping.png',
+  'decorative-stones-mulch': '/images/shop-by-category/decorative-stones-mulch.png',
+  'shade-nets-covers': '/images/shop-by-category/shade-nets-covers.png',
+  'smart-garden-tech': '/images/shop-by-category/smart-garden-tech.png',
+  'garden-decor': '/images/shop-by-category/garden-decor.png',
+  'pest-control-devices': '/images/shop-by-category/pest-control-devices.png',
+  'nursery-packaging-supplies': '/images/shop-by-category/nursery-packaging-supplies.png',
+  'indoor-plant-accessories': '/images/shop-by-category/indoor-plant-accessories.png',
+};
+
 function ShopByCategory() {
   const { categories } = useCatalogue();
   const { t, language } = useLanguage();
@@ -173,12 +196,15 @@ function ShopByCategory() {
         <p className="section-sub">{t('home.shopByCategorySub')}</p>
       </div>
       <div className="category-grid">
-        {tiles.map((cat) => (
-          <Link to={`/category/${cat.slug}`} key={cat.slug} className="category-tile" style={{ backgroundImage: `linear-gradient(to top, rgba(15,17,21,0.75), rgba(15,17,21,0.05)), url('${cat.image}')` }}>
-            <span className="category-tile-label">{getLocalizedCategoryLabel(cat, language)}</span>
-            <span className="category-tile-link">{t('home.explore')}</span>
-          </Link>
-        ))}
+        {tiles.map((cat) => {
+          const image = CATEGORY_IMAGE_OVERRIDES[cat.slug] || cat.image;
+          return (
+            <Link to={`/category/${cat.slug}`} key={cat.slug} className="category-tile" style={{ backgroundImage: `linear-gradient(to top, rgba(15,17,21,0.75), rgba(15,17,21,0.05)), url('${image}')` }}>
+              <span className="category-tile-label">{getLocalizedCategoryLabel(cat, language)}</span>
+              <span className="category-tile-link">{t('home.explore')}</span>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );
