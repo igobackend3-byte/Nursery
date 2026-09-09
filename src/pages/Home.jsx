@@ -14,6 +14,8 @@ import DecorativeLeaves from '../components/DecorativeLeaves';
 import SectionVine from '../components/SectionVine';
 import Butterflies from '../components/Butterflies';
 import DecorativeFlowers from '../components/DecorativeFlowers';
+import DecorativePetals from '../components/DecorativePetals';
+import HangingVine from '../components/HangingVine';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -238,6 +240,11 @@ function HomeCorners() {
   const [ref, visible] = useScrollReveal(0.1);
   return (
     <section ref={ref} className={`home-corners reveal-section${visible ? ' is-visible' : ''}`}>
+      <HangingVine variant="corners" side="left" active={visible} />
+      <HangingVine variant="corners" side="right" active={visible} />
+      <DecorativeLeaves variant="category" count={3} />
+      <DecorativeFlowers variant="category" count={2} />
+      <DecorativePetals variant="corners" count={2} />
       <div className="home-corners-heading">
         <span className="home-corners-leaf home-corners-leaf-left" aria-hidden="true"><SproutIcon /></span>
         <h2>{t('home.cornersHeading')}</h2>
@@ -381,6 +388,7 @@ function JustIn() {
   return (
     <section ref={ref} className={`just-in reveal-section${visible ? ' is-visible' : ''}`}>
       <DecorativeLeaves variant="just-in" count={2} />
+      <DecorativePetals variant="just-in" count={1} />
       <div className="section-heading">
         <div>
           <h2>

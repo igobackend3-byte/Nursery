@@ -5,7 +5,9 @@ import { getOfferNoteTranslation } from '../i18n/translations';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import DecorativeLeaves from './DecorativeLeaves';
 import DecorativeFlowers from './DecorativeFlowers';
+import DecorativePetals from './DecorativePetals';
 import SectionVine from './SectionVine';
+import HangingVine from './HangingVine';
 
 // Small decorative leaf icon, replacing the old circled-number (①②)
 // glyphs either side of the heading and the emoji in the divider -
@@ -25,8 +27,11 @@ function OffersSection() {
   const [vineRef, vineVisible] = useScrollReveal(0.15);
   return (
     <section className="offers-section" ref={vineRef}>
+      <HangingVine variant="offers" side="left" active={vineVisible} />
+      <HangingVine variant="offers" side="right" active={vineVisible} />
       <DecorativeLeaves variant="offers" count={3} />
       <DecorativeFlowers variant="offers" count={2} />
+      <DecorativePetals variant="offers" count={2} />
       <SectionVine variant="offers" active={vineVisible} />
       <div className="section-heading center">
         <p className="offers-title">
