@@ -1,0 +1,118 @@
+/* ============================================================
+   Ambient butterflies - a third, independent decorative layer on
+   top of the existing hover/scroll-reveal animations (animations.css)
+   and the ambient leaves/vines (nature-decor.css). Nothing here
+   touches, repeats or overrides either of those.
+
+   Flight paths use CSS `offset-path` (a native curved-motion
+   primitive - no animation library) so each butterfly follows a real
+   bezier curve with automatic rotation along the path, rather than a
+   straight translateX. Wing-flap is a second, independent transform
+   on the wings themselves, so the two motions compose naturally.
+   ============================================================ */
+
+.butterfly-field {
+  position: fixed;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+  /* Above ordinary page content (so it can visibly cross section
+     whitespace) but well below the header/nav (z-index 30) and the
+     back-to-top / scroll-progress layer (998/999), so it never sits
+     over navigation or floating controls. */
+  z-index: 5;
+}
+
+.butterfly {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 26px;
+  offset-rotate: auto;
+  animation-name: butterfly-flight;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: offset-distance, opacity;
+}
+
+@keyframes butterfly-flight {
+  0% { offset-distance: 0%; opacity: 0; }
+  6% { opacity: 0.92; }
+  92% { opacity: 0.92; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+/* Four distinct, gentle bezier curves - different shape, direction and
+   region of the viewport for each, so no two butterflies trace the
+   same route. Coordinates run a little past the viewport edges on
+   purpose (butterflies visibly enter/exit rather than popping in). */
+.butterfly-path-1 {
+  offset-path: path('M -60 260 C 260 70, 520 430, 860 210 S 1320 70, 1560 300');
+}
+.butterfly-path-2 {
+  offset-path: path('M 1560 560 C 1200 700, 940 340, 650 600 S 190 760, -100 500');
+}
+.butterfly-path-3 {
+  offset-path: path('M -100 760 C 300 600, 520 260, 860 410 S 1320 150, 1620 60');
+}
+.butterfly-path-4 {
+  offset-path: path('M 1620 160 C 1260 40, 1000 310, 700 130 S 300 360, -100 190');
+}
+
+.butterfly-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.butterfly-body {
+  fill: #4a3b2a;
+  opacity: 0.75;
+}
+
+/* Soft, muted tones pulled from the site's own green/cream palette -
+   no bright/neon colour introduced. */
+.butterfly-tone-sage .butterfly-wing path { fill: #9fbf8a; opacity: 0.82; }
+.butterfly-tone-moss .butterfly-wing path { fill: var(--color-primary-green, #1b4b36); opacity: 0.72; }
+.butterfly-tone-cream .butterfly-wing path { fill: #f3ecd2; stroke: #c9d9a8; stroke-width: 0.6; opacity: 0.88; }
+
+/* Wing flap: an independent transform from the flight path's own
+   rotation, pivoting each wing at the edge where it meets the body
+   (fill-box + edge-aligned percentage origin), so scaling toward 0
+   reads as the wing folding in rather than the whole butterfly
+   shrinking. */
+.butterfly-wing {
+  transform-box: fill-box;
+  animation: wing-flap 0.34s ease-in-out infinite alternate;
+}
+.butterfly-wing-left { transform-origin: 100% 50%; }
+.butterfly-wing-right { transform-origin: 0% 50%; animation-delay: 0.01s; }
+
+.butterfly-tone-cream .butterfly-wing { animation-duration: 0.3s; }
+.butterfly-tone-moss .butterfly-wing { animation-duration: 0.38s; }
+
+@keyframes wing-flap {
+  0% { transform: scaleX(1); }
+  100% { transform: scaleX(0.42); }
+}
+
+/* ---------- Responsive: fewer, smaller, slower on small screens ---------- */
+@media (max-width: 1024px) {
+  .butterfly:nth-child(4) { display: none; }
+}
+@media (max-width: 720px) {
+  .butterfly:nth-child(3),
+  .butterfly:nth-child(4) { display: none; }
+  .butterfly {
+    width: 24px;
+    height: 18px;
+  }
+}
+
+/* ---------- Reduced motion: no flight, no flap, hidden entirely ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .butterfly-field {
+    display: none;
+  }
+}

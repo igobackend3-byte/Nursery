@@ -12,6 +12,7 @@ import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTransl
 import { getJustInProducts } from '../utils/seededShuffle';
 import DecorativeLeaves from '../components/DecorativeLeaves';
 import SectionVine from '../components/SectionVine';
+import Butterflies from '../components/Butterflies';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -1279,6 +1280,7 @@ function StatsStrip() {
 function Home() {
   return (
     <>
+      <Butterflies count={3} />
       <Hero />
       <AboutIgo />
       <OffersSection />
