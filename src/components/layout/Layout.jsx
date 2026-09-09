@@ -6,6 +6,7 @@ import NavBar from './NavBar';
 import Footer from './Footer';
 import ScrollProgress from '../ScrollProgress';
 import BackToTop from '../BackToTop';
+import BotanicalFrame from '../BotanicalFrame';
 import useLeafParallax from '../../hooks/useLeafParallax';
 
 // The Account page keeps the utility header (logo, search, language,
@@ -28,6 +29,7 @@ function Layout() {
 
   return (
     <div className="app-container">
+      <BotanicalFrame />
       <ScrollProgress />
       {!isAccountPage && <TopBar />}
       <Header />

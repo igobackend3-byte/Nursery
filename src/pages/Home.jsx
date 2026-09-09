@@ -12,7 +12,6 @@ import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTransl
 import { getJustInProducts } from '../utils/seededShuffle';
 import DecorativeLeaves from '../components/DecorativeLeaves';
 import SectionVine from '../components/SectionVine';
-import Butterflies from '../components/Butterflies';
 import DecorativeFlowers from '../components/DecorativeFlowers';
 import DecorativePetals from '../components/DecorativePetals';
 import HangingVine from '../components/HangingVine';
@@ -244,9 +243,10 @@ function HomeCorners() {
       <DecorativeGlow variant="corners" />
       <HangingVine variant="corners" side="left" active={visible} />
       <HangingVine variant="corners" side="right" active={visible} />
-      <DecorativeLeaves variant="category" count={3} />
-      <DecorativeFlowers variant="category" count={2} />
-      <DecorativePetals variant="corners" count={2} />
+      <DecorativeLeaves variant="category" count={4} />
+      <DecorativeFlowers variant="category" count={3} />
+      <DecorativePetals variant="corners" count={3} />
+
       <div className="home-corners-heading">
         <span className="home-corners-leaf home-corners-leaf-left" aria-hidden="true"><SproutIcon /></span>
         <h2>{t('home.cornersHeading')}</h2>
@@ -390,8 +390,12 @@ function JustIn() {
   return (
     <section ref={ref} className={`just-in reveal-section${visible ? ' is-visible' : ''}`}>
       <DecorativeGlow variant="just-in" />
-      <DecorativeLeaves variant="just-in" count={2} />
-      <DecorativePetals variant="just-in" count={1} />
+      <HangingVine variant="just-in" side="left" active={visible} />
+      <HangingVine variant="just-in" side="right" active={visible} />
+      <DecorativeLeaves variant="just-in" count={3} />
+      <DecorativePetals variant="just-in" count={2} />
+      <SectionVine variant="just-in" active={visible} />
+      
       <div className="section-heading">
         <div>
           <h2>
@@ -1293,7 +1297,6 @@ function StatsStrip() {
 function Home() {
   return (
     <>
-      <Butterflies count={6} />
       <Hero />
       <AboutIgo />
       <OffersSection />

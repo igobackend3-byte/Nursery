@@ -50,7 +50,8 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-bg-cream);
+  background: linear-gradient(135deg, #f9fbf2 0%, #f1f5e8 50%, #fdfcf7 100%);
+  background-attachment: fixed;
   color: var(--color-text-dark);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;

@@ -5,11 +5,26 @@
 // same aria-hidden / pointer-events: none / behind-content rules as
 // every other decorative piece here.
 function DecorativeGlow({ variant }) {
+  if (variant === 'global') {
+    return (
+      <div className="decor-glow decor-glow-global" aria-hidden="true">
+        <div className="decor-glow-sun decor-glow-sun-left"></div>
+        <div className="decor-glow-sun decor-glow-sun-right"></div>
+        <div className="decor-glow-dust"></div>
+        <div className="decor-glow-dust"></div>
+        <div className="decor-glow-dust"></div>
+        <div className="decor-glow-dust"></div>
+        <div className="decor-glow-dust"></div>
+      </div>
+    );
+  }
+
   return (
     <div className={`decor-glow decor-glow-${variant}`} aria-hidden="true">
-      <span className="decor-glow-sun" />
-      <span className="decor-glow-dust" />
-      <span className="decor-glow-dust" />
+      <div className="decor-glow-sun"></div>
+      <div className="decor-glow-dust"></div>
+      <div className="decor-glow-dust"></div>
+      <div className="decor-glow-dust"></div>
     </div>
   );
 }

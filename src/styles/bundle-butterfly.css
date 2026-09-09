@@ -1,0 +1,70 @@
+/* ============================================================
+   Butterfly perched on the "BUILD YOUR OWN BUNDLE" badge.
+
+   Replaces the free-flying butterflies (removed from every page) with
+   one small, STATIC butterfly per offer badge. Nothing here moves the
+   container - no translateX/Y, no flight path, no bob/rotate. The
+   only animated thing is the wings, via a slow open/close cycle.
+   ============================================================ */
+
+.bundle-butterfly {
+  position: absolute;
+  bottom: -6px;
+  left: -12px;
+  width: 20px;
+  height: 15px;
+  transform: rotate(-8deg);
+  pointer-events: none;
+  z-index: 4;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.bundle-butterfly-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.bundle-butterfly-body {
+  fill: #3a2c1e;
+  opacity: 0.85;
+}
+
+/* Realistic-but-soft colour set - orange, blue, pink, yellow, purple. */
+.bundle-butterfly-orange .bundle-butterfly-wing path { fill: #e8965a; stroke: #b96f37; stroke-width: 0.5; }
+.bundle-butterfly-blue .bundle-butterfly-wing path { fill: #6fa8c9; stroke: #4a7f9e; stroke-width: 0.5; }
+.bundle-butterfly-pink .bundle-butterfly-wing path { fill: #e493ae; stroke: #c46589; stroke-width: 0.5; }
+.bundle-butterfly-yellow .bundle-butterfly-wing path { fill: #e8c866; stroke: #c8a53e; stroke-width: 0.5; }
+.bundle-butterfly-purple .bundle-butterfly-wing path { fill: #b08fc7; stroke: #8c67a6; stroke-width: 0.5; }
+
+/* Wings only - transform-origin pinned to the edge where each wing
+   meets the body, so scaling toward 0 folds the wing in rather than
+   shrinking the whole butterfly. Container/position above is never
+   touched by this animation. */
+.bundle-butterfly-wing {
+  transform-box: fill-box;
+  animation: bundle-wing-flap 2.6s ease-in-out infinite;
+  animation-delay: var(--flap-delay, 0s);
+}
+.bundle-butterfly-wing-left { transform-origin: 100% 50%; }
+.bundle-butterfly-wing-right { transform-origin: 0% 50%; }
+
+@keyframes bundle-wing-flap {
+  0%, 40% { transform: scaleX(1); }
+  20% { transform: scaleX(0.55); }
+  60%, 100% { transform: scaleX(1); }
+}
+
+@media (max-width: 480px) {
+  .bundle-butterfly {
+    width: 16px;
+    height: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bundle-butterfly-wing {
+    animation: none;
+  }
+}
