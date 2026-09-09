@@ -175,6 +175,177 @@ const CATEGORY_IMAGE_OVERRIDES = {
   'indoor-plant-accessories': '/images/shop-by-category/indoor-plant-accessories.png',
 };
 
+// One clean white line-icon per category (matches the site's existing
+// stroke-icon language - strokeWidth 1.8-2, round caps/joins - not a
+// generic/unrelated icon set).
+function CatIconPot() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 8h14l-1.6 11.2a2 2 0 0 1-2 1.8H8.6a2 2 0 0 1-2-1.8L5 8Z" />
+      <path d="M3.5 8h17" />
+      <path d="M9 8V6.5A3 3 0 0 1 12 3.5a3 3 0 0 1 3 2.5V8" />
+    </svg>
+  );
+}
+function CatIconWateringCan() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 10h11a3 3 0 0 1 0 6H8" />
+      <path d="M3 10v6a2 2 0 0 0 2 2h3" />
+      <path d="M3 10V7a1 1 0 0 1 1-1h6l3-2" />
+      <path d="M17 8l4-1.5M18 11l3.5 1M17.5 5.5 20 4" />
+    </svg>
+  );
+}
+function CatIconStake() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7 21V9M7 9l-3 3M7 9l3 3" />
+      <path d="M17 21V5M17 5l-3 3M17 5l3 3" />
+      <path d="M7 15h10" />
+    </svg>
+  );
+}
+function CatIconHydro() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3c2.5 3 4 5.6 4 8a4 4 0 0 1-8 0c0-2.4 1.5-5 4-8Z" />
+      <path d="M8 19c1-2 2.5-2 4-2s3 0 4 2" />
+      <path d="M4 21h16" />
+    </svg>
+  );
+}
+function CatIconVertical() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="3" width="16" height="18" rx="2" />
+      <path d="M8 7c1 1.5 1 3 0 4.5M8 12.5c1 1.5 1 3 0 4.5" />
+      <path d="M16 7c-1 1.5-1 3 0 4.5M16 12.5c-1 1.5-1 3 0 4.5" />
+    </svg>
+  );
+}
+function CatIconLandscape() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 20 8 9l4 6 2-3 8 8" />
+      <circle cx="17" cy="6" r="2" />
+    </svg>
+  );
+}
+function CatIconStones() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <ellipse cx="8" cy="16" rx="5" ry="3.2" />
+      <ellipse cx="16" cy="17.5" rx="4" ry="2.6" />
+      <ellipse cx="12" cy="11" rx="3.4" ry="2.2" />
+    </svg>
+  );
+}
+function CatIconShadeNet() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 8h18M3 12h18M3 16h18" />
+      <path d="M6 5v14M12 5v14M18 5v14" />
+    </svg>
+  );
+}
+function CatIconSmart() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="6" y="9" width="12" height="10" rx="2" />
+      <path d="M9 9V7a3 3 0 0 1 6 0v2" />
+      <circle cx="12" cy="14" r="1.6" />
+      <path d="M2 12h2M20 12h2" />
+    </svg>
+  );
+}
+function CatIconDecor() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3v5" />
+      <circle cx="12" cy="11" r="3.5" />
+      <path d="M8 21c0-3 1.8-5 4-5s4 2 4 5" />
+    </svg>
+  );
+}
+function CatIconBug() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="8" y="8" width="8" height="10" rx="4" />
+      <path d="M12 8V5" /><path d="M9 5 7.5 3.5" /><path d="M15 5l1.5-1.5" />
+      <path d="M6 12H3" /><path d="M21 12h-3" />
+    </svg>
+  );
+}
+function CatIconBox() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 8l9-4 9 4-9 4-9-4Z" /><path d="M3 8v9l9 4 9-4V8" /><path d="M12 12v9" />
+    </svg>
+  );
+}
+function CatIconGreenhouse() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 11 12 4l9 7" />
+      <path d="M5 11v9h14v-9" />
+      <path d="M9 20v-6h6v6" />
+    </svg>
+  );
+}
+
+const CATEGORY_ICONS = {
+  'grow-bags-containers': CatIconPot,
+  'irrigation-watering': CatIconWateringCan,
+  'plant-support': CatIconStake,
+  'hydroponic-supplies': CatIconHydro,
+  'vertical-gardening': CatIconVertical,
+  'lawn-landscaping': CatIconLandscape,
+  'decorative-stones-mulch': CatIconStones,
+  'shade-nets-covers': CatIconShadeNet,
+  'smart-garden-tech': CatIconSmart,
+  'garden-decor': CatIconDecor,
+  'pest-control-devices': CatIconBug,
+  'nursery-packaging-supplies': CatIconBox,
+  'indoor-plant-accessories': CatIconPot,
+  'greenhouse-supplies': CatIconGreenhouse,
+};
+
+// A wide decorative botanical band across the top of the section - built
+// from the same simple stroke-leaf language as the rest of the site's
+// icons (not a stock/generated photo standing in for real foliage, and
+// not the section's own DecorativeLeaves/Flowers system, which stays put
+// underneath). Layered leaf silhouettes drift extremely slowly and
+// continuously - the only "parallax" cue this band needs.
+function BotanicalStripLeaf() {
+  return (
+    <svg viewBox="0 0 40 24" fill="currentColor">
+      <path d="M2 20C10 6 26 2 38 4 34 14 20 22 2 20Z" />
+    </svg>
+  );
+}
+function BotanicalStrip() {
+  // Each row renders the same short sequence twice back-to-back, so an
+  // infinite `translateX(-50%)` loop (in animations.css/site.css) wraps
+  // seamlessly with no visible jump or gap.
+  const backLeaves = Array.from({ length: 14 }, (_, i) => i);
+  const frontLeaves = Array.from({ length: 12 }, (_, i) => i);
+  return (
+    <div className="cat-botanical-strip" aria-hidden="true">
+      <div className="cat-botanical-row cat-botanical-row-back">
+        {backLeaves.map((i) => (
+          <span className="cat-botanical-leaf cat-botanical-leaf-back" key={i}><BotanicalStripLeaf /></span>
+        ))}
+      </div>
+      <div className="cat-botanical-row cat-botanical-row-front">
+        {frontLeaves.map((i) => (
+          <span className="cat-botanical-leaf cat-botanical-leaf-front" key={i}><BotanicalStripLeaf /></span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ShopByCategory() {
   const { categories } = useCatalogue();
   const { t, language } = useLanguage();
@@ -186,8 +357,7 @@ function ShopByCategory() {
 
   return (
     <section ref={ref} className={`shop-by-category reveal-section${visible ? ' is-visible' : ''}`}>
-      <DecorativeLeaves variant="category" count={3} />
-      <DecorativeFlowers variant="category" count={2} />
+      <BotanicalStrip />
       <div className="section-heading">
         <div>
           <p className="eyebrow">{t('home.exploreEyebrow')}</p>
@@ -198,10 +368,13 @@ function ShopByCategory() {
       <div className="category-grid">
         {tiles.map((cat) => {
           const image = CATEGORY_IMAGE_OVERRIDES[cat.slug] || cat.image;
+          const Icon = CATEGORY_ICONS[cat.slug] || CatIconPot;
           return (
-            <Link to={`/category/${cat.slug}`} key={cat.slug} className="category-tile" style={{ backgroundImage: `linear-gradient(to top, rgba(15,17,21,0.75), rgba(15,17,21,0.05)), url('${image}')` }}>
-              <span className="category-tile-label">{getLocalizedCategoryLabel(cat, language)}</span>
-              <span className="category-tile-link">{t('home.explore')}</span>
+            <Link to={`/category/${cat.slug}`} key={cat.slug} className="cat-card">
+              <img src={image} alt="" className="cat-card-img" loading="lazy" />
+              <span className="cat-card-overlay" aria-hidden="true" />
+              <span className="cat-card-icon" aria-hidden="true"><Icon /></span>
+              <span className="cat-card-title">{getLocalizedCategoryLabel(cat, language)}</span>
             </Link>
           );
         })}
