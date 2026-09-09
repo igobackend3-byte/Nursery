@@ -11,6 +11,7 @@ import { getDiscountPercent } from '../utils/pricing';
 import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTranslation, getReviewTranslation, getJourneyStepTranslation, getCompareHeaderTranslation, getCompareTitleTranslation, getCompareRowTranslation, getTrustBadgeTranslation, getStatsStripTranslation } from '../i18n/translations';
 import { getJustInProducts } from '../utils/seededShuffle';
 import DecorativeLeaves from '../components/DecorativeLeaves';
+import SectionVine from '../components/SectionVine';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -337,6 +338,7 @@ function BestSellers() {
   return (
     <section ref={ref} className={`best-sellers reveal-section${visible ? ' is-visible' : ''}`}>
       <DecorativeLeaves variant="best-sellers" count={2} />
+      <SectionVine variant="best-sellers" active={visible} />
       <div className="section-heading">
         <div>
           <p className="eyebrow">{t('home.lovedEyebrow')}</p>
@@ -879,6 +881,7 @@ function OurStoryBand() {
   return (
     <section ref={ref} className={`os-band${visible ? ' os-band-visible' : ''}`}>
       <DecorativeLeaves variant="story" count={2} />
+      <SectionVine variant="story" active={visible} />
       <div className="os-story">
         <div className="os-media">
           <span className="os-badge">Our Story</span>
@@ -910,7 +913,7 @@ function OurStoryBand() {
       </div>
 
       <div className="os-testimonials">
-        <DecorativeLeaves variant="testimonials" count={2} />
+        <DecorativeLeaves variant="testimonials" count={3} />
         <div className="section-heading center">
           <h2>What Our Customers Say</h2>
         </div>

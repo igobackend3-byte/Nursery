@@ -6,7 +6,7 @@
 // nth-child(n)`), keyed off `variant` + index, so this component itself
 // stays a thin, reusable wrapper. aria-hidden + pointer-events:none, so it
 // never affects layout, a11y tree or interaction.
-function LeafGlyphSmall() {
+export function LeafGlyphSmall() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 22C12 22 20 18 20 12V5l-8-3-8 3v7C4 18 12 22 12 22z" />

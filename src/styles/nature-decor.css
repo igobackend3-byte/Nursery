@@ -144,6 +144,21 @@
 }
 .decor-leaves-testimonials .decor-leaf:nth-child(1) { top: 0%; left: 2%; }
 .decor-leaves-testimonials .decor-leaf:nth-child(2) { bottom: 2%; right: 3%; width: 28px; height: 28px; }
+/* A third, much larger and near-invisible leaf silhouette centred behind
+   the cards - ambient background texture, not a "leaf" anyone consciously
+   notices. */
+@keyframes decor-leaf-silhouette-sway {
+  0%, 100% { transform: translate(-50%, -50%) rotate(-2deg); }
+  50% { transform: translate(-50%, -50%) rotate(2deg); }
+}
+.decor-leaves-testimonials .decor-leaf:nth-child(3) {
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  opacity: 0.05;
+  animation: decor-leaf-silhouette-sway 14s ease-in-out infinite;
+}
 
 .decor-leaves-footer .decor-leaf:nth-child(1) { top: 6%; left: 6%; width: 20px; height: 20px; }
 .decor-leaves-footer .decor-leaf:nth-child(2) { top: 4%; right: 9%; width: 18px; height: 18px; }
@@ -189,6 +204,65 @@
 }
 @keyframes heading-leaf-in {
   to { opacity: 0.85; transform: translateX(0) rotate(0deg); }
+}
+
+/* ---------- Reusable corner vine (Best Sellers, Our Story) --------
+   Same drawing technique as the footer vine, generalised: `active` is
+   passed straight in as a prop (not a CSS ancestor selector), so it
+   works under either reveal-section's `is-visible` or os-band's own
+   `os-band-visible` class name without this file needing to know
+   which one a given section uses. */
+.section-vine {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  color: var(--color-primary-green);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: -1;
+}
+.section-vine path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+}
+.section-vine.is-active path {
+  animation: footer-vine-draw 1.4s ease-out 0.15s forwards;
+}
+.section-vine .vine-leaf {
+  opacity: 0;
+  transform-origin: center;
+}
+.section-vine.is-active .vine-leaf {
+  animation: vine-leaf-in 0.5s ease-out both, decor-leaf-sway-a 6.5s ease-in-out infinite;
+}
+.section-vine.is-active .vine-leaf:nth-child(3) { animation-delay: 0.5s, 1s; }
+
+.section-vine-best-sellers {
+  right: 1%;
+  bottom: 0;
+  transform: scaleX(-1);
+}
+.section-vine-story {
+  left: 1%;
+  top: 2%;
+  width: 76px;
+  height: 76px;
+}
+
+@media (max-width: 720px) {
+  .section-vine {
+    width: 60px;
+    height: 60px;
+  }
+}
+@media (max-width: 480px) {
+  .section-vine {
+    display: none;
+  }
 }
 
 /* ---------- Footer: a small vine reveal along the top edge -------- */
@@ -285,5 +359,8 @@
   .footer-vine .vine-leaf {
     opacity: 0.5;
     transform: none;
+  }
+  .section-vine {
+    display: none;
   }
 }
