@@ -50,6 +50,10 @@
   width: 100%;
   height: 100%;
   display: block;
+  /* Subtle depth so leaves read as floating slightly above the section
+     rather than flat decals - cheap (one blurred offset shadow, no
+     layout impact) and only ever this faint. */
+  filter: drop-shadow(0 2px 3px rgba(20, 40, 20, 0.12));
 }
 
 /* Sections that host a leaf field need to be a positioning context.
@@ -163,6 +167,53 @@
 .decor-leaves-footer .decor-leaf:nth-child(1) { top: 6%; left: 6%; width: 20px; height: 20px; }
 .decor-leaves-footer .decor-leaf:nth-child(2) { top: 4%; right: 9%; width: 18px; height: 18px; }
 
+/* ---------- Small botanical flower accents ----------
+   Same container/z-index/pointer-events rules as .decor-leaves, but a
+   distinct glyph and a "bloom breathing" motion (gentle scale + opacity
+   pulse) rather than a sway, so it doesn't read as a re-skinned leaf.
+   Added only to the two sections with the most open whitespace. */
+.decor-flowers {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+.decor-flower {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 2px 3px rgba(20, 40, 20, 0.1));
+}
+.decor-flower svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.decor-flower .flower-petals { fill: currentColor; opacity: 0.85; }
+.decor-flower .flower-center { fill: var(--color-primary-lime, #a7f822); opacity: 0.9; }
+
+@keyframes flower-bloom-a {
+  0%, 100% { transform: scale(0.92) rotate(-3deg); opacity: 0.55; }
+  50% { transform: scale(1.06) rotate(3deg); opacity: 0.75; }
+}
+@keyframes flower-bloom-b {
+  0%, 100% { transform: scale(1) rotate(2deg); opacity: 0.5; }
+  50% { transform: scale(0.9) rotate(-2deg); opacity: 0.7; }
+}
+.decor-flower:nth-child(1) { animation: flower-bloom-a 9s ease-in-out infinite; color: #f0c7d0; }
+.decor-flower:nth-child(2) { animation: flower-bloom-b 11s ease-in-out infinite 1.5s; color: #f4dfa0; }
+
+.decor-flowers-category .decor-flower:nth-child(1) { top: 3%; right: 14%; }
+.decor-flowers-category .decor-flower:nth-child(2) { bottom: 5%; left: 3%; width: 15px; height: 15px; }
+
+.decor-flowers-offers .decor-flower:nth-child(1) { bottom: 4%; right: 3%; }
+.decor-flowers-offers .decor-flower:nth-child(2) { top: 4%; left: 45%; width: 15px; height: 15px; }
+
+@media (max-width: 720px) {
+  .decor-flower:nth-child(2) { display: none; }
+}
+
 /* ---------- Just In: one small "fresh arrival" accent -----------
    A tiny leaf that pulses once next to the heading when the section
    first enters view (not the badge/card animations, untouched). */
@@ -221,6 +272,9 @@
   pointer-events: none;
   z-index: -1;
 }
+.section-vine {
+  filter: drop-shadow(0 2px 4px rgba(20, 40, 20, 0.1));
+}
 .section-vine path {
   fill: none;
   stroke: currentColor;
@@ -251,6 +305,13 @@
   top: 2%;
   width: 76px;
   height: 76px;
+}
+.section-vine-offers {
+  left: 0.5%;
+  bottom: 0;
+  width: 70px;
+  height: 70px;
+  transform: scaleY(-1);
 }
 
 @media (max-width: 720px) {
@@ -336,7 +397,8 @@
 /* ---------- Reduced motion: hide ambient/floating leaves entirely,
    keep only static (or nothing) - never blocks real content. ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .decor-leaves {
+  .decor-leaves,
+  .decor-flowers {
     display: none;
   }
   .just-in-fresh-accent {

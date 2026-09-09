@@ -29,11 +29,16 @@ function ButterflyGlyph() {
 // Each entry: a distinct flight-path class (own bezier curve in
 // butterflies.css), duration, start delay and tone - so no two
 // butterflies move together, at the same speed, or in the same colour.
+// Tones are soft/muted pastels (never neon) so the extra colour still
+// reads as premium rather than cartoonish.
 const BUTTERFLIES = [
   { id: 1, pathClass: 'butterfly-path-1', duration: 27, delay: 0, tone: 'sage' },
-  { id: 2, pathClass: 'butterfly-path-2', duration: 34, delay: 9, tone: 'cream' },
+  { id: 2, pathClass: 'butterfly-path-2', duration: 34, delay: 9, tone: 'pink' },
   { id: 3, pathClass: 'butterfly-path-3', duration: 30, delay: 17, tone: 'moss' },
-  { id: 4, pathClass: 'butterfly-path-4', duration: 38, delay: 4, tone: 'sage' },
+  { id: 4, pathClass: 'butterfly-path-4', duration: 38, delay: 4, tone: 'yellow' },
+  { id: 5, pathClass: 'butterfly-path-5', duration: 31, delay: 22, tone: 'blue' },
+  { id: 6, pathClass: 'butterfly-path-6', duration: 36, delay: 12, tone: 'orange' },
+  { id: 7, pathClass: 'butterfly-path-7', duration: 29, delay: 27, tone: 'cream' },
 ];
 
 function Butterflies({ count = 3 }) {

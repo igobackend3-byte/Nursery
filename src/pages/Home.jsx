@@ -13,6 +13,7 @@ import { getJustInProducts } from '../utils/seededShuffle';
 import DecorativeLeaves from '../components/DecorativeLeaves';
 import SectionVine from '../components/SectionVine';
 import Butterflies from '../components/Butterflies';
+import DecorativeFlowers from '../components/DecorativeFlowers';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -161,6 +162,7 @@ function ShopByCategory() {
   return (
     <section ref={ref} className={`shop-by-category reveal-section${visible ? ' is-visible' : ''}`}>
       <DecorativeLeaves variant="category" count={3} />
+      <DecorativeFlowers variant="category" count={2} />
       <div className="section-heading">
         <div>
           <p className="eyebrow">{t('home.exploreEyebrow')}</p>
@@ -1280,7 +1282,7 @@ function StatsStrip() {
 function Home() {
   return (
     <>
-      <Butterflies count={3} />
+      <Butterflies count={5} />
       <Hero />
       <AboutIgo />
       <OffersSection />
