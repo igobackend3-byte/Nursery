@@ -245,7 +245,6 @@ function HomeCorners() {
       <HangingVine variant="corners" side="right" active={visible} />
       <DecorativeLeaves variant="category" count={4} />
       <DecorativeFlowers variant="category" count={3} />
-      <DecorativePetals variant="corners" count={3} />
 
       <div className="home-corners-heading">
         <span className="home-corners-leaf home-corners-leaf-left" aria-hidden="true"><SproutIcon /></span>
