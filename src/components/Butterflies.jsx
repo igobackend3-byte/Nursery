@@ -39,6 +39,7 @@ const BUTTERFLIES = [
   { id: 5, pathClass: 'butterfly-path-5', duration: 31, delay: 22, tone: 'blue' },
   { id: 6, pathClass: 'butterfly-path-6', duration: 36, delay: 12, tone: 'orange' },
   { id: 7, pathClass: 'butterfly-path-7', duration: 29, delay: 27, tone: 'cream' },
+  { id: 8, pathClass: 'butterfly-path-2', duration: 33, delay: 15, tone: 'purple' },
 ];
 
 function Butterflies({ count = 3 }) {

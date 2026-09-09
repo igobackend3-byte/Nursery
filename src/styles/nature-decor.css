@@ -309,6 +309,56 @@
   .hanging-vine { display: none; }
 }
 
+/* ---------- Sunlight glow + dust motes ----------
+   The subtlest piece of the whole system - a soft warm radial glow
+   behind the heading area and two near-invisible motes that drift
+   slowly upward. Opacity stays low enough (<=0.1) that this reads as
+   atmosphere, not a visible "effect" - purely CSS, no JS. */
+.decor-glow {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -2;
+}
+.decor-glow-sun {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  width: 420px;
+  height: 420px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 244, 200, 0.35) 0%, rgba(255, 244, 200, 0) 70%);
+  animation: sun-glow-pulse 9s ease-in-out infinite;
+}
+@keyframes sun-glow-pulse {
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.85; transform: translateX(-50%) scale(1.08); }
+}
+.decor-glow-dust {
+  position: absolute;
+  bottom: 8%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff8e0;
+  opacity: 0;
+  animation: dust-rise 14s ease-in-out infinite;
+}
+.decor-glow-dust:nth-child(2) { left: 20%; animation-delay: 0s; }
+.decor-glow-dust:nth-child(3) { left: 72%; width: 3px; height: 3px; animation-duration: 17s; animation-delay: 4s; }
+@keyframes dust-rise {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 0.35; }
+  85% { opacity: 0.2; }
+  100% { transform: translateY(-160px); opacity: 0; }
+}
+
+@media (max-width: 720px) {
+  .decor-glow-sun { width: 260px; height: 260px; }
+}
+
 /* ---------- Just In: one small "fresh arrival" accent -----------
    A tiny leaf that pulses once next to the heading when the section
    first enters view (not the badge/card animations, untouched). */
@@ -495,6 +545,7 @@
   .decor-leaves,
   .decor-flowers,
   .decor-petals,
+  .decor-glow,
   .hanging-vine {
     display: none;
   }

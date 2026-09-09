@@ -93,6 +93,7 @@
 .butterfly-tone-yellow .butterfly-wing path { fill: #f4dfa0; stroke: #e0c179; stroke-width: 0.5; opacity: 0.88; }
 .butterfly-tone-blue .butterfly-wing path { fill: #b9d3dd; stroke: #94b7c4; stroke-width: 0.5; opacity: 0.84; }
 .butterfly-tone-orange .butterfly-wing path { fill: #eab989; stroke: #d99c63; stroke-width: 0.5; opacity: 0.86; }
+.butterfly-tone-purple .butterfly-wing path { fill: #cbb3d8; stroke: #ad8dc0; stroke-width: 0.5; opacity: 0.85; }
 
 /* Wing flap: an independent transform from the flight path's own
    rotation, pivoting each wing at the edge where it meets the body
@@ -117,12 +118,14 @@
 /* ---------- Responsive: fewer, smaller, slower on small screens ---------- */
 @media (max-width: 1024px) {
   .butterfly:nth-child(4),
-  .butterfly:nth-child(5) { display: none; }
+  .butterfly:nth-child(5),
+  .butterfly:nth-child(6) { display: none; }
 }
 @media (max-width: 720px) {
   .butterfly:nth-child(3),
   .butterfly:nth-child(4),
-  .butterfly:nth-child(5) { display: none; }
+  .butterfly:nth-child(5),
+  .butterfly:nth-child(6) { display: none; }
   .butterfly {
     width: 24px;
     height: 18px;

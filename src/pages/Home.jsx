@@ -16,6 +16,7 @@ import Butterflies from '../components/Butterflies';
 import DecorativeFlowers from '../components/DecorativeFlowers';
 import DecorativePetals from '../components/DecorativePetals';
 import HangingVine from '../components/HangingVine';
+import DecorativeGlow from '../components/DecorativeGlow';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -240,6 +241,7 @@ function HomeCorners() {
   const [ref, visible] = useScrollReveal(0.1);
   return (
     <section ref={ref} className={`home-corners reveal-section${visible ? ' is-visible' : ''}`}>
+      <DecorativeGlow variant="corners" />
       <HangingVine variant="corners" side="left" active={visible} />
       <HangingVine variant="corners" side="right" active={visible} />
       <DecorativeLeaves variant="category" count={3} />
@@ -387,6 +389,7 @@ function JustIn() {
 
   return (
     <section ref={ref} className={`just-in reveal-section${visible ? ' is-visible' : ''}`}>
+      <DecorativeGlow variant="just-in" />
       <DecorativeLeaves variant="just-in" count={2} />
       <DecorativePetals variant="just-in" count={1} />
       <div className="section-heading">
@@ -1290,7 +1293,7 @@ function StatsStrip() {
 function Home() {
   return (
     <>
-      <Butterflies count={5} />
+      <Butterflies count={6} />
       <Hero />
       <AboutIgo />
       <OffersSection />
