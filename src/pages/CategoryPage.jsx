@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import { UMBRELLA_GROUPS } from '../data/products';
+import { UMBRELLA_GROUPS, CATEGORIES as LOCAL_CATEGORIES } from '../data/products';
 import { useCatalogue } from '../context/CatalogueContext';
 import CategoryFilters, { matchesFilters } from '../components/CategoryFilters';
 import { getFilterGroupsForCategory } from '../data/filterConfig';
@@ -110,7 +110,11 @@ function CategoryPage({ slugOverride }) {
     return getProductsByCategory(slug);
   }, [slug, isGiftPage, products]);
 
-  const meta = categories.find((c) => c.slug === slug);
+  // Prefer the live (Firestore) category doc; fall back to the built-in
+  // CATEGORIES list so code-defined umbrella categories (e.g. the grouped
+  // "shop by category" tiles) still get their label/tagline even before
+  // they're added to the categories collection.
+  const meta = categories.find((c) => c.slug === slug) || LOCAL_CATEGORIES.find((c) => c.slug === slug);
   const localizedLabel = getLocalizedCategoryLabel(meta, language);
   const localizedTagline = getLocalizedCategoryTagline(meta, language);
   const heading = isGiftPage
@@ -167,7 +171,16 @@ function CategoryPage({ slugOverride }) {
   const heroImage = PLANTS_SUBCATEGORY_HERO_IMAGES[slug] ?? SEEDS_SUBCATEGORY_HERO_IMAGES[slug];
 
   return (
-    <div className="category-page">
+    <div className="category-page category-page-enter">
+      <nav className="category-breadcrumb" aria-label="Breadcrumb">
+        <a href="/#shop-by-category">{t('home.shopByCategory')}</a>
+        <span className="category-breadcrumb-sep" aria-hidden="true">/</span>
+        <span className="category-breadcrumb-current">{heading}</span>
+        <a href="/#shop-by-category" className="category-breadcrumb-back">
+          <span aria-hidden="true">&larr;</span> {t('common.backToShopByCategory')}
+        </a>
+      </nav>
+
       <div
         className={`category-hero${heroImage ? ' category-hero-has-image' : ''}`}
         style={heroImage ? { backgroundImage: `url('${heroImage}')` } : undefined}

@@ -3373,6 +3373,59 @@ section {
   padding-bottom: 64px;
 }
 
+/* Gentle fade/rise when a category listing opens from Shop by Category. */
+.category-page-enter {
+  animation: category-page-in 0.32s ease both;
+}
+@keyframes category-page-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .category-page-enter { animation: none; }
+}
+
+/* Shop by Category -> Category breadcrumb + back link */
+.category-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 18px 48px 0;
+  font-size: 0.85rem;
+  color: #5a6b5a;
+}
+.category-breadcrumb a {
+  color: var(--color-primary-green, #1b4b36);
+  text-decoration: none;
+  font-weight: 600;
+}
+.category-breadcrumb a:hover { text-decoration: underline; }
+.category-breadcrumb-sep { color: #9aa89a; }
+.category-breadcrumb-current {
+  color: var(--color-text-dark, #22302a);
+  font-weight: 700;
+}
+.category-breadcrumb-back {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid rgba(27, 75, 54, 0.25);
+  border-radius: 999px;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.category-breadcrumb-back:hover {
+  background: var(--color-primary-green, #1b4b36);
+  border-color: var(--color-primary-green, #1b4b36);
+  color: #fff;
+}
+@media (max-width: 720px) {
+  .category-breadcrumb { padding: 14px 20px 0; }
+  .category-breadcrumb-back { margin-left: 0; }
+}
+
 .category-hero {
   padding: 48px 48px 32px;
 }

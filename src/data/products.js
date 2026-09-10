@@ -89,6 +89,18 @@ export const CATEGORIES = [
   { slug: 'coastal-plants', label: 'Coastal Plants', tagline: 'Built to handle salt air and wind', image: '/category-banners/outdoor plants banner image.png' },
   { slug: 'landscaping-trees', label: 'Landscaping Tree', tagline: 'Statement trees for large gardens', image: '/category-banners/outdoor plants banner image.png' },
   { slug: 'landscaping-plants', label: 'Landscaping Plant', tagline: 'Reliable colour for landscaped beds', image: '/category-banners/outdoor plants banner image.png' },
+
+  // ---- Grouped "shop by category" umbrellas (see UMBRELLA_GROUPS below).
+  // These are virtual categories: they own no products of their own, they
+  // aggregate the real sub-categories listed against them so one tile can
+  // open a focused product listing. ----
+  { slug: 'garden-landscaping-lighting', label: 'Garden & Landscaping Lighting', tagline: 'Path, spike, bollard and solar lights for gardens and landscapes', image: '/images/shop-by-category/smart-garden-tech.png' },
+  { slug: 'hand-tools-lawn-equipment', label: 'Hand Tools & Lawn Equipment', tagline: 'Trowels, pruners, forks, mowers and everything for hands-on gardening', image: '/images/shop-by-category/lawn-landscaping.png' },
+  { slug: 'fertilizer-crop-protection', label: 'Fertilizer, Biofertilizer & Crop Protection', tagline: 'Plant nutrition and protection, from organic to chemical', image: 'https://images.unsplash.com/photo-1502394202744-021cfbb17454?q=80&w=800&auto=format&fit=crop' },
+  { slug: 'cement-wooden-bonsai-planters', label: 'Cement, Wooden & Bonsai Planters', tagline: 'Heavy cement, warm wood and shallow bonsai trays', image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=800&auto=format&fit=crop' },
+  { slug: 'decor-fairy-garden', label: 'Décor & Fairy-Garden Ornaments', tagline: 'Ornaments, figurines and finishing touches for the garden', image: '/images/shop-by-category/garden-decor.png' },
+  { slug: 'plant-support-trellis-staking', label: 'Plant Support, Trellis & Staking', tagline: 'Stakes, ties, trellis and frames for plants that need a hand', image: '/images/shop-by-category/plant-support.png' },
+  { slug: 'self-watering-railing-planters', label: 'Self-Watering & Railing Planters', tagline: 'Low-maintenance planters, with their colour options', image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=800&auto=format&fit=crop' },
 ].map((cat) => {
   // Auto-attach real per-language label translations by slug (see
   // data/categoryTranslations.js) - same fallback pattern as makeProduct()
@@ -122,6 +134,20 @@ export const UMBRELLA_GROUPS = {
   seeds: ['seeds', ...SEED_SUBCATEGORY_SLUGS],
   'pots-planters': ['pots-planters', ...POT_SUBCATEGORY_SLUGS],
   'plant-care': ['plant-care', ...PLANT_CARE_SUBCATEGORY_SLUGS],
+
+  // Grouped "shop by category" tiles -> the real product categories each
+  // one should list. Data-driven: add a slug here + a CATEGORIES entry +
+  // a SHOP_CATEGORIES_V2 tile and the whole flow works, no UI changes.
+  'garden-landscaping-lighting': ['garden-lights', 'garden-landscaping-lighting'],
+  'hand-tools-lawn-equipment': ['gardening-tools', 'lawn-landscaping'],
+  'fertilizer-crop-protection': [
+    'organic-fertilizers', 'chemical-fertilizers', 'liquid-nutrients',
+    'biofertilizers', 'plant-protection', 'pest-control-devices', 'composting-products',
+  ],
+  'cement-wooden-bonsai-planters': ['cement-planters', 'wooden-planters', 'bonsai-pots-subcat'],
+  'decor-fairy-garden': ['garden-decor'],
+  'plant-support-trellis-staking': ['plant-support'],
+  'self-watering-railing-planters': ['self-watering-planters', 'railing-planters'],
 };
 
 const IMG = {

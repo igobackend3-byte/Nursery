@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import OffersSection from '../components/OffersSection';
@@ -295,6 +295,16 @@ function CatIconStones() {
   );
 }
 
+function CatIconBulb() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 18h6" />
+      <path d="M10 21h4" />
+      <path d="M12 3a6 6 0 0 0-4 10.5c.8.8 1.3 1.6 1.5 2.5h5c.2-.9.7-1.7 1.5-2.5A6 6 0 0 0 12 3Z" />
+    </svg>
+  );
+}
+
 // A single soft leaf used for the heading flourishes and the corner
 // botanical decoration - kept local to this section.
 function SbcLeaf({ className }) {
@@ -307,9 +317,10 @@ function SbcLeaf({ className }) {
   );
 }
 
-// Categories for this section, each pointing at a real existing
-// catalogue category (or the site's real /gifting route). No fabricated
-// categories/products/images. Twelve tiles -> 4 x 3 on desktop.
+// Categories for this section. Each entry is data-driven: `slug` resolves
+// to a real /category/<slug> listing (an UMBRELLA_GROUPS key aggregates
+// several real product categories into one focused listing) or the site's
+// /gifting route. No fabricated categories/products/images.
 const SHOP_CATEGORIES_V2 = [
   { label: 'Indoor Plants', slug: 'indoor-plants', to: '/category/indoor-plants', Icon: CatIconPottedPlant },
   { label: 'Outdoor Plants', slug: 'outdoor-plants', to: '/category/outdoor-plants', Icon: CatIconTree },
@@ -323,6 +334,17 @@ const SHOP_CATEGORIES_V2 = [
   { label: 'Garden Décor', slug: 'garden-decor', to: '/category/garden-decor', Icon: CatIconDecor },
   { label: 'Decorative Stones & Mulch', slug: 'decorative-stones-mulch', to: '/category/decorative-stones-mulch', Icon: CatIconStones },
   { label: 'Gifting', slug: 'gifting', to: '/gifting', Icon: CatIconGift },
+
+  // Grouped non-plant ranges (see UMBRELLA_GROUPS in data/products.js).
+  // `image` is set here so the tile art is guaranteed even before these
+  // umbrella categories exist in the live categories collection.
+  { label: 'Garden & Landscaping Lighting', slug: 'garden-landscaping-lighting', to: '/category/garden-landscaping-lighting', Icon: CatIconBulb, image: '/images/shop-by-category/smart-garden-tech.png' },
+  { label: 'Hand Tools & Lawn Equipment', slug: 'hand-tools-lawn-equipment', to: '/category/hand-tools-lawn-equipment', Icon: CatIconTools, image: '/images/shop-by-category/lawn-landscaping.png' },
+  { label: 'Fertilizer, Biofertilizer & Crop Protection', slug: 'fertilizer-crop-protection', to: '/category/fertilizer-crop-protection', Icon: CatIconCare, image: 'https://images.unsplash.com/photo-1502394202744-021cfbb17454?q=80&w=800&auto=format&fit=crop' },
+  { label: 'Cement, Wooden & Bonsai Planters', slug: 'cement-wooden-bonsai-planters', to: '/category/cement-wooden-bonsai-planters', Icon: CatIconPot, image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=800&auto=format&fit=crop' },
+  { label: 'Décor & Fairy-Garden Ornaments', slug: 'decor-fairy-garden', to: '/category/decor-fairy-garden', Icon: CatIconDecor, image: '/images/shop-by-category/garden-decor.png' },
+  { label: 'Plant Support, Trellis & Staking', slug: 'plant-support-trellis-staking', to: '/category/plant-support-trellis-staking', Icon: CatIconSupport, image: '/images/shop-by-category/plant-support.png' },
+  { label: 'Self-Watering & Railing Planters', slug: 'self-watering-railing-planters', to: '/category/self-watering-railing-planters', Icon: CatIconPot, image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=800&auto=format&fit=crop' },
 ];
 
 function ShopByCategory() {
@@ -335,7 +357,7 @@ function ShopByCategory() {
   const giftImage = getGiftProducts()[0]?.image;
 
   return (
-    <section ref={ref} className={`shop-by-category shop-by-category-v2 reveal-section${visible ? ' is-visible' : ''}`}>
+    <section id="shop-by-category" ref={ref} className={`shop-by-category shop-by-category-v2 reveal-section${visible ? ' is-visible' : ''}`}>
       {/* Botanical banner + hanging corner leaves + soft corner illustrations */}
       <div className="sbc-banner" aria-hidden="true" />
       <span className="sbc-hang sbc-hang-left" aria-hidden="true"><SbcLeaf /></span>
@@ -1482,6 +1504,16 @@ function StatsStrip() {
 }
 
 function Home() {
+  // Support deep-links back to a section, e.g. the category listing page's
+  // "Back to Shop by Category" link (/#shop-by-category). RRD doesn't
+  // scroll to hash targets on its own.
+  useEffect(() => {
+    const id = window.location.hash.replace('#', '');
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (el) requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  }, []);
+
   return (
     <>
       <Hero />

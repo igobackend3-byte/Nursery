@@ -96,14 +96,24 @@ const GENERIC_FILTERS = [
 ];
 
 const SEED_SLUGS = new Set(['seeds', ...SEED_SUBCATEGORY_SLUGS]);
-const POT_SLUGS = new Set(['pots-planters', ...POT_SUBCATEGORY_SLUGS]);
-const PLANT_CARE_SLUGS = new Set(['plant-care', ...PLANT_CARE_SUBCATEGORY_SLUGS, 'gardening-tools']);
+const POT_SLUGS = new Set([
+  'pots-planters', ...POT_SUBCATEGORY_SLUGS,
+  // grouped planter tiles reuse the material/size/shape/colour filter set
+  'cement-wooden-bonsai-planters', 'self-watering-railing-planters',
+]);
+const PLANT_CARE_SLUGS = new Set([
+  'plant-care', ...PLANT_CARE_SUBCATEGORY_SLUGS, 'gardening-tools',
+  // grouped tools / fertilizer tiles reuse the Plant Care filter set
+  'hand-tools-lawn-equipment', 'fertilizer-crop-protection',
+]);
 const DECOR_SLUGS = new Set([
   'garden-decor', 'grow-bags-containers', 'irrigation-watering', 'plant-support',
   'hydroponic-supplies', 'vertical-gardening', 'lawn-landscaping',
   'decorative-stones-mulch', 'shade-nets-covers', 'smart-garden-tech',
   'greenhouse-supplies', 'pest-control-devices', 'nursery-packaging-supplies',
   'indoor-plant-accessories',
+  // grouped décor / support / lighting tiles use the generic filter set
+  'decor-fairy-garden', 'plant-support-trellis-staking', 'garden-landscaping-lighting',
 ]);
 
 export function getFilterGroupsForCategory(slug) {
