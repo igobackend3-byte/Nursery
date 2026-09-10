@@ -291,11 +291,8 @@ function ShopByCategory() {
 
   return (
     <section ref={ref} className={`shop-by-category shop-by-category-v2 reveal-section${visible ? ' is-visible' : ''}`}>
-      <div className="section-heading">
-        <div>
-          <p className="eyebrow">{t('home.exploreEyebrow')}</p>
-          <h2>{t('home.shopByCategory')}</h2>
-        </div>
+      <div className="sbc-heading">
+        <h2>{t('home.shopByCategory')}</h2>
         <p className="section-sub">{t('home.shopByCategorySub')}</p>
       </div>
       <div className="category-grid">
@@ -305,8 +302,9 @@ function ShopByCategory() {
           const { Icon } = entry;
           return (
             <Link to={entry.to} key={entry.slug} className="cat-card">
-              <img src={image} alt="" className="cat-card-img" />
-              <span className="cat-card-overlay" aria-hidden="true" />
+              <span className="cat-card-media">
+                <img src={image} alt="" className="cat-card-img" />
+              </span>
               <span className="cat-card-icon" aria-hidden="true"><Icon /></span>
               <span className="cat-card-title">{entry.label}</span>
             </Link>
