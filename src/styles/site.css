@@ -110,11 +110,14 @@ section {
   color: var(--color-primary-green);
 }
 
+/* Open on hover (desktop) or on `.is-open` (tap, set by NavBar on touch
+   devices). Animated via opacity/transform - never `display` - so the
+   open/close is smooth. */
 .dropdown-menu {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(6px);
   background: white;
   border: 1px solid #eee;
   border-radius: 8px;
@@ -122,12 +125,19 @@ section {
   min-width: 200px;
   padding: 8px 0;
   z-index: 40;
-  display: none;
   text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
 }
 
-.nav-links li.has-dropdown:hover .dropdown-menu {
-  display: block;
+.nav-links li.has-dropdown:hover > .dropdown-menu,
+.nav-links li.has-dropdown.is-open > .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
 }
 
 .dropdown-menu li {
@@ -149,19 +159,37 @@ section {
 }
 
 /* Long subcategory lists (Plants, Seeds, Pots & Planters, Plant Care) fan
-   out into a grid instead of one very long vertical column. */
+   out into a grid instead of one very long vertical column. Left-aligned
+   to the parent by default; `.dropdown-menu-right` (used for the two
+   rightmost menus) anchors to the right edge so a wide menu never runs
+   off the viewport. */
 .dropdown-menu-mega {
+  display: grid;
   left: 0;
-  transform: none;
-  width: 640px;
-  max-width: min(90vw, 640px);
+  right: auto;
+  transform: translateX(0) translateY(6px);
+  width: 620px;
+  max-width: min(92vw, 620px);
   grid-template-columns: repeat(4, 1fr);
   column-gap: 4px;
   row-gap: 0;
 }
 
-.nav-links li.has-dropdown:hover .dropdown-menu.dropdown-menu-mega {
-  display: grid;
+.dropdown-menu-mega.dropdown-menu-right {
+  left: auto;
+  right: 0;
+}
+
+.nav-links li.has-dropdown:hover > .dropdown-menu-mega,
+.nav-links li.has-dropdown.is-open > .dropdown-menu-mega {
+  transform: translateX(0) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdown-menu,
+  .dropdown-menu-mega {
+    transition: none;
+  }
 }
 
 @media (max-width: 900px) {
@@ -173,8 +201,57 @@ section {
 
 @media (max-width: 600px) {
   .dropdown-menu-mega {
-    width: 320px;
+    width: 340px;
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile / touch: the nav wraps instead of horizontally scrolling, and an
+   opened dropdown flows inline below its category (full width, no
+   absolute positioning to be clipped) - toggled by tap via `.is-open`. */
+@media (max-width: 720px) {
+  .secondary-header {
+    overflow: visible;
+  }
+  .nav-links {
+    width: auto;
+    min-width: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .dropdown-menu,
+  .dropdown-menu-mega {
+    position: static;
+    left: auto;
+    right: auto;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: none;
+    border: none;
+    border-top: 1px solid #eee;
+    border-radius: 0;
+    margin-top: 6px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    display: none;
+  }
+  .dropdown-menu-mega {
+    grid-template-columns: 1fr 1fr;
+  }
+  .nav-links li.has-dropdown.is-open > .dropdown-menu,
+  .nav-links li.has-dropdown:hover > .dropdown-menu {
+    transform: none;
+  }
+  .nav-links li.has-dropdown.is-open > .dropdown-menu {
+    display: block;
+  }
+  .nav-links li.has-dropdown.is-open > .dropdown-menu-mega {
+    display: grid;
+  }
+  .nav-links li.has-dropdown:hover > .dropdown-menu {
+    display: none;
   }
 }
 
