@@ -258,13 +258,39 @@ function CatIconGift() {
   );
 }
 
-function CatIconSucculent() {
+function CatIconCare() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 21c-4 0-6-2.5-6-6 0-2.2 1.2-4 3-4.7C9.2 12 10.4 13 12 13c1.6 0 2.8-1 3-2.7 1.8.7 3 2.5 3 4.7 0 3.5-2 6-6 6Z" />
-      <path d="M12 13V8" />
-      <path d="M9 9.5C7 9 6 7 6.5 5 8.5 5 10 6.2 10 8" />
-      <path d="M15 9.5c2-.5 3-2.5 2.5-4.5-2 0-3.5 1.2-3.5 3" />
+      <path d="M12 3s7 3 7 9a7 7 0 0 1-14 0c0-6 7-9 7-9Z" />
+      <path d="M12 21v-8" />
+      <path d="M12 13c-2 0-3.5-1.5-3.5-3.5M12 12c2 0 3.5-1.5 3.5-3.5" />
+    </svg>
+  );
+}
+function CatIconTools() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14.5 3.5 20 9l-2.5 2.5L12 6z" />
+      <path d="m12 6-8 8v6h6l8-8" />
+      <path d="M4.5 12.5 8 16" />
+    </svg>
+  );
+}
+function CatIconSupport() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 21V4M16 21V6" />
+      <path d="M8 9c3 0 5-1.5 8-3M8 14c3 0 5-1.5 8-3" />
+      <path d="M5 21h14" />
+    </svg>
+  );
+}
+function CatIconStones() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <ellipse cx="8" cy="16" rx="5" ry="3.5" />
+      <ellipse cx="16.5" cy="17" rx="4" ry="2.8" />
+      <ellipse cx="13" cy="9.5" rx="4.5" ry="3.3" />
     </svg>
   );
 }
@@ -281,17 +307,21 @@ function SbcLeaf({ className }) {
   );
 }
 
-// The eight categories for this section, each pointing at a real
-// existing catalogue category (or the site's real /gifting route).
-// No fabricated categories/products/images.
+// Categories for this section, each pointing at a real existing
+// catalogue category (or the site's real /gifting route). No fabricated
+// categories/products/images. Twelve tiles -> 4 x 3 on desktop.
 const SHOP_CATEGORIES_V2 = [
   { label: 'Indoor Plants', slug: 'indoor-plants', to: '/category/indoor-plants', Icon: CatIconPottedPlant },
   { label: 'Outdoor Plants', slug: 'outdoor-plants', to: '/category/outdoor-plants', Icon: CatIconTree },
-  { label: 'Fruit Plants', slug: 'fruit-plants', to: '/category/fruit-plants', Icon: CatIconFruit },
-  { label: 'Succulents & Cactus', slug: 'succulents', to: '/category/succulents', Icon: CatIconSucculent },
   { label: 'Seeds', slug: 'seeds', to: '/category/seeds', Icon: CatIconSeed },
   { label: 'Pots & Planters', slug: 'pots-planters', to: '/category/pots-planters', Icon: CatIconPot },
-  { label: 'Plant Care', slug: 'plant-care', to: '/category/plant-care', Icon: CatIconWateringCan },
+  { label: 'Plant Care', slug: 'plant-care', to: '/category/plant-care', Icon: CatIconCare },
+  { label: 'Garden Tools', slug: 'gardening-tools', to: '/category/gardening-tools', Icon: CatIconTools },
+  { label: 'Plant Support', slug: 'plant-support', to: '/category/plant-support', Icon: CatIconSupport },
+  { label: 'Irrigation & Watering', slug: 'irrigation-watering', to: '/category/irrigation-watering', Icon: CatIconWateringCan },
+  { label: 'Lawn & Landscaping', slug: 'lawn-landscaping', to: '/category/lawn-landscaping', Icon: CatIconLandscape },
+  { label: 'Garden Décor', slug: 'garden-decor', to: '/category/garden-decor', Icon: CatIconDecor },
+  { label: 'Decorative Stones & Mulch', slug: 'decorative-stones-mulch', to: '/category/decorative-stones-mulch', Icon: CatIconStones },
   { label: 'Gifting', slug: 'gifting', to: '/gifting', Icon: CatIconGift },
 ];
 
