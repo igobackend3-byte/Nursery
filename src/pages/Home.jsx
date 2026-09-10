@@ -258,25 +258,40 @@ function CatIconGift() {
   );
 }
 
-// The 12 categories requested for this section, each pointing at a real
-// existing catalogue category (or the site's real /gifting route) - no
-// fabricated categories/products/images. Where the exact plant-type
-// doesn't have its own dedicated category yet (Flowering Plants,
-// Vegetable Plants), the tile links to the closest real, working page
-// (flower-seeds/vegetable-seeds are literally how a customer buys into
-// growing those) rather than a dead link.
+function CatIconSucculent() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 21c-4 0-6-2.5-6-6 0-2.2 1.2-4 3-4.7C9.2 12 10.4 13 12 13c1.6 0 2.8-1 3-2.7 1.8.7 3 2.5 3 4.7 0 3.5-2 6-6 6Z" />
+      <path d="M12 13V8" />
+      <path d="M9 9.5C7 9 6 7 6.5 5 8.5 5 10 6.2 10 8" />
+      <path d="M15 9.5c2-.5 3-2.5 2.5-4.5-2 0-3.5 1.2-3.5 3" />
+    </svg>
+  );
+}
+
+// A single soft leaf used for the heading flourishes and the corner
+// botanical decoration - kept local to this section.
+function SbcLeaf({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <path d="M40 6c0 18-10 30-26 32C12 22 22 10 40 6Z" fill="currentColor" opacity="0.9" />
+      <path d="M40 6C28 14 20 24 14 38" stroke="#fff" strokeOpacity="0.55" strokeWidth="2" strokeLinecap="round" />
+      <path d="M31 12c-6 2-10 6-13 12M35 20c-5 1-9 4-12 9" stroke="#fff" strokeOpacity="0.35" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// The eight categories for this section, each pointing at a real
+// existing catalogue category (or the site's real /gifting route).
+// No fabricated categories/products/images.
 const SHOP_CATEGORIES_V2 = [
   { label: 'Indoor Plants', slug: 'indoor-plants', to: '/category/indoor-plants', Icon: CatIconPottedPlant },
   { label: 'Outdoor Plants', slug: 'outdoor-plants', to: '/category/outdoor-plants', Icon: CatIconTree },
-  { label: 'Flowering Plants', slug: 'flower-seeds', to: '/category/flower-seeds', Icon: CatIconFlower },
   { label: 'Fruit Plants', slug: 'fruit-plants', to: '/category/fruit-plants', Icon: CatIconFruit },
-  { label: 'Vegetable Plants', slug: 'vegetable-seeds', to: '/category/vegetable-seeds', Icon: CatIconVegetable },
+  { label: 'Succulents & Cactus', slug: 'succulents', to: '/category/succulents', Icon: CatIconSucculent },
   { label: 'Seeds', slug: 'seeds', to: '/category/seeds', Icon: CatIconSeed },
   { label: 'Pots & Planters', slug: 'pots-planters', to: '/category/pots-planters', Icon: CatIconPot },
   { label: 'Plant Care', slug: 'plant-care', to: '/category/plant-care', Icon: CatIconWateringCan },
-  { label: 'Landscaping', slug: 'landscaping-plants', to: '/category/landscaping-plants', Icon: CatIconLandscape },
-  { label: 'Garden Accessories', slug: 'garden-decor', to: '/category/garden-decor', Icon: CatIconDecor },
-  { label: 'Nursery Packaging & Operations Supplies', slug: 'nursery-packaging-supplies', to: '/category/nursery-packaging-supplies', Icon: CatIconBox, image: '/images/shop-by-category/nursery-packaging-supplies.png' },
   { label: 'Gifting', slug: 'gifting', to: '/gifting', Icon: CatIconGift },
 ];
 
@@ -291,10 +306,22 @@ function ShopByCategory() {
 
   return (
     <section ref={ref} className={`shop-by-category shop-by-category-v2 reveal-section${visible ? ' is-visible' : ''}`}>
+      {/* Botanical banner + hanging corner leaves + soft corner illustrations */}
+      <div className="sbc-banner" aria-hidden="true" />
+      <span className="sbc-hang sbc-hang-left" aria-hidden="true"><SbcLeaf /></span>
+      <span className="sbc-hang sbc-hang-right" aria-hidden="true"><SbcLeaf /></span>
+      <span className="sbc-corner sbc-corner-tl" aria-hidden="true"><SbcLeaf /></span>
+      <span className="sbc-corner sbc-corner-br" aria-hidden="true"><SbcLeaf /></span>
+
       <div className="sbc-heading">
-        <h2>{t('home.shopByCategory')}</h2>
+        <h2>
+          <SbcLeaf className="sbc-heading-leaf sbc-heading-leaf-left" />
+          {t('home.shopByCategory')}
+          <SbcLeaf className="sbc-heading-leaf sbc-heading-leaf-right" />
+        </h2>
         <p className="section-sub">{t('home.shopByCategorySub')}</p>
       </div>
+
       <div className="category-grid">
         {SHOP_CATEGORIES_V2.map((entry) => {
           const cat = categories.find((c) => c.slug === entry.slug);
@@ -304,9 +331,13 @@ function ShopByCategory() {
             <Link to={entry.to} key={entry.slug} className="cat-card">
               <span className="cat-card-media">
                 <img src={image} alt="" className="cat-card-img" />
+                <span className="cat-card-scrim" aria-hidden="true" />
+                <span className="cat-card-content">
+                  <span className="cat-card-icon" aria-hidden="true"><Icon /></span>
+                  <span className="cat-card-title">{entry.label}</span>
+                  <span className="cat-card-explore">{t('home.explore')}</span>
+                </span>
               </span>
-              <span className="cat-card-icon" aria-hidden="true"><Icon /></span>
-              <span className="cat-card-title">{entry.label}</span>
             </Link>
           );
         })}
