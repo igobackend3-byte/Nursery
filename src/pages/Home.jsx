@@ -281,41 +281,6 @@ const SHOP_CATEGORIES_V2 = [
   { label: 'Gifting', slug: 'gifting', to: '/gifting', Icon: CatIconGift },
 ];
 
-// A wide decorative botanical band across the top of the section - built
-// from the same simple stroke-leaf language as the rest of the site's
-// icons (not a stock/generated photo standing in for real foliage, and
-// not the section's own DecorativeLeaves/Flowers system, which stays put
-// underneath). Layered leaf silhouettes drift extremely slowly and
-// continuously - the only "parallax" cue this band needs.
-function BotanicalStripLeaf() {
-  return (
-    <svg viewBox="0 0 40 24" fill="currentColor">
-      <path d="M2 20C10 6 26 2 38 4 34 14 20 22 2 20Z" />
-    </svg>
-  );
-}
-function BotanicalStrip() {
-  // Each row renders the same short sequence twice back-to-back, so an
-  // infinite `translateX(-50%)` loop (in animations.css/site.css) wraps
-  // seamlessly with no visible jump or gap.
-  const backLeaves = Array.from({ length: 14 }, (_, i) => i);
-  const frontLeaves = Array.from({ length: 12 }, (_, i) => i);
-  return (
-    <div className="cat-botanical-strip" aria-hidden="true">
-      <div className="cat-botanical-row cat-botanical-row-back">
-        {backLeaves.map((i) => (
-          <span className="cat-botanical-leaf cat-botanical-leaf-back" key={i}><BotanicalStripLeaf /></span>
-        ))}
-      </div>
-      <div className="cat-botanical-row cat-botanical-row-front">
-        {frontLeaves.map((i) => (
-          <span className="cat-botanical-leaf cat-botanical-leaf-front" key={i}><BotanicalStripLeaf /></span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function ShopByCategory() {
   const { categories, getGiftProducts } = useCatalogue();
   const { t } = useLanguage();
@@ -327,7 +292,6 @@ function ShopByCategory() {
 
   return (
     <section ref={ref} className={`shop-by-category shop-by-category-v2 reveal-section${visible ? ' is-visible' : ''}`}>
-      <BotanicalStrip />
       <div className="section-heading">
         <div>
           <p className="eyebrow">{t('home.exploreEyebrow')}</p>
