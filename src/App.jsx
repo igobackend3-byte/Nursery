@@ -35,6 +35,7 @@ import './styles/site.css';
 import './styles/animations.css';
 import './styles/nature-decor.css';
 import './styles/bundle-butterfly.css';
+import './styles/offers-section.css';
 
 function App() {
   return (

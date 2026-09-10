@@ -1,0 +1,393 @@
+/* ============================================================
+   "Offers For You" - premium botanical redesign.
+
+   Scoped entirely to .offers-section-v2 so nothing else on the site
+   is affected. Imported after site.css, so these rules win on ties.
+   ============================================================ */
+
+.offers-section-v2 {
+  position: relative;
+  overflow: hidden;
+  max-width: 1360px;
+  margin: 40px auto;
+  padding: 60px clamp(20px, 5vw, 56px) 68px;
+  border-radius: 32px;
+  background:
+    radial-gradient(120% 90% at 12% 0%, rgba(255, 255, 255, 0.55), transparent 55%),
+    radial-gradient(120% 90% at 88% 100%, rgba(167, 248, 34, 0.10), transparent 55%),
+    linear-gradient(170deg, #f4faef 0%, #eef6e6 45%, #f6f1e6 100%);
+  box-shadow:
+    0 30px 70px -30px rgba(27, 75, 54, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  /* Soft fade-in when the section scrolls into view. */
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.offers-section-v2.is-inview {
+  opacity: 1;
+  transform: none;
+}
+
+/* Real content sits above the decorative backdrop. */
+.offers-section-v2 .offers-heading,
+.offers-section-v2 .offers-grid {
+  position: relative;
+  z-index: 2;
+}
+
+/* ---------- Decorative backdrop ---------- */
+.offers-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 32px;
+}
+
+/* soft blurred garden bokeh */
+.offers-bokeh {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(46px);
+  will-change: transform;
+}
+.offers-bokeh-1 {
+  width: 260px; height: 260px;
+  top: -70px; left: -40px;
+  background: rgba(120, 190, 120, 0.35);
+  animation: offers-bokeh-drift 22s ease-in-out infinite;
+}
+.offers-bokeh-2 {
+  width: 320px; height: 320px;
+  bottom: -110px; right: -60px;
+  background: rgba(233, 197, 214, 0.30);
+  animation: offers-bokeh-drift 28s ease-in-out infinite reverse;
+}
+.offers-bokeh-3 {
+  width: 220px; height: 220px;
+  top: 40%; left: 45%;
+  background: rgba(200, 230, 245, 0.25);
+  animation: offers-bokeh-drift 25s ease-in-out infinite 3s;
+}
+@keyframes offers-bokeh-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(24px, -18px) scale(1.08); }
+}
+
+/* lush leaves hanging from the top corners */
+.offers-hang {
+  position: absolute;
+  top: -8px;
+  width: 132px;
+  height: 200px;
+  color: #4f8f57;
+  opacity: 0.9;
+  transform-origin: top center;
+  filter: drop-shadow(0 8px 12px rgba(20, 50, 25, 0.16));
+}
+.offers-hang svg { width: 100%; height: 100%; }
+.offers-hang-left {
+  left: -14px;
+  transform: rotate(18deg);
+  animation: offers-hang-sway-l 7s ease-in-out infinite;
+}
+.offers-hang-right {
+  right: -14px;
+  transform: rotate(-18deg) scaleX(-1);
+  animation: offers-hang-sway-r 8s ease-in-out infinite;
+}
+@keyframes offers-hang-sway-l {
+  0%, 100% { transform: rotate(16deg); }
+  50% { transform: rotate(21deg); }
+}
+@keyframes offers-hang-sway-r {
+  0%, 100% { transform: rotate(-16deg) scaleX(-1); }
+  50% { transform: rotate(-21deg) scaleX(-1); }
+}
+
+/* small flowers scattered around the border */
+.offers-flower {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  color: #eab6c8;
+  opacity: 0.85;
+  filter: drop-shadow(0 2px 3px rgba(20, 40, 20, 0.12));
+  animation: offers-flower-breathe 9s ease-in-out infinite;
+}
+.offers-flower .offers-flower-center { fill: #f6d98a; }
+.offers-flower-1 { top: 16%; left: 2.5%; color: #f0c1d1; }
+.offers-flower-2 { bottom: 12%; left: 4%; width: 20px; height: 20px; color: #cfe3b6; animation-delay: 1.4s; }
+.offers-flower-3 { top: 8%; right: 4%; width: 22px; height: 22px; color: #f4dfa0; animation-delay: 2.1s; }
+.offers-flower-4 { bottom: 8%; right: 3%; color: #d9c2e8; animation-delay: 0.7s; }
+.offers-flower-5 { bottom: 4%; left: 48%; width: 18px; height: 18px; color: #b9d3dd; animation-delay: 3s; }
+@keyframes offers-flower-breathe {
+  0%, 100% { transform: scale(0.94) rotate(-3deg); opacity: 0.7; }
+  50% { transform: scale(1.06) rotate(3deg); opacity: 0.92; }
+}
+
+/* a few slowly drifting leaves */
+.offers-float-leaf {
+  position: absolute;
+  width: 30px;
+  height: 18px;
+  color: #7fae6b;
+  opacity: 0.5;
+  filter: drop-shadow(0 2px 3px rgba(20, 40, 20, 0.12));
+}
+.offers-float-leaf svg { width: 100%; height: 100%; }
+.offers-float-leaf-1 { top: 22%; left: 24%; animation: offers-leaf-drift 20s ease-in-out infinite; }
+.offers-float-leaf-2 { top: 62%; left: 8%; width: 22px; height: 14px; animation: offers-leaf-drift 26s ease-in-out infinite 4s; }
+.offers-float-leaf-3 { top: 34%; right: 20%; width: 24px; height: 15px; animation: offers-leaf-drift 23s ease-in-out infinite 2s; }
+@keyframes offers-leaf-drift {
+  0% { transform: translate(0, 0) rotate(-6deg); opacity: 0; }
+  10% { opacity: 0.5; }
+  50% { transform: translate(40px, -26px) rotate(12deg); opacity: 0.42; }
+  90% { opacity: 0; }
+  100% { transform: translate(70px, -46px) rotate(20deg); opacity: 0; }
+}
+
+/* soft pink petals falling */
+.offers-petal {
+  position: absolute;
+  top: -18px;
+  width: 11px;
+  height: 14px;
+  border-radius: 60% 60% 62% 62% / 78% 78% 40% 40%;
+  background: #eeb8c8;
+  opacity: 0;
+}
+.offers-petal-1 { left: 30%; animation: offers-petal-fall 17s ease-in infinite; }
+.offers-petal-2 { left: 62%; animation: offers-petal-fall 21s ease-in infinite 6s; }
+.offers-petal-3 { left: 80%; width: 9px; height: 12px; animation: offers-petal-fall 19s ease-in infinite 11s; }
+@keyframes offers-petal-fall {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.6; }
+  50% { transform: translate(18px, 190px) rotate(150deg); opacity: 0.5; }
+  90% { opacity: 0; }
+  100% { transform: translate(30px, 340px) rotate(240deg); opacity: 0; }
+}
+
+/* two butterflies flying along gentle curves, kept inside the section */
+.offers-fly {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 22px;
+  offset-rotate: auto;
+  will-change: offset-distance;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.15));
+}
+.offers-fly-svg { width: 100%; height: 100%; overflow: visible; }
+.offers-fly-body { fill: #4a3b2a; opacity: 0.8; }
+.offers-fly-1 {
+  offset-path: path('M -40 60 C 200 -10, 500 140, 780 40 S 1200 -10, 1440 90');
+  animation: offers-fly-move 26s linear infinite;
+}
+.offers-fly-1 .offers-fly-wing path { fill: #e8965a; stroke: #b96f37; stroke-width: 0.5; }
+.offers-fly-2 {
+  offset-path: path('M 1440 200 C 1100 260, 800 120, 520 220 S 120 300, -60 170');
+  animation: offers-fly-move 32s linear infinite 8s;
+}
+.offers-fly-2 .offers-fly-wing path { fill: #b9d3dd; stroke: #94b7c4; stroke-width: 0.5; }
+@keyframes offers-fly-move {
+  0% { offset-distance: 0%; opacity: 0; }
+  6% { opacity: 0.9; }
+  92% { opacity: 0.9; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+.offers-fly-wing {
+  transform-box: fill-box;
+  animation: offers-fly-flap 0.3s ease-in-out infinite alternate;
+}
+.offers-fly-wing-l { transform-origin: 100% 50%; }
+.offers-fly-wing-r { transform-origin: 0% 50%; }
+@keyframes offers-fly-flap {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0.35); }
+}
+
+/* ---------- Header ---------- */
+.offers-section-v2 .offers-heading {
+  margin-bottom: 8px;
+}
+.offers-section-v2 .offers-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.6vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--color-primary-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+}
+.offers-section-v2 .offers-icon {
+  width: 30px;
+  height: 44px;
+  color: #5c9a63;
+  flex-shrink: 0;
+  animation: offers-icon-sway 6s ease-in-out infinite;
+}
+.offers-section-v2 .offers-icon svg { width: 100%; height: 100%; }
+.offers-section-v2 .offers-icon-left { transform-origin: bottom right; }
+.offers-section-v2 .offers-icon-right { transform: scaleX(-1); transform-origin: bottom left; animation-delay: 1s; }
+@keyframes offers-icon-sway {
+  0%, 100% { rotate: -4deg; }
+  50% { rotate: 4deg; }
+}
+.offers-section-v2 .section-sub {
+  font-size: 0.95rem;
+  color: #6f8070;
+  letter-spacing: 0.2px;
+}
+.offers-section-v2 .divider {
+  margin-top: 14px;
+  color: #6ba873;
+  justify-content: center;
+}
+.offers-section-v2 .divider span {
+  width: 54px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #9dc4a4, transparent);
+}
+.offers-section-v2 .divider svg { width: 22px; height: 14px; }
+
+/* ---------- Cards ---------- */
+.offers-section-v2 .offers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  padding: 34px 0 0;
+}
+
+.offers-section-v2 .offer-card {
+  position: relative;
+  border-radius: 22px;
+  padding: 20px 20px 0;
+  min-height: 320px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 12px 34px -12px rgba(27, 75, 54, 0.22);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: offers-card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+.offers-section-v2 .offer-card:nth-child(1) { background: linear-gradient(160deg, #e7f5ec, #d3ecdb); animation-delay: 0.05s; }
+.offers-section-v2 .offer-card:nth-child(2) { background: linear-gradient(160deg, #faf4e4, #f2e7cf); animation-delay: 0.15s; }
+.offers-section-v2 .offer-card:nth-child(3) { background: linear-gradient(160deg, #fbeaf1, #f4d8e3); animation-delay: 0.25s; }
+.offers-section-v2 .offer-card:nth-child(4) { background: linear-gradient(160deg, #e9f1f9, #d6e6f2); animation-delay: 0.35s; }
+
+@keyframes offers-card-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.offers-section-v2 .offer-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 26px 48px -16px rgba(27, 75, 54, 0.32);
+}
+
+.offers-section-v2 .offer-copy h3 {
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--color-primary-green);
+  margin-bottom: 4px;
+}
+.offers-section-v2 .offer-copy p {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #7c8a7d;
+}
+
+.offers-section-v2 .offer-badge {
+  width: 74px;
+  height: 74px;
+  background: linear-gradient(140deg, var(--color-primary-green), #1c5a3c);
+  border: 2px dashed rgba(255, 255, 255, 0.6);
+  box-shadow: 0 6px 16px rgba(20, 50, 30, 0.28);
+  font-size: 0.5rem;
+  letter-spacing: 0.3px;
+}
+.offers-section-v2 .offer-card:hover .offer-badge {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+.offers-section-v2 .offer-card-media {
+  border-radius: 0 0 22px 22px;
+}
+.offers-section-v2 .offer-card:hover .offer-card-media img {
+  transform: scale(1.07);
+}
+
+.offers-section-v2 .btn-shop-now {
+  bottom: 16px;
+  padding: 9px 20px;
+  font-size: 0.72rem;
+  letter-spacing: 0.4px;
+  background: linear-gradient(135deg, var(--color-primary-green), #24693f);
+  box-shadow: 0 8px 18px -4px rgba(20, 50, 30, 0.4);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, filter 0.25s ease;
+}
+.offers-section-v2 .offer-card:hover .btn-shop-now {
+  transform: translateX(-50%) translateY(-3px);
+  filter: brightness(1.12);
+  box-shadow: 0 14px 26px -6px rgba(20, 50, 30, 0.5);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .offers-section-v2 .offers-grid { grid-template-columns: repeat(2, 1fr); }
+  .offers-hang { width: 108px; height: 160px; }
+}
+@media (max-width: 720px) {
+  .offers-section-v2 {
+    margin: 24px 12px;
+    padding: 44px 16px 52px;
+    border-radius: 24px;
+  }
+  .offers-section-v2 .offers-grid { grid-template-columns: 1fr; }
+  .offers-section-v2 .offers-title { gap: 12px; }
+  .offers-section-v2 .offers-icon { width: 22px; height: 32px; }
+  .offers-hang { width: 84px; height: 120px; }
+  .offers-fly-2,
+  .offers-float-leaf-3,
+  .offers-petal-3,
+  .offers-flower-5 { display: none; }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .offers-section-v2 {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .offers-section-v2 .offer-card {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .offers-bokeh,
+  .offers-hang,
+  .offers-hang-left,
+  .offers-hang-right,
+  .offers-flower,
+  .offers-float-leaf,
+  .offers-petal,
+  .offers-fly,
+  .offers-fly-wing,
+  .offers-section-v2 .offers-icon {
+    animation: none !important;
+  }
+  .offers-petal,
+  .offers-fly { display: none; }
+}
