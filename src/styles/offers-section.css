@@ -170,46 +170,6 @@
   100% { transform: translate(30px, 340px) rotate(240deg); opacity: 0; }
 }
 
-/* two butterflies flying along gentle curves, kept inside the section */
-.offers-fly {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 30px;
-  height: 22px;
-  offset-rotate: auto;
-  will-change: offset-distance;
-  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.15));
-}
-.offers-fly-svg { width: 100%; height: 100%; overflow: visible; }
-.offers-fly-body { fill: #4a3b2a; opacity: 0.8; }
-.offers-fly-1 {
-  offset-path: path('M -40 60 C 200 -10, 500 140, 780 40 S 1200 -10, 1440 90');
-  animation: offers-fly-move 26s linear infinite;
-}
-.offers-fly-1 .offers-fly-wing path { fill: #e8965a; stroke: #b96f37; stroke-width: 0.5; }
-.offers-fly-2 {
-  offset-path: path('M 1440 200 C 1100 260, 800 120, 520 220 S 120 300, -60 170');
-  animation: offers-fly-move 32s linear infinite 8s;
-}
-.offers-fly-2 .offers-fly-wing path { fill: #b9d3dd; stroke: #94b7c4; stroke-width: 0.5; }
-@keyframes offers-fly-move {
-  0% { offset-distance: 0%; opacity: 0; }
-  6% { opacity: 0.9; }
-  92% { opacity: 0.9; }
-  100% { offset-distance: 100%; opacity: 0; }
-}
-.offers-fly-wing {
-  transform-box: fill-box;
-  animation: offers-fly-flap 0.3s ease-in-out infinite alternate;
-}
-.offers-fly-wing-l { transform-origin: 100% 50%; }
-.offers-fly-wing-r { transform-origin: 0% 50%; }
-@keyframes offers-fly-flap {
-  from { transform: scaleX(1); }
-  to { transform: scaleX(0.35); }
-}
-
 /* ---------- Header ---------- */
 .offers-section-v2 .offers-heading {
   margin-bottom: 8px;
@@ -361,7 +321,6 @@
   .offers-section-v2 .offers-title { gap: 12px; }
   .offers-section-v2 .offers-icon { width: 22px; height: 32px; }
   .offers-hang { width: 84px; height: 120px; }
-  .offers-fly-2,
   .offers-float-leaf-3,
   .offers-petal-3,
   .offers-flower-5 { display: none; }
@@ -386,11 +345,8 @@
   .offers-flower,
   .offers-float-leaf,
   .offers-petal,
-  .offers-fly,
-  .offers-fly-wing,
   .offers-section-v2 .offers-icon {
     animation: none !important;
   }
-  .offers-petal,
-  .offers-fly { display: none; }
+  .offers-petal { display: none; }
 }

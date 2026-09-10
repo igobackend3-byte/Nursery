@@ -41,24 +41,9 @@ function SingleLeaf() {
   );
 }
 
-function OffersButterfly() {
-  return (
-    <svg viewBox="0 0 40 30" className="offers-fly-svg" aria-hidden="true">
-      <g className="offers-fly-wing offers-fly-wing-l">
-        <path d="M19 15 C 8 2, -2 4, 2 14 C -1 22, 10 26, 19 17 Z" />
-      </g>
-      <g className="offers-fly-wing offers-fly-wing-r">
-        <path d="M21 15 C 32 2, 42 4, 38 14 C 41 22, 30 26, 21 17 Z" />
-      </g>
-      <ellipse cx="20" cy="15" rx="1.3" ry="8" className="offers-fly-body" />
-    </svg>
-  );
-}
-
 // Purely decorative background for the section - hanging corner leaves,
-// border flowers, soft bokeh, a few drifting leaves + petals and two
-// contained butterflies. aria-hidden, pointer-events:none, sits behind
-// the heading and cards.
+// border flowers, soft bokeh, a few drifting leaves + petals.
+// aria-hidden, pointer-events:none, sits behind the heading and cards.
 function OffersBackdrop() {
   return (
     <div className="offers-bg" aria-hidden="true">
@@ -82,9 +67,6 @@ function OffersBackdrop() {
       <span className="offers-petal offers-petal-1" />
       <span className="offers-petal offers-petal-2" />
       <span className="offers-petal offers-petal-3" />
-
-      <span className="offers-fly offers-fly-1"><OffersButterfly /></span>
-      <span className="offers-fly offers-fly-2"><OffersButterfly /></span>
     </div>
   );
 }
