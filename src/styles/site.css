@@ -741,7 +741,7 @@ section {
   z-index: 2;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 44px 32px;
+  gap: 56px 48px;
   padding: 0 48px;
   justify-items: center;
 }
@@ -749,7 +749,7 @@ section {
 .cat-card {
   display: block;
   width: 100%;
-  max-width: 250px;
+  max-width: 190px;
   text-decoration: none;
 }
 
@@ -798,8 +798,8 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 0 18px 16%;
+  gap: 7px;
+  padding: 0 14px 13%;
   text-align: center;
   color: #ffffff;
 }
@@ -6390,7 +6390,7 @@ section {
 
   .category-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 32px 20px;
+    gap: 40px 26px;
   }
 
   .category-layout .product-grid {
