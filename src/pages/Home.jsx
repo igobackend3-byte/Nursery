@@ -656,28 +656,28 @@ const JOURNEY_STEPS = [
     number: '01',
     title: 'Grown at IGO Nursery',
     desc: 'Every plant starts right here, raised in our own nursery beds and given the time it needs to grow strong.',
-    image: 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=600&auto=format&fit=crop',
+    image: '/images/journey/grown-at-nursery.png',
     Icon: SproutIcon,
   },
   {
     number: '02',
     title: 'Quality Checked',
     desc: 'Before it goes anywhere, each plant is inspected for health, pests and structure — only the best move forward.',
-    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=600&auto=format&fit=crop',
+    image: '/images/journey/quality-checked.png',
     Icon: QualityCheckIcon,
   },
   {
     number: '03',
     title: 'Carefully Prepared',
     desc: 'We pot, wrap and pack every plant by hand so it travels safely from our nursery to your doorstep.',
-    image: 'https://images.unsplash.com/photo-1466781783364-36c955e42a7f?q=80&w=600&auto=format&fit=crop',
+    image: '/images/journey/carefully-prepared.png',
     Icon: PreparedIcon,
   },
   {
     number: '04',
     title: 'Ready for Your Home',
     desc: 'Your plant arrives healthy and settled in, ready to find its spot and start thriving in its new home.',
-    image: 'https://images.unsplash.com/photo-1521334884684-d80222895322?q=80&w=600&auto=format&fit=crop',
+    image: '/images/journey/ready-for-your-home.png',
     Icon: HomeReadyIcon,
   },
 ];
@@ -694,7 +694,7 @@ function JourneyStep({ step, index }) {
       style={{ transitionDelay: `${index * 130}ms` }}
     >
       <div className="journey-step-media">
-        <img src={step.image} alt={tr?.title ?? step.title} loading="lazy" />
+        <img src={step.image} alt={tr?.title ?? step.title} />
         <span className="journey-step-icon"><Icon /></span>
       </div>
       <div className="journey-step-body">
