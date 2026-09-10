@@ -155,12 +155,12 @@ const home = {
 };
 
 const offers = {
-  en: { offersForYou: 'Offers For You', offersSub: 'Amazing deals to make your garden beautiful', buyAny: 'BUY ANY', shopNow: 'SHOP NOW →', buildBundle: 'BUILD YOUR OWN BUNDLE' },
-  ta: { offersForYou: 'உங்களுக்கான சலுகைகள்', offersSub: 'உங்கள் தோட்டத்தை அழகாக்க அற்புதமான ஒப்பந்தங்கள்', buyAny: 'எதேனும் வாங்குங்கள்', shopNow: 'இப்போது வாங்குங்கள் →', buildBundle: 'உங்கள் சொந்த தொகுப்பை உருவாக்குங்கள்' },
-  hi: { offersForYou: 'आपके लिए ऑफ़र', offersSub: 'आपके बगीचे को खूबसूरत बनाने के शानदार सौदे', buyAny: 'कोई भी खरीदें', shopNow: 'अभी खरीदें →', buildBundle: 'अपना बंडल बनाएं' },
-  ml: { offersForYou: 'നിങ്ങൾക്കുള്ള ഓഫറുകൾ', offersSub: 'നിങ്ങളുടെ തോട്ടം മനോഹരമാക്കാൻ അതിശയകരമായ ഡീലുകൾ', buyAny: 'ഏതെങ്കിലും വാങ്ങുക', shopNow: 'ഇപ്പോൾ ഷോപ്പ് ചെയ്യുക →', buildBundle: 'നിങ്ങളുടെ സ്വന്തം ബണ്ടിൽ നിർമ്മിക്കുക' },
-  te: { offersForYou: 'మీ కోసం ఆఫర్‌లు', offersSub: 'మీ తోటను అందంగా మార్చే అద్భుతమైన డీల్స్', buyAny: 'ఏదైనా కొనండి', shopNow: 'ఇప్పుడే షాప్ చేయండి →', buildBundle: 'మీ సొంత బండిల్‌ను నిర్మించండి' },
-  kn: { offersForYou: 'ನಿಮಗಾಗಿ ಆಫರ್‌ಗಳು', offersSub: 'ನಿಮ್ಮ ತೋಟವನ್ನು ಸುಂದರಗೊಳಿಸುವ ಅದ್ಭುತ ಡೀಲ್‌ಗಳು', buyAny: 'ಯಾವುದಾದರೂ ಖರೀದಿಸಿ', shopNow: 'ಈಗ ಶಾಪಿಂಗ್ ಮಾಡಿ →', buildBundle: 'ನಿಮ್ಮ ಸ್ವಂತ ಬಂಡಲ್ ನಿರ್ಮಿಸಿ' },
+  en: { offersForYou: 'Offers For You', exclusiveDeals: 'Exclusive Deals', offersSub: 'Amazing deals to make your garden beautiful', buyAny: 'BUY ANY', shopNow: 'SHOP NOW →', buildBundle: 'BUILD YOUR OWN BUNDLE' },
+  ta: { offersForYou: 'உங்களுக்கான சலுகைகள்', exclusiveDeals: 'சிறப்பு சலுகைகள்', offersSub: 'உங்கள் தோட்டத்தை அழகாக்க அற்புதமான ஒப்பந்தங்கள்', buyAny: 'எதேனும் வாங்குங்கள்', shopNow: 'இப்போது வாங்குங்கள் →', buildBundle: 'உங்கள் சொந்த தொகுப்பை உருவாக்குங்கள்' },
+  hi: { offersForYou: 'आपके लिए ऑफ़र', exclusiveDeals: 'एक्सक्लूसिव डील्स', offersSub: 'आपके बगीचे को खूबसूरत बनाने के शानदार सौदे', buyAny: 'कोई भी खरीदें', shopNow: 'अभी खरीदें →', buildBundle: 'अपना बंडल बनाएं' },
+  ml: { offersForYou: 'നിങ്ങൾക്കുള്ള ഓഫറുകൾ', exclusiveDeals: 'എക്‌സ്‌ക്ലൂസീവ് ഡീലുകൾ', offersSub: 'നിങ്ങളുടെ തോട്ടം മനോഹരമാക്കാൻ അതിശയകരമായ ഡീലുകൾ', buyAny: 'ഏതെങ്കിലും വാങ്ങുക', shopNow: 'ഇപ്പോൾ ഷോപ്പ് ചെയ്യുക →', buildBundle: 'നിങ്ങളുടെ സ്വന്തം ബണ്ടിൽ നിർമ്മിക്കുക' },
+  te: { offersForYou: 'మీ కోసం ఆఫర్‌లు', exclusiveDeals: 'ఎక్స్‌క్లూజివ్ డీల్స్', offersSub: 'మీ తోటను అందంగా మార్చే అద్భుతమైన డీల్స్', buyAny: 'ఏదైనా కొనండి', shopNow: 'ఇప్పుడే షాప్ చేయండి →', buildBundle: 'మీ సొంత బండిల్‌ను నిర్మించండి' },
+  kn: { offersForYou: 'ನಿಮಗಾಗಿ ಆಫರ್‌ಗಳು', exclusiveDeals: 'ಎಕ್ಸ್‌ಕ್ಲೂಸಿವ್ ಡೀಲ್‌ಗಳು', offersSub: 'ನಿಮ್ಮ ತೋಟವನ್ನು ಸುಂದರಗೊಳಿಸುವ ಅದ್ಭುತ ಡೀಲ್‌ಗಳು', buyAny: 'ಯಾವುದಾದರೂ ಖರೀದಿಸಿ', shopNow: 'ಈಗ ಶಾಪಿಂಗ್ ಮಾಡಿ →', buildBundle: 'ನಿಮ್ಮ ಸ್ವಂತ ಬಂಡಲ್ ನಿರ್ಮಿಸಿ' },
 };
 
 // WHY_IGO card copy (matched by the array's `title`/`statLabel` key in

@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import { useSiteContent } from '../hooks/useSiteContent';
 import { useLanguage } from '../context/LanguageContext';
 import { getOfferNoteTranslation } from '../i18n/translations';
-import { useScrollReveal } from '../hooks/useScrollReveal';
-import BundleButterfly from './BundleButterfly';
+// Note: this section is intentionally static - no scroll-reveal, no
+// ambient motion, per the "keep everything static" brief.
 
 // An elegant little leafy sprig used either side of the heading and,
 // larger, hanging from the section's top corners.
@@ -41,8 +41,9 @@ function SingleLeaf() {
   );
 }
 
-// Purely decorative background for the section - hanging corner leaves,
-// border flowers, soft bokeh, a few drifting leaves + petals.
+// Purely decorative, fully STATIC backdrop - leaves hanging from the top
+// corners, small pink flowers and green leaves scattered around the
+// edges, and a soft garden-light wash. Nothing here moves.
 // aria-hidden, pointer-events:none, sits behind the heading and cards.
 function OffersBackdrop() {
   return (
@@ -59,41 +60,26 @@ function OffersBackdrop() {
       <span className="offers-flower offers-flower-3"><TinyFlower /></span>
       <span className="offers-flower offers-flower-4"><TinyFlower /></span>
       <span className="offers-flower offers-flower-5"><TinyFlower /></span>
+      <span className="offers-flower offers-flower-6"><TinyFlower /></span>
 
       <span className="offers-float-leaf offers-float-leaf-1"><SingleLeaf /></span>
       <span className="offers-float-leaf offers-float-leaf-2"><SingleLeaf /></span>
       <span className="offers-float-leaf offers-float-leaf-3"><SingleLeaf /></span>
-
-      <span className="offers-petal offers-petal-1" />
-      <span className="offers-petal offers-petal-2" />
-      <span className="offers-petal offers-petal-3" />
+      <span className="offers-float-leaf offers-float-leaf-4"><SingleLeaf /></span>
     </div>
   );
 }
 
-// One tone/delay per badge, cycled by index, so no two badges' butterflies
-// flap in perfect sync or share the exact same colour.
-const BUNDLE_BUTTERFLY_TONES = [
-  { tone: 'orange', delay: 0 },
-  { tone: 'blue', delay: 0.6 },
-  { tone: 'pink', delay: 1.1 },
-  { tone: 'yellow', delay: 0.3 },
-  { tone: 'purple', delay: 0.9 },
-];
-
 function OffersSection() {
   const { offers: OFFERS } = useSiteContent();
   const { t, language } = useLanguage();
-  const [secRef, secVisible] = useScrollReveal(0.15);
 
   return (
-    <section
-      className={`offers-section offers-section-v2${secVisible ? ' is-inview' : ''}`}
-      ref={secRef}
-    >
+    <section className="offers-section offers-section-v2">
       <OffersBackdrop />
 
       <div className="section-heading center offers-heading">
+        <p className="offers-eyebrow">{t('offers.exclusiveDeals')}</p>
         <p className="offers-title">
           <span className="offers-icon offers-icon-left"><LeafSprig /></span>
           {t('offers.offersForYou')}
@@ -104,25 +90,21 @@ function OffersSection() {
       </div>
 
       <div className="offers-grid">
-        {OFFERS.map((offer, i) => {
-          const butterfly = BUNDLE_BUTTERFLY_TONES[i % BUNDLE_BUTTERFLY_TONES.length];
-          return (
-            <div className="offer-card" key={offer.id}>
-              <div className="offer-copy">
-                <h3>{t('offers.buyAny')} {offer.qty} @ ₹{offer.price}</h3>
-                <p>{getOfferNoteTranslation(offer.note, language)}</p>
-              </div>
-              <div className="offer-badge">
-                <span>{t('offers.buildBundle')}</span>
-                <BundleButterfly tone={butterfly.tone} delay={butterfly.delay} />
-              </div>
-              <div className="offer-card-media">
-                <img src={offer.image} alt="" loading="lazy" />
-              </div>
-              <Link to="/category/indoor-plants" className="btn-shop-now">{t('offers.shopNow')}</Link>
+        {OFFERS.map((offer) => (
+          <div className="offer-card" key={offer.id}>
+            <div className="offer-copy">
+              <h3>{t('offers.buyAny')} {offer.qty} @ ₹{offer.price}</h3>
+              <p>{getOfferNoteTranslation(offer.note, language)}</p>
             </div>
-          );
-        })}
+            <div className="offer-badge">
+              <span>{t('offers.buildBundle')}</span>
+            </div>
+            <div className="offer-card-media">
+              <img src={offer.image} alt="" loading="lazy" />
+            </div>
+            <Link to="/category/indoor-plants" className="btn-shop-now">{t('offers.shopNow')}</Link>
+          </div>
+        ))}
       </div>
     </section>
   );
