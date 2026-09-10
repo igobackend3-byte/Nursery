@@ -555,31 +555,31 @@ section {
   }
 }
 
-/* ============ Shop by category ============ */
-/* Clean, soft neutral-grey backdrop - a light, slightly translucent grey
-   wash instead of the earlier dark-green treatment. Everything else in
-   this section (cards, text, spacing, shadows) is unchanged. */
-.shop-by-category {
+/* ============ Shop by Category (v2): white bg, green theme,
+   botanical strip + rectangular image cards ============ */
+.shop-by-category-v2 {
+  --sbc-green: #2E7D32;
+  --sbc-green-dark: #1B5E20;
+  --sbc-green-light: #4CAF50;
+  --sbc-bg: #F8FFF8;
   position: relative;
-  background: rgba(217, 217, 217, 0.85);
+  background: var(--sbc-bg);
   overflow: hidden;
   isolation: isolate;
 }
 
-.shop-by-category .eyebrow {
-  color: var(--color-primary-lime);
+.shop-by-category-v2 .eyebrow {
+  color: var(--sbc-green);
 }
 
-.shop-by-category .section-heading h2 {
-  color: var(--color-text-light);
+.shop-by-category-v2 .section-heading h2 {
+  color: var(--sbc-green-dark);
+  font-family: var(--font-sans);
 }
 
-.shop-by-category .section-sub {
-  color: rgba(255, 255, 255, 0.75);
+.shop-by-category-v2 .section-sub {
+  color: #4b5c4b;
 }
-
-/* ============ Shop by Category: botanical strip + rectangular
-   image cards (teal overlay, icon, title) ============ */
 
 /* A wide decorative leaf band across the top of the section - two
    staggered rows of the same simple leaf silhouette, each row drifting
@@ -590,7 +590,7 @@ section {
   height: 64px;
   overflow: hidden;
   margin: 0 0 28px;
-  background: linear-gradient(to bottom, #eef3e4, var(--color-bg-light, #fff));
+  background: linear-gradient(to bottom, #eaf7ea, var(--sbc-bg));
 }
 .cat-botanical-row {
   position: absolute;
@@ -604,21 +604,21 @@ section {
 }
 .cat-botanical-row-back {
   top: -6px;
-  opacity: 0.55;
+  opacity: 0.5;
   animation: cat-strip-drift-left 70s linear infinite;
 }
 .cat-botanical-row-front {
   top: 14px;
-  opacity: 0.85;
+  opacity: 0.8;
   animation: cat-strip-drift-right 55s linear infinite;
 }
 .cat-botanical-leaf {
   flex-shrink: 0;
   width: 84px;
   height: 50px;
-  color: var(--color-primary-green);
+  color: var(--sbc-green);
 }
-.cat-botanical-leaf-back { color: #9fbf8a; }
+.cat-botanical-leaf-back { color: var(--sbc-green-light); }
 .cat-botanical-leaf svg { width: 100%; height: 100%; display: block; }
 
 @keyframes cat-strip-drift-left {
@@ -640,7 +640,7 @@ section {
 .cat-card {
   position: relative;
   aspect-ratio: 4 / 3;
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -649,8 +649,8 @@ section {
   gap: 10px;
   text-align: center;
   padding: 20px;
-  box-shadow: 0 8px 20px rgba(9, 32, 22, 0.14);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  box-shadow: 0 10px 30px rgba(46, 125, 50, 0.18);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .cat-card-img {
@@ -659,16 +659,17 @@ section {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.4s ease;
 }
 
-/* Dark teal, semi-transparent - the photo underneath stays fully
-   visible/sharp; only this wash has any opacity. */
+/* Flat, semi-transparent nature green - the photo underneath stays
+   fully visible/sharp; only this wash has any opacity, and it thins
+   out further on hover to reveal more of the image. */
 .cat-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, rgba(9, 41, 38, 0.72), rgba(11, 58, 53, 0.55));
-  transition: background 0.35s ease;
+  background: rgba(34, 139, 34, 0.65);
+  transition: background 0.4s ease;
 }
 
 .cat-card-icon {
@@ -680,10 +681,13 @@ section {
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  /* subtle glass badge behind the icon only - never over the photo */
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
   color: white;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.4s ease;
 }
 .cat-card-icon svg {
   width: 22px;
@@ -704,17 +708,17 @@ section {
 }
 
 .cat-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 34px rgba(9, 32, 22, 0.28);
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(27, 94, 32, 0.32);
 }
 .cat-card:hover .cat-card-img {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 .cat-card:hover .cat-card-overlay {
-  background: linear-gradient(160deg, rgba(9, 41, 38, 0.6), rgba(11, 58, 53, 0.42));
+  background: rgba(34, 139, 34, 0.35);
 }
 .cat-card:hover .cat-card-icon {
-  transform: scale(1.1);
+  transform: scale(1.12);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -6220,12 +6224,6 @@ section {
   .cart-remove,
   .qty-stepper {
     grid-column: 2;
-  }
-}
-
-@media (max-width: 420px) {
-  .category-grid {
-    grid-template-columns: 1fr;
   }
 }
 

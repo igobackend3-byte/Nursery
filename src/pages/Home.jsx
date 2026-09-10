@@ -122,17 +122,6 @@ function Hero() {
   );
 }
 
-// "Shop by category" now spotlights the categories that were missing from
-// the site entirely (per the nursery non-plant list PDF check), rather than
-// the usual plant/seed tiles - those are still reachable from the header nav
-// and every other homepage section, just not featured here anymore. Revert
-// to `CATEGORIES.slice(0, 6)` below if this isn't the right call.
-const MISSING_CATEGORY_SLUGS = [
-  'grow-bags-containers', 'irrigation-watering', 'plant-support', 'hydroponic-supplies',
-  'vertical-gardening', 'lawn-landscaping', 'decorative-stones-mulch', 'shade-nets-covers',
-  'smart-garden-tech', 'garden-decor', 'greenhouse-supplies', 'pest-control-devices',
-  'nursery-packaging-supplies', 'indoor-plant-accessories',
-];
 // About Us teaser - the same real "aboutStory" copy used on the /about
 // page (see pages.aboutStory in i18n/translations.js), not new/invented
 // text. Greening-Wonders-style placement (early on the page, right after
@@ -152,32 +141,69 @@ function AboutIgo() {
   );
 }
 
-// Overrides the live (Firestore-backed) category image for these 10
-// slugs with the real, correctly-matched photos supplied for this
-// section - the Firestore `categories` collection still has its old
-// placeholder images and this storefront has no write access to fix
-// that data directly, so the override happens here at render time
-// instead. Every other category (image, label, link, layout) is
-// untouched - only the `image` used for the background is swapped.
-const CATEGORY_IMAGE_OVERRIDES = {
-  'grow-bags-containers': '/images/shop-by-category/grow-bags-containers.png',
-  'irrigation-watering': '/images/shop-by-category/irrigation-watering.png',
-  'plant-support': '/images/shop-by-category/plant-support.png',
-  'hydroponic-supplies': '/images/shop-by-category/hydroponic-supplies.png',
-  'vertical-gardening': '/images/shop-by-category/vertical-gardening.png',
-  'lawn-landscaping': '/images/shop-by-category/lawn-landscaping.png',
-  'decorative-stones-mulch': '/images/shop-by-category/decorative-stones-mulch.png',
-  'shade-nets-covers': '/images/shop-by-category/shade-nets-covers.png',
-  'smart-garden-tech': '/images/shop-by-category/smart-garden-tech.png',
-  'garden-decor': '/images/shop-by-category/garden-decor.png',
-  'pest-control-devices': '/images/shop-by-category/pest-control-devices.png',
-  'nursery-packaging-supplies': '/images/shop-by-category/nursery-packaging-supplies.png',
-  'indoor-plant-accessories': '/images/shop-by-category/indoor-plant-accessories.png',
-};
-
 // One clean white line-icon per category (matches the site's existing
 // stroke-icon language - strokeWidth 1.8-2, round caps/joins - not a
 // generic/unrelated icon set).
+function CatIconPottedPlant() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 14V6" />
+      <path d="M12 10c0-4-3-6-7-6 0 4 2 6.5 7 6Z" />
+      <path d="M12 8c0-3.2 2.4-5 6-5 0 3.4-1.8 5.4-6 5Z" />
+      <path d="M6 14h12l-1.4 6.2a2 2 0 0 1-2 1.8h-5.2a2 2 0 0 1-2-1.8L6 14Z" />
+    </svg>
+  );
+}
+function CatIconTree() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="4.5" r="2" />
+      <path d="M12 8v13" />
+      <path d="M7 22h10" />
+      <path d="M12 12c-3-1-5 .5-6 3 3 1.5 5.5.5 6-1.5" />
+      <path d="M12 15c3-1 5 .5 6 3-3 1.5-5.5.5-6-1.5" />
+    </svg>
+  );
+}
+function CatIconFlower() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="2.4" />
+      <circle cx="12" cy="6" r="2.6" />
+      <circle cx="17.2" cy="9.5" r="2.6" />
+      <circle cx="15" cy="16" r="2.6" />
+      <circle cx="9" cy="16" r="2.6" />
+      <circle cx="6.8" cy="9.5" r="2.6" />
+      <path d="M12 20v-6" />
+    </svg>
+  );
+}
+function CatIconFruit() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 5c1-2 3-2.5 4-2" />
+      <path d="M8.5 8C5.5 8 4 10.5 4 13.5 4 17.5 7 21 9.5 21c1 0 1.7-.5 2.5-.5s1.5.5 2.5.5c2.5 0 5.5-3.5 5.5-7.5 0-3-1.5-5.5-4.5-5.5-1.3 0-2.2.5-3 .5s-1.7-.5-3-.5Z" />
+    </svg>
+  );
+}
+function CatIconVegetable() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M13 3c2 0 3.5 1.5 3.5 3.5" />
+      <path d="M10.5 5.5 13 3l1.5 1.5" />
+      <path d="M13.5 8c3 0 5.5 2.5 5.5 6 0 4.5-4 8-7 8s-7-3.5-7-8c0-4 2.7-6.5 6-6.5.9 0 1.7.2 2.5.5Z" />
+    </svg>
+  );
+}
+function CatIconSeed() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 3h14l-1 12a6 6 0 0 1-12 0L5 3Z" />
+      <path d="M5 8h14" />
+      <ellipse cx="12" cy="14" rx="2.2" ry="3" />
+    </svg>
+  );
+}
 function CatIconPot() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -197,65 +223,11 @@ function CatIconWateringCan() {
     </svg>
   );
 }
-function CatIconStake() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7 21V9M7 9l-3 3M7 9l3 3" />
-      <path d="M17 21V5M17 5l-3 3M17 5l3 3" />
-      <path d="M7 15h10" />
-    </svg>
-  );
-}
-function CatIconHydro() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3c2.5 3 4 5.6 4 8a4 4 0 0 1-8 0c0-2.4 1.5-5 4-8Z" />
-      <path d="M8 19c1-2 2.5-2 4-2s3 0 4 2" />
-      <path d="M4 21h16" />
-    </svg>
-  );
-}
-function CatIconVertical() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="4" y="3" width="16" height="18" rx="2" />
-      <path d="M8 7c1 1.5 1 3 0 4.5M8 12.5c1 1.5 1 3 0 4.5" />
-      <path d="M16 7c-1 1.5-1 3 0 4.5M16 12.5c-1 1.5-1 3 0 4.5" />
-    </svg>
-  );
-}
 function CatIconLandscape() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M2 20 8 9l4 6 2-3 8 8" />
       <circle cx="17" cy="6" r="2" />
-    </svg>
-  );
-}
-function CatIconStones() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <ellipse cx="8" cy="16" rx="5" ry="3.2" />
-      <ellipse cx="16" cy="17.5" rx="4" ry="2.6" />
-      <ellipse cx="12" cy="11" rx="3.4" ry="2.2" />
-    </svg>
-  );
-}
-function CatIconShadeNet() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 8h18M3 12h18M3 16h18" />
-      <path d="M6 5v14M12 5v14M18 5v14" />
-    </svg>
-  );
-}
-function CatIconSmart() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="6" y="9" width="12" height="10" rx="2" />
-      <path d="M9 9V7a3 3 0 0 1 6 0v2" />
-      <circle cx="12" cy="14" r="1.6" />
-      <path d="M2 12h2M20 12h2" />
     </svg>
   );
 }
@@ -268,15 +240,6 @@ function CatIconDecor() {
     </svg>
   );
 }
-function CatIconBug() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="8" y="8" width="8" height="10" rx="4" />
-      <path d="M12 8V5" /><path d="M9 5 7.5 3.5" /><path d="M15 5l1.5-1.5" />
-      <path d="M6 12H3" /><path d="M21 12h-3" />
-    </svg>
-  );
-}
 function CatIconBox() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -284,32 +247,39 @@ function CatIconBox() {
     </svg>
   );
 }
-function CatIconGreenhouse() {
+function CatIconGift() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 11 12 4l9 7" />
-      <path d="M5 11v9h14v-9" />
-      <path d="M9 20v-6h6v6" />
+      <rect x="3" y="8" width="18" height="4" rx="1" />
+      <path d="M12 8v13" />
+      <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7" />
+      <path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8" />
+      <path d="M16.5 8a2.5 2.5 0 0 0 0-5C14 3 12 8 12 8" />
     </svg>
   );
 }
 
-const CATEGORY_ICONS = {
-  'grow-bags-containers': CatIconPot,
-  'irrigation-watering': CatIconWateringCan,
-  'plant-support': CatIconStake,
-  'hydroponic-supplies': CatIconHydro,
-  'vertical-gardening': CatIconVertical,
-  'lawn-landscaping': CatIconLandscape,
-  'decorative-stones-mulch': CatIconStones,
-  'shade-nets-covers': CatIconShadeNet,
-  'smart-garden-tech': CatIconSmart,
-  'garden-decor': CatIconDecor,
-  'pest-control-devices': CatIconBug,
-  'nursery-packaging-supplies': CatIconBox,
-  'indoor-plant-accessories': CatIconPot,
-  'greenhouse-supplies': CatIconGreenhouse,
-};
+// The 12 categories requested for this section, each pointing at a real
+// existing catalogue category (or the site's real /gifting route) - no
+// fabricated categories/products/images. Where the exact plant-type
+// doesn't have its own dedicated category yet (Flowering Plants,
+// Vegetable Plants), the tile links to the closest real, working page
+// (flower-seeds/vegetable-seeds are literally how a customer buys into
+// growing those) rather than a dead link.
+const SHOP_CATEGORIES_V2 = [
+  { label: 'Indoor Plants', slug: 'indoor-plants', to: '/category/indoor-plants', Icon: CatIconPottedPlant },
+  { label: 'Outdoor Plants', slug: 'outdoor-plants', to: '/category/outdoor-plants', Icon: CatIconTree },
+  { label: 'Flowering Plants', slug: 'flower-seeds', to: '/category/flower-seeds', Icon: CatIconFlower },
+  { label: 'Fruit Plants', slug: 'fruit-plants', to: '/category/fruit-plants', Icon: CatIconFruit },
+  { label: 'Vegetable Plants', slug: 'vegetable-seeds', to: '/category/vegetable-seeds', Icon: CatIconVegetable },
+  { label: 'Seeds', slug: 'seeds', to: '/category/seeds', Icon: CatIconSeed },
+  { label: 'Pots & Planters', slug: 'pots-planters', to: '/category/pots-planters', Icon: CatIconPot },
+  { label: 'Plant Care', slug: 'plant-care', to: '/category/plant-care', Icon: CatIconWateringCan },
+  { label: 'Landscaping', slug: 'landscaping-plants', to: '/category/landscaping-plants', Icon: CatIconLandscape },
+  { label: 'Garden Accessories', slug: 'garden-decor', to: '/category/garden-decor', Icon: CatIconDecor },
+  { label: 'Nursery Packaging & Operations Supplies', slug: 'nursery-packaging-supplies', to: '/category/nursery-packaging-supplies', Icon: CatIconBox, image: '/images/shop-by-category/nursery-packaging-supplies.png' },
+  { label: 'Gifting', slug: 'gifting', to: '/gifting', Icon: CatIconGift },
+];
 
 // A wide decorative botanical band across the top of the section - built
 // from the same simple stroke-leaf language as the rest of the site's
@@ -347,16 +317,16 @@ function BotanicalStrip() {
 }
 
 function ShopByCategory() {
-  const { categories } = useCatalogue();
-  const { t, language } = useLanguage();
+  const { categories, getGiftProducts } = useCatalogue();
+  const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.1);
-  const missingTiles = MISSING_CATEGORY_SLUGS
-    .map((slug) => categories.find((c) => c.slug === slug))
-    .filter(Boolean);
-  const tiles = missingTiles.length ? missingTiles : categories.slice(0, 6);
+  // 'gifting' is a real route (see App.jsx) but has no entry in the
+  // categories collection - fall back to a real gift-tagged product
+  // photo, the same source the homepage's own GiftingBand uses.
+  const giftImage = getGiftProducts()[0]?.image;
 
   return (
-    <section ref={ref} className={`shop-by-category reveal-section${visible ? ' is-visible' : ''}`}>
+    <section ref={ref} className={`shop-by-category shop-by-category-v2 reveal-section${visible ? ' is-visible' : ''}`}>
       <BotanicalStrip />
       <div className="section-heading">
         <div>
@@ -366,15 +336,16 @@ function ShopByCategory() {
         <p className="section-sub">{t('home.shopByCategorySub')}</p>
       </div>
       <div className="category-grid">
-        {tiles.map((cat) => {
-          const image = CATEGORY_IMAGE_OVERRIDES[cat.slug] || cat.image;
-          const Icon = CATEGORY_ICONS[cat.slug] || CatIconPot;
+        {SHOP_CATEGORIES_V2.map((entry) => {
+          const cat = categories.find((c) => c.slug === entry.slug);
+          const image = entry.image || cat?.image || (entry.slug === 'gifting' ? giftImage : undefined);
+          const { Icon } = entry;
           return (
-            <Link to={`/category/${cat.slug}`} key={cat.slug} className="cat-card">
-              <img src={image} alt="" className="cat-card-img" loading="lazy" />
+            <Link to={entry.to} key={entry.slug} className="cat-card">
+              <img src={image} alt="" className="cat-card-img" />
               <span className="cat-card-overlay" aria-hidden="true" />
               <span className="cat-card-icon" aria-hidden="true"><Icon /></span>
-              <span className="cat-card-title">{getLocalizedCategoryLabel(cat, language)}</span>
+              <span className="cat-card-title">{entry.label}</span>
             </Link>
           );
         })}
