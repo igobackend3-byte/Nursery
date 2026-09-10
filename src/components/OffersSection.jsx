@@ -7,7 +7,6 @@ import DecorativeLeaves from './DecorativeLeaves';
 import DecorativeFlowers from './DecorativeFlowers';
 import DecorativePetals from './DecorativePetals';
 import SectionVine from './SectionVine';
-import HangingVine from './HangingVine';
 import DecorativeGlow from './DecorativeGlow';
 import BundleButterfly from './BundleButterfly';
 
@@ -37,8 +36,6 @@ function OffersSection() {
   return (
     <section className="offers-section" ref={vineRef} style={{ position: 'relative' }}>
       <DecorativeGlow variant="offers" />
-      <HangingVine variant="offers" side="left" active={vineVisible} />
-      <HangingVine variant="offers" side="right" active={vineVisible} />
       <DecorativeLeaves variant="offers" count={3} />
       <DecorativeFlowers variant="offers" count={2} />
       <DecorativePetals variant="offers" count={3} />
