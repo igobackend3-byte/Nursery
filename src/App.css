@@ -191,26 +191,60 @@
 
 .user-actions {
   display: flex;
-  gap: 24px;
+  justify-content: flex-end;
   align-items: center;
+  gap: 22px;
 }
 
+/* Every right-side action (language select, bell, account, wishlist, cart)
+   sits in an equal 44x44 flex box so icons share one baseline, none rides
+   higher or lower, and each keeps a 44px touch target. */
 .action-icon {
   font-size: 1.2rem;
   color: #333;
   cursor: pointer;
   position: relative;
   transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+}
+
+.action-icon svg {
+  display: block;
 }
 
 .action-icon:hover {
   color: #1b4b36;
 }
 
+/* The notification bell is also an .action-icon; keep its inner trigger
+   centered in the same box so the bell lines up with the other glyphs. */
+.notification-bell-wrap > [role="button"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Match the select's box to the 44px icon row and strip default margins
+   so it centers on the exact same line as the icons. */
+.user-actions .language-switcher-select {
+  height: 40px;
+  margin: 0;
+  box-sizing: border-box;
+  line-height: normal;
+  vertical-align: middle;
+  align-self: center;
+}
+
 .cart-badge {
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: 3px;
+  right: 3px;
   background-color: #1b4b36;
   color: white;
   font-size: 0.6rem;
@@ -220,6 +254,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: none;
 }
 
 /* ---------- Language switcher (6 languages) ---------- */
@@ -572,6 +607,11 @@
   .search-bar {
     order: 3;
     width: 100%;
+  }
+
+  .user-actions {
+    flex-wrap: wrap;
+    gap: 14px;
   }
 
   .secondary-header {
