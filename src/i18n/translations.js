@@ -53,12 +53,67 @@ const notifications = {
 };
 
 const footer = {
-  en: { tagline: 'GROW BETTER • LIVE GREENER', description: 'A modern AgriTech nursery bringing plants, seeds, planters and gardening essentials together in one place.', shop: 'Shop', discover: 'Discover', account: 'Account', rights: 'All rights reserved.', builtFor: 'Built for a greener everyday.' },
-  ta: { tagline: 'சிறப்பாக வளருங்கள் • பசுமையாக வாழுங்கள்', description: 'செடிகள், விதைகள், தொட்டிகள் மற்றும் தோட்ட தேவைகள் அனைத்தையும் ஒரே இடத்தில் வழங்கும் நவீன அக்ரிடெக் நர்சரி.', shop: 'கடை', discover: 'கண்டறியுங்கள்', account: 'கணக்கு', rights: 'அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.', builtFor: 'பசுமையான நாளைக்காக உருவாக்கப்பட்டது.' },
-  hi: { tagline: 'बेहतर उगाएं • हरा जिएं', description: 'पौधे, बीज, गमले और बागवानी की हर ज़रूरत एक ही जगह लाने वाली एक आधुनिक एग्रीटेक नर्सरी।', shop: 'दुकान', discover: 'खोजें', account: 'खाता', rights: 'सर्वाधिकार सुरक्षित।', builtFor: 'एक हरे-भरे कल के लिए बनाया गया।' },
-  ml: { tagline: 'നന്നായി വളരൂ • പച്ചയായി ജീവിക്കൂ', description: 'ചെടികൾ, വിത്തുകൾ, ചട്ടികൾ, തോട്ട ആവശ്യങ്ങൾ എല്ലാം ഒരിടത്ത് എത്തിക്കുന്ന ആധുനിക അഗ്രിടെക് നഴ്സറി.', shop: 'ഷോപ്പ്', discover: 'കണ്ടെത്തുക', account: 'അക്കൗണ്ട്', rights: 'എല്ലാ അവകാശങ്ങളും നിക്ഷിപ്തം.', builtFor: 'പച്ചപ്പുള്ള നാളെക്കായി നിർമ്മിച്ചത്.' },
-  te: { tagline: 'బాగా పెంచండి • పచ్చగా జీవించండి', description: 'మొక్కలు, విత్తనాలు, కుండలు మరియు తోట అవసరాలను ఒకే చోట తీసుకువచ్చే ఆధునిక అగ్రిటెక్ నర్సరీ.', shop: 'షాప్', discover: 'కనుగొనండి', account: 'ఖాతా', rights: 'అన్ని హక్కులు రక్షించబడ్డాయి.', builtFor: 'పచ్చని రేపటి కోసం నిర్మించబడింది.' },
-  kn: { tagline: 'ಚೆನ್ನಾಗಿ ಬೆಳೆಸಿ • ಹಸಿರಾಗಿ ಬದುಕಿ', description: 'ಸಸ್ಯಗಳು, ಬೀಜಗಳು, ಪಾಟ್‌ಗಳು ಮತ್ತು ತೋಟದ ಅಗತ್ಯಗಳನ್ನು ಒಂದೇ ಸ್ಥಳದಲ್ಲಿ ತರುವ ಆಧುನಿಕ ಅಗ್ರಿಟೆಕ್ ನರ್ಸರಿ.', shop: 'ಅಂಗಡಿ', discover: 'ಅನ್ವೇಷಿಸಿ', account: 'ಖಾತೆ', rights: 'ಎಲ್ಲಾ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.', builtFor: 'ಹಸಿರಾದ ನಾಳೆಗಾಗಿ ನಿರ್ಮಿಸಲಾಗಿದೆ.' },
+  // `tagline`/`description`/`shop`/`discover`/`account`/`rights`/`builtFor`
+  // were written for an earlier footer layout and are no longer read by
+  // any component (kept only so nothing that might still reference them
+  // breaks) - the keys actually used by the current Footer.jsx follow.
+  en: { tagline: 'GROW BETTER • LIVE GREENER', description: 'A modern AgriTech nursery bringing plants, seeds, planters and gardening essentials together in one place.', shop: 'Shop', discover: 'Discover', account: 'Account', rights: 'All rights reserved.', builtFor: 'Built for a greener everyday.',
+    desc1: 'Healthy soil. Green tomorrow.', desc2: 'Quality products for a sustainable future.',
+    quickLinks: 'Quick Links', linkHome: 'Home', linkAbout: 'About', linkProducts: 'Products', linkServices: 'Services', linkBlog: 'Blog', linkContact: 'Contact Us',
+    ourServices: 'Our Services', seedsNursery: 'Seeds & Nursery', potsPlanters: 'Pots & Planters', plantCare: 'Plant Care', gardenEssentials: 'Garden Essentials', agriculturalSolutions: 'Agricultural Solutions',
+    contactUs: 'Contact Us', copyright: '© 2026 Igo Agritech Farms. All rights reserved.', privacyPolicy: 'Privacy Policy', termsConditions: 'Terms & Conditions' },
+  ta: { tagline: 'சிறப்பாக வளருங்கள் • பசுமையாக வாழுங்கள்', description: 'செடிகள், விதைகள், தொட்டிகள் மற்றும் தோட்ட தேவைகள் அனைத்தையும் ஒரே இடத்தில் வழங்கும் நவீன அக்ரிடெக் நர்சரி.', shop: 'கடை', discover: 'கண்டறியுங்கள்', account: 'கணக்கு', rights: 'அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.', builtFor: 'பசுமையான நாளைக்காக உருவாக்கப்பட்டது.',
+    desc1: 'ஆரோக்கியமான மண். பசுமையான நாளை.', desc2: 'நிலையான எதிர்காலத்திற்கான தரமான தயாரிப்புகள்.',
+    quickLinks: 'விரைவு இணைப்புகள்', linkHome: 'முகப்பு', linkAbout: 'எங்களைப் பற்றி', linkProducts: 'தயாரிப்புகள்', linkServices: 'சேவைகள்', linkBlog: 'வலைப்பதிவு', linkContact: 'தொடர்பு கொள்ள',
+    ourServices: 'எங்கள் சேவைகள்', seedsNursery: 'விதைகள் & நர்சரி', potsPlanters: 'தொட்டிகள் & பிளாண்டர்கள்', plantCare: 'தாவர பராமரிப்பு', gardenEssentials: 'தோட்ட அத்தியாவசியங்கள்', agriculturalSolutions: 'விவசாய தீர்வுகள்',
+    contactUs: 'தொடர்பு கொள்ள', copyright: '© 2026 இகோ அக்ரிடெக் ஃபார்ம்ஸ். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.', privacyPolicy: 'தனியுரிமைக் கொள்கை', termsConditions: 'விதிமுறைகள் & நிபந்தனைகள்' },
+  hi: { tagline: 'बेहतर उगाएं • हरा जिएं', description: 'पौधे, बीज, गमले और बागवानी की हर ज़रूरत एक ही जगह लाने वाली एक आधुनिक एग्रीटेक नर्सरी।', shop: 'दुकान', discover: 'खोजें', account: 'खाता', rights: 'सर्वाधिकार सुरक्षित।', builtFor: 'एक हरे-भरे कल के लिए बनाया गया।',
+    desc1: 'स्वस्थ मिट्टी। हरा कल।', desc2: 'एक स्थायी भविष्य के लिए गुणवत्तापूर्ण उत्पाद।',
+    quickLinks: 'त्वरित लिंक', linkHome: 'होम', linkAbout: 'हमारे बारे में', linkProducts: 'उत्पाद', linkServices: 'सेवाएं', linkBlog: 'ब्लॉग', linkContact: 'संपर्क करें',
+    ourServices: 'हमारी सेवाएं', seedsNursery: 'बीज व नर्सरी', potsPlanters: 'गमले व प्लांटर', plantCare: 'पौधों की देखभाल', gardenEssentials: 'बागवानी आवश्यक वस्तुएं', agriculturalSolutions: 'कृषि समाधान',
+    contactUs: 'संपर्क करें', copyright: '© 2026 इगो एग्रीटेक फार्म्स। सर्वाधिकार सुरक्षित।', privacyPolicy: 'गोपनीयता नीति', termsConditions: 'नियम व शर्तें' },
+  ml: { tagline: 'നന്നായി വളരൂ • പച്ചയായി ജീവിക്കൂ', description: 'ചെടികൾ, വിത്തുകൾ, ചട്ടികൾ, തോട്ട ആവശ്യങ്ങൾ എല്ലാം ഒരിടത്ത് എത്തിക്കുന്ന ആധുനിക അഗ്രിടെക് നഴ്സറി.', shop: 'ഷോപ്പ്', discover: 'കണ്ടെത്തുക', account: 'അക്കൗണ്ട്', rights: 'എല്ലാ അവകാശങ്ങളും നിക്ഷിപ്തം.', builtFor: 'പച്ചപ്പുള്ള നാളെക്കായി നിർമ്മിച്ചത്.',
+    desc1: 'ആരോഗ്യമുള്ള മണ്ണ്. പച്ചയായ നാളെ.', desc2: 'സുസ്ഥിരമായ ഭാവിക്കായി ഗുണനിലവാരമുള്ള ഉൽപ്പന്നങ്ങൾ.',
+    quickLinks: 'ദ്രുത ലിങ്കുകൾ', linkHome: 'ഹോം', linkAbout: 'ഞങ്ങളെക്കുറിച്ച്', linkProducts: 'ഉൽപ്പന്നങ്ങൾ', linkServices: 'സേവനങ്ങൾ', linkBlog: 'ബ്ലോഗ്', linkContact: 'ബന്ധപ്പെടുക',
+    ourServices: 'ഞങ്ങളുടെ സേവനങ്ങൾ', seedsNursery: 'വിത്തുകളും നഴ്സറിയും', potsPlanters: 'ചട്ടികളും പ്ലാന്ററുകളും', plantCare: 'ചെടി പരിചരണം', gardenEssentials: 'തോട്ട അവശ്യവസ്തുക്കൾ', agriculturalSolutions: 'കാർഷിക പരിഹാരങ്ങൾ',
+    contactUs: 'ബന്ധപ്പെടുക', copyright: '© 2026 ഇഗോ അഗ്രിടെക് ഫാംസ്. എല്ലാ അവകാശങ്ങളും നിക്ഷിപ്തം.', privacyPolicy: 'സ്വകാര്യതാ നയം', termsConditions: 'നിബന്ധനകളും വ്യവസ്ഥകളും' },
+  te: { tagline: 'బాగా పెంచండి • పచ్చగా జీవించండి', description: 'మొక్కలు, విత్తనాలు, కుండలు మరియు తోట అవసరాలను ఒకే చోట తీసుకువచ్చే ఆధునిక అగ్రిటెక్ నర్సరీ.', shop: 'షాప్', discover: 'కనుగొనండి', account: 'ఖాతా', rights: 'అన్ని హక్కులు రక్షించబడ్డాయి.', builtFor: 'పచ్చని రేపటి కోసం నిర్మించబడింది.',
+    desc1: 'ఆరోగ్యకరమైన నేల. పచ్చని రేపు.', desc2: 'సుస్థిర భవిష్యత్తు కోసం నాణ్యమైన ఉత్పత్తులు.',
+    quickLinks: 'త్వరిత లింకులు', linkHome: 'హోమ్', linkAbout: 'మా గురించి', linkProducts: 'ఉత్పత్తులు', linkServices: 'సేవలు', linkBlog: 'బ్లాగ్', linkContact: 'సంప్రదించండి',
+    ourServices: 'మా సేవలు', seedsNursery: 'విత్తనాలు & నర్సరీ', potsPlanters: 'కుండలు & ప్లాంటర్లు', plantCare: 'మొక్కల సంరక్షణ', gardenEssentials: 'తోట అవసరాలు', agriculturalSolutions: 'వ్యవసాయ పరిష్కారాలు',
+    contactUs: 'సంప్రదించండి', copyright: '© 2026 ఇగో అగ్రిటెక్ ఫార్మ్స్. అన్ని హక్కులు రక్షించబడ్డాయి.', privacyPolicy: 'గోప్యతా విధానం', termsConditions: 'నిబంధనలు & షరతులు' },
+  kn: { tagline: 'ಚೆನ್ನಾಗಿ ಬೆಳೆಸಿ • ಹಸಿರಾಗಿ ಬದುಕಿ', description: 'ಸಸ್ಯಗಳು, ಬೀಜಗಳು, ಪಾಟ್‌ಗಳು ಮತ್ತು ತೋಟದ ಅಗತ್ಯಗಳನ್ನು ಒಂದೇ ಸ್ಥಳದಲ್ಲಿ ತರುವ ಆಧುನಿಕ ಅಗ್ರಿಟೆಕ್ ನರ್ಸರಿ.', shop: 'ಅಂಗಡಿ', discover: 'ಅನ್ವೇಷಿಸಿ', account: 'ಖಾತೆ', rights: 'ಎಲ್ಲಾ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.', builtFor: 'ಹಸಿರಾದ ನಾಳೆಗಾಗಿ ನಿರ್ಮಿಸಲಾಗಿದೆ.',
+    desc1: 'ಆರೋಗ್ಯಕರ ಮಣ್ಣು. ಹಸಿರು ನಾಳೆ.', desc2: 'ಸುಸ್ಥಿರ ಭವಿಷ್ಯಕ್ಕಾಗಿ ಗುಣಮಟ್ಟದ ಉತ್ಪನ್ನಗಳು.',
+    quickLinks: 'ತ್ವರಿತ ಲಿಂಕ್‌ಗಳು', linkHome: 'ಹೋಮ್', linkAbout: 'ನಮ್ಮ ಬಗ್ಗೆ', linkProducts: 'ಉತ್ಪನ್ನಗಳು', linkServices: 'ಸೇವೆಗಳು', linkBlog: 'ಬ್ಲಾಗ್', linkContact: 'ಸಂಪರ್ಕಿಸಿ',
+    ourServices: 'ನಮ್ಮ ಸೇವೆಗಳು', seedsNursery: 'ಬೀಜಗಳು & ನರ್ಸರಿ', potsPlanters: 'ಪಾಟ್‌ಗಳು ಮತ್ತು ಪ್ಲಾಂಟರ್‌ಗಳು', plantCare: 'ಸಸ್ಯ ಆರೈಕೆ', gardenEssentials: 'ತೋಟದ ಅಗತ್ಯ ವಸ್ತುಗಳು', agriculturalSolutions: 'ಕೃಷಿ ಪರಿಹಾರಗಳು',
+    contactUs: 'ಸಂಪರ್ಕಿಸಿ', copyright: '© 2026 ಇಗೋ ಅಗ್ರಿಟೆಕ್ ಫಾರ್ಮ್ಸ್. ಎಲ್ಲಾ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.', privacyPolicy: 'ಗೌಪ್ಯತಾ ನೀತಿ', termsConditions: 'ನಿಯಮಗಳು ಮತ್ತು ಷರತ್ತುಗಳು' },
+};
+
+const about = {
+  en: { badge: 'Our Story', title: 'Our Story.', quotePlain: 'Anyone can grow', quoteHighlight: 'something beautiful.',
+    paragraph1: 'IGO Nursery started as a small AgriTech lab in Muttukadu, testing how IoT monitoring and precision trials could grow healthier plants at scale. Today every plant that reaches your door has passed through that same lab before it ever reaches the catalogue.',
+    paragraph2Before: 'We believe that once you feel a real connection to nature, ', paragraph2Strong: 'it stays with you', paragraph2After: " - which is why every plant, pot and seed in our catalogue is chosen to make that connection easier to find, whether you're growing your first leaf or your hundredth.",
+    paragraph3: 'Welcome to IGO Nursery, your one-stop gardening shop!', designation: 'Founder, IGO Nursery', customerReviews: 'What Our Customers Say' },
+  ta: { badge: 'எங்கள் கதை', title: 'எங்கள் கதை.', quotePlain: 'யார் வேண்டுமானாலும் வளர்க்கலாம்', quoteHighlight: 'ஒரு அழகான விஷயத்தை.',
+    paragraph1: 'IGO நர்சரி முட்டுக்காடில் ஒரு சிறிய அக்ரிடெக் ஆய்வகமாக தொடங்கியது, IoT கண்காணிப்பு மற்றும் துல்லியமான சோதனைகள் மூலம் ஆரோக்கியமான செடிகளை பெரிய அளவில் வளர்க்க முடியுமா என்பதை சோதித்தது. இன்று உங்கள் வீட்டு வாசலை அடையும் ஒவ்வொரு செடியும் பட்டியலில் சேருவதற்கு முன் அதே ஆய்வகத்தின் வழியாக சென்றுள்ளது.',
+    paragraph2Before: 'இயற்கையுடன் ஒரு உண்மையான தொடர்பை நீங்கள் உணர்ந்தால், ', paragraph2Strong: 'அது உங்களுடனே இருக்கும்', paragraph2After: ' - அதனால்தான் எங்கள் பட்டியலில் உள்ள ஒவ்வொரு செடி, தொட்டி மற்றும் விதையும் அந்த தொடர்பை எளிதாக்க தேர்ந்தெடுக்கப்படுகிறது, நீங்கள் உங்கள் முதல் இலையை வளர்த்தாலும் சரி, நூறாவது இலையை வளர்த்தாலும் சரி.',
+    paragraph3: 'IGO நர்சரிக்கு வரவேற்கிறோம், உங்கள் ஒரே இடத் தோட்ட கடை!', designation: 'நிறுவனர், IGO நர்சரி', customerReviews: 'எங்கள் வாடிக்கையாளர்கள் என்ன சொல்கிறார்கள்' },
+  hi: { badge: 'हमारी कहानी', title: 'हमारी कहानी.', quotePlain: 'कोई भी उगा सकता है', quoteHighlight: 'कुछ खूबसूरत।',
+    paragraph1: 'IGO नर्सरी मुट्टुक्कादु में एक छोटी एग्रीटेक लैब के रूप में शुरू हुई, यह परखते हुए कि IoT मॉनिटरिंग और सटीक परीक्षण बड़े पैमाने पर स्वस्थ पौधे कैसे उगा सकते हैं। आज आपके दरवाज़े तक पहुंचने वाला हर पौधा कैटलॉग में शामिल होने से पहले उसी लैब से गुज़रा है।',
+    paragraph2Before: 'हमारा मानना है कि प्रकृति से एक सच्चा जुड़ाव महसूस करने के बाद, ', paragraph2Strong: 'वह हमेशा आपके साथ रहता है', paragraph2After: ' - इसीलिए हमारे कैटलॉग में हर पौधा, गमला और बीज इस तरह चुना जाता है कि यह जुड़ाव ढूंढना आसान हो जाए, चाहे आप अपना पहला पत्ता उगा रहे हों या सौवां।',
+    paragraph3: 'IGO नर्सरी में आपका स्वागत है, आपकी वन-स्टॉप बागवानी दुकान!', designation: 'संस्थापक, IGO नर्सरी', customerReviews: 'हमारे ग्राहक क्या कहते हैं' },
+  ml: { badge: 'ഞങ്ങളുടെ കഥ', title: 'ഞങ്ങളുടെ കഥ.', quotePlain: 'ആർക്കും വളർത്താം', quoteHighlight: 'മനോഹരമായ എന്തെങ്കിലും.',
+    paragraph1: 'IGO നഴ്സറി മുട്ടുക്കാട്ടിൽ ഒരു ചെറിയ അഗ്രിടെക് ലാബായി ആരംഭിച്ചു, IoT നിരീക്ഷണവും കൃത്യമായ പരീക്ഷണങ്ങളും വലിയ തോതിൽ ആരോഗ്യമുള്ള ചെടികൾ വളർത്താൻ എങ്ങനെ സഹായിക്കുമെന്ന് പരിശോധിച്ചു. ഇന്ന് നിങ്ങളുടെ വീട്ടിലെത്തുന്ന ഓരോ ചെടിയും കാറ്റലോഗിൽ എത്തുന്നതിന് മുമ്പ് അതേ ലാബിലൂടെ കടന്നുപോയിട്ടുണ്ട്.',
+    paragraph2Before: 'പ്രകൃതിയുമായി ഒരു യഥാർത്ഥ ബന്ധം അനുഭവിച്ചാൽ, ', paragraph2Strong: 'അത് നിങ്ങളോടൊപ്പം നിലനിൽക്കും', paragraph2After: ' - അതുകൊണ്ടാണ് ഞങ്ങളുടെ കാറ്റലോഗിലെ ഓരോ ചെടിയും ചട്ടിയും വിത്തും ആ ബന്ധം കണ്ടെത്താൻ എളുപ്പമാക്കാൻ തിരഞ്ഞെടുക്കുന്നത്, നിങ്ങൾ നിങ്ങളുടെ ആദ്യ ഇല വളർത്തുകയാണെങ്കിലും നൂറാമത്തേതായാലും.',
+    paragraph3: 'IGO നഴ്സറിയിലേക്ക് സ്വാഗതം, നിങ്ങളുടെ വൺ-സ്റ്റോപ്പ് ഗാർഡനിംഗ് ഷോപ്പ്!', designation: 'സ്ഥാപകൻ, IGO നഴ്സറി', customerReviews: 'ഞങ്ങളുടെ ഉപഭോക്താക്കൾ എന്ത് പറയുന്നു' },
+  te: { badge: 'మా కథ', title: 'మా కథ.', quotePlain: 'ఎవరైనా పెంచగలరు', quoteHighlight: 'అందమైనదాన్ని.',
+    paragraph1: 'IGO నర్సరీ ముట్టుక్కాడులో ఒక చిన్న అగ్రిటెక్ ల్యాబ్‌గా ప్రారంభమైంది, IoT పర్యవేక్షణ మరియు ఖచ్చితమైన ట్రయల్స్ పెద్ద ఎత్తున ఆరోగ్యకరమైన మొక్కలను ఎలా పెంచగలవో పరీక్షించింది. ఈరోజు మీ ఇంటికి చేరే ప్రతి మొక్క కేటలాగ్‌లోకి చేరడానికి ముందు అదే ల్యాబ్ ద్వారా వెళ్ళింది.',
+    paragraph2Before: 'ప్రకృతితో నిజమైన అనుబంధాన్ని అనుభవించిన తర్వాత, ', paragraph2Strong: 'అది మీతోనే ఉంటుంది', paragraph2After: ' - అందుకే మా కేటలాగ్‌లోని ప్రతి మొక్క, కుండ మరియు విత్తనం ఆ అనుబంధాన్ని సులభంగా కనుగొనేలా ఎంపిక చేయబడింది, మీరు మీ మొదటి ఆకును పెంచుతున్నా లేదా వందవదైనా.',
+    paragraph3: 'IGO నర్సరీకి స్వాగతం, మీ వన్-స్టాప్ గార్డెనింగ్ షాప్!', designation: 'వ్యవస్థాపకుడు, IGO నర్సరీ', customerReviews: 'మా కస్టమర్లు ఏమి చెబుతున్నారు' },
+  kn: { badge: 'ನಮ್ಮ ಕಥೆ', title: 'ನಮ್ಮ ಕಥೆ.', quotePlain: 'ಯಾರಾದರೂ ಬೆಳೆಸಬಹುದು', quoteHighlight: 'ಸುಂದರವಾದದ್ದನ್ನು.',
+    paragraph1: 'IGO ನರ್ಸರಿ ಮುಟ್ಟುಕಾಡಿನಲ್ಲಿ ಒಂದು ಸಣ್ಣ ಅಗ್ರಿಟೆಕ್ ಲ್ಯಾಬ್ ಆಗಿ ಪ್ರಾರಂಭವಾಯಿತು, IoT ಮಾನಿಟರಿಂಗ್ ಮತ್ತು ನಿಖರವಾದ ಪ್ರಯೋಗಗಳು ದೊಡ್ಡ ಪ್ರಮಾಣದಲ್ಲಿ ಆರೋಗ್ಯಕರ ಸಸ್ಯಗಳನ್ನು ಹೇಗೆ ಬೆಳೆಸಬಹುದು ಎಂದು ಪರೀಕ್ಷಿಸಿತು. ಇಂದು ನಿಮ್ಮ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪುವ ಪ್ರತಿ ಸಸ್ಯವೂ ಕ್ಯಾಟಲಾಗ್‌ಗೆ ಸೇರುವ ಮೊದಲು ಅದೇ ಲ್ಯಾಬ್ ಮೂಲಕ ಹಾದುಹೋಗಿದೆ.',
+    paragraph2Before: 'ಪ್ರಕೃತಿಯೊಂದಿಗೆ ನಿಜವಾದ ಸಂಪರ್ಕವನ್ನು ಅನುಭವಿಸಿದ ನಂತರ, ', paragraph2Strong: 'ಅದು ನಿಮ್ಮೊಂದಿಗೆ ಉಳಿಯುತ್ತದೆ', paragraph2After: ' - ಅದಕ್ಕಾಗಿಯೇ ನಮ್ಮ ಕ್ಯಾಟಲಾಗ್‌ನಲ್ಲಿರುವ ಪ್ರತಿ ಸಸ್ಯ, ಪಾಟ್ ಮತ್ತು ಬೀಜವನ್ನು ಆ ಸಂಪರ್ಕವನ್ನು ಸುಲಭವಾಗಿ ಕಂಡುಕೊಳ್ಳಲು ಆಯ್ಕೆ ಮಾಡಲಾಗುತ್ತದೆ, ನೀವು ನಿಮ್ಮ ಮೊದಲ ಎಲೆಯನ್ನು ಬೆಳೆಸುತ್ತಿರಲಿ ಅಥವಾ ನೂರನೆಯದನ್ನಾಗಲಿ.',
+    paragraph3: 'IGO ನರ್ಸರಿಗೆ ಸ್ವಾಗತ, ನಿಮ್ಮ ಒನ್-ಸ್ಟಾಪ್ ಗಾರ್ಡನಿಂಗ್ ಶಾಪ್!', designation: 'ಸಂಸ್ಥಾಪಕರು, IGO ನರ್ಸರಿ', customerReviews: 'ನಮ್ಮ ಗ್ರಾಹಕರು ಏನು ಹೇಳುತ್ತಾರೆ' },
 };
 
 const cart = {
@@ -1085,7 +1140,7 @@ function merge(section) {
   return out;
 }
 
-const bySection = { nav, search, header, notifications, footer, cart, auth, checkout, orders, common, wishlist, product, filters, home, offers, whyIgo, faq, pages, finder, account };
+const bySection = { nav, search, header, notifications, footer, cart, auth, checkout, orders, common, wishlist, product, filters, home, offers, whyIgo, faq, pages, finder, account, about };
 
 export const translations = {};
 for (const code of LANGUAGES.map((l) => l.code)) {

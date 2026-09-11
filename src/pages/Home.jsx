@@ -1132,7 +1132,7 @@ function StoryIllustration() {
 
 function OurStoryBand() {
   const [ref, visible] = useScrollReveal(0.2);
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
 
   return (
     <section ref={ref} className={`os-band${visible ? ' os-band-visible' : ''}`}>
@@ -1140,38 +1140,34 @@ function OurStoryBand() {
       <SectionVine variant="story" active={visible} />
       <div className="os-story">
         <div className="os-media">
-          <span className="os-badge">Our Story</span>
+          <span className="os-badge">{t('about.badge')}</span>
           <StoryIllustration />
           <div className="os-media-caption">
+            {/* Founder's name is a proper noun - kept as-is across every
+                language, same as the "Agritech Farms" brand name. */}
             <p className="os-media-name">Dr John Yesudhas</p>
-            <p className="os-media-title">Founder, IGO Nursery</p>
+            <p className="os-media-title">{t('about.designation')}</p>
           </div>
         </div>
 
         <div className="os-copy">
-          <h2>Our Story.</h2>
+          <h2>{t('about.title')}</h2>
           <p className="os-quote">
-            Anyone can grow <span className="os-quote-highlight">something beautiful.</span>
+            {t('about.quotePlain')} <span className="os-quote-highlight">{t('about.quoteHighlight')}</span>
             <span className="os-quote-leaf" aria-hidden="true"><LeafGlyph /></span>
           </p>
+          <p>{t('about.paragraph1')}</p>
           <p>
-            IGO Nursery started as a small AgriTech lab in Muttukadu, testing how IoT monitoring and precision
-            trials could grow healthier plants at scale. Today every plant that reaches your door has passed
-            through that same lab before it ever reaches the catalogue.
+            {t('about.paragraph2Before')}<strong>{t('about.paragraph2Strong')}</strong>{t('about.paragraph2After')}
           </p>
-          <p>
-            We believe that once you feel a real connection to nature, <strong>it stays with you</strong> - which
-            is why every plant, pot and seed in our catalogue is chosen to make that connection easier to find,
-            whether you're growing your first leaf or your hundredth.
-          </p>
-          <p>Welcome to IGO Nursery, your one-stop gardening shop! <span aria-hidden="true">🌿</span></p>
+          <p>{t('about.paragraph3')} <span aria-hidden="true">🌿</span></p>
         </div>
       </div>
 
       <div className="os-testimonials">
         <DecorativeLeaves variant="testimonials" count={3} />
         <div className="section-heading center">
-          <h2>What Our Customers Say</h2>
+          <h2>{t('about.customerReviews')}</h2>
         </div>
         <div className="os-testimonial-grid">
           {REVIEWS.map((r) => (

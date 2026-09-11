@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import igoLogo from '../../assets/igo-nursery-logo.jpeg';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 import DecorativeLeaves from '../DecorativeLeaves';
+import { useLanguage } from '../../context/LanguageContext';
 
 // Footer content matches the user-supplied reference screenshot exactly
 // (brand text, columns, contact details) - see the Contact page redesign
@@ -35,21 +36,23 @@ const SocialIcon = {
   ),
 };
 
+// `labelKey` -> footer.<labelKey> in i18n/translations.js; `label` stays
+// as the English fallback/source of truth (same pattern as data/navigation.js).
 const QUICK_LINKS = [
-  { label: 'Home', to: '/' },
-  { label: 'About', to: '/about' },
-  { label: 'Products', to: '/category/indoor-plants' },
-  { label: 'Services', to: '/garden-services' },
-  { label: 'Blog', to: '/blog' },
-  { label: 'Contact Us', to: '/contact' },
+  { label: 'Home', labelKey: 'linkHome', to: '/' },
+  { label: 'About', labelKey: 'linkAbout', to: '/about' },
+  { label: 'Products', labelKey: 'linkProducts', to: '/category/indoor-plants' },
+  { label: 'Services', labelKey: 'linkServices', to: '/garden-services' },
+  { label: 'Blog', labelKey: 'linkBlog', to: '/blog' },
+  { label: 'Contact Us', labelKey: 'linkContact', to: '/contact' },
 ];
 
 const SERVICE_LINKS = [
-  { label: 'Seeds & Nursery', to: '/category/seeds' },
-  { label: 'Pots & Planters', to: '/category/pots-planters' },
-  { label: 'Plant Care', to: '/category/plant-care' },
-  { label: 'Garden Essentials', to: '/garden-services' },
-  { label: 'Agricultural Solutions', to: '/landscaping' },
+  { label: 'Seeds & Nursery', labelKey: 'seedsNursery', to: '/category/seeds' },
+  { label: 'Pots & Planters', labelKey: 'potsPlanters', to: '/category/pots-planters' },
+  { label: 'Plant Care', labelKey: 'plantCare', to: '/category/plant-care' },
+  { label: 'Garden Essentials', labelKey: 'gardenEssentials', to: '/garden-services' },
+  { label: 'Agricultural Solutions', labelKey: 'agriculturalSolutions', to: '/landscaping' },
 ];
 
 function FooterLeafIcon() {
@@ -86,6 +89,7 @@ function FooterVine() {
 
 function Footer() {
   const [ref, visible] = useScrollReveal(0.1);
+  const { t } = useLanguage();
   return (
     <footer ref={ref} className={`site-footer ftr-agritech${visible ? ' is-visible' : ''}`}>
       <FooterVine />
@@ -99,7 +103,7 @@ function Footer() {
             <span>Agritech Farms</span>
           </div>
           <p className="ftr-desc">
-            Healthy soil. Green tomorrow.<br />Quality products for a sustainable future.
+            {t('footer.desc1')}<br />{t('footer.desc2')}
           </p>
           <div className="ftr-social">
             {SOCIAL_LINKS.map((s) => {
@@ -114,37 +118,40 @@ function Footer() {
         </div>
 
         <div className="footer-col">
-          <h4>Quick Links</h4>
+          <h4>{t('footer.quickLinks')}</h4>
           <ul>
             {QUICK_LINKS.map((l) => (
-              <li key={l.label}><Link to={l.to}>{l.label}</Link></li>
+              <li key={l.label}><Link to={l.to}>{t(`footer.${l.labelKey}`)}</Link></li>
             ))}
           </ul>
         </div>
 
         <div className="footer-col">
-          <h4>Our Services</h4>
+          <h4>{t('footer.ourServices')}</h4>
           <ul>
             {SERVICE_LINKS.map((l) => (
-              <li key={l.label}><Link to={l.to}>{l.label}</Link></li>
+              <li key={l.label}><Link to={l.to}>{t(`footer.${l.labelKey}`)}</Link></li>
             ))}
           </ul>
         </div>
 
         <div className="footer-col ftr-contact-col">
-          <h4>Contact Us</h4>
+          <h4>{t('footer.contactUs')}</h4>
           <p><span className="ftr-contact-icon"><IconPhone /></span> +91 98765 43210</p>
           <p><span className="ftr-contact-icon"><IconMail /></span> support@igoagritechfarms.com</p>
+          {/* The street address is a real-world postal address - kept
+              un-translated (place/road names) across every language,
+              same convention as the founder's name above. */}
           <p><span className="ftr-contact-icon"><IconPin /></span> 123 Green Valley Road,<br />Coimbatore, Tamil Nadu – 641XXX</p>
         </div>
       </div>
 
       <div className="footer-bottom">
-        <span>© 2026 Igo Agritech Farms. All rights reserved.</span>
+        <span>{t('footer.copyright')}</span>
         <span className="footer-legal-links">
-          <Link to="/privacy-policy">Privacy Policy</Link>
+          <Link to="/privacy-policy">{t('footer.privacyPolicy')}</Link>
           <span aria-hidden="true"> | </span>
-          <Link to="/terms">Terms &amp; Conditions</Link>
+          <Link to="/terms">{t('footer.termsConditions')}</Link>
         </span>
       </div>
     </footer>
