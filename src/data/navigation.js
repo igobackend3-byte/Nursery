@@ -1,12 +1,14 @@
 // `i18nKey` (top-level items only) maps to nav.* in src/i18n/translations.js
 // so NavBar can show a translated label while keeping this file's `label`
-// as the English fallback/source of truth. Subcategory children are left
-// untranslated deliberately - see the note in translations.js.
+// as the English fallback/source of truth. Subcategory (dropdown) children
+// are translated too, via getNavLabelTranslation() keyed by their `to`
+// route - see navChildLabels in translations.js.
 export const NAV_ITEMS = [
   { label: 'Home', i18nKey: 'home', to: '/' },
   { label: 'About Us', i18nKey: 'aboutUs', to: '/about' },
   {
     label: 'Plants',
+    i18nKey: 'plants',
     to: '/category/indoor-plants',
     children: [
       { label: 'Indoor Plants', to: '/category/indoor-plants' },
@@ -46,6 +48,7 @@ export const NAV_ITEMS = [
   },
   {
     label: 'Seeds',
+    i18nKey: 'seeds',
     to: '/category/seeds',
     children: [
       { label: 'Vegetable Seeds', to: '/category/vegetable-seeds' },
@@ -61,6 +64,7 @@ export const NAV_ITEMS = [
   },
   {
     label: 'Pots & Planters',
+    i18nKey: 'potsPlanters',
     to: '/category/pots-planters',
     align: 'right',
     children: [
@@ -93,6 +97,7 @@ export const NAV_ITEMS = [
   },
   {
     label: 'Plant Care',
+    i18nKey: 'plantCare',
     to: '/category/plant-care',
     align: 'right',
     children: [
