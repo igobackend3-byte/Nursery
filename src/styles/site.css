@@ -672,6 +672,17 @@ section {
   color: #4b5c4b;
   margin: 0;
 }
+/* Nudged slightly right so it reads as centered under the heading text
+   rather than the (wider, leaf-flanked) heading row - same font size,
+   color and spacing, just a small horizontal offset. */
+.shop-by-category-v2 .sbc-sub-shift {
+  transform: translateX(14px);
+}
+@media (max-width: 720px) {
+  .shop-by-category-v2 .sbc-sub-shift {
+    transform: translateX(8px);
+  }
+}
 
 /* Circular category grid - equal-size circles, uniform gaps.
    6 per row on desktop (see reference), 4 tablet-wide, 3 tablet-narrow,
@@ -756,10 +767,15 @@ section {
 }
 
 .cat-card-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
   font-weight: 700;
   font-size: 0.86rem;
   line-height: 1.2;
   max-width: 100%;
+  text-align: center;
   overflow-wrap: break-word;
   text-wrap: balance;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);

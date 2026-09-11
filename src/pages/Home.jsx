@@ -333,7 +333,6 @@ const SHOP_CATEGORIES_V2 = [
   { label: 'Indoor Plants', slug: 'indoor-plants', to: '/category/indoor-plants', Icon: CatIconPottedPlant },
   { label: 'Outdoor Plants', slug: 'outdoor-plants', to: '/category/outdoor-plants', Icon: CatIconTree },
   { label: 'Seeds', slug: 'seeds', to: '/category/seeds', Icon: CatIconSeed, image: '/images/shop-by-category/seeds.png' },
-  { label: 'Pots & Planters', slug: 'pots-planters', to: '/category/pots-planters', Icon: CatIconPot },
   { label: 'Plant Care', slug: 'plant-care', to: '/category/plant-care', Icon: CatIconCare, image: '/images/shop-by-category/plant-care.png' },
   { label: 'Garden Tools', slug: 'gardening-tools', to: '/category/gardening-tools', Icon: CatIconTools, image: '/images/shop-by-category/gardening-tools.png' },
   { label: 'Plant Support', slug: 'plant-support', to: '/category/plant-support', Icon: CatIconSupport, image: '/images/shop-by-category/plant-support.png' },
@@ -355,6 +354,23 @@ const SHOP_CATEGORIES_V2 = [
   { label: 'Self-Watering & Railing Planters', slug: 'self-watering-railing-planters', to: '/category/self-watering-railing-planters', Icon: CatIconPot, image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=800&auto=format&fit=crop' },
 ];
 
+// A handful of the supplied photos (see /public/images/shop-by-category/)
+// already have a title, icon and "Explore" button baked into the artwork
+// itself. For those specific files, skip this component's own text/icon/
+// button overlay - rendering both was producing duplicated category names
+// on the card. Every other tile keeps the normal overlay untouched.
+const PRECOMPOSED_TILE_IMAGES = new Set([
+  '/images/shop-by-category/seeds.png',
+  '/images/shop-by-category/plant-care.png',
+  '/images/shop-by-category/gardening-tools.png',
+  '/images/shop-by-category/plant-support.png',
+  '/images/shop-by-category/irrigation-watering.png',
+  '/images/shop-by-category/lawn-landscaping.png',
+  '/images/shop-by-category/garden-decor.png',
+  '/images/shop-by-category/decorative-stones-mulch.png',
+  '/images/shop-by-category/gifting.png',
+]);
+
 function ShopByCategory() {
   const { categories, getGiftProducts } = useCatalogue();
   const { t } = useLanguage();
@@ -372,7 +388,7 @@ function ShopByCategory() {
           {t('home.shopByCategory')}
           <SbcLeaf className="sbc-heading-leaf sbc-heading-leaf-right" />
         </h2>
-        <p className="section-sub">{t('home.shopByCategorySub')}</p>
+        <p className="section-sub sbc-sub-shift">{t('home.shopByCategorySub')}</p>
       </div>
 
       <div className="category-grid">
@@ -380,16 +396,24 @@ function ShopByCategory() {
           const cat = categories.find((c) => c.slug === entry.slug);
           const image = entry.image || cat?.image || (entry.slug === 'gifting' ? giftImage : undefined);
           const { Icon } = entry;
+          // A few supplied photos already have the category name, icon and
+          // an "Explore" button baked into the artwork - skip this
+          // component's own overlay for those so the name isn't duplicated.
+          const isPrecomposed = PRECOMPOSED_TILE_IMAGES.has(image);
           return (
             <Link to={entry.to} key={entry.slug} className="cat-card">
               <span className="cat-card-media">
-                <img src={image} alt="" className="cat-card-img" />
-                <span className="cat-card-scrim" aria-hidden="true" />
-                <span className="cat-card-content">
-                  <span className="cat-card-icon" aria-hidden="true"><Icon /></span>
-                  <span className="cat-card-title">{entry.label}</span>
-                  <span className="cat-card-explore">{t('home.explore')}</span>
-                </span>
+                <img src={image} alt={isPrecomposed ? entry.label : ''} className="cat-card-img" />
+                {!isPrecomposed && (
+                  <>
+                    <span className="cat-card-scrim" aria-hidden="true" />
+                    <span className="cat-card-content">
+                      <span className="cat-card-icon" aria-hidden="true"><Icon /></span>
+                      <span className="cat-card-title">{entry.label}</span>
+                      <span className="cat-card-explore">{t('home.explore')}</span>
+                    </span>
+                  </>
+                )}
               </span>
             </Link>
           );
