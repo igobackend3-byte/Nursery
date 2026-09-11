@@ -1585,6 +1585,40 @@ section {
   font-size: 0.85rem;
 }
 
+/* Garden Services teaser cards that have a matching photo (see
+   GARDEN_SERVICE_HOME_IMAGES in Home.jsx) - photo fills the top of the
+   card edge-to-edge, title/link keep the card's original padding below
+   it. Cards with no photo are untouched (plain .service-card). */
+.garden-services-teaser .service-card.has-image {
+  padding: 0 0 24px;
+  overflow: hidden;
+  gap: 14px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.garden-services-teaser .service-card.has-image:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+.garden-services-teaser .service-card.has-image img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.garden-services-teaser .service-card.has-image h3,
+.garden-services-teaser .service-card.has-image span {
+  padding: 0 24px;
+}
+.garden-services-teaser .service-card.has-image h3 {
+  margin-top: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .garden-services-teaser .service-card.has-image { transition: none; }
+  .garden-services-teaser .service-card.has-image:hover { transform: none; }
+}
+
 /* ============ Nursery Journey ============ */
 .nursery-journey {
   padding: 72px 48px;

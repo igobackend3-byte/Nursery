@@ -653,6 +653,19 @@ function JustIn() {
   );
 }
 
+// Matched by service title to a real photo in
+// public/images/garden-services-home/ (see the user-supplied "garden
+// service" folder - fuzzy-matched: "plant care.jpg" is the closest photo
+// for the "Plant Maintenance" card, "terrac garden.jpg" for "Terrace
+// Garden"). A title with no entry here simply keeps the original
+// text-only card - never a broken image.
+const GARDEN_SERVICE_HOME_IMAGES = {
+  'Terrace Garden': '/images/garden-services-home/terrace-garden.jpg',
+  'Balcony Garden': '/images/garden-services-home/balcony-garden.jpg',
+  'Landscaping': '/images/garden-services-home/landscaping.jpg',
+  'Plant Maintenance': '/images/garden-services-home/plant-maintenance.jpg',
+};
+
 function GardenServicesTeaser() {
   const { gardenServices: services } = useSiteContent();
   const { t, language } = useLanguage();
@@ -667,12 +680,17 @@ function GardenServicesTeaser() {
         <p className="section-sub">{t('home.gardenServicesTeaserSub')}</p>
       </div>
       <div className="services-grid">
-        {services.map((s) => (
-          <Link to={s.to} key={s.title} className="service-card">
-            <h3>{getGardenServiceTranslation(s.title, language)?.title ?? s.title}</h3>
-            <span>{t('home.learnMore')}</span>
-          </Link>
-        ))}
+        {services.map((s) => {
+          const localizedTitle = getGardenServiceTranslation(s.title, language)?.title ?? s.title;
+          const image = GARDEN_SERVICE_HOME_IMAGES[s.title];
+          return (
+            <Link to={s.to} key={s.title} className={`service-card${image ? ' has-image' : ''}`}>
+              {image && <img src={image} alt={localizedTitle} loading="lazy" />}
+              <h3>{localizedTitle}</h3>
+              <span>{t('home.learnMore')}</span>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );
