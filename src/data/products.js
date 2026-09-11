@@ -150,6 +150,23 @@ export const UMBRELLA_GROUPS = {
   'self-watering-railing-planters': ['self-watering-planters', 'railing-planters'],
 };
 
+// Every category slug that is an actual living plant (as opposed to
+// seeds, pots, tools, fertilizers, decor or any other accessory). Single
+// source of truth for "plant-only" product pickers - e.g. the homepage's
+// "Plants People Love" best-sellers strip - so that section never surfaces
+// non-plant items like plant labels, pH test kits or hydroponic hardware.
+export const PLANT_CATEGORY_SLUGS = [
+  'indoor-plants', 'outdoor-plants', 'landscaping-plants', 'landscaping-trees',
+  'bonsai', 'palms', 'cycads', 'succulents', 'cactus', 'table-top-plants',
+  'mini-plants', 'orchids', 'bromeliads', 'ferns', 'carnivorous-plants',
+  'aquatic-pond-plants', 'vertical-garden-plants', 'green-wall-plants',
+  'terrace-garden-plants', 'balcony-plants', 'hanging-basket-plants',
+  'fruit-plants', 'herbs', 'medicinal-plants', 'aromatic-plants',
+  'spice-plants', 'sacred-plants', 'butterfly-garden-plants',
+  'bee-friendly-plants', 'bird-attracting-plants', 'fragrant-plants',
+  'edible-flowers', 'coastal-plants',
+];
+
 const IMG = {
   indoor: [
     'https://images.unsplash.com/photo-1545241047-6083a3684587?q=80&w=600&auto=format&fit=crop',

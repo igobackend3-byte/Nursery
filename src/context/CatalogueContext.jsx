@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { PRODUCTS, CATEGORIES } from '../data/products';
+import { PRODUCTS, CATEGORIES, PLANT_CATEGORY_SLUGS } from '../data/products';
 import { subscribeProducts, subscribeCategories } from '../lib/catalogue';
 
 // Storefront catalogue, now live from Firestore (same products/categories
@@ -29,7 +29,13 @@ export function CatalogueProvider({ children }) {
     getProductById: (id) => products.find((p) => p.id === id),
     getProductsByCategory: (slug) => products.filter((p) => p.category === slug),
     getGiftProducts: () => products.filter((p) => p.gift),
-    getBestSellers: (count = 8) => [...products].sort((a, b) => b.rating - a.rating).slice(0, count),
+    // Used by the homepage's "Plants People Love" strip - plant-only
+    // (see PLANT_CATEGORY_SLUGS), highest-rated first, so it never shows
+    // tools/fertilizer/accessory products alongside the plants.
+    getBestSellers: (count = 8) => products
+      .filter((p) => PLANT_CATEGORY_SLUGS.includes(p.category))
+      .sort((a, b) => b.rating - a.rating || b.reviews - a.reviews)
+      .slice(0, count),
   }), [products, categories]);
 
   return <CatalogueContext.Provider value={value}>{children}</CatalogueContext.Provider>;
