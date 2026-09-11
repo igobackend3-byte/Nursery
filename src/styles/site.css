@@ -741,6 +741,22 @@ section {
   );
 }
 
+/* A handful of the supplied photos have their own title/icon/"Explore"
+   button already printed into the artwork (English-only, so it can never
+   follow the site language). This near-solid wash sits over the lower
+   ~55% of those specific tiles so that baked-in text is fully hidden and
+   only this component's own translatable overlay is visible. */
+.cat-card-scrim-solid {
+  background: linear-gradient(
+    to top,
+    rgba(12, 40, 22, 0.97) 0%,
+    rgba(12, 40, 22, 0.95) 46%,
+    rgba(12, 40, 22, 0.55) 60%,
+    rgba(12, 40, 22, 0.1) 72%,
+    rgba(12, 40, 22, 0) 100%
+  );
+}
+
 .cat-card-content {
   position: absolute;
   left: 0;

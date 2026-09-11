@@ -7,6 +7,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useSiteContent } from '../hooks/useSiteContent';
 import { useLanguage } from '../context/LanguageContext';
 import { getLocalizedCategoryLabel, getLocalizedProductName } from '../utils/localizedContent';
+import { CATEGORY_LABEL_TRANSLATIONS } from '../data/categoryTranslations';
 import { getDiscountPercent } from '../utils/pricing';
 import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTranslation, getReviewTranslation, getJourneyStepTranslation, getCompareHeaderTranslation, getCompareTitleTranslation, getCompareRowTranslation, getTrustBadgeTranslation, getStatsStripTranslation } from '../i18n/translations';
 import { getJustInProducts } from '../utils/seededShuffle';
@@ -373,7 +374,7 @@ const PRECOMPOSED_TILE_IMAGES = new Set([
 
 function ShopByCategory() {
   const { categories, getGiftProducts } = useCatalogue();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [ref, visible] = useScrollReveal(0.1);
   // 'gifting' is a real route (see App.jsx) but has no entry in the
   // categories collection - fall back to a real gift-tagged product
@@ -396,24 +397,27 @@ function ShopByCategory() {
           const cat = categories.find((c) => c.slug === entry.slug);
           const image = entry.image || cat?.image || (entry.slug === 'gifting' ? giftImage : undefined);
           const { Icon } = entry;
-          // A few supplied photos already have the category name, icon and
-          // an "Explore" button baked into the artwork - skip this
-          // component's own overlay for those so the name isn't duplicated.
+          // Always read the display name from the local, static translation
+          // table by slug (not from the live `categories` doc, which may
+          // not carry a `translations` field) - falls back to the English
+          // label automatically when a language has no entry yet.
+          const localizedLabel = CATEGORY_LABEL_TRANSLATIONS[entry.slug]?.[language] || entry.label;
+          // A few supplied photos already have an (English-only, baked-in)
+          // title/icon/Explore button printed into the artwork. Since that
+          // text can never change with the site language, always draw our
+          // own translatable overlay on top and darken the image enough
+          // there to fully hide the baked-in text underneath it.
           const isPrecomposed = PRECOMPOSED_TILE_IMAGES.has(image);
           return (
             <Link to={entry.to} key={entry.slug} className="cat-card">
               <span className="cat-card-media">
-                <img src={image} alt={isPrecomposed ? entry.label : ''} className="cat-card-img" />
-                {!isPrecomposed && (
-                  <>
-                    <span className="cat-card-scrim" aria-hidden="true" />
-                    <span className="cat-card-content">
-                      <span className="cat-card-icon" aria-hidden="true"><Icon /></span>
-                      <span className="cat-card-title">{entry.label}</span>
-                      <span className="cat-card-explore">{t('home.explore')}</span>
-                    </span>
-                  </>
-                )}
+                <img src={image} alt="" className="cat-card-img" />
+                <span className={`cat-card-scrim${isPrecomposed ? ' cat-card-scrim-solid' : ''}`} aria-hidden="true" />
+                <span className="cat-card-content">
+                  <span className="cat-card-icon" aria-hidden="true"><Icon /></span>
+                  <span className="cat-card-title">{localizedLabel}</span>
+                  <span className="cat-card-explore">{t('home.explore')}</span>
+                </span>
               </span>
             </Link>
           );
