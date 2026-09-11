@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 // ------------------------------------------------------------------
 // About Us page - complete visual redesign per the supplied reference
@@ -212,28 +213,26 @@ function CountUp({ value, suffix = '', duration = 1200 }) {
 
 // ---------------------------------------------------------------- Hero
 function AboutHero() {
+  const { t } = useLanguage();
   return (
     <section className="abt-hero">
       <FloatingLeaf style={{ top: '18%', left: '46%' }} size={20} />
       <FloatingLeaf style={{ top: '58%', left: '2%' }} size={16} flip />
 
       <div className="abt-hero-left">
-        <p className="abt-breadcrumb"><Link to="/">Home</Link> <span>→</span> About Us</p>
-        <h1 className="abt-hero-title">About<br />IGO Nursery</h1>
-        <p className="abt-hero-sub">More Than Just Plants — We're a Part of Your Green Journey.</p>
-        <p className="abt-hero-desc">
-          At IGO Nursery, we believe in the power of plants to bring beauty, wellness and connection.
-          We're passionate about helping you create greener spaces — at home, at work and in the community.
-        </p>
+        <p className="abt-breadcrumb"><Link to="/">{t('aboutPage.heroBreadcrumbHome')}</Link> <span>→</span> {t('aboutPage.heroBreadcrumbCurrent')}</p>
+        <h1 className="abt-hero-title">{t('aboutPage.heroTitleLine1')}<br />{t('aboutPage.heroTitleLine2')}</h1>
+        <p className="abt-hero-sub">{t('aboutPage.heroSub')}</p>
+        <p className="abt-hero-desc">{t('aboutPage.heroDesc')}</p>
         <Link to="/category/indoor-plants" className="abt-btn abt-btn-primary">
-          Explore Our Plants <Icon.Arrow />
+          {t('aboutPage.heroCta')} <Icon.Arrow />
         </Link>
       </div>
 
       <div className="abt-hero-right">
         {/* "Green Spaces Happier Lives" is already composited into this
             reference image, so it isn't repeated as a separate overlay. */}
-        <img src={PHOTO.greenhouse} alt="Lush greenhouse full of nursery plants - Green Spaces, Happier Lives" loading="eager" />
+        <img src={PHOTO.greenhouse} alt={t('aboutPage.heroImageAlt')} loading="eager" />
       </div>
     </section>
   );
@@ -241,6 +240,7 @@ function AboutHero() {
 
 // ------------------------------------------------------------ Our Story
 function AboutStory() {
+  const { t } = useLanguage();
   return (
     <section className="abt-story">
       <FloatingLeaf style={{ top: '6%', left: '4%' }} size={18} />
@@ -249,40 +249,35 @@ function AboutStory() {
       {/* The play button and "From Seed to Green" caption are already
           composited into this reference image. */}
       <Reveal className="abt-story-media">
-        <img src={PHOTO.handWithPlant} alt="A hand holding a small potted plant - From Seed to Green" loading="lazy" />
+        <img src={PHOTO.handWithPlant} alt={t('aboutPage.storyImageAlt')} loading="lazy" />
       </Reveal>
 
       <Reveal className="abt-story-copy" delay={120}>
-        <p className="eyebrow">OUR STORY</p>
-        <h2>Growing Greener,<br />Growing Better</h2>
-        <p className="abt-story-text">
-          IGO Nursery started with a simple idea — to make quality plants and gardening products accessible
-          to everyone. Today, we are a growing community of plant lovers, offering a wide range of healthy
-          plants, quality pots, seeds and gardening essentials. Our goal is to inspire greener living and
-          help you create beautiful, sustainable spaces.
-        </p>
-        <Link to="/about" className="abt-btn abt-btn-primary abt-btn-sm">Learn More <Icon.Arrow /></Link>
+        <p className="eyebrow">{t('aboutPage.storyEyebrow')}</p>
+        <h2>{t('aboutPage.storyTitleLine1')}<br />{t('aboutPage.storyTitleLine2')}</h2>
+        <p className="abt-story-text">{t('aboutPage.storyText')}</p>
+        <Link to="/about" className="abt-btn abt-btn-primary abt-btn-sm">{t('aboutPage.storyCta')} <Icon.Arrow /></Link>
       </Reveal>
     </section>
   );
 }
 
 // ------------------------------------------------------------- Stats
-const STATS = [
-  { icon: 'Leaf', value: 10, suffix: '+', label: 'Years Experience' },
-  { icon: 'Sprout', value: 5000, suffix: '+', label: 'Plants Delivered' },
-  { icon: 'Pot', value: 50, suffix: '+', label: 'Plant Varieties' },
-  { icon: 'Users', value: 1000, suffix: '+', label: 'Happy Customers' },
-];
-
 function AboutStats() {
+  const { t } = useLanguage();
+  const stats = [
+    { icon: 'Leaf', value: 10, suffix: '+', label: t('aboutPage.statYearsLabel') },
+    { icon: 'Sprout', value: 5000, suffix: '+', label: t('aboutPage.statPlantsLabel') },
+    { icon: 'Pot', value: 50, suffix: '+', label: t('aboutPage.statVarietiesLabel') },
+    { icon: 'Users', value: 1000, suffix: '+', label: t('aboutPage.statCustomersLabel') },
+  ];
   return (
     <Reveal as="section" className="abt-stats-wrap">
       <div className="abt-stats">
-        {STATS.map((s, i) => {
+        {stats.map((s, i) => {
           const StatIcon = Icon[s.icon];
           return (
-            <div className="abt-stat" key={s.label}>
+            <div className="abt-stat" key={s.icon}>
               <span className="abt-stat-icon"><StatIcon /></span>
               <strong><CountUp value={s.value} suffix={s.suffix} duration={1000 + i * 150} /></strong>
               <span className="abt-stat-label">{s.label}</span>
@@ -296,27 +291,22 @@ function AboutStats() {
 
 // ------------------------------------------------------ Vision & Mission
 function AboutVisionMission() {
+  const { t } = useLanguage();
   return (
     <div className="abt-vm-grid">
       <Reveal className="abt-vm-card abt-vm-vision">
-        <img className="abt-vm-media" src={PHOTO.vision} alt="A young seedling growing in soft sunlight" loading="lazy" />
+        <img className="abt-vm-media" src={PHOTO.vision} alt={t('aboutPage.visionImageAlt')} loading="lazy" />
         <span className="abt-vm-icon"><Icon.Eye /></span>
-        <p className="eyebrow">OUR VISION</p>
-        <h3>A Greener Tomorrow</h3>
-        <p>
-          To be a leading nursery brand that inspires everyone to create healthier, greener and more
-          beautiful spaces, while promoting sustainable living for future generations.
-        </p>
+        <p className="eyebrow">{t('aboutPage.visionEyebrow')}</p>
+        <h3>{t('aboutPage.visionTitle')}</h3>
+        <p>{t('aboutPage.visionText')}</p>
       </Reveal>
       <Reveal className="abt-vm-card abt-vm-mission" delay={120}>
-        <img className="abt-vm-media" src={PHOTO.mission} alt="A lush green leafy plant" loading="lazy" />
+        <img className="abt-vm-media" src={PHOTO.mission} alt={t('aboutPage.missionImageAlt')} loading="lazy" />
         <span className="abt-vm-icon"><Icon.Target /></span>
-        <p className="eyebrow">OUR MISSION</p>
-        <h3>Plants for a Better Life</h3>
-        <p>
-          To provide high-quality plants, gardening products and expert guidance, making green living
-          simple, accessible and enjoyable for all.
-        </p>
+        <p className="eyebrow">{t('aboutPage.missionEyebrow')}</p>
+        <h3>{t('aboutPage.missionTitle')}</h3>
+        <p>{t('aboutPage.missionText')}</p>
       </Reveal>
     </div>
   );
@@ -324,39 +314,38 @@ function AboutVisionMission() {
 
 // ----------------------------------------------------------- What We Offer
 function AboutOffer() {
+  const { t } = useLanguage();
   const cards = [
-    { title: 'Indoor & Outdoor Plants', desc: 'Beautiful plants for every space, inside and out.', icon: 'Leaf', image: PHOTO.offerIndoorOutdoor, to: '/category/indoor-plants' },
-    { title: 'Pots & Planters', desc: 'Stylish and durable pots to complement your plants.', icon: 'Pot', image: PHOTO.offerPots, to: '/category/pots-planters' },
-    { title: 'Seeds & Gardening', desc: 'High-quality seeds for a bountiful garden.', icon: 'Sprout', image: PHOTO.offerSeeds, to: '/category/seeds' },
-    { title: 'Plant Care', desc: 'Expert tips and products to keep your plants healthy.', icon: 'Watering', image: PHOTO.plantCare, to: '/category/plant-care' },
-    { title: 'Landscaping', desc: 'Transform your space with beautiful green designs.', icon: 'Landscape', image: PHOTO.landscaping, to: '/landscaping' },
-    { title: 'Corporate Gifting', desc: 'Thoughtful green gifts for clients and teams.', icon: 'Gift', image: PHOTO.corporateGifting, to: '/corporate-gifts' },
+    { titleKey: 'offerCard1Title', descKey: 'offerCard1Desc', icon: 'Leaf', image: PHOTO.offerIndoorOutdoor, to: '/category/indoor-plants' },
+    { titleKey: 'offerCard2Title', descKey: 'offerCard2Desc', icon: 'Pot', image: PHOTO.offerPots, to: '/category/pots-planters' },
+    { titleKey: 'offerCard3Title', descKey: 'offerCard3Desc', icon: 'Sprout', image: PHOTO.offerSeeds, to: '/category/seeds' },
+    { titleKey: 'offerCard4Title', descKey: 'offerCard4Desc', icon: 'Watering', image: PHOTO.plantCare, to: '/category/plant-care' },
+    { titleKey: 'offerCard5Title', descKey: 'offerCard5Desc', icon: 'Landscape', image: PHOTO.landscaping, to: '/landscaping' },
+    { titleKey: 'offerCard6Title', descKey: 'offerCard6Desc', icon: 'Gift', image: PHOTO.corporateGifting, to: '/corporate-gifts' },
   ];
 
   return (
     <section className="abt-offer">
       <Reveal className="abt-offer-heading">
-        <p className="eyebrow">WHAT WE OFFER</p>
-        <h2>Everything You Need for a Greener Space</h2>
-        <p className="abt-offer-sub">
-          From beautiful plants to essential gardening products, we have everything you need to bring
-          your green vision to life.
-        </p>
+        <p className="eyebrow">{t('aboutPage.offerEyebrow')}</p>
+        <h2>{t('aboutPage.offerTitle')}</h2>
+        <p className="abt-offer-sub">{t('aboutPage.offerSub')}</p>
       </Reveal>
-      <p className="abt-hero-script abt-offer-script">Grow<br />Your<br />Way</p>
+      <p className="abt-hero-script abt-offer-script">{t('aboutPage.offerScriptLine1')}<br />{t('aboutPage.offerScriptLine2')}<br />{t('aboutPage.offerScriptLine3')}</p>
 
       <div className="abt-offer-grid">
         {cards.map((c, i) => {
           const CardIcon = Icon[c.icon];
+          const title = t(`aboutPage.${c.titleKey}`);
           return (
-            <Reveal as={Link} to={c.to} className="abt-offer-card" key={c.title} delay={i * 60}>
+            <Reveal as={Link} to={c.to} className="abt-offer-card" key={c.titleKey} delay={i * 60}>
               <div className="abt-offer-card-media">
-                <img src={c.image} alt={c.title} loading="lazy" />
+                <img src={c.image} alt={title} loading="lazy" />
               </div>
               <div className="abt-offer-card-body">
                 <div className="abt-offer-card-text">
-                  <h3><span className="abt-offer-card-icon"><CardIcon /></span>{c.title}</h3>
-                  <p>{c.desc}</p>
+                  <h3><span className="abt-offer-card-icon"><CardIcon /></span>{title}</h3>
+                  <p>{t(`aboutPage.${c.descKey}`)}</p>
                 </div>
                 <span className="abt-offer-card-arrow" aria-hidden="true"><Icon.Arrow /></span>
               </div>
@@ -369,66 +358,66 @@ function AboutOffer() {
 }
 
 // -------------------------------------------------------------- Values
-const VALUES = [
-  { icon: 'Diamond', label: 'Quality First' },
-  { icon: 'Users', label: 'Customer Focus' },
-  { icon: 'Recycle', label: 'Sustainability' },
-  { icon: 'Shield', label: 'Integrity' },
-];
-
 function AboutValues() {
+  const { t } = useLanguage();
+  const values = [
+    { icon: 'Diamond', labelKey: 'valueQualityFirst' },
+    { icon: 'Users', labelKey: 'valueCustomerFocus' },
+    { icon: 'Recycle', labelKey: 'valueSustainability' },
+    { icon: 'Shield', labelKey: 'valueIntegrity' },
+  ];
   return (
     <Reveal as="section" className="abt-values">
       <div className="abt-values-media">
-        <img src={PHOTO.soilMacro} alt="A small seedling growing from rich soil" loading="lazy" />
+        <img src={PHOTO.soilMacro} alt={t('aboutPage.valuesImageAlt')} loading="lazy" />
       </div>
       <div className="abt-values-copy">
-        <p className="eyebrow">OUR VALUES</p>
-        <h2>What Drives Us</h2>
-        <p className="abt-values-sub">
-          Our values shape everything we do — from the plants we grow to the relationships we build.
-        </p>
+        <p className="eyebrow">{t('aboutPage.valuesEyebrow')}</p>
+        <h2>{t('aboutPage.valuesTitle')}</h2>
+        <p className="abt-values-sub">{t('aboutPage.valuesSub')}</p>
         <div className="abt-values-row">
-          {VALUES.map((v) => {
+          {values.map((v) => {
             const VIcon = Icon[v.icon];
             return (
-              <div className="abt-value-item" key={v.label}>
+              <div className="abt-value-item" key={v.labelKey}>
                 <span className="abt-value-icon"><VIcon /></span>
-                <span>{v.label}</span>
+                <span>{t(`aboutPage.${v.labelKey}`)}</span>
               </div>
             );
           })}
         </div>
       </div>
-      <p className="abt-hero-script abt-values-script">Grow<br />Green<br />Grow<br />Way</p>
+      <p className="abt-hero-script abt-values-script">
+        {t('aboutPage.valuesScriptLine1')}<br />{t('aboutPage.valuesScriptLine2')}<br />{t('aboutPage.valuesScriptLine3')}<br />{t('aboutPage.valuesScriptLine4')}
+      </p>
     </Reveal>
   );
 }
 
 // -------------------------------------------------------- Why Choose Us
-const WHY_CHOOSE = [
-  { icon: 'Leaf', title: 'Healthy Plants', text: 'Well-nurtured, disease-free and ready to grow.' },
-  { icon: 'Person', title: 'Expert Guidance', text: 'Get advice from our plant care experts.' },
-  { icon: 'Recycle', title: 'Sustainable Practices', text: 'Eco-friendly methods for a greener future.' },
-  { icon: 'Truck', title: 'Safe Delivery', text: 'Your plants reach you fresh and on time.' },
-];
-
 function AboutWhyChoose() {
+  const { t } = useLanguage();
+  const whyChoose = [
+    { icon: 'Leaf', titleKey: 'whyItem1Title', textKey: 'whyItem1Text' },
+    { icon: 'Person', titleKey: 'whyItem2Title', textKey: 'whyItem2Text' },
+    { icon: 'Recycle', titleKey: 'whyItem3Title', textKey: 'whyItem3Text' },
+    { icon: 'Truck', titleKey: 'whyItem4Title', textKey: 'whyItem4Text' },
+  ];
   return (
     <section className="abt-why">
       <Reveal className="abt-why-heading">
-        <p className="eyebrow">WHY CHOOSE IGO NURSERY?</p>
-        <h2>A Greener Partner for Your Journey</h2>
-        <p className="abt-offer-sub">We're more than just a nursery — we're your green partner.</p>
+        <p className="eyebrow">{t('aboutPage.whyEyebrow')}</p>
+        <h2>{t('aboutPage.whyTitle')}</h2>
+        <p className="abt-offer-sub">{t('aboutPage.whySub')}</p>
       </Reveal>
       <div className="abt-why-grid">
-        {WHY_CHOOSE.map((item, i) => {
+        {whyChoose.map((item, i) => {
           const WIcon = Icon[item.icon];
           return (
-            <Reveal className="abt-why-item" key={item.title} delay={i * 80}>
+            <Reveal className="abt-why-item" key={item.titleKey} delay={i * 80}>
               <span className="abt-why-icon"><WIcon /></span>
-              <h4>{item.title}</h4>
-              <p>{item.text}</p>
+              <h4>{t(`aboutPage.${item.titleKey}`)}</h4>
+              <p>{t(`aboutPage.${item.textKey}`)}</p>
             </Reveal>
           );
         })}
@@ -439,6 +428,7 @@ function AboutWhyChoose() {
 
 // ------------------------------------------------------------- Journey
 function AboutJourney() {
+  const { t } = useLanguage();
   const scrollerRef = useRef(null);
 
   function scrollByCards(dir) {
@@ -448,27 +438,26 @@ function AboutJourney() {
   return (
     <section className="abt-journey">
       <Reveal className="abt-journey-heading">
-        <p className="eyebrow">OUR JOURNEY</p>
-        <h2>From Small Beginnings to a Greener Future</h2>
-        <p className="abt-offer-sub">
-          Take a look at some moments from our journey — from our first plants to the spaces we've created.
-        </p>
+        <p className="eyebrow">{t('aboutPage.journeyEyebrow')}</p>
+        <h2>{t('aboutPage.journeyTitle')}</h2>
+        <p className="abt-offer-sub">{t('aboutPage.journeySub')}</p>
       </Reveal>
       <div className="abt-journey-row">
         <div className="abt-journey-scroller" ref={scrollerRef}>
           <div className="abt-journey-card abt-journey-first">
+            {/* The year itself is a date, not translated text. */}
             <span>2016</span>
-            <p>Our Beginning</p>
+            <p>{t('aboutPage.journeyFirstLabel')}</p>
           </div>
           {PHOTO.journey.map((src, i) => (
             <div className="abt-journey-thumb" key={src + i}>
-              <img src={src} alt="A moment from the IGO Nursery journey" loading="lazy" />
+              <img src={src} alt={t('aboutPage.journeyImageAlt')} loading="lazy" />
             </div>
           ))}
         </div>
         <div className="abt-journey-nav">
-          <button type="button" onClick={() => scrollByCards(-1)} aria-label="Previous"><Icon.ChevronLeft /></button>
-          <button type="button" onClick={() => scrollByCards(1)} aria-label="Next"><Icon.ChevronRight /></button>
+          <button type="button" onClick={() => scrollByCards(-1)} aria-label={t('aboutPage.journeyPrevAria')}><Icon.ChevronLeft /></button>
+          <button type="button" onClick={() => scrollByCards(1)} aria-label={t('aboutPage.journeyNextAria')}><Icon.ChevronRight /></button>
         </div>
       </div>
     </section>
@@ -477,13 +466,14 @@ function AboutJourney() {
 
 // ------------------------------------------------------------- Final CTA
 function AboutFinalCta() {
+  const { t } = useLanguage();
   return (
     <Reveal as="section" className="abt-cta" style={{ backgroundImage: `linear-gradient(rgba(8,36,24,0.72), rgba(8,36,24,0.82)), url(${PHOTO.finalCta})` }}>
       <FloatingLeaf style={{ top: '14%', left: '8%' }} size={20} />
       <FloatingLeaf style={{ bottom: '16%', right: '10%' }} size={18} flip />
-      <h2>Let's Grow Something Beautiful Together</h2>
-      <p>Bring nature home. Explore our wide range of plants, seeds and gardening essentials.</p>
-      <Link to="/category/indoor-plants" className="abt-btn abt-btn-light">Explore Plants <Icon.Arrow /></Link>
+      <h2>{t('aboutPage.ctaTitle')}</h2>
+      <p>{t('aboutPage.ctaText')}</p>
+      <Link to="/category/indoor-plants" className="abt-btn abt-btn-light">{t('aboutPage.ctaButton')} <Icon.Arrow /></Link>
     </Reveal>
   );
 }
