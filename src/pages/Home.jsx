@@ -321,19 +321,27 @@ function SbcLeaf({ className }) {
 // to a real /category/<slug> listing (an UMBRELLA_GROUPS key aggregates
 // several real product categories into one focused listing) or the site's
 // /gifting route. No fabricated categories/products/images.
+//
+// `image` is the tile artwork. It is set explicitly here (from
+// /public/images/shop-by-category/) so the homepage tile always uses the
+// matched local photo and does not depend on the live `categories`
+// collection, whose docs may still carry older placeholder URLs. Order,
+// labels, links and icons are unchanged. Tiles with no matching file in
+// the folder keep their existing fallback (category banner / catalogue
+// image) and are left without an `image` override.
 const SHOP_CATEGORIES_V2 = [
   { label: 'Indoor Plants', slug: 'indoor-plants', to: '/category/indoor-plants', Icon: CatIconPottedPlant },
   { label: 'Outdoor Plants', slug: 'outdoor-plants', to: '/category/outdoor-plants', Icon: CatIconTree },
-  { label: 'Seeds', slug: 'seeds', to: '/category/seeds', Icon: CatIconSeed },
+  { label: 'Seeds', slug: 'seeds', to: '/category/seeds', Icon: CatIconSeed, image: '/images/shop-by-category/seeds.png' },
   { label: 'Pots & Planters', slug: 'pots-planters', to: '/category/pots-planters', Icon: CatIconPot },
-  { label: 'Plant Care', slug: 'plant-care', to: '/category/plant-care', Icon: CatIconCare },
-  { label: 'Garden Tools', slug: 'gardening-tools', to: '/category/gardening-tools', Icon: CatIconTools },
-  { label: 'Plant Support', slug: 'plant-support', to: '/category/plant-support', Icon: CatIconSupport },
-  { label: 'Irrigation & Watering', slug: 'irrigation-watering', to: '/category/irrigation-watering', Icon: CatIconWateringCan },
-  { label: 'Lawn & Landscaping', slug: 'lawn-landscaping', to: '/category/lawn-landscaping', Icon: CatIconLandscape },
-  { label: 'Garden Décor', slug: 'garden-decor', to: '/category/garden-decor', Icon: CatIconDecor },
-  { label: 'Decorative Stones & Mulch', slug: 'decorative-stones-mulch', to: '/category/decorative-stones-mulch', Icon: CatIconStones },
-  { label: 'Gifting', slug: 'gifting', to: '/gifting', Icon: CatIconGift },
+  { label: 'Plant Care', slug: 'plant-care', to: '/category/plant-care', Icon: CatIconCare, image: '/images/shop-by-category/plant-care.png' },
+  { label: 'Garden Tools', slug: 'gardening-tools', to: '/category/gardening-tools', Icon: CatIconTools, image: '/images/shop-by-category/gardening-tools.png' },
+  { label: 'Plant Support', slug: 'plant-support', to: '/category/plant-support', Icon: CatIconSupport, image: '/images/shop-by-category/plant-support.png' },
+  { label: 'Irrigation & Watering', slug: 'irrigation-watering', to: '/category/irrigation-watering', Icon: CatIconWateringCan, image: '/images/shop-by-category/irrigation-watering.png' },
+  { label: 'Lawn & Landscaping', slug: 'lawn-landscaping', to: '/category/lawn-landscaping', Icon: CatIconLandscape, image: '/images/shop-by-category/lawn-landscaping.png' },
+  { label: 'Garden Décor', slug: 'garden-decor', to: '/category/garden-decor', Icon: CatIconDecor, image: '/images/shop-by-category/garden-decor.png' },
+  { label: 'Decorative Stones & Mulch', slug: 'decorative-stones-mulch', to: '/category/decorative-stones-mulch', Icon: CatIconStones, image: '/images/shop-by-category/decorative-stones-mulch.png' },
+  { label: 'Gifting', slug: 'gifting', to: '/gifting', Icon: CatIconGift, image: '/images/shop-by-category/gifting.png' },
 
   // Grouped non-plant ranges (see UMBRELLA_GROUPS in data/products.js).
   // `image` is set here so the tile art is guaranteed even before these
