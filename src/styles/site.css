@@ -632,77 +632,15 @@ section {
   }
 }
 
-/* ============ Shop by Category (v2): premium circular category tiles
-   with a botanical banner, hanging corner leaves and a soft
-   light-green gradient ground ============ */
+/* ============ Shop by Category (v2): plain white background, premium
+   circular category tiles ============ */
 .shop-by-category-v2 {
   --sbc-green: #2E7D32;
   --sbc-green-dark: #14411f;
   --sbc-green-light: #6bbf74;
-  --sbc-leaf-pattern:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='130' viewBox='0 0 130 130'%3E%3Cg fill='none' stroke='%232E7D32' stroke-width='2' stroke-opacity='0.16' stroke-linecap='round'%3E%3Cpath d='M18 96c0-22 11-37 37-41-2 24-13 39-37 41z'/%3E%3Cpath d='M52 74c3-9 9-16 18-22'/%3E%3Cpath d='M78 26c20 4 31 20 33 44-22-4-33-20-33-44z'/%3E%3Cpath d='M96 46c-3 9-9 16-18 22'/%3E%3C/g%3E%3C/svg%3E");
   position: relative;
-  background: linear-gradient(180deg, #f1faf0 0%, #ffffff 52%, #f4fbf3 100%);
-  overflow: hidden;
-  isolation: isolate;
-  padding-top: 132px;
+  background: #ffffff;
 }
-
-/* Subtle full-section leaf texture - kept very light so it never
-   competes with the tiles. */
-.shop-by-category-v2::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: var(--sbc-leaf-pattern);
-  background-size: 260px;
-  opacity: 0.35;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Botanical banner along the top edge */
-.shop-by-category-v2 .sbc-banner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 150px;
-  background:
-    var(--sbc-leaf-pattern) 0 0 / 150px,
-    linear-gradient(180deg, #dcefdd 0%, rgba(220, 239, 221, 0) 100%);
-  -webkit-mask-image: linear-gradient(180deg, #000 40%, transparent 100%);
-  mask-image: linear-gradient(180deg, #000 40%, transparent 100%);
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Hanging leaves from the two top corners */
-.shop-by-category-v2 .sbc-hang {
-  position: absolute;
-  top: -6px;
-  width: 92px;
-  height: 92px;
-  color: var(--sbc-green);
-  opacity: 0.9;
-  z-index: 1;
-  pointer-events: none;
-}
-.shop-by-category-v2 .sbc-hang-left { left: 18px; transform: rotate(8deg); }
-.shop-by-category-v2 .sbc-hang-right { right: 18px; transform: scaleX(-1) rotate(8deg); }
-
-/* Faint oversized leaves tucked into opposite corners */
-.shop-by-category-v2 .sbc-corner {
-  position: absolute;
-  width: 220px;
-  height: 220px;
-  color: var(--sbc-green);
-  opacity: 0.08;
-  z-index: 0;
-  pointer-events: none;
-}
-.shop-by-category-v2 .sbc-corner-tl { top: 120px; left: -60px; transform: rotate(-24deg); }
-.shop-by-category-v2 .sbc-corner-br { bottom: -50px; right: -50px; transform: rotate(150deg); }
 
 /* Centered section header with a small leaf either side */
 .shop-by-category-v2 .sbc-heading {
@@ -735,13 +673,15 @@ section {
   margin: 0;
 }
 
-/* Circular category grid - equal-size circles, uniform gaps */
+/* Circular category grid - equal-size circles, uniform gaps.
+   6 per row on desktop (see reference), 4 tablet-wide, 3 tablet-narrow,
+   2 mobile - see the responsive rules further down. */
 .category-grid {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 56px 48px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 44px 24px;
   padding: 0 48px;
   justify-items: center;
 }
@@ -749,7 +689,7 @@ section {
 .cat-card {
   display: block;
   width: 100%;
-  max-width: 190px;
+  max-width: 156px;
   text-decoration: none;
 }
 
@@ -798,8 +738,8 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 7px;
-  padding: 0 14px 13%;
+  gap: 6px;
+  padding: 0 10px 11%;
   text-align: center;
   color: #ffffff;
 }
@@ -811,37 +751,39 @@ section {
   color: #ffffff;
 }
 .cat-card-icon svg {
-  width: 30px;
-  height: 30px;
+  width: 22px;
+  height: 22px;
 }
 
 .cat-card-title {
   font-weight: 700;
-  font-size: 1rem;
-  line-height: 1.25;
+  font-size: 0.86rem;
+  line-height: 1.2;
   max-width: 100%;
   overflow-wrap: break-word;
   text-wrap: balance;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
 }
 
+/* Small rounded, solid forest-green "Explore" button - always visible,
+   not just on hover, per the reference. */
 .cat-card-explore {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  margin-top: 2px;
-  padding: 5px 15px;
+  margin-top: 1px;
+  padding: 4px 12px;
   border-radius: 999px;
-  font-size: 0.78rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  color: #eafce9;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  color: #ffffff;
+  background: var(--sbc-green-dark);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: background 0.3s ease;
 }
 
 /* Hover: photo zooms 1.08x, circle lifts, shadow deepens, the Explore
-   button fills in dark green. */
+   button brightens. */
 .cat-card:hover .cat-card-media,
 .cat-card:focus-visible .cat-card-media {
   transform: translateY(-8px);
@@ -853,9 +795,7 @@ section {
 }
 .cat-card:hover .cat-card-explore,
 .cat-card:focus-visible .cat-card-explore {
-  background: var(--sbc-green-dark);
-  color: #ffffff;
-  border-color: var(--sbc-green-dark);
+  background: var(--sbc-green);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -6297,7 +6237,7 @@ section {
 /* ============ Responsive ============ */
 @media (max-width: 1100px) {
   .category-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .product-grid {
@@ -6345,6 +6285,12 @@ section {
   }
 
   .category-layout .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 860px) {
+  .category-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }

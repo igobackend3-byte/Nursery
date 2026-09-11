@@ -366,13 +366,6 @@ function ShopByCategory() {
 
   return (
     <section id="shop-by-category" ref={ref} className={`shop-by-category shop-by-category-v2 reveal-section${visible ? ' is-visible' : ''}`}>
-      {/* Botanical banner + hanging corner leaves + soft corner illustrations */}
-      <div className="sbc-banner" aria-hidden="true" />
-      <span className="sbc-hang sbc-hang-left" aria-hidden="true"><SbcLeaf /></span>
-      <span className="sbc-hang sbc-hang-right" aria-hidden="true"><SbcLeaf /></span>
-      <span className="sbc-corner sbc-corner-tl" aria-hidden="true"><SbcLeaf /></span>
-      <span className="sbc-corner sbc-corner-br" aria-hidden="true"><SbcLeaf /></span>
-
       <div className="sbc-heading">
         <h2>
           <SbcLeaf className="sbc-heading-leaf sbc-heading-leaf-left" />
