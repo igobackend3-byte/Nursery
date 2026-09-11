@@ -1101,35 +1101,6 @@ function ComparisonRow({ row, index, hovered, onHover, onLeave }) {
   );
 }
 
-// A small original animated illustration (pot, sprout, floating leaves)
-// used in place of a founder photo - the user confirmed no real photo
-// exists yet, and asked for an "animation" in that spot instead of a
-// generated/stock photo standing in for one.
-function StoryIllustration() {
-  return (
-    <svg className="os-illustration-svg" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="160" cy="170" r="120" className="os-illustration-glow" />
-      <g className="os-illustration-leaf os-illustration-leaf-1">
-        <path d="M40 70c18-14 40-10 48 6-18 10-38 8-48-6z" fill="#a7f822" opacity="0.5" />
-      </g>
-      <g className="os-illustration-leaf os-illustration-leaf-2">
-        <path d="M270 60c-18-10-38-4-44 12 18 8 36 4 44-12z" fill="#a7f822" opacity="0.4" />
-      </g>
-      <g className="os-illustration-leaf os-illustration-leaf-3">
-        <path d="M60 240c-16 12-20 32-10 44 16-8 26-26 10-44z" fill="#a7f822" opacity="0.35" />
-      </g>
-      <rect x="120" y="210" width="80" height="70" rx="10" className="os-illustration-pot" />
-      <rect x="112" y="200" width="96" height="18" rx="9" className="os-illustration-pot-rim" />
-      <g className="os-illustration-plant">
-        <path d="M160 205C160 205 156 150 160 120" stroke="#dff7bf" strokeWidth="6" strokeLinecap="round" />
-        <path d="M160 165c-22-6-34-30-30-52 24 2 42 22 46 46" fill="#8fd94a" />
-        <path d="M160 145c20-8 30-30 26-50-22 4-38 22-42 44" fill="#a7f822" />
-        <path d="M160 120c10-14 12-30 6-44-16 8-24 24-22 40" fill="#c9f57a" />
-      </g>
-    </svg>
-  );
-}
-
 function OurStoryBand() {
   const [ref, visible] = useScrollReveal(0.2);
   const { language, t } = useLanguage();
@@ -1141,7 +1112,12 @@ function OurStoryBand() {
       <div className="os-story">
         <div className="os-media">
           <span className="os-badge">{t('about.badge')}</span>
-          <StoryIllustration />
+          <img
+            src="/images/home/our-story.jpeg"
+            alt="Dr John Yesudhas, Founder of IGO Nursery"
+            className="os-story-photo"
+            loading="lazy"
+          />
           <div className="os-media-caption">
             {/* Founder's name is a proper noun - kept as-is across every
                 language, same as the "Agritech Farms" brand name. */}

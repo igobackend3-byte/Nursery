@@ -639,7 +639,11 @@ section {
   --sbc-green-dark: #14411f;
   --sbc-green-light: #6bbf74;
   position: relative;
-  background: #ffffff;
+  background-image: url('/images/shop-by-category-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 80px 0; /* Adding padding to show more of the natural edges */
 }
 
 /* Centered section header with a small leaf either side */
@@ -732,13 +736,7 @@ section {
 .cat-card-scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(16, 48, 26, 0.86) 0%,
-    rgba(16, 48, 26, 0.5) 34%,
-    rgba(16, 48, 26, 0.12) 62%,
-    rgba(16, 48, 26, 0) 100%
-  );
+  background: linear-gradient(to top, rgba(20, 65, 31, 0.85) 0%, transparent 50%);
 }
 
 /* A handful of the supplied photos have their own title/icon/"Explore"
@@ -2149,6 +2147,35 @@ section {
 
 .os-media:hover {
   transform: translateY(-4px);
+}
+
+/* Founder photo fills the rounded media box - object-fit: cover keeps the
+   original aspect ratio (no stretch/distortion), positioned toward the
+   top so the face/upper body stays the focal point at any container
+   height. A soft dark-green scrim (::after below) keeps the name/title
+   caption legible over the photo's light background. */
+.os-story-photo {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.os-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(11, 61, 46, 0.85) 0%,
+    rgba(11, 61, 46, 0.4) 26%,
+    rgba(11, 61, 46, 0) 50%
+  );
 }
 
 .os-illustration-svg {
