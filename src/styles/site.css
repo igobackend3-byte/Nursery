@@ -5322,14 +5322,17 @@ section {
 }
 
 .abt-offer-card-media {
-  height: 240px;
+  height: 270px;
   overflow: hidden;
+  box-sizing: border-box;
+  padding: 12px;
+  background: #f8faf7;
 }
 
 .abt-offer-card-media img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   transition: transform 0.4s ease;
 }
