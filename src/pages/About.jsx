@@ -32,7 +32,7 @@ const PHOTO = {
     '/images/about-us/15_journey_greenhouse.jpg',
     '/images/about-us/16_journey_nursery.jpg',
   ],
-  finalCta: '/images/about-us/17_final_cta_background.png',
+  finalCta: '/images/about-us/11_our_values_plant_orbit.jpg',
 };
 
 // ---------------------------------------------------------------- Icons
