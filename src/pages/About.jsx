@@ -429,11 +429,14 @@ function AboutWhyChoose() {
 // ------------------------------------------------------------- Journey
 function AboutJourney() {
   const { t } = useLanguage();
-  const scrollerRef = useRef(null);
 
-  function scrollByCards(dir) {
-    scrollerRef.current?.scrollBy({ left: dir * 220, behavior: 'smooth' });
-  }
+  const milestones = [
+    { year: '2016', labelKey: 'journeyLabel1', image: PHOTO.journeyFirst },
+    { year: '2018', labelKey: 'journeyLabel2', image: PHOTO.journey[0] },
+    { year: '2020', labelKey: 'journeyLabel3', image: PHOTO.journey[1] },
+    { year: '2022', labelKey: 'journeyLabel4', image: PHOTO.journey[2] },
+    { year: '2024', labelKey: 'journeyLabel5', image: PHOTO.journey[3] },
+  ];
 
   return (
     <section className="abt-journey">
@@ -442,26 +445,19 @@ function AboutJourney() {
         <h2>{t('aboutPage.journeyTitle')}</h2>
         <p className="abt-offer-sub">{t('aboutPage.journeySub')}</p>
       </Reveal>
-      <div className="abt-journey-row">
-        <div className="abt-journey-scroller" ref={scrollerRef}>
-          <div
-            className="abt-journey-card abt-journey-first has-image"
-            style={{ backgroundImage: `linear-gradient(rgba(8,36,24,0.35), rgba(8,36,24,0.72)), url(${PHOTO.journeyFirst})` }}
-          >
-            {/* The year itself is a date, not translated text. */}
-            <span>2016</span>
-            <p>{t('aboutPage.journeyFirstLabel')}</p>
-          </div>
-          {PHOTO.journey.map((src, i) => (
-            <div className="abt-journey-thumb" key={src + i}>
-              <img src={src} alt={t('aboutPage.journeyImageAlt')} loading="lazy" />
+      <div className="abt-journey-grid">
+        {milestones.map((m, i) => (
+          <Reveal className="abt-journey-card" key={m.year} delay={i * 80}>
+            <div className="abt-journey-card-media">
+              <img src={m.image} alt={t(`aboutPage.${m.labelKey}`)} loading="lazy" />
             </div>
-          ))}
-        </div>
-        <div className="abt-journey-nav">
-          <button type="button" onClick={() => scrollByCards(-1)} aria-label={t('aboutPage.journeyPrevAria')}><Icon.ChevronLeft /></button>
-          <button type="button" onClick={() => scrollByCards(1)} aria-label={t('aboutPage.journeyNextAria')}><Icon.ChevronRight /></button>
-        </div>
+            <div className="abt-journey-card-body">
+              {/* The year itself is a date, not translated text. */}
+              <span className="abt-journey-year">{m.year}</span>
+              <p className="abt-journey-label">{t(`aboutPage.${m.labelKey}`)}</p>
+            </div>
+          </Reveal>
+        ))}
       </div>
     </section>
   );

@@ -1183,6 +1183,7 @@ const aboutPage = {
     journeyEyebrow: 'OUR JOURNEY', journeyTitle: 'From Small Beginnings to a Greener Future',
     journeySub: "Take a look at some moments from our journey — from our first plants to the spaces we've created.",
     journeyFirstLabel: 'Our Beginning', journeyImageAlt: 'A moment from the IGO Nursery journey', journeyPrevAria: 'Previous', journeyNextAria: 'Next',
+    journeyLabel1: 'Our Beginning', journeyLabel2: 'First Nursery Expansion', journeyLabel3: 'Growing with Customers', journeyLabel4: 'Landscaping Projects', journeyLabel5: 'Modern Nursery',
     ctaTitle: "Let's Grow Something Beautiful Together", ctaText: 'Bring nature home. Explore our wide range of plants, seeds and gardening essentials.', ctaButton: 'Explore Plants',
   },
   ta: {
@@ -1223,6 +1224,7 @@ const aboutPage = {
     journeyEyebrow: 'எங்கள் பயணம்', journeyTitle: 'சிறிய தொடக்கத்திலிருந்து பசுமையான எதிர்காலம் வரை',
     journeySub: 'எங்கள் முதல் செடிகளிலிருந்து நாங்கள் உருவாக்கிய இடங்கள் வரை, எங்கள் பயணத்தின் சில தருணங்களைப் பாருங்கள்.',
     journeyFirstLabel: 'எங்கள் தொடக்கம்', journeyImageAlt: 'IGO நர்சரி பயணத்தின் ஒரு தருணம்', journeyPrevAria: 'முந்தையது', journeyNextAria: 'அடுத்தது',
+    journeyLabel1: 'எங்கள் தொடக்கம்', journeyLabel2: 'முதல் நர்சரி விரிவாக்கம்', journeyLabel3: 'வாடிக்கையாளர்களுடன் வளர்ச்சி', journeyLabel4: 'நிலத்தோற்ற திட்டங்கள்', journeyLabel5: 'நவீன நர்சரி',
     ctaTitle: 'ஒன்றாக அழகான ஒன்றை வளர்ப்போம்', ctaText: 'இயற்கையை வீட்டிற்குக் கொண்டு வாருங்கள். எங்கள் பரந்த அளவிலான செடிகள், விதைகள் மற்றும் தோட்ட அத்தியாவசியங்களை ஆராயுங்கள்.', ctaButton: 'செடிகளை ஆராயுங்கள்',
   },
   hi: {
@@ -1263,6 +1265,7 @@ const aboutPage = {
     journeyEyebrow: 'हमारी यात्रा', journeyTitle: 'छोटी शुरुआत से एक हरे-भरे भविष्य तक',
     journeySub: 'हमारी यात्रा के कुछ पल देखें — हमारे पहले पौधों से लेकर हमारे द्वारा बनाई गई जगहों तक।',
     journeyFirstLabel: 'हमारी शुरुआत', journeyImageAlt: 'IGO नर्सरी यात्रा का एक पल', journeyPrevAria: 'पिछला', journeyNextAria: 'अगला',
+    journeyLabel1: 'हमारी शुरुआत', journeyLabel2: 'पहला नर्सरी विस्तार', journeyLabel3: 'ग्राहकों के साथ विकास', journeyLabel4: 'लैंडस्केपिंग परियोजनाएं', journeyLabel5: 'आधुनिक नर्सरी',
     ctaTitle: 'आइए साथ मिलकर कुछ खूबसूरत उगाएं', ctaText: 'प्रकृति को घर लाएं। हमारे पौधों, बीजों और बागवानी की ज़रूरी चीज़ों की विस्तृत श्रृंखला देखें।', ctaButton: 'पौधे देखें',
   },
   ml: {
@@ -1303,6 +1306,7 @@ const aboutPage = {
     journeyEyebrow: 'ഞങ്ങളുടെ യാത്ര', journeyTitle: 'ചെറിയ തുടക്കത്തിൽ നിന്ന് പച്ചയായ ഭാവിയിലേക്ക്',
     journeySub: 'ഞങ്ങളുടെ ആദ്യ ചെടികൾ മുതൽ ഞങ്ങൾ സൃഷ്ടിച്ച ഇടങ്ങൾ വരെ, ഞങ്ങളുടെ യാത്രയിലെ ചില നിമിഷങ്ങൾ കാണുക.',
     journeyFirstLabel: 'ഞങ്ങളുടെ തുടക്കം', journeyImageAlt: 'IGO നഴ്സറി യാത്രയിലെ ഒരു നിമിഷം', journeyPrevAria: 'മുമ്പത്തേത്', journeyNextAria: 'അടുത്തത്',
+    journeyLabel1: 'ഞങ്ങളുടെ തുടക്കം', journeyLabel2: 'ആദ്യ നഴ്സറി വികസനം', journeyLabel3: 'ഉപഭോക്താക്കളോടൊപ്പം വളർച്ച', journeyLabel4: 'ലാൻഡ്സ്കേപ്പിംഗ് പദ്ധതികൾ', journeyLabel5: 'ആധുനിക നഴ്സറി',
     ctaTitle: 'നമുക്ക് ഒരുമിച്ച് മനോഹരമായ എന്തെങ്കിലും വളർത്താം', ctaText: 'പ്രകൃതിയെ വീട്ടിലേക്ക് കൊണ്ടുവരൂ. ഞങ്ങളുടെ വിശാലമായ ചെടികൾ, വിത്തുകൾ, തോട്ട അവശ്യവസ്തുക്കൾ എന്നിവ പര്യവേക്ഷണം ചെയ്യൂ.', ctaButton: 'ചെടികൾ കാണുക',
   },
   te: {
@@ -1343,6 +1347,7 @@ const aboutPage = {
     journeyEyebrow: 'మా ప్రయాణం', journeyTitle: 'చిన్న ప్రారంభం నుండి పచ్చని భవిష్యత్తు వరకు',
     journeySub: 'మా మొదటి మొక్కల నుండి మేము సృష్టించిన ప్రదేశాల వరకు, మా ప్రయాణంలోని కొన్ని క్షణాలను చూడండి.',
     journeyFirstLabel: 'మా ప్రారంభం', journeyImageAlt: 'IGO నర్సరీ ప్రయాణంలోని ఒక క్షణం', journeyPrevAria: 'మునుపటి', journeyNextAria: 'తదుపరి',
+    journeyLabel1: 'మా ప్రారంభం', journeyLabel2: 'మొదటి నర్సరీ విస్తరణ', journeyLabel3: 'కస్టమర్లతో వృద్ధి', journeyLabel4: 'ల్యాండ్‌స్కేపింగ్ ప్రాజెక్టులు', journeyLabel5: 'ఆధునిక నర్సరీ',
     ctaTitle: 'కలిసి అందమైనదాన్ని పెంచుకుందాం', ctaText: 'ప్రకృతిని ఇంటికి తీసుకురండి. మా విస్తృత శ్రేణి మొక్కలు, విత్తనాలు మరియు తోటపని అవసరాలను అన్వేషించండి.', ctaButton: 'మొక్కలను చూడండి',
   },
   kn: {
@@ -1383,6 +1388,7 @@ const aboutPage = {
     journeyEyebrow: 'ನಮ್ಮ ಪಯಣ', journeyTitle: 'ಸಣ್ಣ ಆರಂಭದಿಂದ ಹಸಿರು ಭವಿಷ್ಯದವರೆಗೆ',
     journeySub: 'ನಮ್ಮ ಮೊದಲ ಸಸ್ಯಗಳಿಂದ ನಾವು ರಚಿಸಿದ ಸ್ಥಳಗಳವರೆಗೆ, ನಮ್ಮ ಪಯಣದ ಕೆಲವು ಕ್ಷಣಗಳನ್ನು ನೋಡಿ.',
     journeyFirstLabel: 'ನಮ್ಮ ಆರಂಭ', journeyImageAlt: 'IGO ನರ್ಸರಿ ಪಯಣದ ಒಂದು ಕ್ಷಣ', journeyPrevAria: 'ಹಿಂದಿನದು', journeyNextAria: 'ಮುಂದಿನದು',
+    journeyLabel1: 'ನಮ್ಮ ಆರಂಭ', journeyLabel2: 'ಮೊದಲ ನರ್ಸರಿ ವಿಸ್ತರಣೆ', journeyLabel3: 'ಗ್ರಾಹಕರೊಂದಿಗೆ ಬೆಳವಣಿಗೆ', journeyLabel4: 'ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್ ಯೋಜನೆಗಳು', journeyLabel5: 'ಆಧುನಿಕ ನರ್ಸರಿ',
     ctaTitle: 'ಒಟ್ಟಿಗೆ ಸುಂದರವಾದದ್ದನ್ನು ಬೆಳೆಸೋಣ', ctaText: 'ಪ್ರಕೃತಿಯನ್ನು ಮನೆಗೆ ತನ್ನಿ. ನಮ್ಮ ವಿಶಾಲ ಶ್ರೇಣಿಯ ಸಸ್ಯಗಳು, ಬೀಜಗಳು ಮತ್ತು ತೋಟಗಾರಿಕೆ ಅಗತ್ಯ ವಸ್ತುಗಳನ್ನು ಅನ್ವೇಷಿಸಿ.', ctaButton: 'ಸಸ್ಯಗಳನ್ನು ನೋಡಿ',
   },
 };
