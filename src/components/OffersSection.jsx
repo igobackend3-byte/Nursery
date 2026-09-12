@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom';
 import { useSiteContent } from '../hooks/useSiteContent';
 import { useLanguage } from '../context/LanguageContext';
 import { getOfferNoteTranslation } from '../i18n/translations';
-// Note: this section is intentionally static - no scroll-reveal, no
-// ambient motion, per the "keep everything static" brief.
+import DecorativeLeaves from './DecorativeLeaves';
+import DecorativePetals from './DecorativePetals';
+import BundleButterfly from './BundleButterfly';
 
-// An elegant little leafy sprig used either side of the heading and,
-// larger, hanging from the section's top corners.
+// An elegant little leafy sprig used either side of the heading
 function LeafSprig() {
   return (
     <svg viewBox="0 0 60 90" fill="none" aria-hidden="true">
@@ -20,19 +20,6 @@ function LeafSprig() {
   );
 }
 
-function TinyFlower() {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <circle cx="12" cy="12" r="2.6" className="offers-flower-center" />
-      <circle cx="12" cy="6" r="3" />
-      <circle cx="17.2" cy="9.5" r="3" />
-      <circle cx="15" cy="16" r="3" />
-      <circle cx="9" cy="16" r="3" />
-      <circle cx="6.8" cy="9.5" r="3" />
-    </svg>
-  );
-}
-
 function SingleLeaf() {
   return (
     <svg viewBox="0 0 40 24" fill="currentColor" aria-hidden="true">
@@ -41,42 +28,25 @@ function SingleLeaf() {
   );
 }
 
-// Purely decorative, fully STATIC backdrop - leaves hanging from the top
-// corners, small pink flowers and green leaves scattered around the
-// edges, and a soft garden-light wash. Nothing here moves.
-// aria-hidden, pointer-events:none, sits behind the heading and cards.
-function OffersBackdrop() {
-  return (
-    <div className="offers-bg" aria-hidden="true">
-      <span className="offers-bokeh offers-bokeh-1" />
-      <span className="offers-bokeh offers-bokeh-2" />
-      <span className="offers-bokeh offers-bokeh-3" />
-
-      <span className="offers-hang offers-hang-left"><LeafSprig /></span>
-      <span className="offers-hang offers-hang-right"><LeafSprig /></span>
-
-      <span className="offers-flower offers-flower-1"><TinyFlower /></span>
-      <span className="offers-flower offers-flower-2"><TinyFlower /></span>
-      <span className="offers-flower offers-flower-3"><TinyFlower /></span>
-      <span className="offers-flower offers-flower-4"><TinyFlower /></span>
-      <span className="offers-flower offers-flower-5"><TinyFlower /></span>
-      <span className="offers-flower offers-flower-6"><TinyFlower /></span>
-
-      <span className="offers-float-leaf offers-float-leaf-1"><SingleLeaf /></span>
-      <span className="offers-float-leaf offers-float-leaf-2"><SingleLeaf /></span>
-      <span className="offers-float-leaf offers-float-leaf-3"><SingleLeaf /></span>
-      <span className="offers-float-leaf offers-float-leaf-4"><SingleLeaf /></span>
-    </div>
-  );
-}
-
 function OffersSection() {
   const { offers: OFFERS } = useSiteContent();
   const { t, language } = useLanguage();
 
   return (
-    <section className="offers-section offers-section-v2">
-      <OffersBackdrop />
+    <section className="offers-section offers-section-v2 offers-animated">
+      {/* Botanical Background Image */}
+      <div className="offers-bg-image" aria-hidden="true">
+         <div className="offers-radial-glow"></div>
+      </div>
+
+      {/* Premium Animations */}
+      <div className="offers-animations" aria-hidden="true">
+        <DecorativeLeaves variant="offers" count={6} />
+        <DecorativePetals variant="offers" count={5} />
+        <div className="offers-flying-butterfly butterfly-1"><BundleButterfly tone="blue" /></div>
+        <div className="offers-flying-butterfly butterfly-2"><BundleButterfly tone="orange" delay={1} /></div>
+        <div className="offers-flying-butterfly butterfly-3"><BundleButterfly tone="pink" delay={2} /></div>
+      </div>
 
       <div className="section-heading center offers-heading">
         <p className="offers-eyebrow">{t('offers.exclusiveDeals')}</p>
@@ -90,8 +60,8 @@ function OffersSection() {
       </div>
 
       <div className="offers-grid">
-        {OFFERS.map((offer) => (
-          <div className="offer-card" key={offer.id}>
+        {OFFERS.map((offer, index) => (
+          <div className="offer-card" key={offer.id} style={{ animationDelay: `${index * 0.15}s` }}>
             <div className="offer-copy">
               <h3>{t('offers.buyAny')} {offer.qty} @ ₹{offer.price}</h3>
               <p>{getOfferNoteTranslation(offer.note, language)}</p>

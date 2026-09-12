@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useCatalogue } from '../context/CatalogueContext';
 import { getDiscountPercent } from '../utils/pricing';
 import { getLocalizedProductName, getLocalizedCategoryLabel } from '../utils/localizedContent';
+import imageMap from '../data/imageMap.json';
 
 // `isNew` is opt-in per usage (e.g. the homepage "Just In" section) - never
 // set by default, so every other place ProductCard is already used is
@@ -26,7 +27,12 @@ function ProductCard({ product, isNew = false }) {
       >
         {product.isBestSeller && <span className="bestseller-badge">{t('common.bestseller')}</span>}
         {isNew && <span className="new-badge">{t('home.newBadge')}</span>}
-        <img src={product.image} alt={localizedName} loading="lazy" />
+        <img 
+          src={imageMap[product.name] || product.image} 
+          alt={localizedName} 
+          loading="lazy" 
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} 
+        />
         <span className="rating-badge">{product.rating}/5</span>
         <button
           type="button"
