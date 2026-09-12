@@ -14,23 +14,23 @@ import { useLanguage } from '../context/LanguageContext';
 // ------------------------------------------------------------------
 
 const PHOTO = {
-  greenhouse: '/images/about-us/01_hero_nursery_greenhouse.png',
-  handWithPlant: '/images/about-us/02_our_story_person_holding_plant.png',
-  vision: '/images/about-us/03_vision_growing_plant.png',
-  mission: '/images/about-us/04_mission_plant.png',
+  greenhouse: '/images/about-us/01_hero_nursery_greenhouse.jpg',
+  handWithPlant: '/images/about-us/02_our_story_person_holding_plant.jpg',
+  vision: '/images/about-us/03_vision_growing_plant.jpg',
+  mission: '/images/about-us/04_mission_plant.jpg',
   offerIndoorOutdoor: '/images/about-us/05_indoor_outdoor_plants.png',
   offerPots: '/images/about-us/06_pots_and_planters.png',
   offerSeeds: '/images/about-us/07_seeds_and_gardening.png',
   plantCare: '/images/about-us/08_plant_care.png',
   landscaping: '/images/about-us/09_landscaping.png',
   corporateGifting: '/images/about-us/10_corporate_gifting.png',
-  soilMacro: '/images/about-us/11_our_values_plant_orbit.png',
+  soilMacro: '/images/about-us/11_our_values_plant_orbit.jpg',
+  journeyFirst: '/images/about-us/12_journey_seedlings.jpg',
   journey: [
-    '/images/about-us/12_journey_seedlings.png',
-    '/images/about-us/13_journey_nursery_beds.png',
-    '/images/about-us/14_journey_plant_care.png',
-    '/images/about-us/15_journey_greenhouse.png',
-    '/images/about-us/16_journey_nursery.png',
+    '/images/about-us/13_journey_nursery_beds.jpg',
+    '/images/about-us/14_journey_plant_care.jpg',
+    '/images/about-us/15_journey_greenhouse.jpg',
+    '/images/about-us/16_journey_nursery.jpg',
   ],
   finalCta: '/images/about-us/17_final_cta_background.png',
 };
@@ -444,7 +444,10 @@ function AboutJourney() {
       </Reveal>
       <div className="abt-journey-row">
         <div className="abt-journey-scroller" ref={scrollerRef}>
-          <div className="abt-journey-card abt-journey-first">
+          <div
+            className="abt-journey-card abt-journey-first has-image"
+            style={{ backgroundImage: `linear-gradient(rgba(8,36,24,0.35), rgba(8,36,24,0.72)), url(${PHOTO.journeyFirst})` }}
+          >
             {/* The year itself is a date, not translated text. */}
             <span>2016</span>
             <p>{t('aboutPage.journeyFirstLabel')}</p>

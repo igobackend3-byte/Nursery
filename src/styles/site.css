@@ -5610,6 +5610,11 @@ section {
   gap: 6px;
 }
 
+.abt-journey-first.has-image {
+  background-size: cover;
+  background-position: center;
+}
+
 .abt-journey-first span {
   font-family: var(--font-display);
   font-size: 1.3rem;
