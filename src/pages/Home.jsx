@@ -1347,13 +1347,11 @@ function ChatQuoteIcon() {
   );
 }
 
-// Sits directly below Garden journal, above Customer reviews. The visual
-// is a real gift-tagged product photo from the catalogue (see products.js
-// `gift: true` entries) - not a stock/placeholder image.
+// Sits directly below Garden journal, above Customer reviews.
+const GIFTING_IMAGE = '/images/gifting-hero.jpg';
+
 function GiftingBand() {
   const { t } = useLanguage();
-  const { getGiftProducts } = useCatalogue();
-  const showcase = getGiftProducts()[0];
   const [ref, visible] = useScrollReveal(0.15);
 
   return (
@@ -1391,7 +1389,7 @@ function GiftingBand() {
       </div>
 
       <div className="gifting-band-media">
-        {showcase && <img src={showcase.image} alt={showcase.name} loading="lazy" />}
+        <img src={GIFTING_IMAGE} alt={t('home.giftingHeading')} loading="lazy" />
       </div>
     </section>
   );
