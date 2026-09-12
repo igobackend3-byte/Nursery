@@ -2096,6 +2096,21 @@ section {
   height: 22px;
 }
 
+/* Photo variant (see WHY_IGO in Home.jsx) - replaces the small icon
+   badge above with a full-width feature photo, same bottom margin so
+   the heading/text below lines up exactly like the icon cards. */
+.why-igo-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
 .why-igo-card h3 {
   font-family: var(--font-display);
   font-size: 1.05rem;

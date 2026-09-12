@@ -20,11 +20,14 @@ import DecorativeGlow from '../components/DecorativeGlow';
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
 // `key` maps to whyIgo.title{Key}/desc{Key} in src/i18n/translations.js.
+// `image` is matched by filename from the user-supplied "Grown with data,
+// delivered with care" folder - a card with no `image` keeps the original
+// icon badge instead of a broken/missing photo.
 const WHY_IGO = [
-  { icon: 'wifi', key: 'Iot' },
-  { icon: 'flask', key: 'Precision' },
-  { icon: 'shield', stat: '99.2%', key: 'Guarantee', featured: true },
-  { icon: 'headset', key: 'Expert' },
+  { icon: 'wifi', key: 'Iot', image: '/images/why-igo/iot-monitored-nurseries.png' },
+  { icon: 'flask', key: 'Precision', image: '/images/why-igo/precision-trials.png' },
+  { icon: 'shield', stat: '99.2%', key: 'Guarantee', featured: true, image: '/images/why-igo/health-guarantee.png' },
+  { icon: 'headset', key: 'Expert', image: '/images/why-igo/expert-plant-care-guidance.png' },
 ];
 
 // Small original line-icon set (matches the stroke-icon style already used
@@ -890,7 +893,16 @@ function WhyIgoCard({ item, index }) {
       style={{ transitionDelay: `${index * 90}ms` }}
     >
       {item.featured && <span className="why-igo-tag">{t('whyIgo.tagVerified')}</span>}
-      <span className="why-igo-icon">{WHY_IGO_ICONS[item.icon]}</span>
+      {item.image ? (
+        <img
+          className="why-igo-image"
+          src={item.image}
+          alt={t(`whyIgo.title${item.key}`)}
+          loading="lazy"
+        />
+      ) : (
+        <span className="why-igo-icon">{WHY_IGO_ICONS[item.icon]}</span>
+      )}
       {item.stat ? (
         <h3>
           <span className="why-igo-stat">{item.stat}</span> {t(`whyIgo.title${item.key}`)}
