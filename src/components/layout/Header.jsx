@@ -81,8 +81,8 @@ function Header() {
   return (
     <header className="primary-header">
       <div className="logo-container" onClick={() => navigate('/')} role="button" tabIndex={0}>
-        <img src={igoLogo} alt="IGO Agritech Farms" className="logo-icon" />
-        <span className="logo-text-animate">Agritech Farms</span>
+        <img src={igoLogo} alt="IGO Nursery" className="logo-icon" />
+        <span className="logo-text-animate">IGO Nursery</span>
       </div>
 
       <form className="search-bar" onSubmit={handleSubmit}>

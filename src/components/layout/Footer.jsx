@@ -99,8 +99,8 @@ function Footer() {
       <div className="footer-top ftr-top-grid">
         <div className="footer-brand">
           <div className="footer-logo">
-            <img src={igoLogo} alt="IGO Agritech Farms" className="logo-icon" />
-            <span>Agritech Farms</span>
+            <img src={igoLogo} alt="IGO Nursery" className="logo-icon" />
+            <span>IGO Nursery</span>
           </div>
           <p className="ftr-desc">
             {t('footer.desc1')}<br />{t('footer.desc2')}

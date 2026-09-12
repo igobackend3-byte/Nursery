@@ -210,7 +210,7 @@ function FindOurFarm() {
         </a>
       </div>
       <div className="ctc-farm-map">
-        <iframe title="IGO Agritech Farms location" src={MAP_EMBED_SRC} loading="lazy" />
+        <iframe title="IGO Nursery location" src={MAP_EMBED_SRC} loading="lazy" />
         <span className="ctc-farm-map-label">Green Valley</span>
       </div>
     </section>

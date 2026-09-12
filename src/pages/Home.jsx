@@ -1138,7 +1138,7 @@ function OurStoryBand() {
           />
           <div className="os-media-caption">
             {/* Founder's name is a proper noun - kept as-is across every
-                language, same as the "Agritech Farms" brand name. */}
+                language, same as the "IGO Nursery" brand name. */}
             <p className="os-media-name">Dr John Yesudhas</p>
             <p className="os-media-title">{t('about.designation')}</p>
           </div>
