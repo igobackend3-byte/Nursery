@@ -21,12 +21,18 @@
 }
 
 .top-bar p {
+  display: inline-block;
   animation: scroll-left 20s linear infinite;
 }
 
+/* The message is duplicated in the markup (see TopBar.jsx), so shifting
+   by exactly -50% of the paragraph's own width brings the second copy
+   into the position the first started at - a seamless, always-visible
+   loop instead of leaving the bar blank while the text travels fully
+   off-screen and back on. */
 @keyframes scroll-left {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
 }
 
 /* --- Primary Header --- */
