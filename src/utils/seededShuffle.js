@@ -14,11 +14,29 @@ export function seededShuffle(array, seed) {
   return result;
 }
 
-// The single source of truth for "Just In" - same seed used everywhere
-// so the homepage preview and the full listing page show the same
-// products in the same order, just sliced to a different length.
 export const JUST_IN_SEED = 20240601;
 
 export function getJustInProducts(products, count) {
-  return seededShuffle(products, JUST_IN_SEED).slice(0, count);
+  const targetNames = [
+    'Balsam Seeds',
+    'Compost Accelerator Culture (200-500g)',
+    'Insect-Proof Agro Net',
+    'Neem Seeds',
+    'White Mussaenda'
+  ];
+
+  const forcedProducts = targetNames.map(name => {
+    const prod = products.find(p => p.name === name);
+    return prod ? { ...prod } : null;
+  }).filter(Boolean);
+
+  const remainingCount = count - forcedProducts.length;
+  if (remainingCount <= 0) {
+    return forcedProducts.slice(0, count);
+  }
+
+  const otherProducts = products.filter(p => !targetNames.includes(p.name));
+  const shuffledOthers = seededShuffle(otherProducts, JUST_IN_SEED);
+  
+  return [...forcedProducts, ...shuffledOthers.slice(0, remainingCount)];
 }

@@ -1,5 +1,6 @@
 import { useLanguage } from '../context/LanguageContext';
 import { getLandscapingServiceTranslation } from '../i18n/translations';
+import landscapingImageMap from '../data/landscapingImageMap.json';
 
 const LANDSCAPING_SERVICES = [
   'Villa Landscaping', 'Balcony Garden', 'Terrace Garden', 'Rooftop Garden', 'Vertical Garden',
@@ -16,17 +17,9 @@ const LANDSCAPING_SERVICES = [
   'Rain Garden', 'Smart Irrigation Landscaping',
 ];
 
-// The photos in public/images/landscaping-services/ are numbered 01-32 in
-// the same order as the first 32 services above (see
-// Garden_Images_Separate, the source folder) - e.g. "01_Villa_Landscaping.png"
-// for "Villa Landscaping". Only those first 32 services have a matching
-// photo right now, so the remaining ones (Butterfly Garden onward) keep the
-// original text-only card rather than showing a placeholder.
-const SERVICE_IMAGE_COUNT = 32;
-function serviceImage(title, index) {
-  if (index >= SERVICE_IMAGE_COUNT) return null;
-  const num = String(index + 1).padStart(2, '0');
-  return `/images/landscaping-services/${num}_${title.replace(/ /g, '_')}.png`;
+// Using images dynamically synced from local folder
+function serviceImage(title) {
+  return landscapingImageMap[title] || null;
 }
 
 function Landscaping() {
@@ -40,12 +33,23 @@ function Landscaping() {
       </p>
 
       <div className="services-grid large landscaping-grid">
-        {LANDSCAPING_SERVICES.map((title, index) => {
-          const image = serviceImage(title, index);
+        {LANDSCAPING_SERVICES.map((title) => {
+          const image = serviceImage(title);
           const localizedTitle = getLandscapingServiceTranslation(title, language);
+          
+          if (!image) {
+            console.warn(`[MISSING IMAGE] No landscaping image found for: ${title}`);
+          }
+
           return (
-            <div className={`service-card static compact${image ? ' has-image' : ''}`} key={title}>
-              {image && <img src={image} alt={localizedTitle} loading="lazy" />}
+            <div className="service-card static compact has-image" key={title}>
+              {image ? (
+                <img src={image} alt={localizedTitle} loading="lazy" />
+              ) : (
+                <div style={{ width: '100%', aspectRatio: '4/3', backgroundColor: '#f8f9f7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', marginBottom: '14px' }}>
+                  🌱
+                </div>
+              )}
               <h3>{localizedTitle}</h3>
             </div>
           );

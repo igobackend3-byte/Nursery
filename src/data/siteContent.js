@@ -21,9 +21,9 @@ export const DEFAULT_SITE_CONTENT = {
     { id: 4, qty: 4, price: 999, note: 'WITH POT SET', image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=500&auto=format&fit=crop' },
   ],
   journal: [
-    { id: 1, title: 'How to choose your first indoor plant', to: '/blog', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=500&auto=format&fit=crop' },
-    { id: 2, title: 'A simple guide to potting mix', to: '/blog', image: journalPottingMixImg },
-    { id: 3, title: '3 ways to make a balcony feel greener', to: '/blog', image: 'https://images.unsplash.com/photo-1463154545680-d59320fd685d?q=80&w=500&auto=format&fit=crop' },
+    { id: 1, title: 'How to choose your first indoor plant', to: '/blog', image: '/images/journal/how to choose your frst  indoor plant.png' },
+    { id: 2, title: 'A simple guide to potting mix', to: '/blog', image: '/images/journal/a simple guide to potting mix.png' },
+    { id: 3, title: '3 ways to make a balcony feel greener', to: '/blog', image: '/images/journal/3 ways to make  a balcony feel greener.png' },
   ],
   gardenServices: [
     { id: 1, title: 'Terrace Garden', to: '/garden-services' },

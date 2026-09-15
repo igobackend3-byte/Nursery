@@ -9,13 +9,15 @@ import { useLanguage } from '../context/LanguageContext';
 import { getLocalizedCategoryLabel, getLocalizedProductName } from '../utils/localizedContent';
 import { CATEGORY_LABEL_TRANSLATIONS } from '../data/categoryTranslations';
 import { getDiscountPercent } from '../utils/pricing';
-import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTranslation, getReviewTranslation, getJourneyStepTranslation, getCompareHeaderTranslation, getCompareTitleTranslation, getCompareRowTranslation, getTrustBadgeTranslation, getStatsStripTranslation } from '../i18n/translations';
+import { getHeroFieldTranslation, getGardenServiceTranslation, getBlogPostTranslation, getJourneyStepTranslation, getCompareHeaderTranslation, getCompareTitleTranslation, getCompareRowTranslation, getTrustBadgeTranslation, getStatsStripTranslation } from '../i18n/translations';
 import { getJustInProducts } from '../utils/seededShuffle';
 import DecorativeLeaves from '../components/DecorativeLeaves';
 import SectionVine from '../components/SectionVine';
 import DecorativeFlowers from '../components/DecorativeFlowers';
 import DecorativePetals from '../components/DecorativePetals';
 import DecorativeGlow from '../components/DecorativeGlow';
+import ComparisonSection from '../components/ComparisonSection';
+import TrustBenefits from '../components/TrustBenefits';
 
 // `stat`/`statLabel` split out only for the metric card, so "99.2%" can be
 // styled as a standalone accent number instead of plain heading text.
@@ -63,11 +65,7 @@ const WHY_IGO_ICONS = {
   ),
 };
 
-const REVIEWS = [
-  { name: 'Ananya R.', rating: 5, text: 'The plants arrived so much healthier than I expected. Great packaging too.' },
-  { name: 'Karthik S.', rating: 5, text: 'Ordered a bonsai as a gift — the recipient loved it. Will order again.' },
-  { name: 'Priya M.', rating: 4, text: 'Good range of pots and the care guide that came with my order was genuinely useful.' },
-];
+
 
 // `key` maps to faq.q{Key}/a{Key} in src/i18n/translations.js.
 const FAQS = [
@@ -132,13 +130,42 @@ function Hero() {
 function AboutIgo() {
   const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.15);
+  
+  // Split the heading into two parts for styling, fallback to full string if no comma
+  const headingStr = t('home.whyIgoHeading');
+  const splitIndex = headingStr.indexOf(',');
+  const headingPart1 = splitIndex !== -1 ? headingStr.substring(0, splitIndex + 1) : headingStr;
+  const headingPart2 = splitIndex !== -1 ? headingStr.substring(splitIndex + 1).trim() : '';
+
   return (
     <section ref={ref} className={`about-igo-section reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="about-igo-copy">
-        <p className="eyebrow">{t('pages.ourStory')}</p>
-        <h2>{t('home.whyIgoHeading')}</h2>
+        <div className="about-igo-eyebrow-wrapper">
+          <span className="eyebrow-line"></span>
+          <p className="eyebrow">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="eyebrow-icon">
+              <path d="M17.4,5.4C14.7,2.7,10.6,2,7.3,3.7C5,5,3.7,7.4,3.7,10c0,2.3,1.1,4.5,2.9,6c-0.6,1.4-1.6,2.6-2.9,3.6c-0.3,0.2-0.3,0.7,0,1 c0.2,0.2,0.6,0.3,0.9,0.1c4.8-3.3,7.6-6,9.1-8.5c2.1-3.6,1.9-8.1,0.2-10.7C13.2,1,16.5,2.1,19.2,4.8C20,5.6,20,6.9,19.2,7.7l-4.2,4.2 c-0.4,0.4-1,0.4-1.4,0c-0.4-0.4-0.4-1,0-1.4l4.2-4.2C18.2,5.9,17.8,5.8,17.4,5.4z"/>
+            </svg>
+            {t('pages.ourStory')}
+          </p>
+          <span className="eyebrow-line"></span>
+        </div>
+        
+        <h2>
+          <span className="heading-dark">{headingPart1}</span>
+          {headingPart2 && <br />}
+          {headingPart2 && <span className="heading-light">{headingPart2}</span>}
+        </h2>
+        
         <p className="about-igo-text">{t('pages.aboutStory')}</p>
-        <Link to="/about" className="btn-build-garden">{t('home.discoverMore')}</Link>
+        
+        <Link to="/about" className="btn-discover-more">
+          {t('home.discoverMore')}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginLeft: '8px'}}>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </Link>
       </div>
     </section>
   );
@@ -796,64 +823,149 @@ function JourneyStep({ step, index }) {
   );
 }
 
-// Small original flat-vector delivery rider (orange/black KTM-style bike +
-// uniformed rider + plant box) that travels along the dotted route line -
-// pure CSS-driven, no image assets or libraries. Purely decorative, so
-// hidden from assistive tech.
+// Small original flat-vector delivery rider (dark grey/black Himalayan-style
+// adventure bike + IGO-uniformed rider + plant box) that travels along the
+// dotted route line - pure CSS-driven, no image assets or libraries.
+// Purely decorative, so hidden from assistive tech.
 function DeliveryRider() {
   return (
     <div className="journey-rider-track" aria-hidden="true">
-      <div className="journey-rider">
-        <div className="journey-rider-shadow" />
+      {/* 
+        Scaled down to approx 80% of previous iteration (0.6 scale instead of 0.75),
+        anchored at the bottom center so it sits exactly on the dotted line without overlapping text.
+      */}
+      <div className="journey-rider" style={{ transform: 'translate(-50%, -100%) scale(0.6)', transformOrigin: 'bottom center', width: '220px' }}>
         <div className="journey-rider-bob">
-          <svg className="journey-rider-svg" viewBox="0 0 160 90" xmlns="http://www.w3.org/2000/svg">
-            {/* delivery box */}
-            <rect x="8" y="18" width="26" height="22" rx="4" className="rider-box" />
-            <path d="M21 24 C25 26 25 32 21 34 C17 32 17 26 21 24 Z" className="rider-box-leaf" />
+          {/* viewBox tightly hugs the bottom of the wheels (y=126) so it rides exactly on the line */}
+          <svg className="journey-rider-svg" viewBox="0 0 240 126" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block', width: '100%', height: 'auto' }}>
+            <defs>
+              <linearGradient id="helmetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#374151" />
+                <stop offset="100%" stopColor="#111827" />
+              </linearGradient>
+              <linearGradient id="tankGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#4B5563" />
+                <stop offset="100%" stopColor="#1F2937" />
+              </linearGradient>
+              <linearGradient id="visorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#1f2937" />
+                <stop offset="100%" stopColor="#030712" />
+              </linearGradient>
+              <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="5" stdDeviation="3" floodOpacity="0.25" floodColor="#000" />
+              </filter>
+            </defs>
+            
+            {/* Soft shadow directly under the tires */}
+            <ellipse cx="120" cy="124" rx="85" ry="4" fill="rgba(0,0,0,0.15)" filter="blur(2px)" />
 
-            {/* footboard + fairing (KTM-style orange bodywork) */}
-            <rect x="30" y="52" width="82" height="8" rx="4" className="rider-tank" />
-            <path
-              d="M96,54 C96,30 102,16 116,14 C122,13 126,16 126,22 L126,40 C126,48 122,54 114,54 Z"
-              className="rider-tank"
-            />
-            <circle cx="123" cy="21" r="3" className="rider-headlight" />
+            <g filter="url(#softShadow)">
+              {/* --- MOTORCYCLE --- */}
+              {/* Rear Fender & Rack */}
+              <path d="M 40 71 Q 55 51 80 66" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" />
+              <path d="M 35 51 L 75 51" fill="none" stroke="#1f2937" strokeWidth="4" strokeLinecap="round" />
+              <rect x="35" y="51" width="40" height="3" fill="#374151" />
 
-            {/* seat + handlebar (black) */}
-            <rect x="46" y="30" width="8" height="24" rx="3" className="rider-dark" />
-            <rect x="34" y="24" width="30" height="10" rx="5" className="rider-dark" />
-            <rect x="118" y="8" width="20" height="5" rx="2.5" className="rider-dark" transform="rotate(-8 128 10)" />
+              {/* Delivery Box (Rear) */}
+              <rect x="25" y="16" width="45" height="35" rx="3" fill="#1f2937" stroke="#111827" strokeWidth="2" />
+              <rect x="30" y="21" width="35" height="25" rx="2" fill="#374151" />
+              <path d="M 42 31 C 47 34 47 40 42 42 C 37 40 37 34 42 31 Z" fill="#48bb78" />
+              <path d="M 47 34 C 52 31 57 31 57 39 C 54 41 49 41 47 34 Z" fill="#48bb78" />
+              <circle cx="47" cy="34" r="1.5" fill="#1f2937" />
 
-            {/* rider: seated upright, facing right - hip on the seat, torso
-                leaning slightly forward, leg bending down to the footrest,
-                arm reaching forward to the handlebar grip */}
-            <path d="M60,32 Q63,44 66,54" className="rider-limb" />
-            <path d="M60,32 C61,25 64,18 69,14" className="rider-limb rider-limb-thick" />
-            <path d="M68,15 Q98,8 127,11" className="rider-limb" />
+              {/* Rear Wheel (r=26, cy=100 -> bottom touches 126) */}
+              <g transform="translate(60, 100)">
+                <circle cx="0" cy="0" r="23" fill="none" stroke="#111827" strokeWidth="10" />
+                <circle cx="0" cy="0" r="16" fill="none" stroke="#9ca3af" strokeWidth="1.5" />
+                {[0, 30, 60, 90, 120, 150].map((angle) => (
+                  <line key={`r-${angle}`} x1="-16" y1="0" x2="16" y2="0" stroke="#d1d5db" strokeWidth="1.2" transform={`rotate(${angle})`} />
+                ))}
+                <circle cx="0" cy="0" r="4" fill="#374151" />
+              </g>
 
-            {/* rider: uniform jacket with a small IGO accent */}
-            <path d="M64,16 L72,13 L76,31 L58,35 Z" className="rider-uniform" />
-            <path d="M66,16 L72,14 L74,20 L67,22 Z" className="rider-uniform-accent" />
+              {/* Exhaust Pipe */}
+              <path d="M 100 96 L 50 86" fill="none" stroke="#4b5563" strokeWidth="5" strokeLinecap="round" />
+              <path d="M 70 88 L 40 78" fill="none" stroke="#1f2937" strokeWidth="7" strokeLinecap="round" />
 
-            {/* rider: helmet, facing forward/right */}
-            <circle cx="72" cy="10" r="9" className="rider-helmet" />
-            <path d="M65,9 C69,6 79,6 82,10" className="rider-visor" />
-            <ellipse cx="75.5" cy="6.5" rx="2" ry="1" className="rider-visor-shine" />
+              {/* Motorcycle Body & Frame */}
+              <path d="M 60 56 L 115 56 L 125 46 L 60 46 Z" fill="#111827" /> {/* Seat */}
+              
+              {/* Himalayan Adventure Tank */}
+              <path d="M 115 56 L 120 36 L 155 36 Q 170 36 160 61 L 115 61 Z" fill="url(#tankGrad)" stroke="#111827" strokeWidth="2" />
+              {/* Tank Green Accent Stripe */}
+              <path d="M 125 41 L 155 41 L 150 48 L 122 48 Z" fill="#48bb78" opacity="0.9" />
+              <text x="127" y="46" fill="#111827" fontSize="4.5" fontWeight="bold" letterSpacing="0.5">HIMALAYAN</text>
 
-            {/* wheels (black tire, silver rim/hub) */}
-            <g className="rider-wheel" style={{ transformOrigin: '34px 62px' }}>
-              <circle cx="34" cy="62" r="14" className="rider-tire" />
-              <circle cx="34" cy="62" r="8" className="rider-rim" />
-              <circle cx="34" cy="62" r="3" className="rider-hub" />
-              <line x1="34" y1="50" x2="34" y2="74" className="rider-spoke" />
-              <line x1="22" y1="62" x2="46" y2="62" className="rider-spoke" />
-            </g>
-            <g className="rider-wheel" style={{ transformOrigin: '118px 62px' }}>
-              <circle cx="118" cy="62" r="14" className="rider-tire" />
-              <circle cx="118" cy="62" r="8" className="rider-rim" />
-              <circle cx="118" cy="62" r="3" className="rider-hub" />
-              <line x1="118" y1="50" x2="118" y2="74" className="rider-spoke" />
-              <line x1="106" y1="62" x2="130" y2="62" className="rider-spoke" />
+              {/* Engine Block & Bash Plate */}
+              <rect x="105" y="61" width="45" height="30" rx="5" fill="#374151" stroke="#111827" strokeWidth="2" />
+              <line x1="110" y1="66" x2="145" y2="66" stroke="#1f2937" strokeWidth="1.5" />
+              <line x1="110" y1="71" x2="145" y2="71" stroke="#1f2937" strokeWidth="1.5" />
+              <line x1="110" y1="76" x2="145" y2="76" stroke="#1f2937" strokeWidth="1.5" />
+              <path d="M 100 61 L 155 61 L 155 96 L 100 96 Z" fill="none" stroke="#111827" strokeWidth="3" rx="8" />
+
+              {/* Front Fork & Suspension */}
+              <line x1="145" y1="36" x2="180" y2="100" stroke="#9ca3af" strokeWidth="4" strokeLinecap="round" />
+              <line x1="152" y1="32" x2="187" y2="96" stroke="#111827" strokeWidth="3" strokeLinecap="round" />
+              
+              {/* Front Beak */}
+              <path d="M 155 61 Q 175 51 195 66 L 185 71 Q 170 64 152 68 Z" fill="#4b5563" stroke="#111827" strokeWidth="1.5" />
+              <path d="M 165 81 Q 195 71 210 94" fill="none" stroke="#111827" strokeWidth="3" strokeLinecap="round" />
+
+              {/* Front Wheel */}
+              <g transform="translate(182, 100)">
+                <circle cx="0" cy="0" r="23" fill="none" stroke="#111827" strokeWidth="10" />
+                <circle cx="0" cy="0" r="16" fill="none" stroke="#9ca3af" strokeWidth="1.5" />
+                {[0, 30, 60, 90, 120, 150].map((angle) => (
+                  <line key={`f-${angle}`} x1="-16" y1="0" x2="16" y2="0" stroke="#d1d5db" strokeWidth="1.2" transform={`rotate(${angle})`} />
+                ))}
+                <circle cx="0" cy="0" r="4" fill="#374151" />
+              </g>
+
+              {/* Headlight & Windscreen */}
+              <circle cx="160" cy="31" r="8" fill="#f3f4f6" stroke="#111827" strokeWidth="2.5" />
+              <path d="M 155 26 Q 150 1 168 -2 L 165 24 Z" fill="rgba(203, 213, 225, 0.4)" stroke="#64748b" strokeWidth="1.5" />
+              
+              {/* Handlebars & Hand Guards */}
+              <path d="M 142 16 L 155 6 L 165 16" fill="none" stroke="#111827" strokeWidth="3" strokeLinecap="round" />
+              <path d="M 135 18 Q 140 12 145 18 Z" fill="#1f2937" /> {/* Hand guard */}
+
+              {/* --- RIDER --- */}
+              {/* Back Cargo Pants (Dark Pants) */}
+              <path d="M 95 51 L 115 74 L 105 91 L 95 91 L 100 74 L 85 61 Z" fill="#2d3748" stroke="#111827" strokeWidth="1.5" strokeLinejoin="round" />
+              <rect x="100" y="66" width="8" height="10" rx="1.5" fill="#2d3748" stroke="#111827" strokeWidth="1" transform="rotate(-15 105 72)" />
+
+              {/* Foot placement firmly on foot peg */}
+              <path d="M 93 88 L 110 88 L 113 94 L 90 94 Z" fill="#111827" rx="2" />
+              <circle cx="102" cy="91" r="2.5" fill="#4b5563" /> {/* Foot peg */}
+
+              {/* Black Half-Sleeve IGO T-Shirt (Torso leaning slightly forward into natural riding posture) */}
+              <path d="M 78 51 Q 90 20 110 20 L 122 33 Q 110 54 95 51 Z" fill="#111827" />
+              <text x="90" y="40" fill="#ffffff" fontSize="6.5" fontWeight="900" transform="rotate(15 90 40)">IGO</text>
+              
+              {/* Sleeves */}
+              <path d="M 110 20 L 122 33 L 115 42 L 98 30 Z" fill="#1f2937" />
+              <text x="108" y="35" fill="#ffffff" fontSize="4" fontWeight="900" transform="rotate(25 108 35)">IGO</text>
+
+              {/* Arms (Skin Tone) leaning forward to handlebars */}
+              {/* Right Arm (Background) */}
+              <path d="M 115 39 Q 130 35 142 16" fill="none" stroke="#b45309" strokeWidth="4.5" strokeLinecap="round" />
+              {/* Left Arm (Foreground) */}
+              <path d="M 112 40 Q 128 36 140 18" fill="none" stroke="#f59e0b" strokeWidth="5.5" strokeLinecap="round" opacity="0.9" /> 
+              <path d="M 112 40 Q 128 36 140 18" fill="none" stroke="#d97706" strokeWidth="5" strokeLinecap="round" />
+              
+              {/* Gloves (Black) on both hands holding handlebar */}
+              <circle cx="140" cy="18" r="4.5" fill="#1f2937" />
+
+              {/* Matte Black Full-Face Helmet */}
+              <circle cx="112" cy="8" r="13" fill="url(#helmetGrad)" />
+              <path d="M 112 -5 A 13 13 0 0 1 125 8 L 125 16 A 4 4 0 0 1 118 20 L 104 20 A 4 4 0 0 1 98 16 L 98 8 A 13 13 0 0 1 112 -5 Z" fill="#1f2937" />
+              
+              {/* Helmet Visor & Details */}
+              <path d="M 114 -2 Q 129 0 125 11 Q 115 11 112 4 Z" fill="url(#visorGrad)" stroke="#111827" strokeWidth="1" />
+              <line x1="106" y1="16" x2="118" y2="16" stroke="#111827" strokeWidth="2" strokeLinecap="round" /> 
+
+              {/* Rider Backpack (Subtle, for professional look) */}
+              <path d="M 75 26 Q 65 36 78 48 L 85 44 Q 80 31 85 24 Z" fill="#1f2937" stroke="#111827" strokeWidth="1.5" />
             </g>
           </svg>
         </div>
@@ -1169,27 +1281,6 @@ function OurStoryBand() {
           <p>{t('about.paragraph3')} <span aria-hidden="true">🌿</span></p>
         </div>
       </div>
-
-      <div className="os-testimonials">
-        <DecorativeLeaves variant="testimonials" count={3} />
-        <div className="section-heading center">
-          <h2>{t('about.customerReviews')}</h2>
-        </div>
-        <div className="os-testimonial-grid">
-          {REVIEWS.map((r) => (
-            <div className="os-testimonial-card" key={r.name}>
-              <div className="os-testimonial-head">
-                <span className="os-avatar" aria-hidden="true">{r.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}</span>
-                <div>
-                  <p className="os-testimonial-name">{r.name}</p>
-                  <p className="os-testimonial-stars">{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</p>
-                </div>
-              </div>
-              <p className="os-testimonial-text">&ldquo;{getReviewTranslation(r.text, language)}&rdquo;</p>
-            </div>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }
@@ -1295,7 +1386,7 @@ function GardenJournal() {
       <div className="journal-grid">
         {journal.map((post) => (
           <Link to={post.to} key={post.id} className="journal-card">
-            <div className="journal-media" style={{ backgroundImage: `url('${post.image}')` }} />
+            <img src={post.image} alt={getBlogPostTranslation(post.title, language)?.title ?? post.title} className="journal-media" loading="lazy" />
             <h3>{getBlogPostTranslation(post.title, language)?.title ?? post.title}</h3>
             <span>{t('home.readGuide')}</span>
           </Link>
@@ -1395,27 +1486,7 @@ function GiftingBand() {
   );
 }
 
-function Reviews() {
-  const { t, language } = useLanguage();
-  const [ref, visible] = useScrollReveal(0.1);
-  return (
-    <section ref={ref} className={`reviews-section reveal-section${visible ? ' is-visible' : ''}`}>
-      <div className="section-heading center">
-        <h2>{t('home.customerReviews')}</h2>
-        <p className="section-sub">{t('home.reviewsSub')}</p>
-      </div>
-      <div className="reviews-grid">
-        {REVIEWS.map((r) => (
-          <div className="review-card" key={r.name}>
-            <p className="review-stars">{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</p>
-            <p className="review-text">&ldquo;{getReviewTranslation(r.text, language)}&rdquo;</p>
-            <p className="review-name">{r.name}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
+
 
 function Faq() {
   const { t } = useLanguage();
@@ -1558,11 +1629,11 @@ function Home() {
       <NurseryJourney />
       <WhyIGO />
       <OurStoryBand />
-      <NurseryComparison />
+      <ComparisonSection />
+      <TrustBenefits />
       <PlantFinderBand />
       <GardenJournal />
       <GiftingBand />
-      <Reviews />
       <Newsletter />
       <Faq />
     </>

@@ -32,7 +32,6 @@
 .reveal-section.is-visible .home-corners-grid > *,
 .reveal-section.is-visible .services-grid > *,
 .reveal-section.is-visible .journal-grid > *,
-.reveal-section.is-visible .reviews-grid > *,
 .best-sellers.reveal-section.is-visible .product-grid > *,
 .just-in.reveal-section.is-visible .just-in-grid > * {
   opacity: 1;
@@ -42,7 +41,6 @@
 .reveal-section .home-corners-grid > *,
 .reveal-section .services-grid > *,
 .reveal-section .journal-grid > *,
-.reveal-section .reviews-grid > *,
 .best-sellers.reveal-section .product-grid > *,
 .just-in.reveal-section .just-in-grid > * {
   opacity: 0;
@@ -56,28 +54,24 @@
 .reveal-section .home-corners-grid > *:nth-child(1),
 .reveal-section .services-grid > *:nth-child(1),
 .reveal-section .journal-grid > *:nth-child(1),
-.reveal-section .reviews-grid > *:nth-child(1),
 .best-sellers.reveal-section .product-grid > *:nth-child(1),
 .just-in.reveal-section .just-in-grid > *:nth-child(1) { transition-delay: 0ms; }
 .reveal-section .category-grid > *:nth-child(2),
 .reveal-section .home-corners-grid > *:nth-child(2),
 .reveal-section .services-grid > *:nth-child(2),
 .reveal-section .journal-grid > *:nth-child(2),
-.reveal-section .reviews-grid > *:nth-child(2),
 .best-sellers.reveal-section .product-grid > *:nth-child(2),
 .just-in.reveal-section .just-in-grid > *:nth-child(2) { transition-delay: 90ms; }
 .reveal-section .category-grid > *:nth-child(3),
 .reveal-section .home-corners-grid > *:nth-child(3),
 .reveal-section .services-grid > *:nth-child(3),
 .reveal-section .journal-grid > *:nth-child(3),
-.reveal-section .reviews-grid > *:nth-child(3),
 .best-sellers.reveal-section .product-grid > *:nth-child(3),
 .just-in.reveal-section .just-in-grid > *:nth-child(3) { transition-delay: 180ms; }
 .reveal-section .category-grid > *:nth-child(4),
 .reveal-section .home-corners-grid > *:nth-child(4),
 .reveal-section .services-grid > *:nth-child(4),
 .reveal-section .journal-grid > *:nth-child(4),
-.reveal-section .reviews-grid > *:nth-child(4),
 .best-sellers.reveal-section .product-grid > *:nth-child(4),
 .just-in.reveal-section .just-in-grid > *:nth-child(4) { transition-delay: 270ms; }
 .reveal-section .category-grid > *:nth-child(5),
@@ -340,7 +334,6 @@
   .reveal-section .home-corners-grid > *,
   .reveal-section .services-grid > *,
   .reveal-section .journal-grid > *,
-  .reveal-section .reviews-grid > *,
   .best-sellers.reveal-section .product-grid > *,
   .just-in.reveal-section .just-in-grid > *,
   .reveal-section .section-heading,
@@ -390,7 +383,6 @@
   .reveal-section .home-corners-grid > *,
   .reveal-section .services-grid > *,
   .reveal-section .journal-grid > *,
-  .reveal-section .reviews-grid > *,
   .best-sellers.reveal-section .product-grid > *,
   .just-in.reveal-section .just-in-grid > *,
   .complete-garden.reveal-section .complete-garden-media,

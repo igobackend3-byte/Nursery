@@ -48,6 +48,11 @@
   padding: 0;
 }
 
+html, body, #root, .app-container {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
 body {
   font-family: var(--font-sans);
   background: linear-gradient(135deg, #f9fbf2 0%, #f1f5e8 50%, #fdfcf7 100%);
