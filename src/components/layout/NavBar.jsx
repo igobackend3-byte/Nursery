@@ -74,42 +74,13 @@ function NavBar() {
                 <ul
                   className={`dropdown-menu${item.children.length > 6 ? ' dropdown-menu-mega' : ''}${item.align === 'right' ? ' dropdown-menu-right' : ''}`}
                 >
-                  {item.children.map((child) => {
-                    const hasNestedDropdown = !!child.children;
-                    return (
-                      <li key={child.label} className={hasNestedDropdown ? 'has-nested-dropdown' : ''}>
-                        <NavLink to={child.to} onClick={(e) => {
-                          if (!hasNestedDropdown) {
-                            setOpenKey(null);
-                          }
-                        }}>
-                          {getNavLabelTranslation(child.to, child.label, language)}
-                          {hasNestedDropdown ? <span className="nested-indicator">▸</span> : ''}
-                        </NavLink>
-                        {hasNestedDropdown && (
-                          <div className="dropdown-menu-nested">
-                            <div className="nested-grid">
-                              {child.children.map((subChild) => {
-                                const subLabel = getNavLabelTranslation(subChild.to, subChild.label, language);
-                                return (
-                                  <NavLink key={subChild.label} to={subChild.to} className="nested-card" onClick={() => setOpenKey(null)}>
-                                    <div className="nested-card-img">
-                                      {subChild.image ? (
-                                        <img src={subChild.image} alt={subLabel} loading="lazy" onError={(e) => { e.target.style.display = 'none'; console.warn('Missing image loaded in nav:', subChild.image); }} />
-                                      ) : (
-                                        <div className="nested-placeholder">🌱</div>
-                                      )}
-                                    </div>
-                                    <span className="nested-card-title">{subLabel}</span>
-                                  </NavLink>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        )}
-                      </li>
-                    );
-                  })}
+                  {item.children.map((child) => (
+                    <li key={child.label}>
+                      <NavLink to={child.to} onClick={() => setOpenKey(null)}>
+                        {getNavLabelTranslation(child.to, child.label, language)}
+                      </NavLink>
+                    </li>
+                  ))}
                 </ul>
               )}
             </li>
