@@ -1,8 +1,10 @@
 // Products & Categories, backed by Firestore (`products/{productId}`,
 // `categories/{slug}`) instead of the static data/products.js array. Admin
-// CRUD (Products/Categories/Inventory pages) reads and writes here now, so
-// edits actually persist. The storefront still reads the static file for
-// now - that's a separate, later migration (see the Firebase build plan).
+// CRUD (Products/Categories/Inventory pages) reads and writes here now, and
+// the storefront (see CatalogueContext) subscribes to the same collections
+// live, so admin edits show up on the site immediately. The static file is
+// kept only as CatalogueContext's instant-render fallback before the first
+// Firestore snapshot arrives, and to seed Firestore the first time.
 import {
   collection, deleteDoc, doc, getDocs, onSnapshot, setDoc, writeBatch,
 } from 'firebase/firestore';

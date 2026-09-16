@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSiteContent } from '../hooks/useSiteContent';
 import './ComparisonSection.css';
 
 // --- Icons ---
@@ -86,58 +87,36 @@ const MinusIcon = () => (
 );
 
 // --- Data ---
-const FEATURES = [
-  { label: 'Plant Quality', icon: <LeafIcon /> },
-  { label: 'Pest Control', icon: <PestIcon /> },
-  { label: 'Repotting', icon: <RepotIcon /> },
-  { label: 'Soil Quality', icon: <SoilIcon /> },
-  { label: 'Growing Conditions', icon: <GrowingIcon /> },
-  { label: 'Plant Health', icon: <HealthIcon /> },
-  { label: 'Packaging', icon: <PackagingIcon /> },
-  { label: 'Customer Support', icon: <SupportIcon /> },
+const ROW_ICONS = {
+  leaf: <LeafIcon />,
+  pest: <PestIcon />,
+  repot: <RepotIcon />,
+  soil: <SoilIcon />,
+  growing: <GrowingIcon />,
+  health: <HealthIcon />,
+  packaging: <PackagingIcon />,
+  support: <SupportIcon />,
+};
+
+const DEFAULT_ROWS = [
+  { id: 1, icon: 'leaf', criterion: 'Plant Quality', local: 'Inconsistent, no quality checks', igo: 'Every plant checked before it ships', igoHighlight: 'checked', others: 'Quality varies by seller', visible: true, order: 1 },
+  { id: 2, icon: 'pest', criterion: 'Pest Control', local: 'Pest issues common', igo: 'Pest-free before it leaves our nursery', igoHighlight: 'Pest-free', others: 'Rarely guaranteed', visible: true, order: 2 },
+  { id: 3, icon: 'repot', criterion: 'Repotting', local: 'Often needs immediate repotting', igo: 'Ships repot-ready in the right container', igoHighlight: 'repot-ready', others: 'Depends on how it was packed', visible: true, order: 3 },
+  { id: 4, icon: 'soil', criterion: 'Soil Quality', local: 'Standard, unlabelled soil', igo: 'Right soil mix for each plant type', igoHighlight: 'Right soil mix', others: 'Generic, one-size-fits-all soil', visible: true, order: 4 },
+  { id: 5, icon: 'growing', criterion: 'Growing Conditions', local: 'Sourcing and origin unclear', igo: 'Grown and hardened in our own nursery', igoHighlight: 'hardened', others: 'Sourced from multiple third parties', visible: true, order: 5 },
+  { id: 6, icon: 'health', criterion: 'Plant Health', local: 'No health guarantee', igo: 'Healthy on arrival, or we make it right', igoHighlight: 'Healthy', others: 'Limited or unclear guarantee', visible: true, order: 6 },
+  { id: 7, icon: 'packaging', criterion: 'Packaging', local: 'Basic, prone to damage in transit', igo: 'Secure, moisture-safe packaging', igoHighlight: 'moisture-safe', others: 'Standard courier packaging', visible: true, order: 7 },
+  { id: 8, icon: 'support', criterion: 'Customer Support', local: 'In-person only, no follow-up', igo: 'Real plant-care guidance after purchase', igoHighlight: 'plant-care guidance', others: 'Email or chat only', visible: true, order: 8 },
 ];
 
-const LOCAL_NURSERIES = [
-  'Inconsistent, no quality checks',
-  'Pest issues common',
-  'Often needs immediate repotting',
-  'Standard, unlabelled soil',
-  'Sourcing and origin unclear',
-  'No health guarantee',
-  'Basic, prone to damage in transit',
-  'In-person only, no follow-up',
-];
-
-const IGO_NURSERY = [
-  { text: 'Every plant checked before it ships', bold: 'checked' },
-  { text: 'Pest-free before it leaves our nursery', bold: 'Pest-free' },
-  { text: 'Ships repot-ready in the right container', bold: 'repot-ready' },
-  { text: 'Right soil mix for each plant type', bold: 'Right soil mix' },
-  { text: 'Grown and hardened in our own nursery', bold: 'hardened' },
-  { text: 'Healthy on arrival, or we make it right', bold: 'Healthy' },
-  { text: 'Secure, moisture-safe packaging', bold: 'moisture-safe' },
-  { text: 'Real plant-care guidance after purchase', bold: 'plant-care guidance' },
-];
-
-const OTHERS_ONLINE = [
-  'Quality varies by seller',
-  'Rarely guaranteed',
-  'Depends on how it was packed',
-  'Generic, one-size-fits-all soil',
-  'Sourced from multiple third parties',
-  'Limited or unclear guarantee',
-  'Standard courier packaging',
-  'Email or chat only',
-];
-
-// Helper to bold specific words inline
-const highlightText = (textObj) => {
-  if (!textObj.bold) return textObj.text;
-  const parts = textObj.text.split(new RegExp(`(${textObj.bold})`, 'gi'));
+// Bolds a specific word/phrase inline within a row's IGO-column text.
+const highlightText = (text, bold) => {
+  if (!bold) return text;
+  const parts = text.split(new RegExp(`(${bold.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'));
   return (
     <>
       {parts.map((part, i) =>
-        part.toLowerCase() === textObj.bold.toLowerCase() ? (
+        part.toLowerCase() === bold.toLowerCase() ? (
           <strong key={i}>{part}</strong>
         ) : (
           part
@@ -148,39 +127,67 @@ const highlightText = (textObj) => {
 };
 
 export default function ComparisonSection() {
+  const { comparisonSection: cs } = useSiteContent();
+
+  if (cs && cs.visible === false) return null;
+
+  const eyebrow = cs?.eyebrow || 'WHY CHOOSE US';
+  const heading = cs?.heading || 'How we compare to buying plants elsewhere.';
+  const headingHighlight = cs?.headingHighlight || 'buying plants';
+  const subtitle = cs?.subtitle || 'Better quality. Fresher plants. A healthier tomorrow.';
+  const localTitle = cs?.localTitle || 'Local Nurseries';
+  const othersTitle = cs?.othersTitle || 'Others (Online)';
+  const igoTitle = cs?.igoTitle || 'IGO NURSERY';
+  const igoSubtitle = cs?.igoSubtitle || 'Healthy plants. Happier homes.';
+  const igoHeaderImage = cs?.igoHeaderImage || '/images/home-corners/living-room.jpg';
+  const badgeEnabled = cs?.badgeEnabled !== false;
+  const badgeText = cs?.badgeText || 'BEST CHOICE';
+  const rows = (cs?.rows?.length ? cs.rows : DEFAULT_ROWS)
+    .filter((r) => r.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+  // Heading may not literally contain headingHighlight (an admin could
+  // rewrite either independently) - fall back to showing the plain heading
+  // rather than silently dropping the highlighted phrase.
+  const headingParts = headingHighlight && heading.includes(headingHighlight)
+    ? heading.split(headingHighlight)
+    : null;
+
+  const bgStyle = cs?.backgroundImage ? { backgroundImage: `url(${cs.backgroundImage})` } : undefined;
+
   return (
     <section className="comparison-section">
       {/* Background container */}
-      <div className="comparison-bg-layer" aria-hidden="true" />
-      
+      <div className="comparison-bg-layer" style={bgStyle} aria-hidden="true" />
+
       <div className="comparison-container">
         {/* Header Area */}
         <div className="comparison-header-area">
           <div className="comp-eyebrow-wrapper">
             <span className="comp-eyebrow-line"></span>
             <span className="comp-eyebrow">
-              <LeafIcon /> WHY CHOOSE US
+              <LeafIcon /> {eyebrow}
             </span>
             <span className="comp-eyebrow-line"></span>
           </div>
           <h2 className="comp-title">
-            How we compare to <em className="comp-highlight">buying plants</em> elsewhere.
+            {headingParts ? <>{headingParts[0]}<em className="comp-highlight">{headingHighlight}</em>{headingParts[1]}</> : heading}
           </h2>
-          <p className="comp-subtitle">Better quality. Fresher plants. A healthier tomorrow.</p>
+          <p className="comp-subtitle">{subtitle}</p>
         </div>
 
         {/* Table Layout */}
         <div className="comparison-table">
-          
+
           {/* Column 1: Features */}
           <div className="comp-col comp-col-features">
             <div className="comp-col-header comp-empty-header"></div>
-            {FEATURES.map((feature, idx) => (
-              <div key={idx} className="comp-cell comp-feature-cell">
+            {rows.map((row) => (
+              <div key={row.id} className="comp-cell comp-feature-cell">
                 <span className="comp-feature-icon-wrapper">
-                  {feature.icon}
+                  {ROW_ICONS[row.icon] || <LeafIcon />}
                 </span>
-                <span className="comp-feature-label">{feature.label}</span>
+                <span className="comp-feature-label">{row.criterion}</span>
               </div>
             ))}
           </div>
@@ -192,40 +199,42 @@ export default function ComparisonSection() {
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                 <polyline points="9 22 9 12 15 12 15 22" />
               </svg>
-              <span>Local Nurseries</span>
+              <span>{localTitle}</span>
             </div>
-            {LOCAL_NURSERIES.map((text, idx) => (
-              <div key={idx} className="comp-cell comp-value-cell">
+            {rows.map((row) => (
+              <div key={row.id} className="comp-cell comp-value-cell">
                 <span className="comp-status-icon comp-cross">
                   <CrossIcon />
                 </span>
-                <span className="comp-value-text">{text}</span>
+                <span className="comp-value-text">{row.local}</span>
               </div>
             ))}
           </div>
 
           {/* Column 3: IGO Nursery (BEST CHOICE) */}
           <div className="comp-col comp-col-igo">
-            <div className="comp-best-choice-badge">
-              <CheckIcon /> BEST CHOICE <CheckIcon />
-            </div>
+            {badgeEnabled && (
+              <div className="comp-best-choice-badge">
+                <CheckIcon /> {badgeText} <CheckIcon />
+              </div>
+            )}
             <div className="comp-col-header comp-igo-header">
               <div className="comp-igo-header-content">
                 <LeafIcon />
                 <div>
-                  <span className="comp-igo-title">IGO NURSERY</span>
-                  <span className="comp-igo-subtitle">Healthy plants. Happier homes.</span>
+                  <span className="comp-igo-title">{igoTitle}</span>
+                  <span className="comp-igo-subtitle">{igoSubtitle}</span>
                 </div>
               </div>
-              <img src="/images/home-corners/living-room.jpg" alt="" className="comp-igo-header-bg" />
+              <img src={igoHeaderImage} alt="" className="comp-igo-header-bg" />
               <div className="comp-igo-header-overlay" />
             </div>
-            {IGO_NURSERY.map((item, idx) => (
-              <div key={idx} className="comp-cell comp-value-cell comp-igo-cell">
+            {rows.map((row) => (
+              <div key={row.id} className="comp-cell comp-value-cell comp-igo-cell">
                 <span className="comp-status-icon comp-check">
                   <CheckIcon />
                 </span>
-                <span className="comp-value-text">{highlightText(item)}</span>
+                <span className="comp-value-text">{highlightText(row.igo, row.igoHighlight)}</span>
               </div>
             ))}
           </div>
@@ -238,14 +247,14 @@ export default function ComparisonSection() {
                 <line x1="2" y1="12" x2="22" y2="12" />
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
               </svg>
-              <span>Others (Online)</span>
+              <span>{othersTitle}</span>
             </div>
-            {OTHERS_ONLINE.map((text, idx) => (
-              <div key={idx} className="comp-cell comp-value-cell">
+            {rows.map((row) => (
+              <div key={row.id} className="comp-cell comp-value-cell">
                 <span className="comp-status-icon comp-minus">
                   <MinusIcon />
                 </span>
-                <span className="comp-value-text">{text}</span>
+                <span className="comp-value-text">{row.others}</span>
               </div>
             ))}
           </div>

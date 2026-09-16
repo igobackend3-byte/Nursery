@@ -386,6 +386,75 @@
 .admin-topbar-btn-danger { background: #e0393f; border-color: #e0393f; }
 .admin-topbar-btn-danger:hover { background: #c72e34; }
 
+/* ---------- Notification bell + profile menu (topbar) ---------- */
+.admin-topbar-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: white;
+  flex-shrink: 0;
+}
+.admin-topbar-icon-btn:hover { background: rgba(255, 255, 255, 0.18); }
+
+.admin-profile { position: relative; }
+
+.admin-profile-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--admin-accent);
+  color: var(--admin-primary-deep);
+  border: none;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-profile-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 40;
+  min-width: 180px;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admin-profile-menu a,
+.admin-profile-menu button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  border-radius: 7px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--admin-ink);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+.admin-profile-menu a:hover,
+.admin-profile-menu button:hover { background: var(--admin-bg); }
+.admin-profile-logout { color: var(--admin-danger) !important; }
+
 /* ---------- Horizontal tab bar ---------- */
 .admin-tabbar {
   display: flex;
@@ -760,6 +829,74 @@
   font-weight: 600;
   font-size: 1.02rem;
   margin-bottom: 16px;
+}
+
+.admin-cat-cards-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 22px;
+  margin-bottom: 14px;
+}
+
+.admin-cat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.admin-cat-card {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-cat-card-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--admin-bg);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-cat-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.admin-cat-card-noimage {
+  font-size: 0.76rem;
+  color: var(--admin-muted);
+  font-weight: 600;
+}
+
+.admin-cat-card-row {
+  display: flex;
+  gap: 10px;
+}
+
+.admin-cat-card .admin-field { margin-bottom: 10px; }
+.admin-cat-card .admin-image-field-preview { display: none; }
+
+.admin-section-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--admin-border);
 }
 
 /* ---------- Toolbar ---------- */

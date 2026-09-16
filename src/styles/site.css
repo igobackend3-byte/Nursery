@@ -1688,6 +1688,13 @@ section {
 .garden-services-teaser .service-card.has-image h3 {
   margin-top: 4px;
 }
+.garden-services-teaser .service-card-desc {
+  padding: 0 24px;
+  margin: -8px 0 0;
+  font-size: 0.85rem;
+  color: var(--color-text-light, #667c70);
+  line-height: 1.4;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .garden-services-teaser .service-card.has-image { transition: none; }
@@ -1962,6 +1969,20 @@ section {
   display: block;
 }
 
+.journey-step-noimage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-light, #eef4ea);
+  color: var(--color-primary-green);
+}
+.journey-step-noimage svg {
+  width: 48px;
+  height: 48px;
+}
+
 .journey-step-icon {
   position: absolute;
   right: -4px;
@@ -2161,7 +2182,7 @@ section {
 
 .why-igo-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 24px;
   padding: 0 48px;
 }
@@ -2340,6 +2361,17 @@ section {
   object-fit: cover;
   object-position: top center;
   display: block;
+}
+.os-story-photo-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-light, #eef4ea);
+  color: var(--color-primary-green);
+}
+.os-story-photo-fallback svg {
+  width: 64px;
+  height: 64px;
 }
 
 .os-media::after {
@@ -2941,16 +2973,18 @@ section {
 }
 
 .btn-find-plant {
-  background: var(--color-primary-green);
-  color: white;
+  background: var(--pf-btn-bg, var(--color-primary-green));
+  color: var(--pf-btn-text, white);
   font-weight: 700;
   padding: 14px 24px;
   border-radius: 8px;
   white-space: nowrap;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
 
 .btn-find-plant:hover {
+  background: var(--pf-btn-hover-bg, var(--pf-btn-bg, var(--color-primary-green)));
+  color: var(--pf-btn-hover-text, var(--pf-btn-text, white));
   transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
@@ -3134,6 +3168,17 @@ section {
   margin-bottom: 12px;
   display: block;
 }
+.journal-media-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-light, #eef4ea);
+  color: var(--color-primary-green);
+}
+.journal-media-fallback svg {
+  width: 48px;
+  height: 48px;
+}
 
 .journal-card h3 {
   font-size: 1rem;
@@ -3256,23 +3301,25 @@ section {
 }
 
 .btn-gift-primary {
-  background: var(--color-primary-green);
-  color: white;
-  border: 1px solid var(--color-primary-green);
+  background: var(--gb-btn-bg, var(--color-primary-green));
+  color: var(--gb-btn-text, white);
+  border: 1px solid var(--gb-btn-border, var(--color-primary-green));
 }
 
 .btn-gift-primary:hover {
-  background: #143d2c;
+  background: var(--gb-btn-hover-bg, #143d2c);
+  color: var(--gb-btn-hover-text, var(--gb-btn-text, white));
 }
 
 .btn-gift-secondary {
-  background: transparent;
-  color: var(--color-primary-green);
-  border: 1px solid var(--color-primary-green);
+  background: var(--gb-btn-bg, transparent);
+  color: var(--gb-btn-text, var(--color-primary-green));
+  border: 1px solid var(--gb-btn-border, var(--color-primary-green));
 }
 
 .btn-gift-secondary:hover {
-  background: rgba(27, 75, 54, 0.06);
+  background: var(--gb-btn-hover-bg, rgba(27, 75, 54, 0.06));
+  color: var(--gb-btn-hover-text, var(--gb-btn-text, var(--color-primary-green)));
 }
 
 .gifting-band-media {
@@ -3280,6 +3327,20 @@ section {
   overflow: hidden;
   height: 420px;
   box-shadow: 0 16px 40px rgba(27, 75, 54, 0.14);
+}
+
+.gifting-band-media-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-light, #eef4ea);
+  color: var(--color-primary-green);
+}
+.gifting-band-media-fallback svg {
+  width: 64px;
+  height: 64px;
 }
 
 .gifting-band-media img {
@@ -3352,7 +3413,7 @@ section {
 }
 
 .faq-item {
-  border-bottom: 1px solid #e2ddd0;
+  border-bottom: 1px solid var(--faq-divider, #e2ddd0);
 }
 
 .faq-item button {
@@ -3365,19 +3426,19 @@ section {
   padding: 20px 0;
   font-size: 0.98rem;
   font-weight: 600;
-  color: var(--color-text-dark);
+  color: var(--faq-question, var(--color-text-dark));
   cursor: pointer;
   text-align: left;
 }
 
 .faq-toggle {
   font-size: 1.2rem;
-  color: var(--color-primary-green);
+  color: var(--faq-icon, var(--color-primary-green));
 }
 
 .faq-item p {
   padding-bottom: 20px;
-  color: var(--color-text-muted);
+  color: var(--faq-answer, var(--color-text-muted));
   font-size: 0.9rem;
   line-height: 1.6;
 }
@@ -3406,25 +3467,45 @@ section {
 .newsletter-form input {
   padding: 14px 18px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
+  border: 1px solid var(--nl-input-border, rgba(255, 255, 255, 0.2));
+  background: var(--nl-input-bg, rgba(255, 255, 255, 0.08));
+  color: var(--nl-input-text, white);
   width: 280px;
+  transition: border-color 0.2s ease;
+}
+
+.newsletter-form input:focus {
+  outline: none;
+  border-color: var(--nl-input-focus-border, var(--nl-input-border, rgba(255, 255, 255, 0.5)));
 }
 
 .newsletter-form input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--nl-input-placeholder, rgba(255, 255, 255, 0.5));
 }
 
 .newsletter-form button {
-  background: var(--color-primary-lime);
-  color: #1a1a1a;
+  background: var(--nl-btn-bg, var(--color-primary-lime));
+  color: var(--nl-btn-text, #1a1a1a);
   font-weight: 700;
   padding: 14px 22px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
+
+.newsletter-form button:hover {
+  background: var(--nl-btn-hover-bg, var(--nl-btn-bg, var(--color-primary-lime)));
+  color: var(--nl-btn-hover-text, var(--nl-btn-text, #1a1a1a));
+}
+
+.newsletter-message {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.newsletter-message-success { color: var(--color-primary-lime); }
+.newsletter-message-error { color: #ff8a8a; }
 
 /* ============ Category page ============ */
 .category-page {

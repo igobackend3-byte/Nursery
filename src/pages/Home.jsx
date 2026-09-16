@@ -85,7 +85,7 @@ function Hero() {
     <section className="hero-section">
       <video
         className="hero-video"
-        src={hero.videoUrl}
+        src={hero.videoUrl || undefined}
         autoPlay
         loop
         muted
@@ -130,15 +130,44 @@ function Hero() {
 function AboutIgo() {
   const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.15);
-  
+  const { ourStory } = useSiteContent();
+
+  if (ourStory && ourStory.visible === false) return null;
+
   // Split the heading into two parts for styling, fallback to full string if no comma
   const headingStr = t('home.whyIgoHeading');
   const splitIndex = headingStr.indexOf(',');
-  const headingPart1 = splitIndex !== -1 ? headingStr.substring(0, splitIndex + 1) : headingStr;
-  const headingPart2 = splitIndex !== -1 ? headingStr.substring(splitIndex + 1).trim() : '';
+  const fallbackPart1 = splitIndex !== -1 ? headingStr.substring(0, splitIndex + 1) : headingStr;
+  const fallbackPart2 = splitIndex !== -1 ? headingStr.substring(splitIndex + 1).trim() : '';
+
+  const smallHeading = ourStory?.smallHeading || t('pages.ourStory');
+  const headingPart1 = ourStory?.mainHeadingPart1 || fallbackPart1;
+  const headingPart2 = ourStory?.mainHeadingPart2 ?? fallbackPart2;
+  const description = ourStory?.description || t('pages.aboutStory');
+  const buttonText = ourStory?.buttonText || t('home.discoverMore');
+  const buttonUrl = ourStory?.buttonUrl || '/about';
+
+  const sectionStyle = {};
+  if (ourStory?.backgroundImage) {
+    sectionStyle.backgroundImage = `linear-gradient(rgba(255,255,255,${ourStory.overlayOpacity ?? 0.5}), rgba(255,255,255,${ourStory.overlayOpacity ?? 0.5})), url(${ourStory.backgroundImage})`;
+    sectionStyle.backgroundSize = 'cover';
+    sectionStyle.backgroundPosition = 'center';
+  }
+  if (ourStory?.backgroundColor) sectionStyle.backgroundColor = ourStory.backgroundColor;
+  if (ourStory?.paddingY) sectionStyle.paddingTop = sectionStyle.paddingBottom = ourStory.paddingY;
+
+  const headingStyle = ourStory?.fontSize ? { fontSize: ourStory.fontSize } : undefined;
+  const darkStyle = ourStory?.textColor ? { color: ourStory.textColor } : undefined;
+  const lightStyle = ourStory?.accentColor ? { color: ourStory.accentColor } : undefined;
+
+  const animate = ourStory?.animation !== false;
 
   return (
-    <section ref={ref} className={`about-igo-section reveal-section${visible ? ' is-visible' : ''}`}>
+    <section
+      ref={ref}
+      className={`about-igo-section${animate ? ' reveal-section' : ''}${!animate || visible ? ' is-visible' : ''}`}
+      style={sectionStyle}
+    >
       <div className="about-igo-copy">
         <div className="about-igo-eyebrow-wrapper">
           <span className="eyebrow-line"></span>
@@ -146,21 +175,21 @@ function AboutIgo() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="eyebrow-icon">
               <path d="M17.4,5.4C14.7,2.7,10.6,2,7.3,3.7C5,5,3.7,7.4,3.7,10c0,2.3,1.1,4.5,2.9,6c-0.6,1.4-1.6,2.6-2.9,3.6c-0.3,0.2-0.3,0.7,0,1 c0.2,0.2,0.6,0.3,0.9,0.1c4.8-3.3,7.6-6,9.1-8.5c2.1-3.6,1.9-8.1,0.2-10.7C13.2,1,16.5,2.1,19.2,4.8C20,5.6,20,6.9,19.2,7.7l-4.2,4.2 c-0.4,0.4-1,0.4-1.4,0c-0.4-0.4-0.4-1,0-1.4l4.2-4.2C18.2,5.9,17.8,5.8,17.4,5.4z"/>
             </svg>
-            {t('pages.ourStory')}
+            {smallHeading}
           </p>
           <span className="eyebrow-line"></span>
         </div>
-        
-        <h2>
-          <span className="heading-dark">{headingPart1}</span>
+
+        <h2 style={headingStyle}>
+          <span className="heading-dark" style={darkStyle}>{headingPart1}</span>
           {headingPart2 && <br />}
-          {headingPart2 && <span className="heading-light">{headingPart2}</span>}
+          {headingPart2 && <span className="heading-light" style={lightStyle}>{headingPart2}</span>}
         </h2>
-        
-        <p className="about-igo-text">{t('pages.aboutStory')}</p>
-        
-        <Link to="/about" className="btn-discover-more">
-          {t('home.discoverMore')}
+
+        <p className="about-igo-text">{description}</p>
+
+        <Link to={buttonUrl} className="btn-discover-more">
+          {buttonText}
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginLeft: '8px'}}>
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
@@ -406,32 +435,66 @@ function ShopByCategory() {
   const { categories, getGiftProducts } = useCatalogue();
   const { t, language } = useLanguage();
   const [ref, visible] = useScrollReveal(0.1);
+  const { shopByCategory: sbc } = useSiteContent();
   // 'gifting' is a real route (see App.jsx) but has no entry in the
   // categories collection - fall back to a real gift-tagged product
   // photo, the same source the homepage's own GiftingBand uses.
   const giftImage = getGiftProducts()[0]?.image;
 
+  if (sbc && sbc.visible === false) return null;
+
+  const title = sbc?.title || t('home.shopByCategory');
+  const subtitle = sbc?.subtitle || t('home.shopByCategorySub');
+
+  // The admin's tile list (add/delete/reorder/hide) is the source of truth
+  // for WHICH tiles exist and in what order - SHOP_CATEGORIES_V2 is only
+  // consulted per-slug for its icon/route/fallback image. A tile the admin
+  // adds with no matching static entry gets a generic icon and a
+  // /category/<slug> route.
+  const staticBySlug = new Map(SHOP_CATEGORIES_V2.map((entry) => [entry.slug, entry]));
+  const tiles = sbc?.tiles?.length ? sbc.tiles : SHOP_CATEGORIES_V2.map((entry, i) => ({ ...entry, order: i, visible: true }));
+  const orderedEntries = tiles
+    .filter((tile) => tile.visible !== false)
+    .sort((a, b) => a.order - b.order)
+    .map((tile) => {
+      const staticEntry = staticBySlug.get(tile.slug);
+      return {
+        entry: staticEntry ?? { slug: tile.slug, to: `/category/${tile.slug}`, Icon: CatIconPottedPlant },
+        override: tile,
+      };
+    });
+
+  const sectionStyle = {};
+  if (sbc?.backgroundColor) sectionStyle.backgroundColor = sbc.backgroundColor;
+  if (sbc?.paddingY) sectionStyle.paddingTop = sectionStyle.paddingBottom = sbc.paddingY;
+  const headingStyle = {};
+  if (sbc?.fontSize) headingStyle.fontSize = sbc.fontSize;
+  if (sbc?.textColor) headingStyle.color = sbc.textColor;
+  const animate = sbc?.animation !== false;
+
   return (
-    <section id="shop-by-category" ref={ref} className={`shop-by-category shop-by-category-v2 reveal-section${visible ? ' is-visible' : ''}`}>
+    <section id="shop-by-category" ref={ref} className={`shop-by-category shop-by-category-v2${animate ? ' reveal-section' : ''}${!animate || visible ? ' is-visible' : ''}`} style={sectionStyle}>
       <div className="sbc-heading">
-        <h2>
+        <h2 style={headingStyle}>
           <SbcLeaf className="sbc-heading-leaf sbc-heading-leaf-left" />
-          {t('home.shopByCategory')}
+          {title}
           <SbcLeaf className="sbc-heading-leaf sbc-heading-leaf-right" />
         </h2>
-        <p className="section-sub sbc-sub-shift">{t('home.shopByCategorySub')}</p>
+        <p className="section-sub sbc-sub-shift">{subtitle}</p>
       </div>
 
       <div className="category-grid">
-        {SHOP_CATEGORIES_V2.map((entry) => {
+        {orderedEntries.map(({ entry, override }) => {
           const cat = categories.find((c) => c.slug === entry.slug);
-          const image = entry.image || cat?.image || (entry.slug === 'gifting' ? giftImage : undefined);
+          const image = override?.image || entry.image || cat?.image || (entry.slug === 'gifting' ? giftImage : undefined);
           const { Icon } = entry;
           // Always read the display name from the local, static translation
           // table by slug (not from the live `categories` doc, which may
           // not carry a `translations` field) - falls back to the English
-          // label automatically when a language has no entry yet.
-          const localizedLabel = CATEGORY_LABEL_TRANSLATIONS[entry.slug]?.[language] || entry.label;
+          // label automatically when a language has no entry yet. An admin
+          // override (any language) wins over both.
+          const localizedLabel = override?.label || CATEGORY_LABEL_TRANSLATIONS[entry.slug]?.[language] || entry.label;
+          const exploreText = override?.exploreText || t('home.explore');
           // A few supplied photos already have an (English-only, baked-in)
           // title/icon/Explore button printed into the artwork. Since that
           // text can never change with the site language, always draw our
@@ -446,7 +509,7 @@ function ShopByCategory() {
                 <span className="cat-card-content">
                   <span className="cat-card-icon" aria-hidden="true"><Icon /></span>
                   <span className="cat-card-title">{localizedLabel}</span>
-                  <span className="cat-card-explore">{t('home.explore')}</span>
+                  <span className="cat-card-explore">{exploreText}</span>
                 </span>
               </span>
             </Link>
@@ -508,35 +571,55 @@ const HOME_CORNERS = [
   { key: 'office', location: 'Office', image: '/images/home-corners/office.jpg', Icon: OfficeChairIcon },
 ];
 
+const HOME_CORNER_ICONS = { sofa: SofaIcon, bed: BedIcon, balcony: BalconyIcon, officeChair: OfficeChairIcon };
+
 function HomeCorners() {
   const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.1);
+  const { homeCorners: hc } = useSiteContent();
+
+  if (hc && hc.visible === false) return null;
+
+  const title = hc?.title || t('home.cornersHeading');
+  const subtitle = hc?.subtitle;
+  const cards = hc?.cards?.length
+    ? [...hc.cards].filter((c) => c.visible !== false).sort((a, b) => a.order - b.order)
+    : HOME_CORNERS.map((c, i) => ({
+        id: c.key, title: t(`home.corner${c.key.charAt(0).toUpperCase()}${c.key.slice(1)}`), image: c.image,
+        icon: c.key === 'livingRoom' ? 'sofa' : c.key === 'bedroom' ? 'bed' : c.key, buttonText: t('offers.shopNow'),
+        buttonLink: `/category/indoor-plants?location=${encodeURIComponent(c.location)}`, order: i,
+      }));
+
+  const sectionStyle = {};
+  if (hc?.backgroundImage) {
+    sectionStyle.backgroundImage = `url(${hc.backgroundImage})`;
+    sectionStyle.backgroundSize = 'cover';
+    sectionStyle.backgroundPosition = 'center';
+  }
+
   return (
-    <section ref={ref} className={`home-corners reveal-section${visible ? ' is-visible' : ''}`}>
+    <section ref={ref} className={`home-corners reveal-section${visible ? ' is-visible' : ''}`} style={sectionStyle}>
       <DecorativeGlow variant="corners" />
       <DecorativeLeaves variant="category" count={4} />
       <DecorativeFlowers variant="category" count={3} />
 
       <div className="home-corners-heading">
         <span className="home-corners-leaf home-corners-leaf-left" aria-hidden="true"><SproutIcon /></span>
-        <h2>{t('home.cornersHeading')}</h2>
+        <h2>{title}</h2>
         <span className="home-corners-leaf home-corners-leaf-right" aria-hidden="true"><SproutIcon /></span>
       </div>
+      {subtitle && <p className="section-sub" style={{ textAlign: 'center', marginTop: -8 }}>{subtitle}</p>}
       <div className="home-corners-grid">
-        {HOME_CORNERS.map((corner) => {
-          const label = t(`home.corner${corner.key.charAt(0).toUpperCase()}${corner.key.slice(1)}`);
+        {cards.map((card) => {
+          const CardIcon = HOME_CORNER_ICONS[card.icon] || SofaIcon;
           return (
-            <Link
-              to={`/category/indoor-plants?location=${encodeURIComponent(corner.location)}`}
-              className="home-corner-card"
-              key={corner.key}
-            >
+            <Link to={card.buttonLink} className="home-corner-card" key={card.id}>
               <div className="home-corner-media">
-                <img src={corner.image} alt={label} loading="lazy" />
+                <img src={card.image} alt={card.title} loading="lazy" />
               </div>
-              <span className="home-corner-icon"><corner.Icon /></span>
-              <h3>{label}</h3>
-              <span className="home-corner-cta">{t('offers.shopNow')}</span>
+              <span className="home-corner-icon"><CardIcon /></span>
+              <h3>{card.title}</h3>
+              <span className="home-corner-cta">{card.buttonText}</span>
             </Link>
           );
         })}
@@ -548,9 +631,14 @@ function HomeCorners() {
 // Custom play/pause overlay for the autoplaying, muted background video -
 // the video itself has no native controls (cleaner look), this button is
 // the only way to pause/resume it.
-function CompleteGardenVideo() {
+function CompleteGardenVideo({ cg }) {
   const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const autoplay = cg?.videoAutoplay !== false;
+  const [isPlaying, setIsPlaying] = useState(autoplay);
+  const src = cg?.videoUrl || '/videos/garden-journey.mp4';
+  const loop = cg?.videoLoop !== false;
+  const muted = cg?.videoMuted !== false;
+  const showToggle = cg?.videoShowToggle !== false;
 
   function togglePlay() {
     const video = videoRef.current;
@@ -564,26 +652,29 @@ function CompleteGardenVideo() {
       <video
         ref={videoRef}
         className="complete-garden-video"
-        src="/videos/garden-journey.mp4"
-        autoPlay
-        muted
-        loop
+        src={src}
+        poster={cg?.videoPoster || undefined}
+        autoPlay={autoplay}
+        muted={muted}
+        loop={loop}
         playsInline
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
       />
-      <button
-        type="button"
-        className="complete-garden-video-toggle"
-        onClick={togglePlay}
-        aria-label={isPlaying ? 'Pause video' : 'Play video'}
-      >
-        {isPlaying ? (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" /></svg>
-        ) : (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-        )}
-      </button>
+      {showToggle && (
+        <button
+          type="button"
+          className="complete-garden-video-toggle"
+          onClick={togglePlay}
+          aria-label={isPlaying ? 'Pause video' : 'Play video'}
+        >
+          {isPlaying ? (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" /></svg>
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+          )}
+        </button>
+      )}
     </div>
   );
 }
@@ -591,45 +682,87 @@ function CompleteGardenVideo() {
 function CompleteGarden() {
   const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.15);
+  const { completeGarden: cg } = useSiteContent();
+
+  if (cg && cg.visible === false) return null;
+
+  const heading = cg?.heading || t('home.completeGardenHeading');
+  const description = cg?.description || t('home.completeGardenDesc');
+  const defaultPills = [
+    { id: 1, icon: '🌱', text: t('home.pillYourPlant'), visible: true, order: 1 },
+    { id: 2, icon: '🪴', text: t('home.pillRightPot'), visible: true, order: 2 },
+    { id: 3, icon: '🌾', text: t('home.pillGrowingMix'), visible: true, order: 3 },
+    { id: 4, icon: '💧', text: t('home.pillPlantNutrition'), visible: true, order: 4 },
+  ];
+  // Pills used to be plain strings (e.g. "🌱 Your plant") - normalize either
+  // shape so an older saved list still renders correctly.
+  const pills = (cg?.pills?.length ? cg.pills : defaultPills)
+    .map((p, i) => (typeof p === 'string' ? { id: i, icon: '', text: p, visible: true, order: i } : p))
+    .filter((p) => p.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  const buttonText = cg?.buttonText || t('home.buildYourGarden');
+  const buttonUrl = cg?.buttonUrl || '/category/pots-planters';
+  const buttonVisible = cg?.buttonVisible !== false;
+
+  const sectionStyle = {};
+  if (cg?.backgroundColor) sectionStyle.backgroundColor = cg.backgroundColor;
+  if (cg?.paddingY) sectionStyle.paddingTop = sectionStyle.paddingBottom = cg.paddingY;
+  const headingStyle = {};
+  if (cg?.fontSize) headingStyle.fontSize = cg.fontSize;
+  if (cg?.textColor) headingStyle.color = cg.textColor;
+  const animate = cg?.animation !== false;
+
   return (
-    <section ref={ref} className={`complete-garden reveal-section${visible ? ' is-visible' : ''}`}>
-      <CompleteGardenVideo />
+    <section ref={ref} className={`complete-garden${animate ? ' reveal-section' : ''}${!animate || visible ? ' is-visible' : ''}`} style={sectionStyle}>
+      <CompleteGardenVideo cg={cg} />
       <div className="complete-garden-copy">
-        <h2>{t('home.completeGardenHeading')}</h2>
-        <p>{t('home.completeGardenDesc')}</p>
+        <h2 style={headingStyle}>{heading}</h2>
+        <p>{description}</p>
         <div className="pill-row">
-          <span className="pill">{t('home.pillYourPlant')}</span>
-          <span className="pill-plus">+</span>
-          <span className="pill">{t('home.pillRightPot')}</span>
-          <span className="pill-plus">+</span>
-          <span className="pill">{t('home.pillGrowingMix')}</span>
-          <span className="pill-plus">+</span>
-          <span className="pill">{t('home.pillPlantNutrition')}</span>
+          {pills.map((p, i) => (
+            <span key={p.id ?? i} style={{ display: 'contents' }}>
+              {i > 0 && <span className="pill-plus">+</span>}
+              <span className="pill">{p.icon ? `${p.icon} ${p.text}` : p.text}</span>
+            </span>
+          ))}
         </div>
-        <Link to="/category/pots-planters" className="btn-build-garden">{t('home.buildYourGarden')}</Link>
+        {buttonVisible && <Link to={buttonUrl} className="btn-build-garden">{buttonText}</Link>}
       </div>
     </section>
   );
 }
 
 function BestSellers() {
-  const { getBestSellers } = useCatalogue();
+  const { getBestSellers, getProductById } = useCatalogue();
   const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.1);
-  const products = getBestSellers(8);
+  const { plantsPeopleLove: ppl } = useSiteContent();
+
+  if (ppl && ppl.visible === false) return null;
+
+  const curated = ppl?.productIds?.length
+    ? ppl.productIds.map((id) => getProductById(id)).filter(Boolean)
+    : null;
+  const products = curated ?? getBestSellers(8);
+
+  const eyebrow = ppl?.eyebrow || t('home.lovedEyebrow');
+  const heading = ppl?.heading || t('home.plantsPeopleLove');
+  const seeAllText = ppl?.seeAllText || t('home.seeAll');
+  const seeAllLink = ppl?.seeAllLink || '/category/indoor-plants';
+
   return (
     <section ref={ref} className={`best-sellers reveal-section${visible ? ' is-visible' : ''}`}>
       <DecorativeLeaves variant="best-sellers" count={2} />
       <SectionVine variant="best-sellers" active={visible} />
       <div className="section-heading">
         <div>
-          <p className="eyebrow">{t('home.lovedEyebrow')}</p>
+          <p className="eyebrow">{eyebrow}</p>
           <h2>
-            {t('home.plantsPeopleLove')}
+            {heading}
             <span className="heading-leaf-accent" aria-hidden="true"><LeafGlyph /></span>
           </h2>
         </div>
-        <Link to="/category/indoor-plants" className="see-all">{t('home.seeAll')}</Link>
+        <Link to={seeAllLink} className="see-all">{seeAllText}</Link>
       </div>
       <div className="product-grid">
         {products.map((p) => (
@@ -647,15 +780,30 @@ function BestSellers() {
 // same 10 consistently while still looking like a real, non-alphabetical,
 // non-price-sorted selection - not a fabricated "new arrivals" dataset.
 function JustIn() {
-  const { products } = useCatalogue();
+  const { products, getProductById } = useCatalogue();
   const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.1);
+  const { justIn: ji } = useSiteContent();
+
   // Homepage shows a 5-product preview; the full 10-product list lives on
   // /just-in (JustInPage.jsx) - both read from the same seeded ordering
-  // via getJustInProducts, just sliced to a different length.
-  const justInProducts = useMemo(() => getJustInProducts(products, 5), [products]);
+  // via getJustInProducts, just sliced to a different length. A curated
+  // admin productIds list (if set) overrides the automatic seeded pick.
+  const curated = ji?.productIds?.length
+    ? ji.productIds.map((id) => getProductById(id)).filter(Boolean)
+    : null;
+  const justInProducts = useMemo(
+    () => curated ?? getJustInProducts(products, 5),
+    [products, curated]
+  );
 
+  if (ji && ji.visible === false) return null;
   if (justInProducts.length === 0) return null;
+
+  const title = ji?.title || t('home.justInTitle');
+  const subtitle = ji?.subtitle || t('home.justInSubtitle');
+  const viewAllText = ji?.viewAllText || t('home.viewAll');
+  const viewAllLink = ji?.viewAllLink || '/just-in';
 
   return (
     <section ref={ref} className={`just-in reveal-section${visible ? ' is-visible' : ''}`}>
@@ -663,61 +811,64 @@ function JustIn() {
       <DecorativeLeaves variant="just-in" count={3} />
       <DecorativePetals variant="just-in" count={2} />
       <SectionVine variant="just-in" active={visible} />
-      
+
       <div className="section-heading">
         <div>
           <h2>
-            {t('home.justInTitle')}
+            {title}
             <span className="just-in-fresh-accent" aria-hidden="true"><LeafGlyph /></span>
           </h2>
-          <p className="section-sub">{t('home.justInSubtitle')}</p>
+          <p className="section-sub">{subtitle}</p>
         </div>
-        <Link to="/just-in" className="see-all">{t('home.viewAll')}</Link>
+        <Link to={viewAllLink} className="see-all">{viewAllText}</Link>
       </div>
       <div className="just-in-grid">
         {justInProducts.map((p) => (
-          <ProductCard key={p.id} product={p} isNew />
+          <ProductCard key={p.id} product={p} isNew={!p.hideNewBadge} />
         ))}
       </div>
     </section>
   );
 }
 
-// Matched by service title to a real photo in
-// public/images/garden-services-home/ (see the user-supplied "garden
-// service" folder - fuzzy-matched: "plant care.jpg" is the closest photo
-// for the "Plant Maintenance" card, "terrac garden.jpg" for "Terrace
-// Garden"). A title with no entry here simply keeps the original
-// text-only card - never a broken image.
-const GARDEN_SERVICE_HOME_IMAGES = {
-  'Terrace Garden': '/images/garden-services-home/terrace-garden.jpg',
-  'Balcony Garden': '/images/garden-services-home/balcony-garden.jpg',
-  'Landscaping': '/images/garden-services-home/landscaping.jpg',
-  'Plant Maintenance': '/images/garden-services-home/plant-maintenance.jpg',
-};
-
 function GardenServicesTeaser() {
-  const { gardenServices: services } = useSiteContent();
+  const { gardenServices: gs } = useSiteContent();
   const { t, language } = useLanguage();
   const [ref, visible] = useScrollReveal(0.15);
+
+  if (gs && gs.visible === false) return null;
+
+  const badgeText = gs?.badgeText || t('home.beyondProducts');
+  const heading = gs?.heading || t('home.gardenServices');
+  const description = gs?.description || t('home.gardenServicesTeaserSub');
+  // Items used to be a plain {title, to} array with the image looked up by
+  // title from a hardcoded map - normalize an older saved list to the
+  // richer shape so it still renders instead of erroring.
+  const items = (gs?.items?.length ? gs.items : [])
+    .map((s, i) => ({ description: '', buttonText: t('home.learnMore'), buttonLink: s.to || '/garden-services', visible: true, order: i, ...s }))
+    .filter((s) => s.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+  if (items.length === 0) return null;
+
   return (
     <section ref={ref} className={`garden-services-teaser reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="section-heading">
         <div>
-          <p className="eyebrow">{t('home.beyondProducts')}</p>
-          <h2>{t('home.gardenServices')}</h2>
+          <p className="eyebrow">{badgeText}</p>
+          <h2>{heading}</h2>
         </div>
-        <p className="section-sub">{t('home.gardenServicesTeaserSub')}</p>
+        <p className="section-sub">{description}</p>
       </div>
       <div className="services-grid">
-        {services.map((s) => {
+        {items.map((s) => {
           const localizedTitle = getGardenServiceTranslation(s.title, language)?.title ?? s.title;
-          const image = GARDEN_SERVICE_HOME_IMAGES[s.title];
           return (
-            <Link to={s.to} key={s.title} className={`service-card${image ? ' has-image' : ''}`}>
-              {image && <img src={image} alt={localizedTitle} loading="lazy" />}
+            <Link to={s.buttonLink} key={s.id ?? s.title} className={`service-card${s.image ? ' has-image' : ''}`}>
+              {s.image && <img src={s.image} alt={localizedTitle} loading="lazy" />}
               <h3>{localizedTitle}</h3>
-              <span>{t('home.learnMore')}</span>
+              {s.description && <p className="service-card-desc">{s.description}</p>}
+              <span>{s.buttonText || t('home.learnMore')}</span>
             </Link>
           );
         })}
@@ -799,11 +950,20 @@ const JOURNEY_STEPS = [
   },
 ];
 
-function JourneyStep({ step, index }) {
+const JOURNEY_ICONS = {
+  sprout: SproutIcon,
+  qualityCheck: QualityCheckIcon,
+  prepared: PreparedIcon,
+  homeReady: HomeReadyIcon,
+};
+
+function JourneyStep({ step, index, number }) {
   const [ref, visible] = useScrollReveal(0.25);
-  const { Icon } = step;
+  const Icon = JOURNEY_ICONS[step.icon] || SproutIcon;
   const { language } = useLanguage();
   const tr = getJourneyStepTranslation(step.title, language);
+  const title = tr?.title ?? step.title;
+  const description = step.description ?? step.desc;
   return (
     <div
       ref={ref}
@@ -811,13 +971,13 @@ function JourneyStep({ step, index }) {
       style={{ transitionDelay: `${index * 130}ms` }}
     >
       <div className="journey-step-media">
-        <img src={step.image} alt={tr?.title ?? step.title} />
+        {step.image ? <img src={step.image} alt={title} /> : <span className="journey-step-noimage" aria-hidden="true"><Icon /></span>}
         <span className="journey-step-icon"><Icon /></span>
       </div>
       <div className="journey-step-body">
-        <span className="journey-step-number">{step.number}</span>
-        <h3>{tr?.title ?? step.title}</h3>
-        <p>{tr?.desc ?? step.desc}</p>
+        <span className="journey-step-number">{number}</span>
+        <h3>{title}</h3>
+        <p>{tr?.desc ?? description}</p>
       </div>
     </div>
   );
@@ -977,18 +1137,32 @@ function DeliveryRider() {
 function NurseryJourney() {
   const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.15);
+  const { nurseryJourney: nj } = useSiteContent();
+
+  if (nj && nj.visible === false) return null;
+
+  const eyebrow = nj?.eyebrow || t('home.ourProcess');
+  const heading = nj?.heading || t('home.journeyHeading');
+  const subtitle = nj?.subtitle || t('home.journeySub');
+  const showRider = nj?.showRider !== false;
+  const steps = (nj?.steps?.length ? nj.steps : JOURNEY_STEPS.map((s, i) => ({ id: i, title: s.title, description: s.desc, image: s.image, icon: Object.keys(JOURNEY_ICONS)[i], visible: true, order: i })))
+    .filter((s) => s.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+  if (steps.length === 0) return null;
+
   return (
     <section ref={ref} className={`nursery-journey reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="section-heading center">
-        <p className="eyebrow">{t('home.ourProcess')}</p>
-        <h2>{t('home.journeyHeading')}</h2>
-        <p className="section-sub">{t('home.journeySub')}</p>
+        <p className="eyebrow">{eyebrow}</p>
+        <h2>{heading}</h2>
+        <p className="section-sub">{subtitle}</p>
       </div>
       <div className="journey-track">
         <div className="journey-line" aria-hidden="true" />
-        <DeliveryRider />
-        {JOURNEY_STEPS.map((step, i) => (
-          <JourneyStep key={step.title} step={step} index={i} />
+        {showRider && <DeliveryRider />}
+        {steps.map((step, i) => (
+          <JourneyStep key={step.id ?? step.title} step={step} index={i} number={String(i + 1).padStart(2, '0')} />
         ))}
       </div>
     </section>
@@ -998,31 +1172,38 @@ function NurseryJourney() {
 function WhyIgoCard({ item, index }) {
   const [ref, visible] = useScrollReveal(0.2);
   const { t } = useLanguage();
+  const title = item.title || t(`whyIgo.title${item.key}`);
+  const description = item.description || t(`whyIgo.desc${item.key}`);
+  // `featured` was the old boolean field name (sometimes saved as the
+  // string 'true' by an older plain-text editor) - `badgeEnabled` is the
+  // current one, so either shape still renders correctly.
+  const badgeEnabled = item.badgeEnabled ?? (item.featured === true || item.featured === 'true');
+  const badgeText = item.badgeText || t('whyIgo.tagVerified');
   return (
     <div
       ref={ref}
-      className={`why-igo-card ${item.featured ? 'why-igo-card-featured' : ''} ${visible ? 'why-igo-card-visible' : ''}`}
+      className={`why-igo-card ${badgeEnabled ? 'why-igo-card-featured' : ''} ${visible ? 'why-igo-card-visible' : ''}`}
       style={{ transitionDelay: `${index * 90}ms` }}
     >
-      {item.featured && <span className="why-igo-tag">{t('whyIgo.tagVerified')}</span>}
+      {badgeEnabled && <span className="why-igo-tag">{badgeText}</span>}
       {item.image ? (
         <img
           className="why-igo-image"
           src={item.image}
-          alt={t(`whyIgo.title${item.key}`)}
+          alt={title}
           loading="lazy"
         />
       ) : (
-        <span className="why-igo-icon">{WHY_IGO_ICONS[item.icon]}</span>
+        <span className="why-igo-icon">{WHY_IGO_ICONS[item.icon] || WHY_IGO_ICONS.wifi}</span>
       )}
       {item.stat ? (
         <h3>
-          <span className="why-igo-stat">{item.stat}</span> {t(`whyIgo.title${item.key}`)}
+          <span className="why-igo-stat">{item.stat}</span> {title}
         </h3>
       ) : (
-        <h3>{t(`whyIgo.title${item.key}`)}</h3>
+        <h3>{title}</h3>
       )}
-      <p>{t(`whyIgo.desc${item.key}`)}</p>
+      <p>{description}</p>
     </div>
   );
 }
@@ -1030,20 +1211,45 @@ function WhyIgoCard({ item, index }) {
 function WhyIGO() {
   const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.15);
+  const { whyIgo } = useSiteContent();
+
+  if (whyIgo && whyIgo.visible === false) return null;
+
+  const eyebrow = whyIgo?.eyebrow || t('home.whyIgoEyebrow');
+  const heading = whyIgo?.heading || t('home.whyIgoHeading');
+  const buttonText = whyIgo?.buttonText || t('home.discoverMore');
+  const buttonUrl = whyIgo?.buttonUrl || '/about';
+  const buttonVisible = whyIgo?.buttonVisible !== false;
+  const cards = (whyIgo?.cards?.length ? whyIgo.cards : WHY_IGO.map((c, i) => ({ ...c, visible: true, order: i })))
+    .filter((c) => c.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+  if (cards.length === 0) return null;
+
+  const sectionStyle = {};
+  if (whyIgo?.backgroundColor) sectionStyle.backgroundColor = whyIgo.backgroundColor;
+  if (whyIgo?.paddingY) sectionStyle.paddingTop = sectionStyle.paddingBottom = whyIgo.paddingY;
+  const headingStyle = {};
+  if (whyIgo?.fontSize) headingStyle.fontSize = whyIgo.fontSize;
+  if (whyIgo?.textColor) headingStyle.color = whyIgo.textColor;
+  const animate = whyIgo?.animation !== false;
+
   return (
-    <section ref={ref} className={`why-igo reveal-section${visible ? ' is-visible' : ''}`}>
+    <section ref={ref} className={`why-igo${animate ? ' reveal-section' : ''}${!animate || visible ? ' is-visible' : ''}`} style={sectionStyle}>
       <div className="section-heading center">
-        <p className="eyebrow">{t('home.whyIgoEyebrow')}</p>
-        <h2>{t('home.whyIgoHeading')}</h2>
+        <p className="eyebrow">{eyebrow}</p>
+        <h2 style={headingStyle}>{heading}</h2>
       </div>
       <div className="why-igo-grid">
-        {WHY_IGO.map((item, i) => (
-          <WhyIgoCard item={item} index={i} key={item.key} />
+        {cards.map((item, i) => (
+          <WhyIgoCard item={item} index={i} key={item.id ?? item.key} />
         ))}
       </div>
-      <div className="why-igo-cta-row">
-        <Link to="/about" className="btn-discover">{t('home.discoverMore')}</Link>
-      </div>
+      {buttonVisible && (
+        <div className="why-igo-cta-row">
+          <Link to={buttonUrl} className="btn-discover">{buttonText}</Link>
+        </div>
+      )}
     </section>
   );
 }
@@ -1246,6 +1452,29 @@ function ComparisonRow({ row, index, hovered, onHover, onLeave }) {
 function OurStoryBand() {
   const [ref, visible] = useScrollReveal(0.2);
   const { language, t } = useLanguage();
+  const { ourStoryBand: osb } = useSiteContent();
+
+  if (osb && osb.visible === false) return null;
+
+  const badgeEnabled = osb?.badgeEnabled !== false;
+  const badgeText = osb?.badgeText || t('about.badge');
+  const founderImage = osb?.founderImage;
+  // Founder's name is a proper noun - kept as-is across every language by
+  // default, same as the "IGO Nursery" brand name, unless overridden.
+  const founderName = osb?.founderName || 'Dr John Yesudhas';
+  const founderDesignation = osb?.founderDesignation || t('about.designation');
+  const heading = osb?.heading || t('about.title');
+  const taglinePlain = osb?.taglinePlain || t('about.quotePlain');
+  const taglineHighlight = osb?.taglineHighlight || t('about.quoteHighlight');
+  const showTaglineIcon = osb?.showTaglineIcon !== false;
+  const defaultParagraphs = [
+    { id: 1, before: t('about.paragraph1'), strong: '', after: '', visible: true, order: 1 },
+    { id: 2, before: t('about.paragraph2Before'), strong: t('about.paragraph2Strong'), after: t('about.paragraph2After'), visible: true, order: 2 },
+    { id: 3, before: `${t('about.paragraph3')} 🌿`, strong: '', after: '', visible: true, order: 3 },
+  ];
+  const paragraphs = (osb?.paragraphs?.length ? osb.paragraphs : defaultParagraphs)
+    .filter((p) => p.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
   return (
     <section ref={ref} className={`os-band${visible ? ' os-band-visible' : ''}`}>
@@ -1253,32 +1482,34 @@ function OurStoryBand() {
       <SectionVine variant="story" active={visible} />
       <div className="os-story">
         <div className="os-media">
-          <span className="os-badge">{t('about.badge')}</span>
-          <img
-            src="/images/home/our-story.jpeg"
-            alt="Dr John Yesudhas, Founder of IGO Nursery"
-            className="os-story-photo"
-            loading="lazy"
-          />
+          {badgeEnabled && <span className="os-badge">{badgeText}</span>}
+          {founderImage ? (
+            <img
+              src={founderImage}
+              alt={`${founderName}, Founder of IGO Nursery`}
+              className="os-story-photo"
+              loading="lazy"
+            />
+          ) : (
+            <div className="os-story-photo os-story-photo-fallback" aria-hidden="true"><LeafGlyph /></div>
+          )}
           <div className="os-media-caption">
-            {/* Founder's name is a proper noun - kept as-is across every
-                language, same as the "IGO Nursery" brand name. */}
-            <p className="os-media-name">Dr John Yesudhas</p>
-            <p className="os-media-title">{t('about.designation')}</p>
+            <p className="os-media-name">{founderName}</p>
+            <p className="os-media-title">{founderDesignation}</p>
           </div>
         </div>
 
         <div className="os-copy">
-          <h2>{t('about.title')}</h2>
+          <h2>{heading}</h2>
           <p className="os-quote">
-            {t('about.quotePlain')} <span className="os-quote-highlight">{t('about.quoteHighlight')}</span>
-            <span className="os-quote-leaf" aria-hidden="true"><LeafGlyph /></span>
+            {taglinePlain} <span className="os-quote-highlight">{taglineHighlight}</span>
+            {showTaglineIcon && <span className="os-quote-leaf" aria-hidden="true"><LeafGlyph /></span>}
           </p>
-          <p>{t('about.paragraph1')}</p>
-          <p>
-            {t('about.paragraph2Before')}<strong>{t('about.paragraph2Strong')}</strong>{t('about.paragraph2After')}
-          </p>
-          <p>{t('about.paragraph3')} <span aria-hidden="true">🌿</span></p>
+          {paragraphs.map((p) => (
+            <p key={p.id}>
+              {p.before}{p.strong && <strong>{p.strong}</strong>}{p.after}
+            </p>
+          ))}
         </div>
       </div>
     </section>
@@ -1358,39 +1589,103 @@ function NurseryComparison() {
 function PlantFinderBand() {
   const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.2);
+  const { plantFinder: pf } = useSiteContent();
+
+  if (pf && pf.visible === false) return null;
+
+  const eyebrow = pf?.eyebrow || t('home.plantFinderEyebrow');
+  const heading = pf?.heading || t('home.plantFinderHeading');
+  const description = pf?.description || t('home.plantFinderBandDesc');
+  const buttonEnabled = pf?.buttonEnabled !== false;
+  const buttonText = pf?.buttonText || t('home.findMyPlant');
+  const buttonUrl = pf?.buttonUrl || '/plant-finder';
+
+  const sectionStyle = {};
+  if (pf?.backgroundColor) sectionStyle.backgroundColor = pf.backgroundColor;
+  if (pf?.backgroundImage) {
+    sectionStyle.backgroundImage = `url(${pf.backgroundImage})`;
+    sectionStyle.backgroundSize = 'cover';
+    sectionStyle.backgroundPosition = 'center';
+  }
+  if (pf?.paddingY) sectionStyle.paddingTop = sectionStyle.paddingBottom = pf.paddingY;
+  if (pf?.buttonBgColor) sectionStyle['--pf-btn-bg'] = pf.buttonBgColor;
+  if (pf?.buttonTextColor) sectionStyle['--pf-btn-text'] = pf.buttonTextColor;
+  if (pf?.buttonHoverBgColor) sectionStyle['--pf-btn-hover-bg'] = pf.buttonHoverBgColor;
+  if (pf?.buttonHoverTextColor) sectionStyle['--pf-btn-hover-text'] = pf.buttonHoverTextColor;
+
   return (
-    <section ref={ref} className={`plant-finder-band reveal-section${visible ? ' is-visible' : ''}`}>
+    <section ref={ref} className={`plant-finder-band reveal-section${visible ? ' is-visible' : ''}`} style={sectionStyle}>
       <div>
-        <p className="eyebrow light">{t('home.plantFinderEyebrow')}</p>
-        <h2>{t('home.plantFinderHeading')}</h2>
-        <p>{t('home.plantFinderBandDesc')}</p>
+        <p className="eyebrow light" style={pf?.labelColor ? { color: pf.labelColor } : undefined}>{eyebrow}</p>
+        <h2 style={pf?.headingColor ? { color: pf.headingColor } : undefined}>{heading}</h2>
+        <p style={pf?.descriptionColor ? { color: pf.descriptionColor } : undefined}>{description}</p>
       </div>
-      <Link to="/plant-finder" className="btn-find-plant">{t('home.findMyPlant')}</Link>
+      {buttonEnabled && (
+        <Link to={buttonUrl} target={pf?.buttonNewTab ? '_blank' : undefined} rel={pf?.buttonNewTab ? 'noopener noreferrer' : undefined} className="btn-find-plant">
+          {buttonText}
+        </Link>
+      )}
     </section>
   );
 }
 
 function GardenJournal() {
-  const { journal } = useSiteContent();
+  const { gardenJournal: gj } = useSiteContent();
   const { t, language } = useLanguage();
   const [ref, visible] = useScrollReveal(0.1);
+
+  if (gj && gj.visible === false) return null;
+
+  const eyebrow = gj?.eyebrow || t('home.learnGrowThrive');
+  const heading = gj?.heading || t('home.gardenJournal');
+  const seeAllEnabled = gj?.seeAllEnabled !== false;
+  const seeAllText = gj?.seeAllText || t('home.seeAll');
+  const seeAllLink = gj?.seeAllLink || '/blog';
+  const readGuideText = gj?.readGuideText || t('home.readGuide');
+  // Older saved posts used `to` for the link - normalize to `linkUrl` so an
+  // older save still opens and links correctly here.
+  const posts = (gj?.posts?.length ? gj.posts : [])
+    .map((p) => ({ linkUrl: p.to || p.linkUrl, linkTarget: '_self', visible: true, ...p }))
+    .filter((p) => p.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+  if (posts.length === 0) return null;
+
+  const sectionStyle = {};
+  if (gj?.backgroundColor) sectionStyle.backgroundColor = gj.backgroundColor;
+  if (gj?.paddingY) sectionStyle.paddingTop = sectionStyle.paddingBottom = gj.paddingY;
+  const headingStyle = gj?.textColor ? { color: gj.textColor } : undefined;
+
   return (
-    <section ref={ref} className={`garden-journal reveal-section${visible ? ' is-visible' : ''}`}>
+    <section ref={ref} className={`garden-journal reveal-section${visible ? ' is-visible' : ''}`} style={sectionStyle}>
       <div className="section-heading">
         <div>
-          <p className="eyebrow">{t('home.learnGrowThrive')}</p>
-          <h2>{t('home.gardenJournal')}</h2>
+          <p className="eyebrow">{eyebrow}</p>
+          <h2 style={headingStyle}>{heading}</h2>
         </div>
-        <Link to="/blog" className="see-all">{t('home.seeAll')}</Link>
+        {seeAllEnabled && <Link to={seeAllLink} className="see-all">{seeAllText}</Link>}
       </div>
       <div className="journal-grid">
-        {journal.map((post) => (
-          <Link to={post.to} key={post.id} className="journal-card">
-            <img src={post.image} alt={getBlogPostTranslation(post.title, language)?.title ?? post.title} className="journal-media" loading="lazy" />
-            <h3>{getBlogPostTranslation(post.title, language)?.title ?? post.title}</h3>
-            <span>{t('home.readGuide')}</span>
-          </Link>
-        ))}
+        {posts.map((post) => {
+          const title = getBlogPostTranslation(post.title, language)?.title ?? post.title;
+          return (
+            <Link
+              to={post.linkUrl}
+              target={post.linkTarget === '_blank' ? '_blank' : undefined}
+              rel={post.linkTarget === '_blank' ? 'noopener noreferrer' : undefined}
+              key={post.id}
+              className="journal-card"
+            >
+              {post.image ? (
+                <img src={post.image} alt={post.imageAlt || title} className="journal-media" loading="lazy" />
+              ) : (
+                <span className="journal-media journal-media-fallback" aria-hidden="true"><LeafGlyph /></span>
+              )}
+              <h3>{title}</h3>
+              <span>{readGuideText}</span>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );
@@ -1440,47 +1735,86 @@ function ChatQuoteIcon() {
 
 // Sits directly below Garden journal, above Customer reviews.
 const GIFTING_IMAGE = '/images/gifting-hero.jpg';
+const GIFTING_ICONS = { gift: <GiftIcon />, clipboard: <ClipboardListIcon />, tag: <TagIcon />, chat: <ChatQuoteIcon /> };
 
 function GiftingBand() {
   const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.15);
+  const { giftingBand: gb } = useSiteContent();
+
+  if (gb && gb.visible === false) return null;
+
+  const heading = gb?.heading || t('home.giftingHeading');
+  const description = gb?.description || t('home.giftingDesc');
+  const highlightEnabled = gb?.highlightEnabled !== false;
+  const highlight = gb?.highlight || t('home.giftingHighlight');
+  const image = gb?.image || GIFTING_IMAGE;
+  const imageAlt = gb?.imageAlt || heading;
+  const defaultFeatures = [
+    { id: 1, icon: 'gift', text: t('home.giftingPointHampers'), visible: true, order: 1 },
+    { id: 2, icon: 'clipboard', text: t('home.giftingPointBulk'), visible: true, order: 2 },
+    { id: 3, icon: 'tag', text: t('home.giftingPointCustom'), visible: true, order: 3 },
+  ];
+  const features = (gb?.features?.length ? gb.features : defaultFeatures)
+    .filter((f) => f.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  const defaultButtons = [
+    { id: 1, icon: 'gift', text: t('home.giftingExploreBtn'), url: '/gifting', target: '_self', style: 'primary', visible: true, order: 1 },
+    { id: 2, icon: 'chat', text: t('home.giftingQuoteBtn'), url: '/corporate-gifts', target: '_self', style: 'secondary', visible: true, order: 2 },
+  ];
+  const buttons = (gb?.buttons?.length ? gb.buttons : defaultButtons)
+    .filter((b) => b.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+  const sectionStyle = gb?.backgroundColor ? { backgroundColor: gb.backgroundColor } : undefined;
 
   return (
-    <section ref={ref} className={`gifting-band reveal-section${visible ? ' is-visible' : ''}`}>
+    <section ref={ref} className={`gifting-band reveal-section${visible ? ' is-visible' : ''}`} style={sectionStyle}>
       <div className="gifting-band-copy">
-        <h2>{t('home.giftingHeading')}</h2>
-        <p>{t('home.giftingDesc')}</p>
-        <p className="gifting-band-highlight">{t('home.giftingHighlight')}</p>
+        <h2 style={gb?.headingColor ? { color: gb.headingColor } : undefined}>{heading}</h2>
+        <p style={gb?.descriptionColor ? { color: gb.descriptionColor } : undefined}>{description}</p>
+        {highlightEnabled && (
+          <p className="gifting-band-highlight" style={gb?.highlightColor ? { color: gb.highlightColor } : undefined}>{highlight}</p>
+        )}
 
         <div className="gifting-band-points">
-          <span className="gifting-band-point">
-            <span className="gifting-band-point-icon"><GiftIcon /></span>
-            {t('home.giftingPointHampers')}
-          </span>
-          <span className="gifting-band-divider" aria-hidden="true" />
-          <span className="gifting-band-point">
-            <span className="gifting-band-point-icon"><ClipboardListIcon /></span>
-            {t('home.giftingPointBulk')}
-          </span>
-          <span className="gifting-band-divider" aria-hidden="true" />
-          <span className="gifting-band-point">
-            <span className="gifting-band-point-icon"><TagIcon /></span>
-            {t('home.giftingPointCustom')}
-          </span>
+          {features.map((f, i) => (
+            <span key={f.id} style={{ display: 'contents' }}>
+              {i > 0 && <span className="gifting-band-divider" aria-hidden="true" />}
+              <span className="gifting-band-point">
+                <span className="gifting-band-point-icon">{GIFTING_ICONS[f.icon] || <GiftIcon />}</span>
+                {f.text}
+              </span>
+            </span>
+          ))}
         </div>
 
         <div className="gifting-band-buttons">
-          <Link to="/gifting" className="btn-gift-primary">
-            <GiftIcon /> {t('home.giftingExploreBtn')}
-          </Link>
-          <Link to="/corporate-gifts" className="btn-gift-secondary">
-            <ChatQuoteIcon /> {t('home.giftingQuoteBtn')}
-          </Link>
+          {buttons.map((b) => {
+            const btnStyle = {};
+            if (b.bgColor) btnStyle['--gb-btn-bg'] = b.bgColor;
+            if (b.textColor) btnStyle['--gb-btn-text'] = b.textColor;
+            if (b.borderColor) btnStyle['--gb-btn-border'] = b.borderColor;
+            if (b.hoverBgColor) btnStyle['--gb-btn-hover-bg'] = b.hoverBgColor;
+            if (b.hoverTextColor) btnStyle['--gb-btn-hover-text'] = b.hoverTextColor;
+            return (
+              <Link
+                key={b.id}
+                to={b.url}
+                target={b.target === '_blank' ? '_blank' : undefined}
+                rel={b.target === '_blank' ? 'noopener noreferrer' : undefined}
+                className={b.style === 'secondary' ? 'btn-gift-secondary' : 'btn-gift-primary'}
+                style={btnStyle}
+              >
+                {GIFTING_ICONS[b.icon] || <GiftIcon />} {b.text}
+              </Link>
+            );
+          })}
         </div>
       </div>
 
       <div className="gifting-band-media">
-        <img src={GIFTING_IMAGE} alt={t('home.giftingHeading')} loading="lazy" />
+        {image ? <img src={image} alt={imageAlt} loading="lazy" /> : <span className="gifting-band-media-fallback" aria-hidden="true"><LeafGlyph /></span>}
       </div>
     </section>
   );
@@ -1490,22 +1824,46 @@ function GiftingBand() {
 
 function Faq() {
   const { t } = useLanguage();
-  const [open, setOpen] = useState(0);
+  const { faq } = useSiteContent();
+  const defaultItems = useMemo(() => FAQS.map((f, i) => ({
+    id: i, question: t(`faq.q${f.key}`), answer: t(`faq.a${f.key}`), visible: true, defaultOpen: i === 0, order: i,
+  })), [t]);
+  const items = (faq?.items?.length ? faq.items : defaultItems)
+    .filter((f) => f.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  const initialOpen = items.findIndex((f) => f.defaultOpen);
+  const [open, setOpen] = useState(initialOpen);
   const [ref, visible] = useScrollReveal(0.15);
+
+  if (faq && faq.visible === false) return null;
+  if (items.length === 0) return null;
+
+  const eyebrow = faq?.eyebrow || t('home.supportEyebrow');
+  const heading = faq?.heading || t('home.faqHeading');
+  const openIcon = faq?.openIcon || '−';
+  const closedIcon = faq?.closedIcon || '+';
+
+  const sectionStyle = {};
+  if (faq?.backgroundColor) sectionStyle.backgroundColor = faq.backgroundColor;
+  if (faq?.dividerColor) sectionStyle['--faq-divider'] = faq.dividerColor;
+  if (faq?.iconColor) sectionStyle['--faq-icon'] = faq.iconColor;
+  if (faq?.questionColor) sectionStyle['--faq-question'] = faq.questionColor;
+  if (faq?.answerColor) sectionStyle['--faq-answer'] = faq.answerColor;
+
   return (
-    <section ref={ref} className={`faq-section reveal-section${visible ? ' is-visible' : ''}`} id="faq">
+    <section ref={ref} className={`faq-section reveal-section${visible ? ' is-visible' : ''}`} id="faq" style={sectionStyle}>
       <div className="section-heading center">
-        <p className="eyebrow">{t('home.supportEyebrow')}</p>
-        <h2>{t('home.faqHeading')}</h2>
+        <p className="eyebrow" style={faq?.eyebrowColor ? { color: faq.eyebrowColor } : undefined}>{eyebrow}</p>
+        <h2 style={faq?.headingColor ? { color: faq.headingColor } : undefined}>{heading}</h2>
       </div>
       <div className="faq-list">
-        {FAQS.map((item, idx) => (
-          <div className={`faq-item ${open === idx ? 'open' : ''}`} key={item.key}>
+        {items.map((item, idx) => (
+          <div className={`faq-item ${open === idx ? 'open' : ''}`} key={item.id}>
             <button type="button" onClick={() => setOpen(open === idx ? -1 : idx)}>
-              <span>{t(`faq.q${item.key}`)}</span>
-              <span className="faq-toggle">{open === idx ? '−' : '+'}</span>
+              <span>{item.question}</span>
+              <span className="faq-toggle">{open === idx ? openIcon : closedIcon}</span>
             </button>
-            {open === idx && <p>{t(`faq.a${item.key}`)}</p>}
+            {open === idx && <p>{item.answer}</p>}
           </div>
         ))}
       </div>
@@ -1513,16 +1871,59 @@ function Faq() {
   );
 }
 
+// No newsletter/subscriber storage exists anywhere in this project yet
+// (no API route, no Firestore collection) - submitting only validates the
+// email client-side and shows the admin's configured message. Wiring this
+// to an actual subscriber list is a separate, real backend feature (like
+// the Products/Categories Firestore collections), not a text/styling change.
 function Newsletter() {
   const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.2);
+  const { newsletter: nl } = useSiteContent();
+  const [status, setStatus] = useState(null);
+
+  if (nl && nl.visible === false) return null;
+
+  const heading = nl?.heading || t('home.newsletterHeading');
+  const placeholder = nl?.placeholder || t('home.newsletterPlaceholder');
+  const buttonEnabled = nl?.buttonEnabled !== false;
+  const buttonText = nl?.buttonText || t('home.subscribe');
+  const successMessage = nl?.successMessage || 'Thanks for subscribing!';
+  const errorMessage = nl?.errorMessage || 'Please enter a valid email address.';
+
+  const sectionStyle = {};
+  if (nl?.backgroundColor) sectionStyle.backgroundColor = nl.backgroundColor;
+  if (nl?.paddingY) sectionStyle.paddingTop = sectionStyle.paddingBottom = nl.paddingY;
+  if (nl?.inputBgColor) sectionStyle['--nl-input-bg'] = nl.inputBgColor;
+  if (nl?.inputTextColor) sectionStyle['--nl-input-text'] = nl.inputTextColor;
+  if (nl?.inputPlaceholderColor) sectionStyle['--nl-input-placeholder'] = nl.inputPlaceholderColor;
+  if (nl?.inputBorderColor) sectionStyle['--nl-input-border'] = nl.inputBorderColor;
+  if (nl?.inputFocusBorderColor) sectionStyle['--nl-input-focus-border'] = nl.inputFocusBorderColor;
+  if (nl?.buttonBgColor) sectionStyle['--nl-btn-bg'] = nl.buttonBgColor;
+  if (nl?.buttonTextColor) sectionStyle['--nl-btn-text'] = nl.buttonTextColor;
+  if (nl?.buttonHoverBgColor) sectionStyle['--nl-btn-hover-bg'] = nl.buttonHoverBgColor;
+  if (nl?.buttonHoverTextColor) sectionStyle['--nl-btn-hover-text'] = nl.buttonHoverTextColor;
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const email = e.target.elements.email.value.trim();
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    setStatus(isValid ? 'success' : 'error');
+    if (isValid) e.target.reset();
+  }
+
   return (
-    <section ref={ref} className={`newsletter-section reveal-section${visible ? ' is-visible' : ''}`}>
-      <h2>{t('home.newsletterHeading')}</h2>
-      <form onSubmit={(e) => e.preventDefault()} className="newsletter-form">
-        <input type="email" placeholder={t('home.newsletterPlaceholder')} required />
-        <button type="submit">{t('home.subscribe')}</button>
+    <section ref={ref} className={`newsletter-section reveal-section${visible ? ' is-visible' : ''}`} style={sectionStyle}>
+      <h2 style={nl?.headingColor ? { color: nl.headingColor } : undefined}>{heading}</h2>
+      <form onSubmit={handleSubmit} className="newsletter-form">
+        <input name="email" type="email" placeholder={placeholder} required />
+        {buttonEnabled && <button type="submit">{buttonText}</button>}
       </form>
+      {status && (
+        <p className={`newsletter-message newsletter-message-${status}`}>
+          {status === 'success' ? successMessage : errorMessage}
+        </p>
+      )}
     </section>
   );
 }

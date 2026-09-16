@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { useSiteContent } from '../hooks/useSiteContent';
 
 // ------------------------------------------------------------------
 // About Us page - complete visual redesign per the supplied reference
@@ -212,35 +213,37 @@ function CountUp({ value, suffix = '', duration = 1200 }) {
 }
 
 // ---------------------------------------------------------------- Hero
-function AboutHero() {
+function AboutHero({ data }) {
   const { t } = useLanguage();
+  const h = data || {};
   return (
     <section className="abt-hero">
       <FloatingLeaf style={{ top: '18%', left: '46%' }} size={20} />
       <FloatingLeaf style={{ top: '58%', left: '2%' }} size={16} flip />
 
       <div className="abt-hero-left">
-        <p className="abt-breadcrumb"><Link to="/">{t('aboutPage.heroBreadcrumbHome')}</Link> <span>→</span> {t('aboutPage.heroBreadcrumbCurrent')}</p>
-        <h1 className="abt-hero-title">{t('aboutPage.heroTitleLine1')}<br />{t('aboutPage.heroTitleLine2')}</h1>
-        <p className="abt-hero-sub">{t('aboutPage.heroSub')}</p>
-        <p className="abt-hero-desc">{t('aboutPage.heroDesc')}</p>
-        <Link to="/category/indoor-plants" className="abt-btn abt-btn-primary">
-          {t('aboutPage.heroCta')} <Icon.Arrow />
+        <p className="abt-breadcrumb"><Link to="/">{h.breadcrumbHome || t('aboutPage.heroBreadcrumbHome')}</Link> <span>→</span> {h.breadcrumbCurrent || t('aboutPage.heroBreadcrumbCurrent')}</p>
+        <h1 className="abt-hero-title">{h.titleLine1 || t('aboutPage.heroTitleLine1')}<br />{h.titleLine2 || t('aboutPage.heroTitleLine2')}</h1>
+        <p className="abt-hero-sub">{h.subtitle || t('aboutPage.heroSub')}</p>
+        <p className="abt-hero-desc">{h.description || t('aboutPage.heroDesc')}</p>
+        <Link to={h.buttonUrl || '/category/indoor-plants'} className="abt-btn abt-btn-primary">
+          {h.buttonText || t('aboutPage.heroCta')} <Icon.Arrow />
         </Link>
       </div>
 
       <div className="abt-hero-right">
         {/* "Green Spaces Happier Lives" is already composited into this
             reference image, so it isn't repeated as a separate overlay. */}
-        <img src={PHOTO.greenhouse} alt={t('aboutPage.heroImageAlt')} loading="eager" />
+        <img src={h.image || PHOTO.greenhouse} alt={h.imageAlt || t('aboutPage.heroImageAlt')} loading="eager" />
       </div>
     </section>
   );
 }
 
 // ------------------------------------------------------------ Our Story
-function AboutStory() {
+function AboutStory({ data }) {
   const { t } = useLanguage();
+  const s = data || {};
   return (
     <section className="abt-story">
       <FloatingLeaf style={{ top: '6%', left: '4%' }} size={18} />
@@ -249,37 +252,40 @@ function AboutStory() {
       {/* The play button and "From Seed to Green" caption are already
           composited into this reference image. */}
       <Reveal className="abt-story-media">
-        <img src={PHOTO.handWithPlant} alt={t('aboutPage.storyImageAlt')} loading="lazy" />
+        <img src={s.image || PHOTO.handWithPlant} alt={s.imageAlt || t('aboutPage.storyImageAlt')} loading="lazy" />
       </Reveal>
 
       <Reveal className="abt-story-copy" delay={120}>
-        <p className="eyebrow">{t('aboutPage.storyEyebrow')}</p>
-        <h2>{t('aboutPage.storyTitleLine1')}<br />{t('aboutPage.storyTitleLine2')}</h2>
-        <p className="abt-story-text">{t('aboutPage.storyText')}</p>
-        <Link to="/about" className="abt-btn abt-btn-primary abt-btn-sm">{t('aboutPage.storyCta')} <Icon.Arrow /></Link>
+        <p className="eyebrow">{s.eyebrow || t('aboutPage.storyEyebrow')}</p>
+        <h2>{s.titleLine1 || t('aboutPage.storyTitleLine1')}<br />{s.titleLine2 || t('aboutPage.storyTitleLine2')}</h2>
+        <p className="abt-story-text">{s.text || t('aboutPage.storyText')}</p>
+        <Link to={s.buttonUrl || '/about'} className="abt-btn abt-btn-primary abt-btn-sm">{s.buttonText || t('aboutPage.storyCta')} <Icon.Arrow /></Link>
       </Reveal>
     </section>
   );
 }
 
 // ------------------------------------------------------------- Stats
-function AboutStats() {
-  const { t } = useLanguage();
-  const stats = [
-    { icon: 'Leaf', value: 10, suffix: '+', label: t('aboutPage.statYearsLabel') },
-    { icon: 'Sprout', value: 5000, suffix: '+', label: t('aboutPage.statPlantsLabel') },
-    { icon: 'Pot', value: 50, suffix: '+', label: t('aboutPage.statVarietiesLabel') },
-    { icon: 'Users', value: 1000, suffix: '+', label: t('aboutPage.statCustomersLabel') },
+function AboutStats({ data }) {
+  const defaultStats = [
+    { id: 1, icon: 'Leaf', value: 10, suffix: '+', label: 'Years Experience', visible: true, order: 1 },
+    { id: 2, icon: 'Sprout', value: 5000, suffix: '+', label: 'Plants Delivered', visible: true, order: 2 },
+    { id: 3, icon: 'Pot', value: 50, suffix: '+', label: 'Plant Varieties', visible: true, order: 3 },
+    { id: 4, icon: 'Users', value: 1000, suffix: '+', label: 'Happy Customers', visible: true, order: 4 },
   ];
+  const stats = (data?.items?.length ? data.items : defaultStats)
+    .filter((s) => s.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  if (stats.length === 0) return null;
   return (
     <Reveal as="section" className="abt-stats-wrap">
       <div className="abt-stats">
         {stats.map((s, i) => {
-          const StatIcon = Icon[s.icon];
+          const StatIcon = Icon[s.icon] || Icon.Leaf;
           return (
-            <div className="abt-stat" key={s.icon}>
+            <div className="abt-stat" key={s.id}>
               <span className="abt-stat-icon"><StatIcon /></span>
-              <strong><CountUp value={s.value} suffix={s.suffix} duration={1000 + i * 150} /></strong>
+              <strong><CountUp value={Number(s.value)} suffix={s.suffix} duration={1000 + i * 150} /></strong>
               <span className="abt-stat-label">{s.label}</span>
             </div>
           );
@@ -290,62 +296,72 @@ function AboutStats() {
 }
 
 // ------------------------------------------------------ Vision & Mission
-function AboutVisionMission() {
+function AboutVisionMission({ data }) {
   const { t } = useLanguage();
+  const vision = data?.vision || {};
+  const mission = data?.mission || {};
+  const VisionIcon = Icon[vision.icon] || Icon.Eye;
+  const MissionIcon = Icon[mission.icon] || Icon.Target;
   return (
     <div className="abt-vm-grid">
       <Reveal className="abt-vm-card abt-vm-vision">
-        <img className="abt-vm-media" src={PHOTO.vision} alt={t('aboutPage.visionImageAlt')} loading="lazy" />
-        <span className="abt-vm-icon"><Icon.Eye /></span>
-        <p className="eyebrow">{t('aboutPage.visionEyebrow')}</p>
-        <h3>{t('aboutPage.visionTitle')}</h3>
-        <p>{t('aboutPage.visionText')}</p>
+        <img className="abt-vm-media" src={vision.image || PHOTO.vision} alt={vision.imageAlt || t('aboutPage.visionImageAlt')} loading="lazy" />
+        <span className="abt-vm-icon"><VisionIcon /></span>
+        <p className="eyebrow">{vision.eyebrow || t('aboutPage.visionEyebrow')}</p>
+        <h3>{vision.title || t('aboutPage.visionTitle')}</h3>
+        <p>{vision.text || t('aboutPage.visionText')}</p>
       </Reveal>
       <Reveal className="abt-vm-card abt-vm-mission" delay={120}>
-        <img className="abt-vm-media" src={PHOTO.mission} alt={t('aboutPage.missionImageAlt')} loading="lazy" />
-        <span className="abt-vm-icon"><Icon.Target /></span>
-        <p className="eyebrow">{t('aboutPage.missionEyebrow')}</p>
-        <h3>{t('aboutPage.missionTitle')}</h3>
-        <p>{t('aboutPage.missionText')}</p>
+        <img className="abt-vm-media" src={mission.image || PHOTO.mission} alt={mission.imageAlt || t('aboutPage.missionImageAlt')} loading="lazy" />
+        <span className="abt-vm-icon"><MissionIcon /></span>
+        <p className="eyebrow">{mission.eyebrow || t('aboutPage.missionEyebrow')}</p>
+        <h3>{mission.title || t('aboutPage.missionTitle')}</h3>
+        <p>{mission.text || t('aboutPage.missionText')}</p>
       </Reveal>
     </div>
   );
 }
 
 // ----------------------------------------------------------- What We Offer
-function AboutOffer() {
+function AboutOffer({ data }) {
   const { t } = useLanguage();
-  const cards = [
-    { titleKey: 'offerCard1Title', descKey: 'offerCard1Desc', icon: 'Leaf', image: PHOTO.offerIndoorOutdoor, to: '/category/indoor-plants' },
-    { titleKey: 'offerCard2Title', descKey: 'offerCard2Desc', icon: 'Pot', image: PHOTO.offerPots, to: '/category/pots-planters' },
-    { titleKey: 'offerCard3Title', descKey: 'offerCard3Desc', icon: 'Sprout', image: PHOTO.offerSeeds, to: '/category/seeds' },
-    { titleKey: 'offerCard4Title', descKey: 'offerCard4Desc', icon: 'Watering', image: PHOTO.plantCare, to: '/category/plant-care' },
-    { titleKey: 'offerCard5Title', descKey: 'offerCard5Desc', icon: 'Landscape', image: PHOTO.landscaping, to: '/landscaping' },
-    { titleKey: 'offerCard6Title', descKey: 'offerCard6Desc', icon: 'Gift', image: PHOTO.corporateGifting, to: '/corporate-gifts' },
+  const o = data || {};
+  const defaultCards = [
+    { id: 1, title: 'Indoor & Outdoor Plants', description: 'Beautiful plants for every space, inside and out.', icon: 'Leaf', image: PHOTO.offerIndoorOutdoor, linkUrl: '/category/indoor-plants', visible: true, order: 1 },
+    { id: 2, title: 'Pots & Planters', description: 'Stylish and durable pots to complement your plants.', icon: 'Pot', image: PHOTO.offerPots, linkUrl: '/category/pots-planters', visible: true, order: 2 },
+    { id: 3, title: 'Seeds & Gardening', description: 'High-quality seeds for a bountiful garden.', icon: 'Sprout', image: PHOTO.offerSeeds, linkUrl: '/category/seeds', visible: true, order: 3 },
+    { id: 4, title: 'Plant Care', description: 'Expert tips and products to keep your plants healthy.', icon: 'Watering', image: PHOTO.plantCare, linkUrl: '/category/plant-care', visible: true, order: 4 },
+    { id: 5, title: 'Landscaping', description: 'Transform your space with beautiful green designs.', icon: 'Landscape', image: PHOTO.landscaping, linkUrl: '/landscaping', visible: true, order: 5 },
+    { id: 6, title: 'Corporate Gifting', description: 'Thoughtful green gifts for clients and teams.', icon: 'Gift', image: PHOTO.corporateGifting, linkUrl: '/corporate-gifts', visible: true, order: 6 },
   ];
+  const cards = (o.cards?.length ? o.cards : defaultCards)
+    .filter((c) => c.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  if (cards.length === 0) return null;
 
   return (
     <section className="abt-offer">
       <Reveal className="abt-offer-heading">
-        <p className="eyebrow">{t('aboutPage.offerEyebrow')}</p>
-        <h2>{t('aboutPage.offerTitle')}</h2>
-        <p className="abt-offer-sub">{t('aboutPage.offerSub')}</p>
+        <p className="eyebrow">{o.eyebrow || t('aboutPage.offerEyebrow')}</p>
+        <h2>{o.heading || t('aboutPage.offerTitle')}</h2>
+        <p className="abt-offer-sub">{o.subtitle || t('aboutPage.offerSub')}</p>
       </Reveal>
-      <p className="abt-hero-script abt-offer-script">{t('aboutPage.offerScriptLine1')}<br />{t('aboutPage.offerScriptLine2')}<br />{t('aboutPage.offerScriptLine3')}</p>
+      <p className="abt-hero-script abt-offer-script">
+        {o.scriptLine1 || t('aboutPage.offerScriptLine1')}<br />{o.scriptLine2 || t('aboutPage.offerScriptLine2')}<br />{o.scriptLine3 || t('aboutPage.offerScriptLine3')}
+      </p>
 
       <div className="abt-offer-grid">
         {cards.map((c, i) => {
-          const CardIcon = Icon[c.icon];
-          const title = t(`aboutPage.${c.titleKey}`);
+          const CardIcon = Icon[c.icon] || Icon.Leaf;
           return (
-            <Reveal as={Link} to={c.to} className="abt-offer-card" key={c.titleKey} delay={i * 60}>
+            <Reveal as={Link} to={c.linkUrl || '/'} className="abt-offer-card" key={c.id} delay={i * 60}>
               <div className="abt-offer-card-media">
-                <img src={c.image} alt={title} loading="lazy" />
+                <img src={c.image} alt={c.title} loading="lazy" />
               </div>
               <div className="abt-offer-card-body">
                 <div className="abt-offer-card-text">
-                  <h3><span className="abt-offer-card-icon"><CardIcon /></span>{title}</h3>
-                  <p>{t(`aboutPage.${c.descKey}`)}</p>
+                  <h3><span className="abt-offer-card-icon"><CardIcon /></span>{c.title}</h3>
+                  <p>{c.description}</p>
                 </div>
                 <span className="abt-offer-card-arrow" aria-hidden="true"><Icon.Arrow /></span>
               </div>
@@ -358,66 +374,75 @@ function AboutOffer() {
 }
 
 // -------------------------------------------------------------- Values
-function AboutValues() {
+function AboutValues({ data }) {
   const { t } = useLanguage();
-  const values = [
-    { icon: 'Diamond', labelKey: 'valueQualityFirst' },
-    { icon: 'Users', labelKey: 'valueCustomerFocus' },
-    { icon: 'Recycle', labelKey: 'valueSustainability' },
-    { icon: 'Shield', labelKey: 'valueIntegrity' },
+  const v = data || {};
+  const defaultItems = [
+    { id: 1, icon: 'Diamond', label: 'Quality First', visible: true, order: 1 },
+    { id: 2, icon: 'Users', label: 'Customer Focus', visible: true, order: 2 },
+    { id: 3, icon: 'Recycle', label: 'Sustainability', visible: true, order: 3 },
+    { id: 4, icon: 'Shield', label: 'Integrity', visible: true, order: 4 },
   ];
+  const items = (v.items?.length ? v.items : defaultItems)
+    .filter((it) => it.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   return (
     <Reveal as="section" className="abt-values">
       <div className="abt-values-media">
-        <img src={PHOTO.soilMacro} alt={t('aboutPage.valuesImageAlt')} loading="lazy" />
+        <img src={v.image || PHOTO.soilMacro} alt={v.imageAlt || t('aboutPage.valuesImageAlt')} loading="lazy" />
       </div>
       <div className="abt-values-copy">
-        <p className="eyebrow">{t('aboutPage.valuesEyebrow')}</p>
-        <h2>{t('aboutPage.valuesTitle')}</h2>
-        <p className="abt-values-sub">{t('aboutPage.valuesSub')}</p>
+        <p className="eyebrow">{v.eyebrow || t('aboutPage.valuesEyebrow')}</p>
+        <h2>{v.heading || t('aboutPage.valuesTitle')}</h2>
+        <p className="abt-values-sub">{v.subtitle || t('aboutPage.valuesSub')}</p>
         <div className="abt-values-row">
-          {values.map((v) => {
-            const VIcon = Icon[v.icon];
+          {items.map((it) => {
+            const VIcon = Icon[it.icon] || Icon.Diamond;
             return (
-              <div className="abt-value-item" key={v.labelKey}>
+              <div className="abt-value-item" key={it.id}>
                 <span className="abt-value-icon"><VIcon /></span>
-                <span>{t(`aboutPage.${v.labelKey}`)}</span>
+                <span>{it.label}</span>
               </div>
             );
           })}
         </div>
       </div>
       <p className="abt-hero-script abt-values-script">
-        {t('aboutPage.valuesScriptLine1')}<br />{t('aboutPage.valuesScriptLine2')}<br />{t('aboutPage.valuesScriptLine3')}<br />{t('aboutPage.valuesScriptLine4')}
+        {v.scriptLine1 || t('aboutPage.valuesScriptLine1')}<br />{v.scriptLine2 || t('aboutPage.valuesScriptLine2')}<br />{v.scriptLine3 || t('aboutPage.valuesScriptLine3')}<br />{v.scriptLine4 || t('aboutPage.valuesScriptLine4')}
       </p>
     </Reveal>
   );
 }
 
 // -------------------------------------------------------- Why Choose Us
-function AboutWhyChoose() {
+function AboutWhyChoose({ data }) {
   const { t } = useLanguage();
-  const whyChoose = [
-    { icon: 'Leaf', titleKey: 'whyItem1Title', textKey: 'whyItem1Text' },
-    { icon: 'Person', titleKey: 'whyItem2Title', textKey: 'whyItem2Text' },
-    { icon: 'Recycle', titleKey: 'whyItem3Title', textKey: 'whyItem3Text' },
-    { icon: 'Truck', titleKey: 'whyItem4Title', textKey: 'whyItem4Text' },
+  const w = data || {};
+  const defaultItems = [
+    { id: 1, icon: 'Leaf', title: 'Healthy Plants', text: 'Well-nurtured, disease-free and ready to grow.', visible: true, order: 1 },
+    { id: 2, icon: 'Person', title: 'Expert Guidance', text: 'Get advice from our plant care experts.', visible: true, order: 2 },
+    { id: 3, icon: 'Recycle', title: 'Sustainable Practices', text: 'Eco-friendly methods for a greener future.', visible: true, order: 3 },
+    { id: 4, icon: 'Truck', title: 'Safe Delivery', text: 'Your plants reach you fresh and on time.', visible: true, order: 4 },
   ];
+  const items = (w.items?.length ? w.items : defaultItems)
+    .filter((it) => it.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  if (items.length === 0) return null;
   return (
     <section className="abt-why">
       <Reveal className="abt-why-heading">
-        <p className="eyebrow">{t('aboutPage.whyEyebrow')}</p>
-        <h2>{t('aboutPage.whyTitle')}</h2>
-        <p className="abt-offer-sub">{t('aboutPage.whySub')}</p>
+        <p className="eyebrow">{w.eyebrow || t('aboutPage.whyEyebrow')}</p>
+        <h2>{w.heading || t('aboutPage.whyTitle')}</h2>
+        <p className="abt-offer-sub">{w.subtitle || t('aboutPage.whySub')}</p>
       </Reveal>
       <div className="abt-why-grid">
-        {whyChoose.map((item, i) => {
-          const WIcon = Icon[item.icon];
+        {items.map((item, i) => {
+          const WIcon = Icon[item.icon] || Icon.Leaf;
           return (
-            <Reveal className="abt-why-item" key={item.titleKey} delay={i * 80}>
+            <Reveal className="abt-why-item" key={item.id} delay={i * 80}>
               <span className="abt-why-icon"><WIcon /></span>
-              <h4>{t(`aboutPage.${item.titleKey}`)}</h4>
-              <p>{t(`aboutPage.${item.textKey}`)}</p>
+              <h4>{item.title}</h4>
+              <p>{item.text}</p>
             </Reveal>
           );
         })}
@@ -427,34 +452,38 @@ function AboutWhyChoose() {
 }
 
 // ------------------------------------------------------------- Journey
-function AboutJourney() {
+function AboutJourney({ data }) {
   const { t } = useLanguage();
-
-  const milestones = [
-    { year: '2016', labelKey: 'journeyLabel1', image: PHOTO.journeyFirst },
-    { year: '2018', labelKey: 'journeyLabel2', image: PHOTO.journey[0] },
-    { year: '2020', labelKey: 'journeyLabel3', image: PHOTO.journey[1] },
-    { year: '2022', labelKey: 'journeyLabel4', image: PHOTO.journey[2] },
-    { year: '2024', labelKey: 'journeyLabel5', image: PHOTO.journey[3] },
+  const j = data || {};
+  const defaultItems = [
+    { id: 1, year: '2016', label: 'Our Beginning', image: PHOTO.journeyFirst, visible: true, order: 1 },
+    { id: 2, year: '2018', label: 'First Nursery Expansion', image: PHOTO.journey[0], visible: true, order: 2 },
+    { id: 3, year: '2020', label: 'Growing with Customers', image: PHOTO.journey[1], visible: true, order: 3 },
+    { id: 4, year: '2022', label: 'Landscaping Projects', image: PHOTO.journey[2], visible: true, order: 4 },
+    { id: 5, year: '2024', label: 'Modern Nursery', image: PHOTO.journey[3], visible: true, order: 5 },
   ];
+  const items = (j.items?.length ? j.items : defaultItems)
+    .filter((it) => it.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  if (items.length === 0) return null;
 
   return (
     <section className="abt-journey">
       <Reveal className="abt-journey-heading">
-        <p className="eyebrow">{t('aboutPage.journeyEyebrow')}</p>
-        <h2>{t('aboutPage.journeyTitle')}</h2>
-        <p className="abt-offer-sub">{t('aboutPage.journeySub')}</p>
+        <p className="eyebrow">{j.eyebrow || t('aboutPage.journeyEyebrow')}</p>
+        <h2>{j.heading || t('aboutPage.journeyTitle')}</h2>
+        <p className="abt-offer-sub">{j.subtitle || t('aboutPage.journeySub')}</p>
       </Reveal>
       <div className="abt-journey-grid">
-        {milestones.map((m, i) => (
-          <Reveal className="abt-journey-card" key={m.year} delay={i * 80}>
+        {items.map((m, i) => (
+          <Reveal className="abt-journey-card" key={m.id} delay={i * 80}>
             <div className="abt-journey-card-media">
-              <img src={m.image} alt={t(`aboutPage.${m.labelKey}`)} loading="lazy" />
+              <img src={m.image} alt={m.label} loading="lazy" />
             </div>
             <div className="abt-journey-card-body">
               {/* The year itself is a date, not translated text. */}
               <span className="abt-journey-year">{m.year}</span>
-              <p className="abt-journey-label">{t(`aboutPage.${m.labelKey}`)}</p>
+              <p className="abt-journey-label">{m.label}</p>
             </div>
           </Reveal>
         ))}
@@ -464,31 +493,47 @@ function AboutJourney() {
 }
 
 // ------------------------------------------------------------- Final CTA
-function AboutFinalCta() {
+function AboutFinalCta({ data }) {
   const { t } = useLanguage();
+  const c = data || {};
+  const bg = c.backgroundImage || PHOTO.finalCta;
   return (
-    <Reveal as="section" className="abt-cta" style={{ backgroundImage: `linear-gradient(rgba(8,36,24,0.72), rgba(8,36,24,0.82)), url(${PHOTO.finalCta})` }}>
+    <Reveal as="section" className="abt-cta" style={{ backgroundImage: `linear-gradient(rgba(8,36,24,0.72), rgba(8,36,24,0.82)), url(${bg})` }}>
       <FloatingLeaf style={{ top: '14%', left: '8%' }} size={20} />
       <FloatingLeaf style={{ bottom: '16%', right: '10%' }} size={18} flip />
-      <h2>{t('aboutPage.ctaTitle')}</h2>
-      <p>{t('aboutPage.ctaText')}</p>
-      <Link to="/category/indoor-plants" className="abt-btn abt-btn-light">{t('aboutPage.ctaButton')} <Icon.Arrow /></Link>
+      <h2>{c.title || t('aboutPage.ctaTitle')}</h2>
+      <p>{c.text || t('aboutPage.ctaText')}</p>
+      <Link to={c.buttonUrl || '/category/indoor-plants'} className="abt-btn abt-btn-light">{c.buttonText || t('aboutPage.ctaButton')} <Icon.Arrow /></Link>
     </Reveal>
   );
 }
 
+const ABOUT_SECTION_COMPONENTS = {
+  hero: AboutHero,
+  story: AboutStory,
+  stats: AboutStats,
+  visionMission: AboutVisionMission,
+  offer: AboutOffer,
+  values: AboutValues,
+  whyChoose: AboutWhyChoose,
+  journey: AboutJourney,
+  finalCta: AboutFinalCta,
+};
+
 function About() {
+  const { aboutPage } = useSiteContent();
+  const ap = aboutPage || {};
+  const sectionOrder = Object.keys(ABOUT_SECTION_COMPONENTS)
+    .map((key) => ({ key, ...ap[key] }))
+    .filter((s) => s.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
   return (
     <div className="abt-page">
-      <AboutHero />
-      <AboutStory />
-      <AboutStats />
-      <AboutVisionMission />
-      <AboutOffer />
-      <AboutValues />
-      <AboutWhyChoose />
-      <AboutJourney />
-      <AboutFinalCta />
+      {sectionOrder.map(({ key }) => {
+        const SectionComponent = ABOUT_SECTION_COMPONENTS[key];
+        return <SectionComponent key={key} data={ap[key]} />;
+      })}
     </div>
   );
 }

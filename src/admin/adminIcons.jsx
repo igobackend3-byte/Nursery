@@ -74,3 +74,48 @@ export const CheckCircleIcon = (p) => (
 export const BellIcon = (p) => (
   <svg {...base} {...p}><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
 );
+export const LayoutIcon = (p) => (
+  <svg {...base} {...p}><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /><path d="M9 9v12" /></svg>
+);
+export const StarIcon = (p) => (
+  <svg {...base} {...p}><path d="M12 3.5 14.6 9l6 .9-4.3 4.2 1 6-5.3-2.8-5.3 2.8 1-6L3.4 9.9l6-.9Z" /></svg>
+);
+export const LeafServiceIcon = (p) => (
+  <svg {...base} {...p}><path d="M12 22C12 22 20 18 20 12V5l-8-3-8 3v7C4 18 12 22 12 22z" /></svg>
+);
+export const TreeIcon = (p) => (
+  <svg {...base} {...p}><path d="M12 2 6 11h4l-5 8h14l-5-8h4L12 2Z" /><path d="M12 21v-4" /></svg>
+);
+export const GiftIcon2 = (p) => (
+  <svg {...base} {...p}><rect x="3" y="8" width="18" height="4" rx="1" /><path d="M12 8v13" /><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7" /><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8" /><path d="M16.5 8a2.5 2.5 0 0 0 0-5C14 3 12 8 12 8" /></svg>
+);
+export const BuildingIcon = (p) => (
+  <svg {...base} {...p}><rect x="4" y="3" width="16" height="18" rx="1" /><path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h1M14 16h1" /></svg>
+);
+export const BookIcon = (p) => (
+  <svg {...base} {...p}><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5" /><path d="M4 4.5v16A2.5 2.5 0 0 0 6.5 20H20" /></svg>
+);
+export const ImagesIcon = (p) => (
+  <svg {...base} {...p}><rect x="3" y="3" width="14" height="14" rx="2" /><circle cx="7.5" cy="7.5" r="1.2" /><path d="m5 15 3.5-3.5L11 14l2.5-2.5L17 15" /><path d="M20 8v11a2 2 0 0 1-2 2H8" /></svg>
+);
+export const GlobeIcon = (p) => (
+  <svg {...base} {...p}><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" /></svg>
+);
+export const SearchIcon = (p) => (
+  <svg {...base} {...p}><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
+);
+export const HistoryIcon = (p) => (
+  <svg {...base} {...p}><path d="M3 12a9 9 0 1 0 3-6.7" /><path d="M3 4v5h5" /><path d="M12 7v5l4 2" /></svg>
+);
+export const DatabaseIcon = (p) => (
+  <svg {...base} {...p}><ellipse cx="12" cy="5" rx="8" ry="3" /><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5" /><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3" /></svg>
+);
+export const ChevronDownIcon = (p) => (
+  <svg {...base} {...p}><path d="m6 9 6 6 6-6" /></svg>
+);
+export const MenuIcon = (p) => (
+  <svg {...base} {...p}><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+);
+export const ChevronLeftIcon = (p) => (
+  <svg {...base} {...p}><path d="m15 18-6-6 6-6" /></svg>
+);

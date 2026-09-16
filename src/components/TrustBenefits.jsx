@@ -1,4 +1,5 @@
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useSiteContent } from '../hooks/useSiteContent';
 import './TrustBenefits.css';
 
 const ShieldIcon = () => (
@@ -32,25 +33,41 @@ const HeadsetIcon = () => (
   </svg>
 );
 
-const BENEFITS = [
-  { icon: <ShieldIcon />, title: 'Quality Assured', subtitle: 'Every time you order' },
-  { icon: <SproutIcon />, title: 'Grown with Care', subtitle: 'By our expert team' },
-  { icon: <TruckIcon />, title: 'Safe & Secure Delivery', subtitle: 'Right to your doorstep' },
-  { icon: <HeadsetIcon />, title: "We're Here for You", subtitle: 'Before & after purchase' },
+const BENEFIT_ICONS = {
+  shield: <ShieldIcon />,
+  sprout: <SproutIcon />,
+  truck: <TruckIcon />,
+  headset: <HeadsetIcon />,
+};
+
+const DEFAULT_BENEFITS = [
+  { id: 1, icon: 'shield', title: 'Quality Assured', description: 'Every time you order', visible: true, order: 1 },
+  { id: 2, icon: 'sprout', title: 'Grown with Care', description: 'By our expert team', visible: true, order: 2 },
+  { id: 3, icon: 'truck', title: 'Safe & Secure Delivery', description: 'Right to your doorstep', visible: true, order: 3 },
+  { id: 4, icon: 'headset', title: "We're Here for You", description: 'Before & after purchase', visible: true, order: 4 },
 ];
 
 function TrustBenefits() {
   const [ref, visible] = useScrollReveal(0.2);
+  const { trustBenefits: tb } = useSiteContent();
+
+  if (tb && tb.visible === false) return null;
+
+  const items = (tb?.items?.length ? tb.items : DEFAULT_BENEFITS)
+    .filter((b) => b.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+  if (items.length === 0) return null;
 
   return (
     <section ref={ref} className={`trust-benefits${visible ? ' trust-benefits-visible' : ''}`}>
       <div className="trust-benefits-container">
-        {BENEFITS.map((b, i) => (
-          <div className="trust-benefit" key={b.title} style={{ transitionDelay: visible ? `${i * 90}ms` : '0ms' }}>
-            <span className="trust-benefit-icon">{b.icon}</span>
+        {items.map((b, i) => (
+          <div className="trust-benefit" key={b.id ?? b.title} style={{ transitionDelay: visible ? `${i * 90}ms` : '0ms' }}>
+            <span className="trust-benefit-icon">{BENEFIT_ICONS[b.icon] || <ShieldIcon />}</span>
             <div className="trust-benefit-copy">
               <h3>{b.title}</h3>
-              <p>{b.subtitle}</p>
+              <p>{b.description}</p>
             </div>
           </div>
         ))}
