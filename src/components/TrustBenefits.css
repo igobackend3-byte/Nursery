@@ -1,0 +1,96 @@
+/* --- TrustBenefits.css --- */
+
+.trust-benefits {
+  width: 100%;
+  background: #f5efe3;
+  padding: 50px 20px 46px;
+}
+
+.trust-benefits-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
+}
+
+.trust-benefit {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.trust-benefits-visible .trust-benefit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.trust-benefit-icon {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(46, 107, 69, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trust-icon {
+  width: 28px;
+  height: 28px;
+  color: #2e6b45;
+}
+
+.trust-benefit-copy h3 {
+  font-family: var(--font-display, inherit);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 4px;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.trust-benefit-copy p {
+  font-size: 1rem;
+  color: #6b6b6b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 1024px) {
+  .trust-benefit-copy h3 {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 1024px) {
+  .trust-benefits-container {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 32px;
+  }
+}
+
+@media (max-width: 620px) {
+  .trust-benefits {
+    padding: 40px 20px;
+  }
+
+  .trust-benefits-container {
+    grid-template-columns: 1fr;
+    row-gap: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trust-benefit {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

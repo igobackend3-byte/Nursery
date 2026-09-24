@@ -1,0 +1,131 @@
+rules_version = '2';
+
+// IGO Nursery - Firestore security rules.
+// Deploy by pasting this file's contents into:
+//   Firebase Console > Build > Firestore Database > Rules > Publish
+// (No Firebase CLI project link is set up yet, so this is applied manually
+// for now - see the setup checklist for the exact steps.)
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // ---- users/{uid} - profile + role ----
+    // A user can read/create/update only their own profile document, and
+    // can never set their own `role` to anything other than 'customer'
+    // (admin promotion happens by an admin editing Firestore directly, or a
+    // future admin-only Cloud Function - never from the client). An admin
+    // may also update a *customer's* doc - needed for the loyalty-points
+    // award on delivery (lib/orders.js) - but is held to the exact same
+    // `role` restriction, so this still can't be used to self-promote or
+    // demote anyone.
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid) && request.resource.data.role == 'customer';
+      allow update: if request.resource.data.role == resource.data.role && (isOwner(uid) || isAdmin());
+      allow delete: if false;
+
+      // ---- users/{uid}/addresses/{addressId} ----
+      match /addresses/{addressId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      // ---- users/{uid}/cart/{productId} ----
+      match /cart/{productId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      // ---- users/{uid}/wishlist/{productId} ----
+      match /wishlist/{productId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      // ---- users/{uid}/notifications/{notificationId} - in-site order inbox ----
+      // The owning customer can read/mark-read their own notifications, and
+      // can write their own (order placed, from their own checkout). An
+      // admin can also create one here (order status change, written to the
+      // *customer's* subcollection from the admin panel), but can't read or
+      // edit a customer's inbox.
+      match /notifications/{notificationId} {
+        allow read, update: if isOwner(uid);
+        allow create: if isOwner(uid) || isAdmin();
+        allow delete: if false;
+      }
+
+      // ---- users/{uid}/recentlyViewed/{productId} ----
+      match /recentlyViewed/{productId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      // ---- users/{uid}/readAnnouncements/{announcementId} ----
+      // Per-customer read-state for the site-wide `announcements` broadcast
+      // collection below - the announcement doc itself is never edited by a
+      // customer, only this personal marker.
+      match /readAnnouncements/{announcementId} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    // ---- announcements/{announcementId} - admin-authored broadcast
+    // notifications (offers, general announcements, etc), shown to every
+    // signed-in customer - see lib/announcements.js. Signed-out visitors
+    // don't see these (there's no notification bell for them), and an
+    // admin's own read/unread state isn't tracked, so read is restricted to
+    // signed-in users same as write is restricted to admins.
+    match /announcements/{announcementId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // ---- products/{productId} - public catalogue, admin-managed ----
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---- categories/{categorySlug} - public catalogue, admin-managed ----
+    match /categories/{categorySlug} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---- orders/{orderId} - owner or admin only ----
+    // Customers can create their own orders and read their own order
+    // history; only an admin can freely update an order (status, payment,
+    // etc). The one exception: the owning customer may update *only* the
+    // three email-delivery-tracking fields (emailStatus/emailSentAt/
+    // emailLastError) on their own order - written client-side right after
+    // their own checkout confirmation email is sent, so the admin panel
+    // can show whether it actually delivered (see lib/orders.js). This
+    // can never be used to touch status/price/anything else - the
+    // `hasOnly` check below is the entire allowlist.
+    // A customer's create is also validated so they can't forge a
+    // pre-confirmed status or payment - every new order must start as
+    // 'Order Placed', and paymentStatus can only be 'Pending' or 'Paid'
+    // (never e.g. 'Refunded'/anything a client shouldn't be able to set).
+    match /orders/{orderId} {
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.status == 'Order Placed'
+        && request.resource.data.paymentStatus in ['Pending', 'Paid'];
+      allow update: if isAdmin()
+        || (isSignedIn() && resource.data.userId == request.auth.uid
+            && request.resource.data.diff(resource.data).affectedKeys()
+                 .hasOnly(['emailStatus', 'emailSentAt', 'emailLastError']));
+      allow delete: if false;
+    }
+  }
+}
