@@ -57,7 +57,7 @@ function TranslationsFields({ translations, onChange }) {
 // category is a real dropdown tied to categories.slug, not free text - so a
 // new product's categoryLabel/category always match a real category and it
 // actually shows up filtered correctly on the storefront/Inventory/Categories pages.
-function ProductFormModal({ product, categories, onClose, onSave }) {
+export function ProductFormModal({ product, categories, onClose, onSave }) {
   const isNew = !product;
   const [form, setForm] = useState({
     name: product?.name ?? BLANK_PRODUCT.name,
@@ -68,6 +68,15 @@ function ProductFormModal({ product, categories, onClose, onSave }) {
     image: product?.image ?? BLANK_PRODUCT.image,
     images: product?.images ?? BLANK_PRODUCT.images,
     video: product?.video ?? BLANK_PRODUCT.video,
+    // Rating/reviews and the bestseller flag are real fields on the
+    // Firestore product doc (see data/products.js's makeProduct +
+    // lib/catalogue.js seeding) - editable here so any admin surface that
+    // reuses this same modal (Products page, Home visual editor's
+    // Plants People Love / Just In sections) can edit them too, without a
+    // second, duplicate product-editing UI.
+    rating: product?.rating ?? 4.5,
+    reviews: product?.reviews ?? 0,
+    isBestSeller: product?.isBestSeller ?? false,
     translations: product?.translations ?? {},
   });
 
@@ -82,6 +91,9 @@ function ProductFormModal({ product, categories, onClose, onSave }) {
       ...form,
       price: Number(form.price),
       originalPrice: Number(form.originalPrice) || Number(form.price),
+      rating: Number(form.rating) || 0,
+      reviews: Number(form.reviews) || 0,
+      isBestSeller: !!form.isBestSeller,
       categoryLabel: category?.label ?? form.category,
     });
   }
@@ -118,6 +130,20 @@ function ProductFormModal({ product, categories, onClose, onSave }) {
               <option value="In Stock">In Stock</option>
               <option value="Out of Stock">Out of Stock</option>
             </select>
+          </div>
+          <div className="admin-field">
+            <label htmlFor="pf-rating">Rating (out of 5)</label>
+            <input id="pf-rating" type="number" min="0" max="5" step="0.1" value={form.rating} onChange={(e) => set('rating', e.target.value)} />
+          </div>
+          <div className="admin-field">
+            <label htmlFor="pf-reviews">Review Count</label>
+            <input id="pf-reviews" type="number" min="0" value={form.reviews} onChange={(e) => set('reviews', e.target.value)} />
+          </div>
+          <div className="admin-field span-2">
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <input type="checkbox" checked={!!form.isBestSeller} onChange={(e) => set('isBestSeller', e.target.checked)} />
+              Show "Bestseller" badge on this product
+            </label>
           </div>
           <ImageField id="pf-image" label="Main product image" value={form.image} onChange={(v) => set('image', v)} spanTwo />
           <MultiImageField id="pf-gallery" label="Extra gallery photos" values={form.images} onChange={(v) => set('images', v)} />

@@ -10,15 +10,13 @@
 import { DEFAULT_SITE_CONTENT } from '../data/siteContent';
 
 const STORAGE_KEY = 'igo-site-content-v1';
+const DRAFT_STORAGE_KEY = 'igo-site-content-draft-v1';
 
 export function getSiteContent() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return DEFAULT_SITE_CONTENT;
     const saved = JSON.parse(raw);
-    // Shallow-merge per top-level section so a site update that adds a
-    // brand-new section (e.g. a future "about" block) still shows its
-    // default even if an older save was made before that section existed.
     return { ...DEFAULT_SITE_CONTENT, ...saved };
   } catch {
     return DEFAULT_SITE_CONTENT;
@@ -27,8 +25,36 @@ export function getSiteContent() {
 
 export function saveSiteContent(content) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
+  window.dispatchEvent(new Event('igo-site-content-changed'));
 }
 
 export function resetSiteContent() {
   localStorage.removeItem(STORAGE_KEY);
+  window.dispatchEvent(new Event('igo-site-content-changed'));
+}
+
+// Visual Editor Draft System
+export function getDraftContent() {
+  try {
+    const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
+    if (!raw) return getSiteContent(); // fallback to published if no draft exists
+    const saved = JSON.parse(raw);
+    return { ...DEFAULT_SITE_CONTENT, ...saved };
+  } catch {
+    return getSiteContent();
+  }
+}
+
+export function saveDraftContent(content) {
+  localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(content));
+}
+
+export function publishDraftContent() {
+  const draft = getDraftContent();
+  saveSiteContent(draft);
+  clearDraftContent();
+}
+
+export function clearDraftContent() {
+  localStorage.removeItem(DRAFT_STORAGE_KEY);
 }

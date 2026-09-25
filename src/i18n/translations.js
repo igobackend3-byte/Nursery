@@ -17,7 +17,7 @@ export const LANGUAGES = [
 ];
 
 const nav = {
-  en: { home: 'Home', products: 'Products', services: 'Services', gallery: 'Gallery', aboutUs: 'About Us', contactUs: 'Contact Us', plants: 'Plants', seeds: 'Seeds', potsPlanters: 'Pots & Planters', plantCare: 'Plant Care', landscaping: 'Landscaping', gifting: 'Gifting', b2bSales: 'B2B Sales', gardenServices: 'Garden Services', blog: 'Blog', offers: 'Offers', locateStore: 'Locate Store' },
+  en: { home: 'Home', products: 'Products', services: 'Services', gallery: 'Gallery', aboutUs: 'About Us', contactUs: 'Contact Us', plants: 'Plants', seeds: 'Seeds', potsPlanters: 'Pots & Planters', plantCare: 'Plant Care', landscaping: 'Landscaping', gifting: 'Gifting', b2bSales: 'Corporate Gifting', gardenServices: 'Garden Services', blog: 'Blog', offers: 'Offers', locateStore: 'Locate Store' },
   ta: { home: 'முகப்பு', products: 'தயாரிப்புகள்', services: 'சேவைகள்', gallery: 'கேலரி', aboutUs: 'எங்களைப் பற்றி', contactUs: 'தொடர்பு கொள்ள', plants: 'செடிகள்', seeds: 'விதைகள்', potsPlanters: 'தொட்டிகள் மற்றும் பாட்ஸ்', plantCare: 'செடி பராமரிப்பு', landscaping: 'லேண்ட்ஸ்கேப்பிங்', gifting: 'பரிசுகள்', b2bSales: 'B2B விற்பனை', gardenServices: 'தோட்ட சேவைகள்', blog: 'வலைப்பதிவு', offers: 'சலுகைகள்', locateStore: 'கடை கண்டறிக' },
   hi: { home: 'होम', products: 'उत्पाद', services: 'सेवाएं', gallery: 'गैलरी', aboutUs: 'हमारे बारे में', contactUs: 'संपर्क करें', plants: 'पौधे', seeds: 'बीज', potsPlanters: 'गमले और प्लांटर', plantCare: 'पौधों की देखभाल', landscaping: 'लैंडस्केपिंग', gifting: 'उपहार', b2bSales: 'B2B बिक्री', gardenServices: 'बागवानी सेवाएं', blog: 'ब्लॉग', offers: 'ऑफ़र', locateStore: 'स्टोर खोजें' },
   ml: { home: 'ഹോം', products: 'ഉൽപ്പന്നങ്ങൾ', services: 'സേവനങ്ങൾ', gallery: 'ഗാലറി', aboutUs: 'ഞങ്ങളെക്കുറിച്ച്', contactUs: 'ബന്ധപ്പെടുക', plants: 'ചെടികൾ', seeds: 'വിത്തുകൾ', potsPlanters: 'ചട്ടികളും പ്ലാന്ററുകളും', plantCare: 'ചെടി പരിചരണം', landscaping: 'ലാൻഡ്സ്കേപ്പിംഗ്', gifting: 'സമ്മാനങ്ങൾ', b2bSales: 'B2B വിൽപ്പന', gardenServices: 'തോട്ട സേവനങ്ങൾ', blog: 'ബ്ലോഗ്', offers: 'ഓഫറുകൾ', locateStore: 'സ്റ്റോർ കണ്ടെത്തുക' },
@@ -1411,4 +1411,38 @@ export function getTranslation(lang, path) {
   // "undefined", a raw key, or a blank string).
   const fallback = path.split('.').reduce((acc, key) => acc?.[key], translations.en);
   return fallback !== undefined && fallback !== null ? fallback : path;
+}
+
+
+// Dynamically translate a string if it exactly matches an English default
+const engToPath = {};
+function indexEnglishStrings(obj, pathPrefix = '') {
+  for (const [key, val] of Object.entries(obj)) {
+    const currentPath = pathPrefix ? `${pathPrefix}.${key}` : key;
+    if (typeof val === 'string') {
+      const trimmed = val.trim();
+      if (trimmed && !engToPath[trimmed]) {
+        engToPath[trimmed] = currentPath;
+      }
+    } else if (typeof val === 'object' && val !== null) {
+      indexEnglishStrings(val, currentPath);
+    }
+  }
+}
+indexEnglishStrings(translations.en);
+
+export function translateDynamicString(str, lang) {
+  if (!str || typeof str !== 'string' || lang === 'en') return str;
+  const trimmed = str.trim();
+  const path = engToPath[trimmed];
+  if (path) {
+    const trans = getTranslation(lang, path);
+    if (trans && trans !== path) {
+      return str.replace(trimmed, trans);
+    }
+  }
+  if (heroDefaults[str]) return heroDefaults[str][lang] ?? str;
+  if (offerNoteDefaults[str]) return offerNoteDefaults[str][lang] ?? str;
+  if (reviewTranslations[str]) return reviewTranslations[str][lang] ?? str;
+  return str;
 }

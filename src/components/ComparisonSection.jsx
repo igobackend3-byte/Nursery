@@ -1,5 +1,7 @@
 import React from 'react';
 import { useSiteContent } from '../hooks/useSiteContent';
+import EditableElement from '../admin/editor/EditableElement';
+import CardHoverControls from '../admin/editor/CardHoverControls';
 import './ComparisonSection.css';
 
 // --- Icons ---
@@ -155,6 +157,12 @@ export default function ComparisonSection() {
 
   const bgStyle = cs?.backgroundImage ? { backgroundImage: `url(${cs.backgroundImage})` } : undefined;
 
+  // Real, admin-editable rows vs. the built-in DEFAULT_ROWS fallback used
+  // when the admin has emptied cs.rows - hover controls need the index
+  // into the section's actual `rows` array (same rawCards/rawItems pattern
+  // used on every other card section), not the filtered/sorted local copy.
+  const rawRows = cs?.rows?.length ? cs.rows : null;
+
   return (
     <section className="comparison-section">
       {/* Background container */}
@@ -166,14 +174,31 @@ export default function ComparisonSection() {
           <div className="comp-eyebrow-wrapper">
             <span className="comp-eyebrow-line"></span>
             <span className="comp-eyebrow">
-              <LeafIcon /> {eyebrow}
+              <LeafIcon />{' '}
+              <EditableElement sectionKey="comparisonSection" field="eyebrow" type="text" label="Section Label">
+                <span>{eyebrow}</span>
+              </EditableElement>
             </span>
             <span className="comp-eyebrow-line"></span>
           </div>
-          <h2 className="comp-title">
-            {headingParts ? <>{headingParts[0]}<em className="comp-highlight">{headingHighlight}</em>{headingParts[1]}</> : heading}
-          </h2>
-          <p className="comp-subtitle">{subtitle}</p>
+          <EditableElement
+            sectionKey="comparisonSection"
+            field="__heading__"
+            type="text_fields"
+            label="Heading"
+            hideDelete
+            fields={[
+              { field: 'heading', label: 'Heading' },
+              { field: 'headingHighlight', label: 'Highlighted Text' },
+            ]}
+          >
+            <h2 className="comp-title">
+              {headingParts ? <>{headingParts[0]}<em className="comp-highlight">{headingHighlight}</em>{headingParts[1]}</> : heading}
+            </h2>
+          </EditableElement>
+          <EditableElement sectionKey="comparisonSection" field="subtitle" type="text" label="Subtitle">
+            <p className="comp-subtitle">{subtitle}</p>
+          </EditableElement>
         </div>
 
         {/* Table Layout */}
@@ -182,14 +207,23 @@ export default function ComparisonSection() {
           {/* Column 1: Features */}
           <div className="comp-col comp-col-features">
             <div className="comp-col-header comp-empty-header"></div>
-            {rows.map((row) => (
-              <div key={row.id} className="comp-cell comp-feature-cell">
-                <span className="comp-feature-icon-wrapper">
-                  {ROW_ICONS[row.icon] || <LeafIcon />}
-                </span>
-                <span className="comp-feature-label">{row.criterion}</span>
-              </div>
-            ))}
+            {rows.map((row) => {
+              const rowIndex = rawRows ? rawRows.findIndex((r) => r.id === row.id) : -1;
+              const cellEl = (
+                <div className="comp-cell comp-feature-cell">
+                  <span className="comp-feature-icon-wrapper">
+                    {ROW_ICONS[row.icon] || <LeafIcon />}
+                  </span>
+                  <span className="comp-feature-label">{row.criterion}</span>
+                </div>
+              );
+              if (rowIndex === -1) return <React.Fragment key={row.id}>{cellEl}</React.Fragment>;
+              return (
+                <CardHoverControls key={row.id} sectionKey="comparisonSection" arrayField="rows" index={rowIndex} itemLabel="Row">
+                  {cellEl}
+                </CardHoverControls>
+              );
+            })}
           </div>
 
           {/* Column 2: Local Nurseries */}
@@ -199,7 +233,9 @@ export default function ComparisonSection() {
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                 <polyline points="9 22 9 12 15 12 15 22" />
               </svg>
-              <span>{localTitle}</span>
+              <EditableElement sectionKey="comparisonSection" field="localTitle" type="text" label="Local Nurseries Column Title">
+                <span>{localTitle}</span>
+              </EditableElement>
             </div>
             {rows.map((row) => (
               <div key={row.id} className="comp-cell comp-value-cell">
@@ -215,18 +251,36 @@ export default function ComparisonSection() {
           <div className="comp-col comp-col-igo">
             {badgeEnabled && (
               <div className="comp-best-choice-badge">
-                <CheckIcon /> {badgeText} <CheckIcon />
+                <CheckIcon />{' '}
+                <EditableElement sectionKey="comparisonSection" field="badgeText" type="text" label="Badge Text">
+                  <span>{badgeText}</span>
+                </EditableElement>{' '}
+                <CheckIcon />
               </div>
             )}
             <div className="comp-col-header comp-igo-header">
               <div className="comp-igo-header-content">
                 <LeafIcon />
-                <div>
-                  <span className="comp-igo-title">{igoTitle}</span>
-                  <span className="comp-igo-subtitle">{igoSubtitle}</span>
-                </div>
+                <EditableElement
+                  sectionKey="comparisonSection"
+                  field="__igoHeader__"
+                  type="text_fields"
+                  label="IGO Column Title"
+                  hideDelete
+                  fields={[
+                    { field: 'igoTitle', label: 'Title' },
+                    { field: 'igoSubtitle', label: 'Subtitle' },
+                  ]}
+                >
+                  <div>
+                    <span className="comp-igo-title">{igoTitle}</span>
+                    <span className="comp-igo-subtitle">{igoSubtitle}</span>
+                  </div>
+                </EditableElement>
               </div>
-              <img src={igoHeaderImage} alt="" className="comp-igo-header-bg" />
+              <EditableElement sectionKey="comparisonSection" field="igoHeaderImage" type="image" label="IGO Header Image" fill>
+                <img src={igoHeaderImage} alt="" className="comp-igo-header-bg" />
+              </EditableElement>
               <div className="comp-igo-header-overlay" />
             </div>
             {rows.map((row) => (
@@ -247,7 +301,9 @@ export default function ComparisonSection() {
                 <line x1="2" y1="12" x2="22" y2="12" />
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
               </svg>
-              <span>{othersTitle}</span>
+              <EditableElement sectionKey="comparisonSection" field="othersTitle" type="text" label="Others (Online) Column Title">
+                <span>{othersTitle}</span>
+              </EditableElement>
             </div>
             {rows.map((row) => (
               <div key={row.id} className="comp-cell comp-value-cell">

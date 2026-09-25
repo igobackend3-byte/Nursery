@@ -158,6 +158,48 @@ section {
   transition: background 0.15s ease, color 0.15s ease;
 }
 
+/* Plants dropdown: 5 curated categories with a real thumbnail, plus a
+   "View All Plants" footer row - distinct from the plain-text mega-menus
+   every other nav item still uses. */
+.dropdown-menu-plants {
+  min-width: 240px;
+}
+.dropdown-menu-plants a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dropdown-plants-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-light, #eef4ea);
+  color: var(--color-primary-green);
+}
+.dropdown-plants-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.dropdown-plants-icon svg {
+  width: 16px;
+  height: 16px;
+}
+.dropdown-plants-viewall {
+  border-top: 1px solid #eee;
+  margin-top: 6px;
+  padding-top: 6px;
+}
+.dropdown-plants-viewall a {
+  color: var(--color-primary-green);
+  font-weight: 700;
+}
+
 /* Long subcategory lists (Plants, Seeds, Pots & Planters, Plant Care) fan
    out into a grid instead of one very long vertical column. Left-aligned
    to the parent by default; `.dropdown-menu-right` (used for the two
@@ -2107,6 +2149,42 @@ section {
   flex: 1;
 }
 
+/* Garden Services page cards that have a photo */
+.garden-services-page .service-card.has-image {
+  padding: 0 0 24px;
+  overflow: hidden;
+  gap: 14px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.garden-services-page .service-card.has-image:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+.garden-services-page .service-card.has-image img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.garden-services-page .service-card.has-image h3,
+.garden-services-page .service-card.has-image p,
+.garden-services-page .service-card.has-image span {
+  padding: 0 24px;
+}
+
+.garden-services-page .service-card.has-image h3 {
+  margin-top: 4px;
+}
+
+.garden-services-page .service-card.has-image p {
+  margin: -8px 0 0;
+}
+
+
 /* Landscaping page: same card/grid system as Garden Services, denser for a
    long name-only list instead of a title+description card. */
 .landscaping-grid {
@@ -3161,10 +3239,12 @@ section {
 
 .journal-media {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1676 / 938;
   border-radius: 16px;
-  object-fit: cover;
-  object-position: center;
+  object-fit: contain;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   margin-bottom: 12px;
   display: block;
 }
@@ -3323,6 +3403,7 @@ section {
 }
 
 .gifting-band-media {
+  position: relative;
   border-radius: 20px;
   overflow: hidden;
   height: 420px;
@@ -3484,6 +3565,10 @@ section {
 }
 
 .newsletter-form button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background: var(--nl-btn-bg, var(--color-primary-lime));
   color: var(--nl-btn-text, #1a1a1a);
   font-weight: 700;
@@ -3623,6 +3708,314 @@ section {
 
 .category-hero-has-image .category-tagline {
   color: rgba(255, 255, 255, 0.85);
+}
+
+/* ============ Plants hub (/plants, /plants/categories) ============ */
+.plants-hub-page {
+  padding-bottom: 64px;
+}
+
+.plants-hub-hero {
+  padding: 56px 48px 32px;
+  text-align: center;
+}
+
+.plants-hub-hero h1 {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  margin: 8px 0 12px;
+  color: var(--color-text-dark);
+}
+
+.plants-hub-hero p {
+  color: var(--color-text-muted);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.plants-hub-hero-with-bg {
+  background-image: url('/images/plants-hub-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pots-hub-hero-with-bg {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.45)), url('/category-banners/pots-planters-banner.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pots-hub-hero-with-bg h1,
+.pots-hub-hero-with-bg p.eyebrow,
+.pots-hub-hero-with-bg p {
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.seeds-hub-hero-with-bg {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.45)), url('/category-banners/seeds.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.plant-care-hub-hero-with-bg {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.45)), url('/category-banners/plant care.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.seeds-hub-hero-with-bg h1,
+.seeds-hub-hero-with-bg p.eyebrow,
+.seeds-hub-hero-with-bg p,
+.plant-care-hub-hero-with-bg h1,
+.plant-care-hub-hero-with-bg p.eyebrow,
+.plant-care-hub-hero-with-bg p {
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* The provided background image already contains the banner text, 
+   so we visually hide the HTML text to prevent overlapping. */
+.plants-hub-hero-with-bg h1,
+.plants-hub-hero-with-bg p.eyebrow,
+.plants-hub-hero-with-bg p {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.plants-hub-section {
+  padding: 24px 48px;
+}
+
+.plants-hub-section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.plants-hub-section-head h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--color-text-dark);
+}
+
+.plants-hub-see-more {
+  color: var(--color-primary-green);
+  font-weight: 700;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.plants-hub-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.plants-hub-cat-grid-all {
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+.plants-hub-cat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 20px 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.plants-hub-cat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-primary-green);
+}
+
+.plants-hub-cat-media {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-light, #eef4ea);
+  color: var(--color-primary-green);
+}
+
+.plants-hub-cat-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.plants-hub-cat-card:hover .plants-hub-cat-media img {
+  transform: scale(1.06);
+}
+
+.plants-hub-cat-media svg {
+  width: 40%;
+  height: 40%;
+}
+
+.plants-hub-cat-name {
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 6px;
+  transition: color 0.2s ease;
+}
+
+.plants-hub-cat-card:hover .plants-hub-cat-name {
+  color: var(--color-primary-green);
+}
+
+.plants-hub-cat-explore {
+  font-size: 0.82rem;
+  color: var(--color-primary-green);
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .plants-hub-cat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .plants-hub-hero, .plants-hub-section { padding-left: 20px; padding-right: 20px; }
+  .plants-hub-cat-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+}
+
+/* Circular category icons - "Explore Plant Categories" on /plants. Kept
+   visually distinct from both the rectangular AllPlantCategories cards
+   above and the rounded rectangular product cards below, per spec: circles
+   are strictly for the category-browsing layer. */
+.plants-hub-section-sub {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* Single horizontal row, never wraps - overflows into a horizontal
+   scroller (with its own scrollbar) instead of a second row, on every
+   screen size including desktop. */
+.plants-hub-circle-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 22px;
+  overflow-x: auto;
+  padding: 4px 4px 14px;
+  scrollbar-width: thin;
+}
+
+.plants-hub-circle-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  width: 145px; /* Increased to fix "Hanging Basket Plants" wrapping */
+}
+
+.plants-hub-circle-media {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid transparent; /* default transparent or very faint */
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  padding: 0;
+}
+
+.plants-hub-circle-media svg {
+  width: 100%;
+  height: 100%;
+  transform: scale(1.85); /* Scales the drawn path to be ~1.8-2x larger, filling most of the circle */
+}
+
+.plants-hub-circle-more {
+  font-weight: 700;
+  color: var(--color-primary-green);
+  background: #ffffff;
+}
+
+.plants-hub-circle-card:hover .plants-hub-circle-media {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--color-primary-green);
+}
+
+.plants-hub-circle-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.plants-hub-circle-card:hover .plants-hub-circle-media img {
+  transform: scale(1.08);
+}
+
+.plants-hub-circle-media svg {
+  width: 42%;
+  height: 42%;
+}
+
+.plants-hub-circle-name {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--color-text-dark);
+  transition: color 0.2s ease;
+}
+
+.plants-hub-circle-card:hover .plants-hub-circle-name {
+  color: var(--color-primary-green);
+}
+
+@media (max-width: 900px) {
+  .plants-hub-circle-media { width: 110px; height: 110px; }
+  .plants-hub-circle-card { width: 110px; }
+}
+
+@media (max-width: 600px) {
+  .plants-hub-circle-row { gap: 14px; }
+  .plants-hub-circle-media { width: 90px; height: 90px; }
+  .plants-hub-circle-card { width: 90px; }
+  .plants-hub-circle-name { font-size: 0.8rem; }
 }
 
 .category-layout {
@@ -3783,6 +4176,45 @@ section {
   color: #e8a93a;
   font-size: 0.9rem;
   margin-bottom: 12px;
+}
+
+.product-detail-varieties {
+  margin: 16px 0;
+}
+
+.product-detail-varieties-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.product-detail-varieties-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.variety-chip {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #dbe4dc;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.variety-chip:hover {
+  border-color: var(--color-primary-green);
+}
+
+.variety-chip.active {
+  background: var(--color-primary-green);
+  border-color: var(--color-primary-green);
+  color: white;
 }
 
 .product-detail-specs {
@@ -5984,9 +6416,10 @@ section {
 }
 
 .ctc-info-col {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 18px;
+  align-content: start;
 }
 
 .ctc-info-card {
@@ -6037,14 +6470,6 @@ section {
   line-height: 1.5;
 }
 
-.ctc-info-leaf {
-  position: absolute;
-  right: 18px;
-  bottom: 14px;
-  color: rgba(11, 61, 46, 0.14);
-  transform: scale(1.6);
-}
-
 /* -------------------------------------------------------------- Form */
 .ctc-form-card {
   position: relative;
@@ -6059,28 +6484,16 @@ section {
 
 /* Form + plant image row - the support-info row below is a separate,
    full-width block so it never sits beside or overlaps a form field. */
-.ctc-form-top {
+.ctc-form-header-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 36px;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 32px;
 }
 
-.ctc-form-leaf {
-  position: absolute;
-  color: var(--ctc-green-mid);
-  opacity: 0.16;
-  pointer-events: none;
-}
-
-.ctc-form-leaf-tl { top: 20px; left: 24px; transform: scale(1.6) rotate(-10deg); }
-.ctc-form-leaf-bl { bottom: 16px; left: 20px; transform: scale(2.2) rotate(8deg); }
-.ctc-form-leaf-br { bottom: 24px; left: 34%; transform: scale(1.4) rotate(-6deg); }
-
-.ctc-form-main {
-  position: relative;
-  z-index: 2;
-  flex: 1.4 1 340px;
-  min-width: 0;
+.ctc-form-header-text {
+  flex: 1;
 }
 
 .ctc-form-card h2 {
@@ -6179,21 +6592,13 @@ section {
   box-shadow: 0 10px 22px rgba(11, 61, 46, 0.25);
 }
 
-/* -------------------------------------------------- Form side panel */
-.ctc-form-side {
-  position: relative;
-  z-index: 2;
-  flex: 1 1 220px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  min-width: 200px;
-}
-
 .ctc-form-side-media {
+  position: relative;
+  flex-shrink: 0;
+  width: 180px;
+  height: 120px;
   border-radius: 50% 50% 20% 50% / 55% 55% 45% 45%;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
 }
 
 .ctc-form-side-media img {
@@ -6202,14 +6607,24 @@ section {
   object-fit: cover;
 }
 
-.ctc-form-perks-row {
+.ctc-trust-strip {
+  background: var(--ctc-green-soft);
+  max-width: 1300px;
+  margin: 0 auto 40px;
+  padding: 40px 56px;
+  border-radius: 24px;
   position: relative;
-  z-index: 2;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.ctc-trust-row {
   display: flex;
   gap: 32px;
-  margin-top: 36px;
-  padding-top: 32px;
-  border-top: 1px solid rgba(11, 61, 46, 0.12);
+  width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 .ctc-form-perk {
@@ -6415,7 +6830,8 @@ section {
   .ctc-hero-leaf { display: none; }
   .ctc-hero-image-only { min-height: 0; border-radius: 0; }
   .ctc-form-row { grid-template-columns: 1fr; }
-  .ctc-form-perks-row { flex-direction: column; gap: 24px; }
+  .ctc-info-col { grid-template-columns: 1fr; }
+  .ctc-trust-row { flex-direction: column; gap: 24px; }
   .ctc-whatsapp { flex-direction: column; align-items: flex-start; text-align: left; }
 }
 

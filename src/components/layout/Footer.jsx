@@ -48,9 +48,9 @@ const QUICK_LINKS = [
 ];
 
 const SERVICE_LINKS = [
-  { label: 'Seeds & Nursery', labelKey: 'seedsNursery', to: '/category/seeds' },
-  { label: 'Pots & Planters', labelKey: 'potsPlanters', to: '/category/pots-planters' },
-  { label: 'Plant Care', labelKey: 'plantCare', to: '/category/plant-care' },
+  { label: 'Seeds & Nursery', labelKey: 'seedsNursery', to: '/seeds' },
+  { label: 'Pots & Planters', labelKey: 'potsPlanters', to: '/pots-planters' },
+  { label: 'Plant Care', labelKey: 'plantCare', to: '/plant-care' },
   { label: 'Garden Essentials', labelKey: 'gardenEssentials', to: '/garden-services' },
   { label: 'Agricultural Solutions', labelKey: 'agriculturalSolutions', to: '/landscaping' },
 ];

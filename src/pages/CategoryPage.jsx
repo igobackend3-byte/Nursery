@@ -7,6 +7,10 @@ import CategoryFilters, { matchesFilters } from '../components/CategoryFilters';
 import { getFilterGroupsForCategory } from '../data/filterConfig';
 import { useLanguage } from '../context/LanguageContext';
 import { getLocalizedCategoryLabel, getLocalizedCategoryTagline } from '../utils/localizedContent';
+import { useSiteContent } from '../hooks/useSiteContent';
+import EditableSection from '../admin/editor/EditableSection';
+import EditableElement from '../admin/editor/EditableElement';
+import CardHoverControls from '../admin/editor/CardHoverControls';
 
 // Hero banner photos for every Plants sub-section, sourced from the real
 // photos in `Nursery project/images` (see public/images/plants-subcategories/).
@@ -66,6 +70,55 @@ const SEEDS_SUBCATEGORY_HERO_IMAGES = {
   'herb-seeds': '/images/seeds-subcategories/herbs seeds.png',
   'lawn-grass-seeds': '/images/seeds-subcategories/lawn seeds.png',
   'fodder-seeds': '/images/seeds-subcategories/fodder seeds.png',
+  'microgreen-seeds': '/images/category-banners/seeds.png',
+  'medicinal-seeds': '/images/category-banners/seeds.png',
+  'exotic-seeds': '/images/category-banners/seeds.png',
+  'native-ornamental-seeds': '/images/category-banners/seeds.png',
+};
+
+const POTS_AND_CARE_HERO_IMAGES = {
+  'terracotta-pots': '/images/category-banners/terracotta pots.jpeg',
+  'ceramic-pots': '/images/category-banners/ceramic pots.jpeg',
+  'plastic-pots': '/images/category-banners/plastic pots.jpeg',
+  'fibre-planters': '/images/category-banners/fibre plants.jpeg',
+  'hanging-planters': '/images/category-banners/hanging plants.jpeg',
+  'railing-planters': '/images/category-banners/railingg plants.jpeg',
+  'self-watering-planters': '/images/category-banners/self watering plants.jpeg',
+  'cement-planters': '/images/category-banners/cement plants.jpeg',
+  'metal-planters': '/images/category-banners/metal planters.jpeg',
+  'wooden-planters': '/images/category-banners/wooden plants.jpeg',
+  'coco-fibre-pots': '/images/category-banners/coco fibre plants.jpeg',
+  'rattan-planters': '/images/category-banners/rattan planters.jpeg',
+  'bonsai-pots-subcat': '/images/category-banners/bonsai plants.jpeg',
+  'balcony-planters': '/images/category-banners/balcony troughts.jpeg',
+  'window-box-planters': '/images/category-banners/windows box planters.jpeg',
+  'vertical-tower-planters': '/images/category-banners/vertical tower planters.jpeg',
+  'upcycled-planters': '/images/category-banners/uncycled planters.jpeg',
+  'grow-bags-containers': '/images/category-banners/grow plants.jpeg',
+  'nursery-containers': '/images/category-banners/nursery containers.jpeg',
+  'seedling-trays': '/images/category-banners/seedling trays.jpeg',
+  'root-trainers': '/images/category-banners/root trainers.jpeg',
+  'air-pruning-pots': '/images/category-banners/air pruning pots.jpeg',
+  'fabric-grow-pots': '/images/category-banners/fabric grow plants.jpeg',
+  'pro-trays': '/images/category-banners/pro trays.jpeg',
+  'grow-bag-stands': '/images/category-banners/grow bags stands.jpeg',
+  // Plant Care
+  'cocopeat': '/images/category-banners/plant care.png',
+  'potting-soil': '/images/category-banners/plant care.png',
+  'potting-mix': '/images/category-banners/plant care.png',
+  'red-soil': '/images/category-banners/plant care.png',
+  'sand': '/images/category-banners/plant care.png',
+  'vermiculite': '/images/category-banners/plant care.png',
+  'perlite': '/images/category-banners/plant care.png',
+  'peat-moss': '/images/category-banners/plant care.png',
+  'coco-chips': '/images/category-banners/plant care.png',
+  'organic-fertilizers': '/images/category-banners/plant care.png',
+  'chemical-fertilizers': '/images/category-banners/plant care.png',
+  'liquid-fertilizers': '/images/category-banners/plant care.png',
+  'plant-tonics': '/images/category-banners/plant care.png',
+  'biofertilizers': '/images/category-banners/plant care.png',
+  'soil-amendments': '/images/category-banners/plant care.png',
+  'manures': '/images/category-banners/plant care.png',
 };
 
 // The Gifting/Corporate Gifts pages pull gift-tagged products across every
@@ -100,15 +153,44 @@ function CategoryPage({ slugOverride }) {
   const { slug: slugParam } = useParams();
   const slug = slugOverride ?? slugParam;
   const isGiftPage = slug === 'gifting' || slug === 'corporate-gifts';
+  const isAllPlantsPage = slug === 'plants';
   const { products, categories, getGiftProducts, getProductsByCategory } = useCatalogue();
   const { t, language } = useLanguage();
+  const { gifting: giftingContent, corporateGifting: corporateGiftingContent } = useSiteContent();
 
   const baseProducts = useMemo(() => {
-    if (isGiftPage) return getGiftProducts();
+    if (isGiftPage) {
+      if (slug === 'gifting' && giftingContent?.items) {
+        return giftingContent.items
+          .map((s, i) => ({
+            visible: true,
+            order: i,
+            ...s,
+            name: s.title || s.name,
+            originalPrice: s.oldPrice || s.originalPrice,
+            isBestSeller: s.badge?.toUpperCase() === 'BESTSELLER' || s.isBestSeller,
+          }))
+          .filter((s) => s.visible !== false)
+          .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+      } else if (slug === 'corporate-gifts' && corporateGiftingContent?.items) {
+        return corporateGiftingContent.items
+          .map((s, i) => ({
+            visible: true,
+            order: i,
+            ...s,
+            name: s.title || s.name,
+            originalPrice: s.oldPrice || s.originalPrice,
+            isBestSeller: s.badge?.toUpperCase() === 'BESTSELLER' || s.isBestSeller,
+          }))
+          .filter((s) => s.visible !== false)
+          .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+      }
+      return getGiftProducts();
+    }
     const umbrella = UMBRELLA_GROUPS[slug];
     if (umbrella) return products.filter((p) => umbrella.includes(p.category));
     return getProductsByCategory(slug);
-  }, [slug, isGiftPage, products]);
+  }, [slug, isGiftPage, products, giftingContent, corporateGiftingContent]);
 
   // Prefer the live (Firestore) category doc; fall back to the built-in
   // CATEGORIES list so code-defined umbrella categories (e.g. the grouped
@@ -117,11 +199,20 @@ function CategoryPage({ slugOverride }) {
   const meta = categories.find((c) => c.slug === slug) || LOCAL_CATEGORIES.find((c) => c.slug === slug);
   const localizedLabel = getLocalizedCategoryLabel(meta, language);
   const localizedTagline = getLocalizedCategoryTagline(meta, language);
+  
+  // Use CMS overrides for gifting if available
+  const cmsHeading = slug === 'gifting' ? (giftingContent?.pageTitle || t('nav.gifting')) : 
+                     slug === 'corporate-gifts' ? (corporateGiftingContent?.pageTitle || t('nav.b2bSales')) : null;
+  const cmsTagline = slug === 'gifting' ? (giftingContent?.subtitle || t('pages.corporateGiftsTagline')) : 
+                     slug === 'corporate-gifts' ? (corporateGiftingContent?.subtitle || t('pages.corporateGiftsTagline')) : null;
+
   const heading = isGiftPage
-    ? slug === 'gifting' ? t('nav.gifting') : t('pages.corporateGiftsTitle')
+    ? (slug === 'gifting' || slug === 'corporate-gifts') ? cmsHeading : t('pages.corporateGiftsTitle')
+    : isAllPlantsPage ? 'All Plants'
     : localizedLabel || t('common.allProducts');
   const tagline = isGiftPage
-    ? t('pages.corporateGiftsTagline')
+    ? (slug === 'gifting' || slug === 'corporate-gifts') ? cmsTagline : t('pages.corporateGiftsTagline')
+    : isAllPlantsPage ? 'Every plant we grow, in one searchable, filterable list.'
     : localizedTagline;
 
   const prices = baseProducts.map((p) => p.price);
@@ -168,9 +259,9 @@ function CategoryPage({ slugOverride }) {
       })
     : baseProducts.filter((p) => matchesFilters(p, filters, filterGroups));
 
-  const heroImage = PLANTS_SUBCATEGORY_HERO_IMAGES[slug] ?? SEEDS_SUBCATEGORY_HERO_IMAGES[slug];
+  const heroImage = PLANTS_SUBCATEGORY_HERO_IMAGES[slug] ?? SEEDS_SUBCATEGORY_HERO_IMAGES[slug] ?? POTS_AND_CARE_HERO_IMAGES[slug];
 
-  return (
+  const contentEl = (
     <div className="category-page category-page-enter">
       <nav className="category-breadcrumb" aria-label="Breadcrumb">
         <a href="/#shop-by-category">{t('home.shopByCategory')}</a>
@@ -186,8 +277,22 @@ function CategoryPage({ slugOverride }) {
         style={heroImage ? { backgroundImage: `url('${heroImage}')` } : undefined}
       >
         <p className="eyebrow">{isGiftPage ? t('nav.gifting').toUpperCase() : t('common.categoryEyebrow')}</p>
-        <h1>{heading}</h1>
-        <p className="category-tagline">{tagline}</p>
+        
+        {slug === 'gifting' || slug === 'corporate-gifts' ? (
+          <EditableElement sectionKey={slug === 'gifting' ? 'gifting' : 'corporateGifting'} field="pageTitle" type="text" label="Page Title">
+            <h1>{heading}</h1>
+          </EditableElement>
+        ) : (
+          <h1>{heading}</h1>
+        )}
+        
+        {slug === 'gifting' || slug === 'corporate-gifts' ? (
+          <EditableElement sectionKey={slug === 'gifting' ? 'gifting' : 'corporateGifting'} field="subtitle" type="text" label="Subtitle">
+            <p className="category-tagline">{tagline}</p>
+          </EditableElement>
+        ) : (
+          <p className="category-tagline">{tagline}</p>
+        )}
       </div>
 
       <div className={`category-layout${isGiftPage ? '' : ' ip-fullwidth'}`}>
@@ -243,9 +348,29 @@ function CategoryPage({ slugOverride }) {
         )}
 
         <div className="product-grid">
-          {filtered.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          {filtered.map((product) => {
+            const card = <ProductCard key={product.id} product={product} />;
+            if (slug === 'gifting') {
+              const siteContentIndex = giftingContent?.items?.findIndex(p => p.id === product.id);
+              if (siteContentIndex !== -1 && siteContentIndex !== undefined) {
+                 return (
+                   <CardHoverControls key={product.id} sectionKey="gifting" arrayField="items" index={siteContentIndex} itemLabel="Product">
+                     {card}
+                   </CardHoverControls>
+                 );
+              }
+            } else if (slug === 'corporate-gifts') {
+              const siteContentIndex = corporateGiftingContent?.items?.findIndex(p => p.id === product.id);
+              if (siteContentIndex !== -1 && siteContentIndex !== undefined) {
+                 return (
+                   <CardHoverControls key={product.id} sectionKey="corporateGifting" arrayField="items" index={siteContentIndex} itemLabel="Product">
+                     {card}
+                   </CardHoverControls>
+                 );
+              }
+            }
+            return card;
+          })}
           {filtered.length === 0 && (
             isGiftPage ? (
               <p className="empty-state">{t('common.noProductsMatchFilters')}</p>
@@ -265,6 +390,16 @@ function CategoryPage({ slugOverride }) {
       </div>
     </div>
   );
+
+  if (slug === 'gifting' || slug === 'corporate-gifts') {
+    return (
+      <EditableSection sectionKey={slug === 'gifting' ? 'gifting' : 'corporateGifting'} label={slug === 'gifting' ? 'Gifting Page' : 'Corporate Gifting Page'}>
+        {contentEl}
+      </EditableSection>
+    );
+  }
+
+  return contentEl;
 }
 
 export default CategoryPage;

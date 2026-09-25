@@ -6,6 +6,13 @@ import { getDiscountPercent } from '../utils/pricing';
 import { getLocalizedProductName, getLocalizedCategoryLabel } from '../utils/localizedContent';
 import imageMap from '../data/imageMap.json';
 
+// Inline data: URI leaf icon - shown in place of a broken <img> if a
+// product's image is ever missing/deleted, instead of the browser's
+// broken-image icon. Never hotlinks an external placeholder.
+const NO_IMAGE_PLACEHOLDER = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="%23eef5ee"/><path d="M32 50V26" stroke="%232f6b3a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M32 26c0-10-8-16-16-16 0 10 6 16 16 16Z" fill="%234f9a5c"/><path d="M32 26c0-10 8-16 16-16 0 10-6 16-16 16Z" fill="%232f6b3a"/></svg>'
+);
+
 // `isNew` is opt-in per usage (e.g. the homepage "Just In" section) - never
 // set by default, so every other place ProductCard is already used is
 // unaffected.
@@ -28,9 +35,10 @@ function ProductCard({ product, isNew = false }) {
         {product.isBestSeller && <span className="bestseller-badge">{t('common.bestseller')}</span>}
         {isNew && <span className="new-badge">{t('home.newBadge')}</span>}
         <img 
-          src={imageMap[product.name] || product.image} 
+          src={imageMap[product.name] || product.image || NO_IMAGE_PLACEHOLDER} 
           alt={localizedName} 
           loading="lazy" 
+          onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = NO_IMAGE_PLACEHOLDER; }}
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} 
         />
         <span className="rating-badge">{product.rating}/5</span>

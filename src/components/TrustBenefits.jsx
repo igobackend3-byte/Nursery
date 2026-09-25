@@ -1,5 +1,6 @@
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useSiteContent } from '../hooks/useSiteContent';
+import CardHoverControls from '../admin/editor/CardHoverControls';
 import './TrustBenefits.css';
 
 const ShieldIcon = () => (
@@ -59,18 +60,33 @@ function TrustBenefits() {
 
   if (items.length === 0) return null;
 
+  // Real, admin-editable benefits vs. the built-in DEFAULT_BENEFITS
+  // fallback used when the admin has emptied tb.items - hover controls
+  // need the index into the section's actual `items` array (same
+  // rawCards/rawItems pattern used on every other card section).
+  const rawItems = tb?.items?.length ? tb.items : null;
+
   return (
     <section ref={ref} className={`trust-benefits${visible ? ' trust-benefits-visible' : ''}`}>
       <div className="trust-benefits-container">
-        {items.map((b, i) => (
-          <div className="trust-benefit" key={b.id ?? b.title} style={{ transitionDelay: visible ? `${i * 90}ms` : '0ms' }}>
-            <span className="trust-benefit-icon">{BENEFIT_ICONS[b.icon] || <ShieldIcon />}</span>
-            <div className="trust-benefit-copy">
-              <h3>{b.title}</h3>
-              <p>{b.description}</p>
+        {items.map((b, i) => {
+          const itemIndex = rawItems ? rawItems.findIndex((it) => (it.id ?? it.title) === (b.id ?? b.title)) : -1;
+          const benefitEl = (
+            <div className="trust-benefit" key={b.id ?? b.title} style={{ transitionDelay: visible ? `${i * 90}ms` : '0ms' }}>
+              <span className="trust-benefit-icon">{BENEFIT_ICONS[b.icon] || <ShieldIcon />}</span>
+              <div className="trust-benefit-copy">
+                <h3>{b.title}</h3>
+                <p>{b.description}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+          if (itemIndex === -1) return benefitEl;
+          return (
+            <CardHoverControls key={b.id ?? b.title} sectionKey="trustBenefits" arrayField="items" index={itemIndex} itemLabel="Benefit">
+              {benefitEl}
+            </CardHoverControls>
+          );
+        })}
       </div>
     </section>
   );

@@ -9,7 +9,7 @@ export const NAV_ITEMS = [
   {
     label: 'Plants',
     i18nKey: 'plants',
-    to: '/category/indoor-plants',
+    to: '/plants',
     children: [
       { label: 'Indoor Plants', to: '/category/indoor-plants' },
       { label: 'Outdoor Plants', to: '/category/outdoor-plants' },
@@ -49,7 +49,7 @@ export const NAV_ITEMS = [
   {
     label: 'Seeds',
     i18nKey: 'seeds',
-    to: '/category/seeds',
+    to: '/seeds',
     children: [
       { label: 'Vegetable Seeds', to: '/category/vegetable-seeds' },
       { label: 'Flower Seeds', to: '/category/flower-seeds' },
@@ -65,7 +65,7 @@ export const NAV_ITEMS = [
   {
     label: 'Pots & Planters',
     i18nKey: 'potsPlanters',
-    to: '/category/pots-planters',
+    to: '/pots-planters',
     align: 'right',
     children: [
       { label: 'Terracotta Pots', to: '/category/terracotta-pots' },
@@ -98,7 +98,7 @@ export const NAV_ITEMS = [
   {
     label: 'Plant Care',
     i18nKey: 'plantCare',
-    to: '/category/plant-care',
+    to: '/plant-care',
     align: 'right',
     children: [
       { label: 'Cocopeat', to: '/category/cocopeat' },
@@ -127,7 +127,7 @@ export const NAV_ITEMS = [
       { label: 'Garden Services', to: '/garden-services' },
       { label: 'Landscaping', to: '/landscaping' },
       { label: 'Gifting', to: '/gifting' },
-      { label: 'B2B Sales', to: '/corporate-gifts' },
+      { label: 'Corporate Gifting', to: '/corporate-gifts' },
     ],
   },
   { label: 'Blog', i18nKey: 'blog', to: '/blog' },
@@ -136,10 +136,10 @@ export const NAV_ITEMS = [
 
 export const FOOTER_LINKS = {
   shop: [
-    { label: 'Plants', to: '/category/indoor-plants' },
-    { label: 'Seeds', to: '/category/seeds' },
-    { label: 'Pots & Planters', to: '/category/pots-planters' },
-    { label: 'Plant Care', to: '/blog' },
+    { label: 'Plants', to: '/plants' },
+    { label: 'Seeds', to: '/seeds' },
+    { label: 'Pots & Planters', to: '/pots-planters' },
+    { label: 'Plant Care', to: '/plant-care' },
     { label: 'Garden Décor', to: '/category/garden-decor' },
     { label: 'Offers', to: '/offers' },
   ],

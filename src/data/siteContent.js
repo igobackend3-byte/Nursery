@@ -3,68 +3,335 @@
 // from (see lib/contentStore.js). Nothing here is placeholder copy.
 import journalPottingMixImg from '../assets/journal-potting-mix.jpg';
 
+// Real category slugs (from src/data/navigation.js's "Plants" mega-menu,
+// mirrored here so the Plants hub/admin doesn't have to import the nav
+// file just for this list). Every slug here has a matching Firestore/
+// static category doc - nothing invented.
+export const PLANTS_NAV_CATEGORY_SLUGS = [
+  'indoor-plants', 'outdoor-plants', 'fruit-plants', 'flowering-plants', 'succulents',
+  'cactus', 'palms', 'cycads', 'table-top-plants', 'mini-plants', 'bonsai', 'orchids',
+  'bromeliads', 'ferns', 'carnivorous-plants', 'aquatic-pond-plants', 'vertical-garden-plants',
+  'green-wall-plants', 'terrace-garden-plants', 'balcony-plants', 'hanging-basket-plants',
+  'herbs', 'medicinal-plants', 'aromatic-plants', 'spice-plants', 'sacred-plants',
+  'butterfly-garden-plants', 'bee-friendly-plants', 'bird-attracting-plants', 'fragrant-plants',
+  'edible-flowers', 'coastal-plants', 'landscaping-trees',
+];
+
 export const DEFAULT_SITE_CONTENT = {
-  // The /about page's 9 sections, each independently visible/reorderable.
-  // `order` controls render order on the page; sections aren't tied to a
-  // fixed list of "types" - these are the real sections that exist today.
+  // Admin-configurable pick for the "Plants ▾" navbar dropdown only. The
+  // /plants landing page itself (hero, categories, popular products) now
+  // lives on the flat plantsHubHero/plantsHubExplore/plantsHubPopular
+  // keys below, same as every other section-hub page - see those for
+  // seeds/pots/plant-care too.
+  plantsHub: {
+    navbarCategorySlugs: ['indoor-plants', 'cactus', 'outdoor-plants', 'succulents', 'fruit-plants'],
+  },
+  // Section-hub pages (Plants / Seeds / Pots & Planters / Plant Care) -
+  // each hub has 3 flat, independently manageable keys: Hero, Explore
+  // Categories, and Popular Products. This mirrors the About page
+  // convention (one real siteContent key per Visual Editor section) and
+  // fixes the previous dotted pseudo-keys (`${contentKey}.hero` etc.)
+  // that Reset/Delete/Settings couldn't actually operate on.
+  plantsHubHero: {
+    visible: true, order: 1, backgroundColor: '', backgroundImage: '', paddingY: '',
+    heroEyebrow: 'PLANTS',
+    heroTitle: 'Plants',
+    heroSubtitle: 'Bring nature closer to your home. Discover a wide range of beautiful plants for every space and style.',
+  },
+  plantsHubExplore: {
+    visible: true, order: 2, backgroundColor: '', backgroundImage: '', paddingY: '',
+    categories: [],
+  },
+  plantsHubPopular: {
+    visible: true, order: 3, backgroundColor: '', backgroundImage: '', paddingY: '',
+    popularPlantsSubtitle: 'Handpicked favourites loved by plant parents.',
+    productIds: [],
+  },
+  seedsHubHero: {
+    visible: true, order: 1, backgroundColor: '', backgroundImage: '', paddingY: '',
+    heroEyebrow: 'SEEDS',
+    heroTitle: 'Seeds',
+    heroSubtitle: 'Explore a wide range of quality seeds for vegetables, flowers, herbs, fruits and more.',
+  },
+  seedsHubExplore: {
+    visible: true, order: 2, backgroundColor: '', backgroundImage: '', paddingY: '',
+    categories: [],
+  },
+  seedsHubPopular: {
+    visible: true, order: 3, backgroundColor: '', backgroundImage: '', paddingY: '',
+    popularPlantsSubtitle: 'Popular choices for home gardens and kitchen gardens.',
+    productIds: [],
+  },
+  potsHubHero: {
+    visible: true, order: 1, backgroundColor: '', backgroundImage: '', paddingY: '',
+    heroEyebrow: 'POTS & PLANTERS',
+    heroTitle: 'Pots & Planters',
+    heroSubtitle: 'Find beautiful pots and planters designed to complement your plants and spaces.',
+  },
+  potsHubExplore: {
+    visible: true, order: 2, backgroundColor: '', backgroundImage: '', paddingY: '',
+    categories: [],
+  },
+  potsHubPopular: {
+    visible: true, order: 3, backgroundColor: '', backgroundImage: '', paddingY: '',
+    popularPlantsSubtitle: 'Handpicked pots and planters for every space and style.',
+    productIds: [],
+  },
+  plantCareHubHero: {
+    visible: true, order: 1, backgroundColor: '', backgroundImage: '', paddingY: '',
+    heroEyebrow: 'PLANT CARE',
+    heroTitle: 'Plant Care',
+    heroSubtitle: 'Everything you need to keep your plants healthy, beautiful and growing throughout the year.',
+  },
+  plantCareHubExplore: {
+    visible: true, order: 2, backgroundColor: '', backgroundImage: '', paddingY: '',
+    categories: [],
+  },
+  plantCareHubPopular: {
+    visible: true, order: 3, backgroundColor: '', backgroundImage: '', paddingY: '',
+    popularPlantsSubtitle: 'Essential products for healthy and thriving plants.',
+    productIds: [],
+  },
+  // Contact Us page - flat top-level keys (Visual Editor convention: one
+  // real siteContent key per independently manageable section, same
+  // pattern as About/Plants/Seeds/Pots/PlantCare). All content below is
+  // the same real business info already used on the live /contact page
+  // (same phone/email as the site footer) - only the shape changed, to
+  // make each section independently Edit/Reset/Delete/Settings-able from
+  // Admin -> Contact Us.
+  contactHero: {
+    visible: true,
+    order: 1,
+    backgroundColor: '',
+    paddingY: '',
+    backgroundImage: '/images/about-us/18_contact_hero.png',
+    headingVisible: true,
+    heading: 'Get in Touch',
+    descriptionVisible: true,
+    description: "Have a question about our plants or services? We'd love to hear from you.",
+  },
+  contactInfoCards: {
+    visible: true,
+    order: 2,
+    backgroundColor: '',
+    paddingY: '',
+    phoneHeading: 'Call Us',
+    phoneSub: "We're happy to help",
+    phoneText: '+91 98765 43210',
+    phoneHours: 'Mon - Sat: 9:00 AM - 6:00 PM',
+    emailHeading: 'Email Us',
+    emailSub: "We'll respond within 24 hours",
+    emailText: 'support@igoagritechfarms.com',
+    emailNote: 'For orders, support and enquiries',
+    locHeading: 'Visit Us',
+    locSub: 'Come see our nursery',
+    locText: '123 Green Valley Road,<br />Coimbatore, Tamil Nadu – 641XXX',
+    hoursHeading: 'Working Hours',
+    hoursSub: "We're open",
+    hoursText1: 'Mon - Sat: 9:00 AM - 6:00 PM',
+    hoursText2: 'Sunday: Closed',
+  },
+  contactForm: {
+    visible: true,
+    order: 3,
+    backgroundColor: '',
+    paddingY: '',
+    heading: 'Send Us a Message',
+    description: "Fill out the form below and our team will get back to you shortly.",
+    nameLabel: 'Full Name',
+    emailLabel: 'Email Address',
+    phoneLabel: 'Phone Number',
+    messageLabel: 'Message',
+    buttonText: 'Send Message',
+    sideImage: '/images/about-us/01_hero_nursery_greenhouse.jpg',
+  },
+  contactTrust: {
+    visible: true,
+    order: 4,
+    backgroundColor: '',
+    paddingY: '',
+    perk1Heading: 'Quality Guaranteed',
+    perk1Text: 'Healthy, hand-picked plants every time.',
+    perk2Heading: 'Friendly Support',
+    perk2Text: 'Our team is always here to help.',
+    perk3Heading: 'Trusted by Thousands',
+    perk3Text: 'Loved by plant parents across India.',
+  },
+  contactFarm: {
+    visible: true,
+    order: 5,
+    backgroundColor: '',
+    paddingY: '',
+    heading: 'Find Our Farm',
+    description: 'Visit our nursery and see where your plants are grown, cared for and readied for delivery.',
+    buttonText: 'Get Directions',
+    directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Muttukadu+Chennai',
+    mapUrl: 'https://www.openstreetmap.org/export/embed.html?bbox=80.22%2C12.79%2C80.28%2C12.85&layer=mapnik&marker=12.82%2C80.25',
+    mapLabel: 'IGO Nursery — Muttukadu Lab & Store',
+  },
+  contactWhatsapp: {
+    visible: true,
+    order: 6,
+    backgroundColor: '',
+    paddingY: '',
+    backgroundImage: '/images/about-us/15_journey_greenhouse.jpg',
+    heading: 'Chat With Us on WhatsApp',
+    description: 'Get quick answers to your plant questions, straight from our team.',
+    number: '919876543210',
+    buttonText: 'Start Chat',
+  },
+  // About - Hero - flat top-level key (Visual Editor convention: one real
+  // siteContent key per independently manageable section).
+  aboutHero: {
+    visible: true,
+    order: 1,
+    backgroundColor: '',
+    backgroundImage: '',
+    paddingY: '',
+    breadcrumbHomeText: 'Home',
+    breadcrumbHomeUrl: '/',
+    breadcrumbHomeVisible: true,
+    breadcrumbCurrentText: 'About Us',
+    breadcrumbCurrentUrl: '',
+    breadcrumbCurrentVisible: true,
+    headingVisible: true,
+    heading: 'About\nIGO Nursery',
+    subtitleVisible: true,
+    subtitle: "More Than Just Plants — We're a Part of Your Green Journey.",
+    descriptionVisible: true,
+    description: "At IGO Nursery, we believe in the power of plants to bring beauty, wellness and connection. We're passionate about helping you create greener spaces — at home, at work and in the community.",
+    decorativeIconVisible: true,
+    decorativeIcon: 'Leaf',
+    buttonVisible: true,
+    buttonText: 'Explore Our Plants',
+    buttonUrl: '/category/indoor-plants',
+    buttonIcon: 'Arrow',
+    image: '/images/about-us/01_hero_nursery_greenhouse.jpg',
+    imageAlt: 'Lush greenhouse full of nursery plants - Green Spaces, Happier Lives',
+  },
+  // The /about page's remaining 8 sections (Hero moved out, above), each
+  // independently visible/reorderable. `order` controls render order on
+  // the page; sections aren't tied to a fixed list of "types" - these are
+  // the real sections that exist today.
+  // About - Story - flat top-level key (Visual Editor convention: one
+  // real siteContent key per independently manageable section).
+  aboutStory: {
+    visible: true,
+    order: 2,
+    backgroundColor: '',
+    backgroundImage: '',
+    paddingY: '',
+    labelVisible: true,
+    eyebrow: 'OUR STORY',
+    headingVisible: true,
+    heading: 'Growing Greener,\nGrowing Better',
+    textVisible: true,
+    text: 'IGO Nursery started with a simple idea — to make quality plants and gardening products accessible to everyone. Today, we are a growing community of plant lovers, offering a wide range of healthy plants, quality pots, seeds and gardening essentials. Our goal is to inspire greener living and help you create beautiful, sustainable spaces.',
+    decorativeIcon1Visible: true,
+    decorativeIcon1: 'Leaf',
+    decorativeIcon2Visible: true,
+    decorativeIcon2: 'Leaf',
+    buttonVisible: true,
+    buttonText: 'Learn More',
+    buttonUrl: '/about',
+    buttonIcon: 'Arrow',
+    image: '/images/about-us/02_our_story_person_holding_plant.jpg',
+    imageAlt: 'A hand holding a small potted plant - From Seed to Green',
+  },
+  // About - Hero lives on its own now (see aboutHero below), promoted to
+  // a flat top-level key so it can be independently reset/deleted/settings-
+  // managed by the Visual Editor, exactly like every Home Page section.
+  // About - Stats - flat top-level key (Visual Editor convention: one
+  // real siteContent key per independently manageable section).
+  // About - Vision & Mission - flat top-level key (Visual Editor
+  // convention: one real siteContent key per independently manageable
+  // section). The two cards are now array items so they can be
+  // individually edited/duplicated/deleted, and new ones added.
+  // About - What We Offer - flat top-level key (Visual Editor
+  // convention: one real siteContent key per independently manageable
+  // section).
+  aboutOffer: {
+    visible: true,
+    order: 5,
+    backgroundColor: '',
+    backgroundImage: '',
+    paddingY: '',
+    eyebrow: 'WHAT WE OFFER', heading: 'Everything You Need for a Greener Space',
+    subtitle: 'From beautiful plants to essential gardening products, we have everything you need to bring your green vision to life.',
+    scriptLine1: 'Grow', scriptLine2: 'Your', scriptLine3: 'Way',
+    cards: [
+      { id: 1, title: 'Indoor & Outdoor Plants', description: 'Beautiful plants for every space, inside and out.', icon: 'Leaf', image: '/images/about-us/05_indoor_outdoor_plants.jpg', linkUrl: '/category/indoor-plants', visible: true, order: 1 },
+      { id: 2, title: 'Pots & Planters', description: 'Stylish and durable pots to complement your plants.', icon: 'Pot', image: '/images/about-us/06_pots_and_planters.jpg', linkUrl: '/category/pots-planters', visible: true, order: 2 },
+      { id: 3, title: 'Seeds & Gardening', description: 'High-quality seeds for a bountiful garden.', icon: 'Sprout', image: '/images/about-us/07_seeds_and_gardening.jpg', linkUrl: '/category/seeds', visible: true, order: 3 },
+      { id: 4, title: 'Plant Care', description: 'Expert tips and products to keep your plants healthy.', icon: 'Watering', image: '/images/about-us/08_plant_care.jpg', linkUrl: '/category/plant-care', visible: true, order: 4 },
+      { id: 5, title: 'Landscaping', description: 'Transform your space with beautiful green designs.', icon: 'Landscape', image: '/images/about-us/09_landscaping.jpg', linkUrl: '/landscaping', visible: true, order: 5 },
+      { id: 6, title: 'Corporate Gifting', description: 'Thoughtful green gifts for clients and teams.', icon: 'Gift', image: '/images/about-us/10_corporate_gifting.jpg', linkUrl: '/corporate-gifts', visible: true, order: 6 },
+    ],
+  },
+  aboutVisionMission: {
+    visible: true,
+    order: 4,
+    backgroundColor: '',
+    backgroundImage: '',
+    paddingY: '',
+    items: [
+      { id: 1, icon: 'Eye', eyebrow: 'OUR VISION', title: 'A Greener Tomorrow', text: 'To be a leading nursery brand that inspires everyone to create healthier, greener and more beautiful spaces, while promoting sustainable living for future generations.', image: '/images/about-us/03_vision_growing_plant.jpg', imageAlt: 'A young seedling growing in soft sunlight', visible: true, order: 1 },
+      { id: 2, icon: 'Target', eyebrow: 'OUR MISSION', title: 'Plants for a Better Life', text: 'To provide high-quality plants, gardening products and expert guidance, making green living simple, accessible and enjoyable for all.', image: '/images/about-us/04_mission_plant.jpg', imageAlt: 'A lush green leafy plant', visible: true, order: 2 },
+    ],
+  },
+  aboutStats: {
+    visible: true,
+    order: 3,
+    backgroundColor: '',
+    backgroundImage: '',
+    paddingY: '',
+    items: [
+      { id: 1, icon: 'Leaf', value: 10, suffix: '+', label: 'Years Experience', visible: true, order: 1 },
+      { id: 2, icon: 'Sprout', value: 5000, suffix: '+', label: 'Plants Delivered', visible: true, order: 2 },
+      { id: 3, icon: 'Pot', value: 50, suffix: '+', label: 'Plant Varieties', visible: true, order: 3 },
+      { id: 4, icon: 'Users', value: 1000, suffix: '+', label: 'Happy Customers', visible: true, order: 4 },
+    ],
+  },
+  // About - Story lives on its own now (see aboutStory above), promoted
+  // to a flat top-level key so it can be independently reset/deleted/
+  // settings-managed by the Visual Editor, exactly like Hero.
+  aboutValues: {
+    visible: true, order: 6,
+    eyebrow: 'OUR VALUES', heading: 'What Drives Us',
+    subtitle: 'Our values shape everything we do — from the plants we grow to the relationships we build.',
+    image: '/images/about-us/11_our_values_plant_orbit.jpg', imageAlt: 'A small seedling growing from rich soil',
+    scriptLine1: 'Grow', scriptLine2: 'Green', scriptLine3: 'Grow', scriptLine4: 'Way',
+    items: [
+      { id: 1, icon: 'Diamond', label: 'Quality First', visible: true, order: 1 },
+      { id: 2, icon: 'Users', label: 'Customer Focus', visible: true, order: 2 },
+      { id: 3, icon: 'Recycle', label: 'Sustainability', visible: true, order: 3 },
+      { id: 4, icon: 'Shield', label: 'Integrity', visible: true, order: 4 },
+    ],
+  },
+  aboutJourney: {
+    visible: true, order: 8,
+    eyebrow: 'OUR JOURNEY', heading: 'From Small Beginnings to a Greener Future',
+    subtitle: "Take a look at some moments from our journey — from our first plants to the spaces we've created.",
+    items: [
+      { id: 1, year: '2016', label: 'Our Beginning', image: '/images/about-us/12_journey_seedlings.jpg', visible: true, order: 1 },
+      { id: 2, year: '2018', label: 'First Nursery Expansion', image: '/images/about-us/13_journey_nursery_beds.jpg', visible: true, order: 2 },
+      { id: 3, year: '2020', label: 'Growing with Customers', image: '/images/about-us/14_journey_plant_care.jpg', visible: true, order: 3 },
+      { id: 4, year: '2022', label: 'Landscaping Projects', image: '/images/about-us/15_journey_greenhouse.jpg', visible: true, order: 4 },
+      { id: 5, year: '2024', label: 'Modern Nursery', image: '/images/about-us/16_journey_nursery.jpg', visible: true, order: 5 },
+    ],
+  },
+  aboutFinalCta: {
+    visible: true, order: 9,
+    title: "Let's Grow Something Beautiful Together",
+    text: 'Bring nature home. Explore our wide range of plants, seeds and gardening essentials.',
+    buttonText: 'Explore Plants', buttonUrl: '/category/indoor-plants',
+    backgroundImage: '/images/about-us/11_our_values_plant_orbit.jpg',
+  },
   aboutPage: {
-    hero: {
-      visible: true, order: 1,
-      breadcrumbHome: 'Home', breadcrumbCurrent: 'About Us',
-      titleLine1: 'About', titleLine2: 'IGO Nursery',
-      subtitle: "More Than Just Plants — We're a Part of Your Green Journey.",
-      description: "At IGO Nursery, we believe in the power of plants to bring beauty, wellness and connection. We're passionate about helping you create greener spaces — at home, at work and in the community.",
-      buttonText: 'Explore Our Plants', buttonUrl: '/category/indoor-plants',
-      image: '/images/about-us/01_hero_nursery_greenhouse.jpg', imageAlt: 'Lush greenhouse full of nursery plants - Green Spaces, Happier Lives',
-    },
-    story: {
-      visible: true, order: 2,
-      eyebrow: 'OUR STORY', titleLine1: 'Growing Greener,', titleLine2: 'Growing Better',
-      text: 'IGO Nursery started with a simple idea — to make quality plants and gardening products accessible to everyone. Today, we are a growing community of plant lovers, offering a wide range of healthy plants, quality pots, seeds and gardening essentials. Our goal is to inspire greener living and help you create beautiful, sustainable spaces.',
-      buttonText: 'Learn More', buttonUrl: '/about',
-      image: '/images/about-us/02_our_story_person_holding_plant.jpg', imageAlt: 'A hand holding a small potted plant - From Seed to Green',
-    },
-    stats: {
-      visible: true, order: 3,
-      items: [
-        { id: 1, icon: 'Leaf', value: 10, suffix: '+', label: 'Years Experience', visible: true, order: 1 },
-        { id: 2, icon: 'Sprout', value: 5000, suffix: '+', label: 'Plants Delivered', visible: true, order: 2 },
-        { id: 3, icon: 'Pot', value: 50, suffix: '+', label: 'Plant Varieties', visible: true, order: 3 },
-        { id: 4, icon: 'Users', value: 1000, suffix: '+', label: 'Happy Customers', visible: true, order: 4 },
-      ],
-    },
-    visionMission: {
-      visible: true, order: 4,
-      vision: { eyebrow: 'OUR VISION', title: 'A Greener Tomorrow', text: 'To be a leading nursery brand that inspires everyone to create healthier, greener and more beautiful spaces, while promoting sustainable living for future generations.', image: '/images/about-us/03_vision_growing_plant.jpg', imageAlt: 'A young seedling growing in soft sunlight', icon: 'Eye' },
-      mission: { eyebrow: 'OUR MISSION', title: 'Plants for a Better Life', text: 'To provide high-quality plants, gardening products and expert guidance, making green living simple, accessible and enjoyable for all.', image: '/images/about-us/04_mission_plant.jpg', imageAlt: 'A lush green leafy plant', icon: 'Target' },
-    },
-    offer: {
-      visible: true, order: 5,
-      eyebrow: 'WHAT WE OFFER', heading: 'Everything You Need for a Greener Space',
-      subtitle: 'From beautiful plants to essential gardening products, we have everything you need to bring your green vision to life.',
-      scriptLine1: 'Grow', scriptLine2: 'Your', scriptLine3: 'Way',
-      cards: [
-        { id: 1, title: 'Indoor & Outdoor Plants', description: 'Beautiful plants for every space, inside and out.', icon: 'Leaf', image: '/images/about-us/05_indoor_outdoor_plants.jpg', linkUrl: '/category/indoor-plants', visible: true, order: 1 },
-        { id: 2, title: 'Pots & Planters', description: 'Stylish and durable pots to complement your plants.', icon: 'Pot', image: '/images/about-us/06_pots_and_planters.jpg', linkUrl: '/category/pots-planters', visible: true, order: 2 },
-        { id: 3, title: 'Seeds & Gardening', description: 'High-quality seeds for a bountiful garden.', icon: 'Sprout', image: '/images/about-us/07_seeds_and_gardening.jpg', linkUrl: '/category/seeds', visible: true, order: 3 },
-        { id: 4, title: 'Plant Care', description: 'Expert tips and products to keep your plants healthy.', icon: 'Watering', image: '/images/about-us/08_plant_care.jpg', linkUrl: '/category/plant-care', visible: true, order: 4 },
-        { id: 5, title: 'Landscaping', description: 'Transform your space with beautiful green designs.', icon: 'Landscape', image: '/images/about-us/09_landscaping.jpg', linkUrl: '/landscaping', visible: true, order: 5 },
-        { id: 6, title: 'Corporate Gifting', description: 'Thoughtful green gifts for clients and teams.', icon: 'Gift', image: '/images/about-us/10_corporate_gifting.jpg', linkUrl: '/corporate-gifts', visible: true, order: 6 },
-      ],
-    },
-    values: {
-      visible: true, order: 6,
-      eyebrow: 'OUR VALUES', heading: 'What Drives Us',
-      subtitle: 'Our values shape everything we do — from the plants we grow to the relationships we build.',
-      image: '/images/about-us/11_our_values_plant_orbit.jpg', imageAlt: 'A small seedling growing from rich soil',
-      scriptLine1: 'Grow', scriptLine2: 'Green', scriptLine3: 'Grow', scriptLine4: 'Way',
-      items: [
-        { id: 1, icon: 'Diamond', label: 'Quality First', visible: true, order: 1 },
-        { id: 2, icon: 'Users', label: 'Customer Focus', visible: true, order: 2 },
-        { id: 3, icon: 'Recycle', label: 'Sustainability', visible: true, order: 3 },
-        { id: 4, icon: 'Shield', label: 'Integrity', visible: true, order: 4 },
-      ],
-    },
+    // About - What We Offer lives on its own now (see aboutOffer above),
+    // promoted to a flat top-level key so it can be independently
+    // reset/deleted/settings-managed by the Visual Editor, exactly like
+    // Hero/Story/Stats/VisionMission/Values.
     whyChoose: {
       visible: true, order: 7,
       eyebrow: 'WHY CHOOSE IGO NURSERY?', heading: 'A Greener Partner for Your Journey',
@@ -76,25 +343,9 @@ export const DEFAULT_SITE_CONTENT = {
         { id: 4, icon: 'Truck', title: 'Safe Delivery', text: 'Your plants reach you fresh and on time.', visible: true, order: 4 },
       ],
     },
-    journey: {
-      visible: true, order: 8,
-      eyebrow: 'OUR JOURNEY', heading: 'From Small Beginnings to a Greener Future',
-      subtitle: "Take a look at some moments from our journey — from our first plants to the spaces we've created.",
-      items: [
-        { id: 1, year: '2016', label: 'Our Beginning', image: '/images/about-us/12_journey_seedlings.jpg', visible: true, order: 1 },
-        { id: 2, year: '2018', label: 'First Nursery Expansion', image: '/images/about-us/13_journey_nursery_beds.jpg', visible: true, order: 2 },
-        { id: 3, year: '2020', label: 'Growing with Customers', image: '/images/about-us/14_journey_plant_care.jpg', visible: true, order: 3 },
-        { id: 4, year: '2022', label: 'Landscaping Projects', image: '/images/about-us/15_journey_greenhouse.jpg', visible: true, order: 4 },
-        { id: 5, year: '2024', label: 'Modern Nursery', image: '/images/about-us/16_journey_nursery.jpg', visible: true, order: 5 },
-      ],
-    },
-    finalCta: {
-      visible: true, order: 9,
-      title: "Let's Grow Something Beautiful Together",
-      text: 'Bring nature home. Explore our wide range of plants, seeds and gardening essentials.',
-      buttonText: 'Explore Plants', buttonUrl: '/category/indoor-plants',
-      backgroundImage: '/images/about-us/11_our_values_plant_orbit.jpg',
-    },
+    // About - Final CTA lives on its own now (see aboutFinalCta above),
+    // promoted to a flat top-level key so it can be independently
+    // reset/deleted/settings-managed by the Visual Editor.
   },
   ourStory: {
     visible: true,
@@ -231,7 +482,7 @@ export const DEFAULT_SITE_CONTENT = {
     showTaglineIcon: true,
     founderImage: '/images/home/our-story.jpeg',
     founderName: 'Dr John Yesudhas',
-    founderDesignation: 'Founder, IGO Nursery',
+    founderDesignation: 'CEO, IGO Nursery',
     displayOrder: 10,
     // Each paragraph is split into up to 3 parts so a highlighted/bold
     // portion (like "it stays with you") stays independently editable
@@ -307,6 +558,7 @@ export const DEFAULT_SITE_CONTENT = {
     highlightEnabled: true,
     highlight: 'Perfect for every occasion.',
     backgroundColor: '',
+    backgroundImage: '',
     headingColor: '',
     descriptionColor: '',
     highlightColor: '',
@@ -314,9 +566,9 @@ export const DEFAULT_SITE_CONTENT = {
     imageAlt: 'Thoughtful gifts, beautifully packaged.',
     displayOrder: 15,
     features: [
-      { id: 1, icon: 'gift', text: 'Curated Hampers', visible: true, order: 1 },
-      { id: 2, icon: 'clipboard', text: 'Bulk Gifting', visible: true, order: 2 },
-      { id: 3, icon: 'tag', text: 'Custom Options', visible: true, order: 3 },
+      { id: 1, icon: 'gift', text: 'Curated Hampers', link: '', visible: true, order: 1 },
+      { id: 2, icon: 'clipboard', text: 'Bulk Gifting', link: '', visible: true, order: 2 },
+      { id: 3, icon: 'tag', text: 'Custom Options', link: '', visible: true, order: 3 },
     ],
     buttons: [
       { id: 1, icon: 'gift', text: 'Explore Hampers', url: '/gifting', target: '_self', style: 'primary', bgColor: '', textColor: '', borderColor: '', hoverBgColor: '', hoverTextColor: '', visible: true, order: 1 },
@@ -326,10 +578,16 @@ export const DEFAULT_SITE_CONTENT = {
   newsletter: {
     visible: true,
     heading: 'Get growing tips in your inbox.',
+    headingVisible: true,
     headingColor: '',
+    backgroundImage: '',
     placeholder: 'you@example.com',
+    inputRequired: true,
+    inputVisible: true,
     buttonEnabled: true,
     buttonText: 'SUBSCRIBE',
+    buttonAction: 'Newsletter Subscribe',
+    buttonIcon: 'none',
     backgroundColor: '',
     inputBgColor: '',
     inputTextColor: '',
@@ -398,12 +656,28 @@ export const DEFAULT_SITE_CONTENT = {
     secondaryButtonLink: '/category/indoor-plants',
     videoUrl: '/videos/hero-nursery-video.mp4',
   },
-  offers: [
-    { id: 1, qty: 4, price: 799, note: 'WITH GROW POT', image: 'https://images.unsplash.com/photo-1509587584298-0f3b3a3a1797?q=80&w=500&auto=format&fit=crop' },
-    { id: 2, qty: 4, price: 999, note: 'WITH KRISH POT', image: 'https://images.unsplash.com/photo-1459156212016-c812468e2115?q=80&w=500&auto=format&fit=crop' },
-    { id: 3, qty: 4, price: 1199, note: 'WITH LAGOS POT', image: 'https://images.unsplash.com/photo-1611048267451-e6ed903d4a38?q=80&w=500&auto=format&fit=crop' },
-    { id: 4, qty: 4, price: 999, note: 'WITH POT SET', image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=500&auto=format&fit=crop' },
-  ],
+  statsStrip: {
+    visible: true,
+    displayOrder: 4,
+    items: [
+      { id: 1, key: 'users', icon: 'users', value: '1L+', title: 'Happy Customers', subtitle: 'Trust in Our Greenery', visible: true, order: 1 },
+      { id: 2, key: 'pottedPlant', icon: 'pottedPlant', value: '1000+', title: 'Plant Varieties', subtitle: 'For Every Space', visible: true, order: 2 },
+      { id: 3, key: 'badgeStar', icon: 'badgeStar', value: '4.7+', title: 'Customer Rating', subtitle: 'Loved by Plant Parents', visible: true, order: 3 },
+      { id: 4, key: 'package', icon: 'package', value: '2L+', title: 'Orders Delivered', subtitle: 'Successfully', visible: true, order: 4 },
+      { id: 5, key: 'pin', icon: 'pin', value: '500+', title: 'Cities Served', subtitle: 'Across India', visible: true, order: 5 },
+    ],
+  },
+  offers: {
+    eyebrow: 'EXCLUSIVE DEALS',
+    heading: 'Offers For You',
+    subtitle: 'Amazing deals to make your garden beautiful',
+    items: [
+      { id: 1, qty: 4, price: 799, note: 'WITH GROW POT', image: 'https://images.unsplash.com/photo-1509587584298-0f3b3a3a1797?q=80&w=500&auto=format&fit=crop' },
+      { id: 2, qty: 4, price: 999, note: 'WITH KRISH POT', image: 'https://images.unsplash.com/photo-1459156212016-c812468e2115?q=80&w=500&auto=format&fit=crop' },
+      { id: 3, qty: 4, price: 1199, note: 'WITH LAGOS POT', image: 'https://images.unsplash.com/photo-1611048267451-e6ed903d4a38?q=80&w=500&auto=format&fit=crop' },
+      { id: 4, qty: 4, price: 999, note: 'WITH POT SET', image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=500&auto=format&fit=crop' },
+    ]
+  },
   gardenJournal: {
     visible: true,
     eyebrow: 'LEARN • GROW • THRIVE',
@@ -413,12 +687,13 @@ export const DEFAULT_SITE_CONTENT = {
     seeAllLink: '/blog',
     readGuideText: 'Read guide →',
     backgroundColor: '',
+    backgroundImage: '',
     textColor: '',
     paddingY: '',
     posts: [
-      { id: 1, title: 'How to choose your first indoor plant', imageAlt: 'How to choose your first indoor plant', linkUrl: '/blog', linkTarget: '_self', image: '/images/journal/how to choose your frst  indoor plant.png', visible: true, order: 1 },
-      { id: 2, title: 'A simple guide to potting mix', imageAlt: 'A simple guide to potting mix', linkUrl: '/blog', linkTarget: '_self', image: '/images/journal/a simple guide to potting mix.png', visible: true, order: 2 },
-      { id: 3, title: '3 ways to make a balcony feel greener', imageAlt: '3 ways to make a balcony feel greener', linkUrl: '/blog', linkTarget: '_self', image: '/images/journal/3 ways to make  a balcony feel greener.png', visible: true, order: 3 },
+      { id: 1, title: 'How to choose your first indoor plant', imageAlt: 'How to choose your first indoor plant', linkUrl: '/blog', linkTarget: '_self', linkText: '', image: '/images/journal/How to choose your first indoor plant.png', visible: true, order: 1 },
+      { id: 2, title: 'A simple guide to potting mix', imageAlt: 'A simple guide to potting mix', linkUrl: '/blog', linkTarget: '_self', linkText: '', image: '/images/journal/a simple guide to potting mix.png', visible: true, order: 2 },
+      { id: 3, title: '3 ways to make a balcony feel greener', imageAlt: '3 ways to make a balcony feel greener', linkUrl: '/blog', linkTarget: '_self', linkText: '', image: '/images/journal/3 ways to make a balcony feel greener.png', visible: true, order: 3 },
     ],
   },
   gardenServices: {
@@ -427,10 +702,168 @@ export const DEFAULT_SITE_CONTENT = {
     heading: 'Garden Services',
     description: 'From terrace gardens to full landscaping, our team can help.',
     items: [
-      { id: 1, title: 'Terrace Garden', description: '', image: '/images/garden-services-home/terrace-garden.jpg', buttonText: 'Learn more →', buttonLink: '/garden-services', visible: true, order: 1 },
-      { id: 2, title: 'Balcony Garden', description: '', image: '/images/garden-services-home/balcony-garden.jpg', buttonText: 'Learn more →', buttonLink: '/garden-services', visible: true, order: 2 },
-      { id: 3, title: 'Landscaping', description: '', image: '/images/garden-services-home/landscaping.jpg', buttonText: 'Learn more →', buttonLink: '/garden-services', visible: true, order: 3 },
-      { id: 4, title: 'Plant Maintenance', description: '', image: '/images/garden-services-home/plant-maintenance.jpg', buttonText: 'Learn more →', buttonLink: '/garden-services', visible: true, order: 4 },
+      { id: 1, title: 'Terrace Garden', description: 'Turn an unused terrace into a shaded, plant-filled retreat — from layout to irrigation.', image: '/images/garden-services-page/terrac garden.jpg', buttonText: 'Learn more →', buttonLink: '/garden-services', visible: true, order: 1 },
+      { id: 2, title: 'Balcony Garden', description: 'Compact planting plans designed for railing planters, vertical racks and tight corners.', image: '/images/garden-services-page/balcony garden.jpg', buttonText: 'Learn more →', buttonLink: '/garden-services', visible: true, order: 2 },
+      { id: 3, title: 'Landscaping', description: 'Full outdoor landscaping for homes and offices, from lawn to layered plant beds.', image: '/images/garden-services-page/landscaping.jpg', buttonText: 'Learn more →', buttonLink: '/garden-services', visible: true, order: 3 },
+      { id: 4, title: 'Plant Maintenance', description: 'Scheduled watering, pruning and pest checks so your garden stays healthy year-round.', image: '/images/garden-services-page/plant care.jpg', buttonText: 'Learn more →', buttonLink: '/garden-services', visible: true, order: 4 },
+    ],
+    cta: {
+      label: 'GET STARTED',
+      heading: 'Tell us about your space',
+      description: 'Share a few photos and dimensions, and our team will put together a plan and quote.',
+      buttonText: 'Request a consultation',
+      buttonLink: 'mailto:ceojohnyesudas@gmail.com',
+      backgroundColor: '',
+      backgroundImage: '',
+    }
+  },
+
+  landscaping: {
+    visible: true,
+    badgeText: 'BEYOND PRODUCTS',
+    heading: 'Landscaping Services',
+    description: 'Explore our complete range of professional landscaping services.',
+    items: [
+      { id: 1, title: 'Villa Landscaping', description: '', image: '/images/nav-landscaping/Villa-Landscaping.jpeg', visible: true, order: 1 },
+      { id: 2, title: 'Balcony Garden', description: '', image: '/images/nav-landscaping/Balcony-Garden.jpeg', visible: true, order: 2 },
+      { id: 3, title: 'Terrace Garden', description: '', image: '/images/nav-landscaping/Terrace-Garden.jpeg', visible: true, order: 3 },
+      { id: 4, title: 'Rooftop Garden', description: '', image: '/images/nav-landscaping/Rooftop-Garden.jpg', visible: true, order: 4 },
+      { id: 5, title: 'Vertical Garden', description: '', image: '/images/nav-landscaping/Vertical-Garden.jpeg', visible: true, order: 5 },
+      { id: 6, title: 'Courtyard Garden', description: '', image: '/images/nav-landscaping/Courtyard-Garden.jpeg', visible: true, order: 6 },
+      { id: 7, title: 'Backyard Garden', description: '', image: '/images/nav-landscaping/Backyard-Garden.jpeg', visible: true, order: 7 },
+      { id: 8, title: 'Frontyard Landscaping', description: '', image: '/images/nav-landscaping/Frontyard-Landscaping.jpeg', visible: true, order: 8 },
+      { id: 9, title: 'Farmhouse Landscaping', description: '', image: '/images/nav-landscaping/Farmhouse-Landscaping.jpeg', visible: true, order: 9 },
+      { id: 10, title: 'Resort Landscaping', description: '', image: '/images/nav-landscaping/Resort-Landscaping.jpeg', visible: true, order: 10 },
+      { id: 11, title: 'Hotel Landscaping', description: '', image: '/images/nav-landscaping/Hotel-Landscaping.jpeg', visible: true, order: 11 },
+      { id: 12, title: 'Apartment Landscaping', description: '', image: '/images/nav-landscaping/Apartment-Landscaping.jpeg', visible: true, order: 12 },
+      { id: 13, title: 'Gated Community Landscaping', description: '', image: '/images/nav-landscaping/Gated-Community-Landscaping.jpeg', visible: true, order: 13 },
+      { id: 14, title: 'Office Landscaping', description: '', image: '/images/nav-landscaping/Office-Landscaping.jpeg', visible: true, order: 14 },
+      { id: 15, title: 'Commercial Landscaping', description: '', image: '/images/nav-landscaping/Commercial-Landscaping.jpeg', visible: true, order: 15 },
+      { id: 16, title: 'Corporate Landscaping', description: '', image: '/images/nav-landscaping/Corporate-Landscaping.jpeg', visible: true, order: 16 },
+      { id: 17, title: 'Industrial Landscaping', description: '', image: '/images/nav-landscaping/Industrial-Landscaping.jpeg', visible: true, order: 17 },
+      { id: 18, title: 'Campus Landscaping', description: '', image: '/images/nav-landscaping/Campus-Landscaping.jpeg', visible: true, order: 18 },
+      { id: 19, title: 'School Landscaping', description: '', image: '/images/nav-landscaping/School-Landscaping.jpeg', visible: true, order: 19 },
+      { id: 20, title: 'Hospital Landscaping', description: '', image: '/images/nav-landscaping/Hospital-Landscaping.jpeg', visible: true, order: 20 },
+      { id: 21, title: 'Temple Landscaping', description: '', image: '/images/nav-landscaping/Temple-Landscaping.jpeg', visible: true, order: 21 },
+      { id: 22, title: 'Park Landscaping', description: '', image: '/images/nav-landscaping/Park-Landscaping.jpeg', visible: true, order: 22 },
+      { id: 23, title: 'Swimming Pool Landscaping', description: '', image: '/images/nav-landscaping/Swimming-Pool-Landscaping.jpeg', visible: true, order: 23 },
+      { id: 24, title: 'Entrance Landscaping', description: '', image: '/images/nav-landscaping/Entrance-Landscaping.jpeg', visible: true, order: 24 },
+      { id: 25, title: 'Driveway Landscaping', description: '', image: '/images/nav-landscaping/Driveway-Landscaping.png', visible: true, order: 25 },
+      { id: 26, title: 'Walkway Landscaping', description: '', image: '/images/nav-landscaping/Walkway-Landscaping.png', visible: true, order: 26 },
+      { id: 27, title: 'Pergola Garden', description: '', image: '/images/nav-landscaping/Pergola-Garden.png', visible: true, order: 27 },
+      { id: 28, title: 'Gazebo Garden', description: '', image: '/images/nav-landscaping/Gazebo-Garden.png', visible: true, order: 28 },
+      { id: 29, title: 'Rock Garden', description: '', image: '/images/nav-landscaping/Rock-Garden.png', visible: true, order: 29 },
+      { id: 30, title: 'Zen Garden', description: '', image: '/images/nav-landscaping/Zen-Garden.png', visible: true, order: 30 },
+      { id: 31, title: 'Tropical Garden', description: '', image: '/images/nav-landscaping/Tropical-Garden.png', visible: true, order: 31 },
+      { id: 32, title: 'Japanese Garden', description: '', image: '/images/nav-landscaping/Japanese-Garden.png', visible: true, order: 32 },
+      { id: 33, title: 'Butterfly Garden', description: '', image: '/images/nav-landscaping/Butterfly-Garden.png', visible: true, order: 33 },
+      { id: 34, title: 'Fragrance Garden', description: '', image: '/images/nav-landscaping/Fragrance-Garden.png', visible: true, order: 34 },
+      { id: 35, title: 'Herbal Garden', description: '', image: '/images/nav-landscaping/Herbal-Garden.png', visible: true, order: 35 },
+      { id: 36, title: 'Edible Garden', description: '', image: '/images/nav-landscaping/Edible-Garden.png', visible: true, order: 36 },
+      { id: 37, title: 'Water Garden', description: '', image: '/images/nav-landscaping/Water-Garden.png', visible: true, order: 37 },
+      { id: 38, title: 'Koi Pond Landscaping', description: '', image: '/images/nav-landscaping/Koi-Pond-Landscaping.png', visible: true, order: 38 },
+      { id: 39, title: 'Fountain Landscaping', description: '', image: '/images/nav-landscaping/Fountain-Landscaping.png', visible: true, order: 39 },
+      { id: 40, title: 'Bonsai Garden', description: '', image: '/images/nav-landscaping/Bonsai-Garden.png', visible: true, order: 40 },
+      { id: 41, title: 'Succulent Garden', description: '', image: '/images/nav-landscaping/Succulent-Garden.png', visible: true, order: 41 },
+      { id: 42, title: 'Cactus Garden', description: '', image: '/images/nav-landscaping/Cactus-Garden.png', visible: true, order: 42 },
+      { id: 43, title: 'Lawn Development', description: '', image: '/images/nav-landscaping/Lawn-Development.png', visible: true, order: 43 },
+      { id: 44, title: 'Indoor Green Decor', description: '', image: '/images/nav-landscaping/Indoor-Green-Decor.png', visible: true, order: 44 },
+      { id: 45, title: 'Living Wall', description: '', image: '/images/nav-landscaping/Living-Wall.png', visible: true, order: 45 },
+      { id: 46, title: 'Moss Wall', description: '', image: '/images/nav-landscaping/Moss-Wall.png', visible: true, order: 46 },
+      { id: 47, title: 'Biophilic Landscaping', description: '', image: '/images/nav-landscaping/Biophilic-Landscaping.png', visible: true, order: 47 },
+      { id: 48, title: 'Sustainable Landscaping', description: '', image: '/images/nav-landscaping/Sustainable-Landscaping.png', visible: true, order: 48 },
+      { id: 49, title: 'Xeriscape Landscaping', description: '', image: '/images/nav-landscaping/Xeriscape-Landscaping.png', visible: true, order: 49 },
+      { id: 50, title: 'Rain Garden', description: '', image: '/images/nav-landscaping/Rain-Garden.png', visible: true, order: 50 },
+      { id: 51, title: 'Smart Irrigation Landscaping', description: '', image: '/images/nav-landscaping/Smart-Irrigation-Landscaping.png', visible: true, order: 51 }
+    ],
+    cta: {
+      label: 'GET STARTED',
+      heading: 'Tell us about your space',
+      description: 'Share a few photos and dimensions, and our team will put together a plan and quote.',
+      buttonText: 'Request a consultation',
+      buttonLink: 'mailto:ceojohnyesudas@gmail.com',
+      backgroundColor: '',
+      backgroundImage: '',
+    }
+  },
+
+  gifting: {
+    visible: true,
+    pageTitle: 'Gifting',
+    subtitle: 'Thoughtful, ready-to-gift plants and planters for every occasion.',
+    breadcrumbText: 'Gifting',
+    productCountText: '9 products found',
+    priceFilterLabel: 'PRICE',
+    giftTypeFilterLabel: 'GIFT TYPE',
+    productTypeFilterLabel: 'PRODUCT TYPE',
+    giftTypeOptions: [
+      { label: 'Corporate Bulk Gifting', count: 2 },
+      { label: 'Corporate Desk Plants', count: 5 },
+      { label: 'Branded Planter Sets', count: 2 }
+    ],
+    productTypeOptions: [
+      { label: 'Bonsai', count: 4 },
+      { label: 'Indoor Plants', count: 3 },
+      { label: 'Garden Décor', count: 1 },
+      { label: 'Pots & Planters', count: 1 }
+    ],
+    items: [
+      { id: 'g1', title: 'Chinese Banyan Ficus Bonsai', category: 'Bonsai', price: 1299, oldPrice: 1579, discount: '18% OFF', rating: 4.5, badge: '', image: '/images/products/chinese-banyan.jpeg', visible: true, order: 1 },
+      { id: 'g2', title: 'Banyan Bonsai', category: 'Bonsai', price: 1329, oldPrice: 1619, discount: '18% OFF', rating: 4.4, badge: 'BESTSELLER', image: '/images/products/banyan-bonsai.jpeg', visible: true, order: 2 },
+      { id: 'g3', title: 'Bougainvillea Bonsai', category: 'Bonsai', price: 1369, oldPrice: 1669, discount: '18% OFF', rating: 4.6, badge: '', image: '/images/products/bougainvillea.jpeg', visible: true, order: 3 },
+      { id: 'g4', title: 'Desert Rose Bonsai Adenium', category: 'Bonsai', price: 1409, oldPrice: 1719, discount: '18% OFF', rating: 4.2, badge: '', image: '/images/products/desert-rose.jpeg', visible: true, order: 4 },
+      { id: 'g5', title: 'Mini Succulent Trio', category: 'Indoor Plants', price: 349, oldPrice: 429, discount: '19% OFF', rating: 4.3, badge: '', image: '/images/products/succulent-trio.jpeg', visible: true, order: 5 },
+      { id: 'g6', title: 'Cocooil Plant Care Gift Set', category: 'Garden Décor', price: 499, oldPrice: 599, discount: '17% OFF', rating: 4.2, badge: 'BESTSELLER', image: '/images/products/plant-care-gift.jpeg', visible: true, order: 6 },
+      { id: 'g7', title: 'Phalaenopsis Orchid', category: 'Indoor Plants', price: 799, oldPrice: 949, discount: '16% OFF', rating: 4.1, badge: '', image: '/images/products/orchid.jpeg', visible: true, order: 7 },
+      { id: 'g8', title: 'Painted Terracotta Pot', category: 'Pots & Planters', price: 419, oldPrice: 499, discount: '16% OFF', rating: 4.6, badge: 'BESTSELLER', image: '/images/products/terracotta.jpeg', visible: true, order: 8 },
+      { id: 'g9', title: 'Zebra Haworthia', category: 'Indoor Plants', price: 399, oldPrice: 499, discount: '20% OFF', rating: 4.3, badge: '', image: '/images/products/haworthia.jpeg', visible: true, order: 9 }
+    ]
+  },
+  corporateGifting: {
+    visible: true,
+    pageTitle: 'Corporate Gifts',
+    subtitle: 'Thoughtful, ready-to-gift plants and planters for every occasion.',
+    breadcrumbText: 'Gifting',
+    productCountText: '9 products found',
+    priceFilterLabel: 'PRICE',
+    giftTypeFilterLabel: 'GIFT TYPE',
+    productTypeFilterLabel: 'PRODUCT TYPE',
+    giftTypeOptions: [
+      { label: 'Corporate Bulk Gifting', count: 2 },
+      { label: 'Corporate Desk Plants', count: 5 },
+      { label: 'Branded Planter Sets', count: 2 }
+    ],
+    productTypeOptions: [
+      { label: 'Bonsai', count: 4 },
+      { label: 'Indoor Plants', count: 3 },
+      { label: 'Garden Décor', count: 1 },
+      { label: 'Pots & Planters', count: 1 }
+    ],
+    items: [
+      { id: 'g1', title: 'Chinese Banyan Ficus Bonsai', category: 'Bonsai', price: 1299, oldPrice: 1579, discount: '18% OFF', rating: 4.5, badge: '', image: '/images/products/chinese-banyan.jpeg', visible: true, order: 1 },
+      { id: 'g2', title: 'Banyan Bonsai', category: 'Bonsai', price: 1329, oldPrice: 1619, discount: '18% OFF', rating: 4.4, badge: 'BESTSELLER', image: '/images/products/banyan-bonsai.jpeg', visible: true, order: 2 },
+      { id: 'g3', title: 'Bougainvillea Bonsai', category: 'Bonsai', price: 1369, oldPrice: 1669, discount: '18% OFF', rating: 4.6, badge: '', image: '/images/products/bougainvillea.jpeg', visible: true, order: 3 },
+      { id: 'g4', title: 'Desert Rose Bonsai Adenium', category: 'Bonsai', price: 1409, oldPrice: 1719, discount: '18% OFF', rating: 4.2, badge: '', image: '/images/products/desert-rose.jpeg', visible: true, order: 4 },
+      { id: 'g5', title: 'Mini Succulent Trio', category: 'Indoor Plants', price: 349, oldPrice: 429, discount: '19% OFF', rating: 4.3, badge: '', image: '/images/products/succulent-trio.jpeg', visible: true, order: 5 },
+      { id: 'g6', title: 'Cocooil Plant Care Gift Set', category: 'Garden Décor', price: 499, oldPrice: 599, discount: '17% OFF', rating: 4.2, badge: 'BESTSELLER', image: '/images/products/plant-care-gift.jpeg', visible: true, order: 6 },
+      { id: 'g7', title: 'Phalaenopsis Orchid', category: 'Indoor Plants', price: 799, oldPrice: 949, discount: '16% OFF', rating: 4.1, badge: '', image: '/images/products/orchid.jpeg', visible: true, order: 7 },
+      { id: 'g8', title: 'Painted Terracotta Pot', category: 'Pots & Planters', price: 419, oldPrice: 499, discount: '16% OFF', rating: 4.6, badge: 'BESTSELLER', image: '/images/products/terracotta.jpeg', visible: true, order: 8 },
+      { id: 'g9', title: 'Zebra Haworthia', category: 'Indoor Plants', price: 399, oldPrice: 499, discount: '20% OFF', rating: 4.3, badge: '', image: '/images/products/haworthia.jpeg', visible: true, order: 9 }
+    ]
+  },
+
+  blogPage: {
+    visible: true,
+    eyebrow: 'LEARN • GROW • THRIVE',
+    title: 'Garden journal',
+    tagline: 'Care guides and ideas from the IGO Nursery team.',
+    posts: [
+      { id: 'b1', title: 'How to choose your first indoor plant', excerpt: 'Light, space and how much time you actually have — the three questions that matter most.', image: '/images/journal/How to choose your first indoor plant.png', linkText: '', linkUrl: '', visible: true, order: 1 },
+      { id: 'b2', title: 'A simple guide to potting mix', excerpt: 'What goes into a good mix, and why the bag from the hardware store usually isn\'t it.', image: '/images/journal/a simple guide to potting mix.png', linkText: '', linkUrl: '', visible: true, order: 2 },
+      { id: 'b3', title: '3 ways to make a balcony feel greener', excerpt: 'Small-space layouts that work even with a few hours of direct sun.', image: '/images/journal/3 ways to make a balcony feel greener.png', linkText: '', linkUrl: '', visible: true, order: 3 },
+      { id: 'b4', title: 'Stop guessing when to water', excerpt: 'A simple system for knowing exactly when each plant needs water.', image: '/images/journal/Stop guessing when to water.png', linkText: '', linkUrl: '', visible: true, order: 4 },
+      { id: 'b5', title: 'Bonsai care for beginners', excerpt: 'Pruning, watering and light basics to keep a bonsai thriving for years.', image: '/images/journal/Bonsai care for beginners.png', linkText: '', linkUrl: '', visible: true, order: 5 },
+      { id: 'b6', title: 'Reading the signs of an overwatered plant', excerpt: 'Yellowing leaves and mushy stems explained, and how to recover.', image: '/images/journal/Reading the signs of an overwatered plant.png', linkText: '', linkUrl: '', visible: true, order: 6 },
     ],
   },
 };

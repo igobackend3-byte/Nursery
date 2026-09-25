@@ -1,13 +1,59 @@
 import { useState } from 'react';
+import { useSiteContent } from '../hooks/useSiteContent';
+import EditableSection from '../admin/editor/EditableSection';
+import EditableElement from '../admin/editor/EditableElement';
+import { useVisualEditor } from '../admin/editor/VisualEditorContext';
+import { DEFAULT_SITE_CONTENT } from '../data/siteContent';
 
-// Full Contact Us page redesign, matching the supplied reference
-// screenshot's layout (hero banner, info cards, message form, farm/map
+// Full Contact Us page, matching the supplied reference screenshots'
+// layout (hero banner, info cards, message form, trust strip, farm/map
 // section, WhatsApp banner). Real business info only - same phone/
-// email/address/hours already used on /locate-store - the screenshot's
-// example data (a different address, a different support email) is
-// NOT copied in, since this page represents this real nursery, not a
-// mockup. Header/Footer are untouched - this file only builds the
-// content between them.
+// email already used in the site footer - the screenshot's own example
+// data (a different address, a different support email) is NOT copied
+// in, since this page represents this real nursery, not a mockup.
+// Header/Footer are untouched - this file only builds the content
+// between them.
+
+function HoverImageEditor({ sectionKey, field, label, children, className = '', style = {} }) {
+  const { isEditorMode, setActiveElement, updateContent, deleteContent } = useVisualEditor();
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    setActiveElement({
+      sectionKey,
+      type: 'image',
+      field,
+      label
+    });
+  };
+
+  const handleReset = (e) => {
+    e.preventDefault();
+    if (window.confirm(`Reset ${label} to default?`)) {
+      updateContent(sectionKey, field, DEFAULT_SITE_CONTENT[sectionKey]?.[field] || '');
+    }
+  };
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    if (window.confirm(`Delete ${label}?`)) {
+      deleteContent(sectionKey, field);
+    }
+  };
+
+  if (!isEditorMode) return <>{children}</>;
+
+  return (
+    <div className={`card-hover-wrap ${className}`} style={{ ...style, position: 'relative' }}>
+      {children}
+      <div className="card-hover-toolbar">
+        <button className="card-hover-btn" onClick={handleEdit}>Edit Image</button>
+        <button className="card-hover-btn" onClick={handleReset}>Reset to Default</button>
+        <button className="card-hover-btn card-hover-btn-danger" onClick={handleDelete}>Delete</button>
+      </div>
+    </div>
+  );
+}
 
 // ---------------------------------------------------------------- Icons
 // Small original line-icons, consistent stroke style with the rest of
@@ -76,6 +122,7 @@ const Icon = {
 
 // Same coordinates already used on /locate-store - Muttukadu, Chennai.
 const MAP_EMBED_SRC = 'https://www.openstreetmap.org/export/embed.html?bbox=80.22%2C12.79%2C80.28%2C12.85&layer=mapnik&marker=12.82%2C80.25';
+void MAP_EMBED_SRC; // kept for reference; contactPage.farm.mapUrl (site content) is what's actually rendered
 
 // This reference image is a complete, pre-composited hero banner - the
 // "Get in Touch" heading, description, leaf line-art and curved bottom
@@ -83,35 +130,82 @@ const MAP_EMBED_SRC = 'https://www.openstreetmap.org/export/embed.html?bbox=80.2
 // are kept as real text (visually hidden, not removed) purely so the
 // page still has a real <h1> for accessibility/SEO - nothing textual
 // was changed, and nothing renders twice on screen.
-function ContactHero() {
+function ContactHero({ data }) {
   return (
-    <section
-      className="ctc-hero ctc-hero-image-only"
-      style={{ backgroundImage: `url(/images/about-us/18_contact_hero.png)` }}
-    >
-      <div className="ctc-hero-copy ctc-sr-only">
-        <h1>Get in Touch</h1>
-        <p>Let's grow better together. We're here to help with your gardening and farming needs.</p>
-      </div>
-    </section>
+    <HoverImageEditor sectionKey="contactHero" field="backgroundImage" label="Hero Background Image" style={{ display: 'block' }}>
+      <section className="ctc-hero ctc-hero-image-only" style={{ backgroundImage: `url(${data.backgroundImage})` }}>
+        <div className="ctc-hero-copy ctc-sr-only">
+          <h1>{data.heading}</h1>
+          <p>{data.description}</p>
+        </div>
+      </section>
+    </HoverImageEditor>
   );
 }
 
-function InfoCard({ icon: CardIcon, title, subtitle, children }) {
+function InfoCard({ icon: CardIcon, customIcon, title, subtitle, children, cardKey, schemaFields, iconField }) {
+  const { isEditorMode, setActiveElement, updateContent, deleteContent } = useVisualEditor();
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    setActiveElement({
+      sectionKey: 'contactInfoCards',
+      type: 'text_fields',
+      fields: schemaFields,
+      label: `Edit ${title} Text`
+    });
+  };
+
+  const handleIconEdit = (e) => {
+    e.preventDefault();
+    setActiveElement({
+      sectionKey: 'contactInfoCards',
+      type: 'image',
+      field: iconField,
+      label: `${title} Icon`
+    });
+  };
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    if (window.confirm(`Delete ${title}?`)) {
+      schemaFields.forEach(f => deleteContent('contactInfoCards', f.field));
+    }
+  };
+
+  const handleReset = (e) => {
+    e.preventDefault();
+    if (window.confirm(`Reset ${title} to default?`)) {
+      schemaFields.forEach(f => {
+        updateContent('contactInfoCards', f.field, DEFAULT_SITE_CONTENT.contactInfoCards[f.field]);
+      });
+    }
+  };
+
   return (
-    <div className="ctc-info-card">
-      <span className="ctc-info-icon"><CardIcon /></span>
+    <div className={`ctc-info-card ${isEditorMode ? 'card-hover-wrap' : ''}`}>
+      <span className="ctc-info-icon">
+        {customIcon ? <img src={customIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <CardIcon />}
+      </span>
       <div className="ctc-info-body">
         <h3>{title}</h3>
         <p className="ctc-info-sub">{subtitle}</p>
         {children}
       </div>
-      <span className="ctc-info-leaf" aria-hidden="true"><Icon.Leaf /></span>
+
+      {isEditorMode && (
+        <div className="card-hover-toolbar">
+          <button className="card-hover-btn" onClick={handleEdit}>Edit Text</button>
+          <button className="card-hover-btn" onClick={handleIconEdit}>Edit Image/Icon</button>
+          <button className="card-hover-btn" onClick={handleReset}>Reset to Default</button>
+          <button className="card-hover-btn card-hover-btn-danger" onClick={handleDelete}>Delete</button>
+        </div>
+      )}
     </div>
   );
 }
 
-function ContactForm() {
+function ContactForm({ data }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -126,66 +220,66 @@ function ContactForm() {
 
   return (
     <div className="ctc-form-card">
-      <span className="ctc-form-leaf ctc-form-leaf-tl" aria-hidden="true"><Icon.Leaf /></span>
-      <span className="ctc-form-leaf ctc-form-leaf-bl" aria-hidden="true"><Icon.Leaf /></span>
-      <span className="ctc-form-leaf ctc-form-leaf-br" aria-hidden="true"><Icon.Leaf /></span>
-
-      <div className="ctc-form-top">
-        <div className="ctc-form-main">
-          <h2>Send Us a Message</h2>
-          <p className="ctc-form-sub">
-            Have a question, suggestion or need assistance? Fill out the form below and we'll get back to you as soon as possible.
-          </p>
-          <form onSubmit={handleSubmit} className="ctc-form">
-            <div className="ctc-form-row">
-              <label>
-                <span className="ctc-form-label"><Icon.User /> Full Name *</span>
-                <input type="text" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} required />
-              </label>
-              <label>
-                <span className="ctc-form-label"><Icon.Mail /> Email Address *</span>
-                <input type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-              </label>
-            </div>
-            <label>
-              <span className="ctc-form-label"><Icon.Phone /> Phone Number *</span>
-              <input type="tel" placeholder="Enter your phone number" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-            </label>
-            <label>
-              <span className="ctc-form-label"><Icon.Message /> Message *</span>
-              <textarea rows={5} placeholder="Write your message here..." value={message} onChange={(e) => setMessage(e.target.value)} required />
-            </label>
-            <button type="submit" className="ctc-send-btn"><Icon.Send /> Send Message</button>
-          </form>
+      <div className="ctc-form-header-row">
+        <div className="ctc-form-header-text">
+          <h2>{data.heading}</h2>
+          <p className="ctc-form-sub">{data.description}</p>
         </div>
-
-        <div className="ctc-form-side">
-          <div className="ctc-form-side-media">
-            <img src="/images/about-us/04_mission_plant.png" alt="A healthy potted plant" loading="lazy" />
-          </div>
+        <div className="ctc-form-side-media">
+          <HoverImageEditor sectionKey="contactForm" field="sideImage" label="Side Image" style={{ width: '100%', height: '100%' }}>
+            <img src={data.sideImage} alt="Contact Form Side" loading="lazy" />
+          </HoverImageEditor>
         </div>
       </div>
 
-      <div className="ctc-form-perks-row">
+      <form onSubmit={handleSubmit} className="ctc-form">
+        <div className="ctc-form-row">
+          <label>
+            <span className="ctc-form-label"><Icon.User /> <span>{data.nameLabel}</span></span>
+            <input type="text" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} required />
+          </label>
+          <label>
+            <span className="ctc-form-label"><Icon.Mail /> <span>{data.emailLabel}</span></span>
+            <input type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          </label>
+        </div>
+        <label>
+          <span className="ctc-form-label"><Icon.Phone /> <span>{data.phoneLabel}</span></span>
+          <input type="tel" placeholder="Enter your phone number" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+        </label>
+        <label>
+          <span className="ctc-form-label"><Icon.Message /> <span>{data.messageLabel}</span></span>
+          <textarea rows={5} placeholder="Write your message here..." value={message} onChange={(e) => setMessage(e.target.value)} required />
+        </label>
+        <button type="submit" className="ctc-send-btn"><Icon.Send /> <span>{data.buttonText}</span></button>
+      </form>
+    </div>
+  );
+}
+
+function TrustInformationStrip({ data }) {
+  return (
+    <div className="ctc-trust-strip">
+      <div className="ctc-trust-row">
         <div className="ctc-form-perk">
-          <span className="ctc-form-perk-icon"><Icon.Leaf /></span>
+          <span className="ctc-form-perk-icon"><Icon.ShieldCheck /></span>
           <div>
-            <h4>We're Here to Help</h4>
-            <p>Get quick and friendly support from our team.</p>
+            <h4>{data.perk1Heading}</h4>
+            <p>{data.perk1Text}</p>
           </div>
         </div>
         <div className="ctc-form-perk">
           <span className="ctc-form-perk-icon"><Icon.Headset /></span>
           <div>
-            <h4>Response Within 24 Hours</h4>
-            <p>Your queries matter to us.</p>
+            <h4>{data.perk2Heading}</h4>
+            <p>{data.perk2Text}</p>
           </div>
         </div>
         <div className="ctc-form-perk">
           <span className="ctc-form-perk-icon"><Icon.ShieldCheck /></span>
           <div>
-            <h4>Trusted &amp; Secure</h4>
-            <p>Your information is always safe with us.</p>
+            <h4>{data.perk3Heading}</h4>
+            <p>{data.perk3Text}</p>
           </div>
         </div>
       </div>
@@ -193,84 +287,140 @@ function ContactForm() {
   );
 }
 
-function FindOurFarm() {
+function FindOurFarm({ data }) {
   return (
     <section className="ctc-farm">
       <div className="ctc-farm-copy">
         <span className="ctc-farm-leaf" aria-hidden="true"><Icon.Leaf /></span>
-        <h2>Find Our Farm</h2>
-        <p>We're located in the heart of nature, where innovation meets sustainable farming.</p>
+        <h2>{data.heading}</h2>
+        <p>{data.description}</p>
         <a
-          href="https://www.openstreetmap.org/?mlat=12.82&mlon=80.25#map=13/12.82/80.25"
+          href={data.directionsUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="ctc-directions-btn"
         >
-          <Icon.Directions /> Get Directions
+          <Icon.Directions /> <span>{data.buttonText}</span>
         </a>
       </div>
       <div className="ctc-farm-map">
-        <iframe title="IGO Nursery location" src={MAP_EMBED_SRC} loading="lazy" />
-        <span className="ctc-farm-map-label">Green Valley</span>
+        <iframe title="IGO Nursery location" src={data.mapUrl} loading="lazy" />
+        <span className="ctc-farm-map-label"><span>{data.mapLabel}</span></span>
       </div>
     </section>
   );
 }
 
-function WhatsAppBanner() {
+function WhatsAppBanner({ data }) {
   return (
-    <section
-      className="ctc-whatsapp"
-      style={{ backgroundImage: `linear-gradient(rgba(9,32,22,0.78), rgba(9,32,22,0.82)), url(/images/about-us/11_our_values_plant_orbit.png)` }}
-    >
+    <HoverImageEditor sectionKey="contactWhatsapp" field="backgroundImage" label="WhatsApp Background Image" style={{ display: 'block' }}>
+      <section
+        className="ctc-whatsapp"
+        style={{ backgroundImage: `linear-gradient(rgba(9,32,22,0.78), rgba(9,32,22,0.82)), url(${data.backgroundImage})` }}
+      >
       <div className="ctc-whatsapp-left">
         <span className="ctc-whatsapp-icon"><Icon.WhatsApp /></span>
         <div>
-          <h3>Need Quick Help?</h3>
-          <p>Chat with us on WhatsApp for faster support.</p>
+          <h3>{data.heading}</h3>
+          <p>{data.description}</p>
         </div>
       </div>
       <a
-        href="https://wa.me/917397386189"
+        href={`https://wa.me/${data.number}`}
         target="_blank"
         rel="noopener noreferrer"
         className="ctc-whatsapp-btn"
       >
-        Chat on WhatsApp <span aria-hidden="true">→</span>
+        <span>{data.buttonText}</span> <span aria-hidden="true">→</span>
       </a>
     </section>
+    </HoverImageEditor>
   );
 }
 
 function Contact() {
+  const { contactHero, contactInfoCards, contactForm, contactTrust, contactFarm, contactWhatsapp } = useSiteContent();
+
   return (
     <div className="ctc-page">
-      <ContactHero />
+      <EditableSection sectionKey="contactHero" label="Contact - Hero">
+        <ContactHero data={contactHero} />
+      </EditableSection>
 
       <section className="ctc-body">
-        <div className="ctc-info-col">
-          <InfoCard icon={Icon.Phone} title="Phone" subtitle="We're just a call away">
-            <p className="ctc-info-strong">+91 98765 43210</p>
-            <p className="ctc-info-note">Mon – Sat | 9:00 AM – 6:00 PM</p>
-          </InfoCard>
-          <InfoCard icon={Icon.Mail} title="Email" subtitle="Send us your queries">
-            <p className="ctc-info-strong">support@igoagritechfarms.com</p>
-            <p className="ctc-info-note">We'll get back to you shortly.</p>
-          </InfoCard>
-          <InfoCard icon={Icon.Pin} title="Our Location" subtitle="Visit our farm &amp; store">
-            <p className="ctc-info-note">123 Green Valley Road,<br />Coimbatore, Tamil Nadu – 641XXX</p>
-          </InfoCard>
-          <InfoCard icon={Icon.Clock} title="Business Hours" subtitle="We're open for you">
-            <p className="ctc-info-note">Mon – Sat : 9:00 AM – 6:00 PM</p>
-            <p className="ctc-info-note">Sunday : Closed</p>
-          </InfoCard>
-        </div>
+        <EditableSection sectionKey="contactInfoCards" label="Contact - Info Cards">
+          <div className="ctc-info-col">
+            <InfoCard 
+              icon={Icon.Phone} customIcon={contactInfoCards.phoneIcon} iconField="phoneIcon"
+              title={contactInfoCards.phoneHeading} subtitle={contactInfoCards.phoneSub}
+              cardKey="phone" schemaFields={[
+                { field: 'phoneHeading', label: 'Heading' },
+                { field: 'phoneSub', label: 'Subheading' },
+                { field: 'phoneText', label: 'Phone Number' },
+                { field: 'phoneHours', label: 'Hours Line' }
+              ]}
+            >
+              <p className="ctc-info-strong">{contactInfoCards.phoneText}</p>
+              <p className="ctc-info-note">{contactInfoCards.phoneHours}</p>
+            </InfoCard>
+            
+            <InfoCard 
+              icon={Icon.Mail} customIcon={contactInfoCards.emailIcon} iconField="emailIcon"
+              title={contactInfoCards.emailHeading} subtitle={contactInfoCards.emailSub}
+              cardKey="email" schemaFields={[
+                { field: 'emailHeading', label: 'Heading' },
+                { field: 'emailSub', label: 'Subheading' },
+                { field: 'emailText', label: 'Email Address' },
+                { field: 'emailNote', label: 'Note' }
+              ]}
+            >
+              <p className="ctc-info-strong">{contactInfoCards.emailText}</p>
+              <p className="ctc-info-note">{contactInfoCards.emailNote}</p>
+            </InfoCard>
+            
+            <InfoCard 
+              icon={Icon.Pin} customIcon={contactInfoCards.locIcon} iconField="locIcon"
+              title={contactInfoCards.locHeading} subtitle={contactInfoCards.locSub}
+              cardKey="location" schemaFields={[
+                { field: 'locHeading', label: 'Heading' },
+                { field: 'locSub', label: 'Subheading' },
+                { field: 'locText', label: 'Address (HTML <br /> allowed for line breaks)' }
+              ]}
+            >
+              <p className="ctc-info-note" dangerouslySetInnerHTML={{ __html: contactInfoCards.locText }} />
+            </InfoCard>
+            
+            <InfoCard 
+              icon={Icon.Clock} customIcon={contactInfoCards.hoursIcon} iconField="hoursIcon"
+              title={contactInfoCards.hoursHeading} subtitle={contactInfoCards.hoursSub}
+              cardKey="hours" schemaFields={[
+                { field: 'hoursHeading', label: 'Heading' },
+                { field: 'hoursSub', label: 'Subheading' },
+                { field: 'hoursText1', label: 'Line 1' },
+                { field: 'hoursText2', label: 'Line 2' }
+              ]}
+            >
+              <p className="ctc-info-note">{contactInfoCards.hoursText1}</p>
+              <p className="ctc-info-note">{contactInfoCards.hoursText2}</p>
+            </InfoCard>
+          </div>
+        </EditableSection>
 
-        <ContactForm />
+        <EditableSection sectionKey="contactForm" label="Contact - Message Form">
+          <ContactForm data={contactForm} />
+        </EditableSection>
       </section>
 
-      <FindOurFarm />
-      <WhatsAppBanner />
+      <EditableSection sectionKey="contactTrust" label="Contact - Trust Strip">
+        <TrustInformationStrip data={contactTrust} />
+      </EditableSection>
+
+      <EditableSection sectionKey="contactFarm" label="Contact - Find Our Farm">
+        <FindOurFarm data={contactFarm} />
+      </EditableSection>
+      <EditableSection sectionKey="contactWhatsapp" label="Contact - WhatsApp Banner">
+        <WhatsAppBanner data={contactWhatsapp} />
+      </EditableSection>
     </div>
   );
 }

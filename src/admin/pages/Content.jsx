@@ -1,6 +1,8 @@
+import VisualEditor from '../editor/VisualEditor';
 import { useRef, useState } from 'react';
 import { getSiteContent, saveSiteContent, resetSiteContent } from '../../lib/contentStore';
-import { DEFAULT_SITE_CONTENT } from '../../data/siteContent';
+import { DEFAULT_SITE_CONTENT, PLANTS_NAV_CATEGORY_SLUGS } from '../../data/siteContent';
+import { SECTION_HUBS } from '../../data/sectionHubs';
 import { PLANT_CATEGORY_SLUGS } from '../../data/products';
 import { getJustInProducts } from '../../utils/seededShuffle';
 import { useAdminData } from '../AdminDataContext';
@@ -300,12 +302,16 @@ const SECTIONS = [
 ];
 
 // /about page's 9 real sections, top to bottom exactly as they render.
+// 'hero' intentionally not listed here any more - About - Hero is now a
+// flat top-level siteContent key (aboutHero) managed entirely from the
+// new Visual Editor at /admin/pages/about, not from this legacy form.
+// 'story' removed - About - Story is now managed entirely by the Visual
+// Editor on its own flat `aboutStory` siteContent key (see
+// sectionSchemas.js), same as 'hero' before it.
+// 'stats', 'visionMission' and 'offer' removed - all are now managed
+// entirely by the Visual Editor on their own flat siteContent keys (see
+// sectionSchemas.js), same as 'hero' and 'story' before them.
 const ABOUT_SECTIONS = [
-  { value: 'hero', label: 'Hero / Banner' },
-  { value: 'story', label: 'Our Story' },
-  { value: 'stats', label: 'Statistics' },
-  { value: 'visionMission', label: 'Vision & Mission' },
-  { value: 'offer', label: 'What We Offer' },
   { value: 'values', label: 'Our Values' },
   { value: 'whyChoose', label: 'Why Choose Us' },
   { value: 'journey', label: 'Our Journey' },
@@ -323,6 +329,8 @@ function AdminContent() {
   const [aboutSelected, setAboutSelected] = useState('');
   const [pplSearch, setPplSearch] = useState('');
   const [jiSearch, setJiSearch] = useState('');
+  const [plantsSearch, setPlantsSearch] = useState('');
+  const [hubSearch, setHubSearch] = useState('');
 
   // Generic helpers for the /about page's section objects - every About Us
   // section shares the same {field, items:[{id,order,visible,...}]} shape,
@@ -1165,6 +1173,137 @@ function AdminContent() {
     setSaved(false);
   }
 
+  // Generic version of the Plants hub admin controls below, reused for
+  // Seeds / Pots & Planters / Plant Care (see SECTION_HUBS) so those 3
+  // pages don't need their own copy-pasted set of handlers. Plants itself
+  // keeps its original hardcoded handlers above untouched.
+  function setHubField(contentKey, field, value) {
+    setContent((prev) => ({ ...prev, [contentKey]: { ...prev[contentKey], [field]: value } }));
+    setSaved(false);
+  }
+
+  function toggleHubLandingCategory(contentKey, slug) {
+    setContent((prev) => {
+      const current = prev[contentKey].landingCategorySlugs;
+      const next = current.includes(slug) ? current.filter((s) => s !== slug) : [...current, slug];
+      return { ...prev, [contentKey]: { ...prev[contentKey], landingCategorySlugs: next } };
+    });
+    setSaved(false);
+  }
+
+  function moveHubLandingCategory(contentKey, index, dir) {
+    setContent((prev) => {
+      const list = [...prev[contentKey].landingCategorySlugs];
+      const target = index + dir;
+      if (target < 0 || target >= list.length) return prev;
+      [list[index], list[target]] = [list[target], list[index]];
+      return { ...prev, [contentKey]: { ...prev[contentKey], landingCategorySlugs: list } };
+    });
+    setSaved(false);
+  }
+
+  function addHubFeaturedProduct(contentKey, id) {
+    setContent((prev) => {
+      if (prev[contentKey].featuredProductIds.includes(id)) return prev;
+      return { ...prev, [contentKey]: { ...prev[contentKey], featuredProductIds: [...prev[contentKey].featuredProductIds, id] } };
+    });
+    setSaved(false);
+  }
+
+  function removeHubFeaturedProduct(contentKey, id) {
+    setContent((prev) => ({ ...prev, [contentKey]: { ...prev[contentKey], featuredProductIds: prev[contentKey].featuredProductIds.filter((x) => x !== id) } }));
+    setSaved(false);
+  }
+
+  function moveHubFeaturedProduct(contentKey, index, dir) {
+    setContent((prev) => {
+      const list = [...prev[contentKey].featuredProductIds];
+      const target = index + dir;
+      if (target < 0 || target >= list.length) return prev;
+      [list[index], list[target]] = [list[target], list[index]];
+      return { ...prev, [contentKey]: { ...prev[contentKey], featuredProductIds: list } };
+    });
+    setSaved(false);
+  }
+
+  function setPlantsHub(field, value) {
+    setContent((prev) => ({ ...prev, plantsHub: { ...prev.plantsHub, [field]: value } }));
+    setSaved(false);
+  }
+
+  function toggleNavbarCategory(slug) {
+    setContent((prev) => {
+      const current = prev.plantsHub.navbarCategorySlugs;
+      let next;
+      if (current.includes(slug)) {
+        next = current.filter((s) => s !== slug);
+      } else {
+        if (current.length >= 5) {
+          window.alert('The navbar dropdown can only show 5 categories - remove one first.');
+          return prev;
+        }
+        next = [...current, slug];
+      }
+      return { ...prev, plantsHub: { ...prev.plantsHub, navbarCategorySlugs: next } };
+    });
+    setSaved(false);
+  }
+
+  function moveNavbarCategory(index, dir) {
+    setContent((prev) => {
+      const list = [...prev.plantsHub.navbarCategorySlugs];
+      const target = index + dir;
+      if (target < 0 || target >= list.length) return prev;
+      [list[index], list[target]] = [list[target], list[index]];
+      return { ...prev, plantsHub: { ...prev.plantsHub, navbarCategorySlugs: list } };
+    });
+    setSaved(false);
+  }
+
+  function toggleLandingCategory(slug) {
+    setContent((prev) => {
+      const current = prev.plantsHub.landingCategorySlugs;
+      const next = current.includes(slug) ? current.filter((s) => s !== slug) : [...current, slug];
+      return { ...prev, plantsHub: { ...prev.plantsHub, landingCategorySlugs: next } };
+    });
+    setSaved(false);
+  }
+
+  function moveLandingCategory(index, dir) {
+    setContent((prev) => {
+      const list = [...prev.plantsHub.landingCategorySlugs];
+      const target = index + dir;
+      if (target < 0 || target >= list.length) return prev;
+      [list[index], list[target]] = [list[target], list[index]];
+      return { ...prev, plantsHub: { ...prev.plantsHub, landingCategorySlugs: list } };
+    });
+    setSaved(false);
+  }
+
+  function addFeaturedPlant(id) {
+    setContent((prev) => {
+      if (prev.plantsHub.featuredProductIds.includes(id)) return prev;
+      return { ...prev, plantsHub: { ...prev.plantsHub, featuredProductIds: [...prev.plantsHub.featuredProductIds, id] } };
+    });
+    setSaved(false);
+  }
+
+  function removeFeaturedPlant(id) {
+    setContent((prev) => ({ ...prev, plantsHub: { ...prev.plantsHub, featuredProductIds: prev.plantsHub.featuredProductIds.filter((x) => x !== id) } }));
+    setSaved(false);
+  }
+
+  function moveFeaturedPlant(index, dir) {
+    setContent((prev) => {
+      const list = [...prev.plantsHub.featuredProductIds];
+      const target = index + dir;
+      if (target < 0 || target >= list.length) return prev;
+      [list[index], list[target]] = [list[target], list[index]];
+      return { ...prev, plantsHub: { ...prev.plantsHub, featuredProductIds: list } };
+    });
+    setSaved(false);
+  }
+
   function setPlantFinder(field, value) {
     setContent((prev) => ({ ...prev, plantFinder: { ...prev.plantFinder, [field]: value } }));
     setSaved(false);
@@ -1300,23 +1439,16 @@ function AdminContent() {
           <select id="page-picker" value={page} onChange={(e) => setPage(e.target.value)}>
             <option value="home">Home</option>
             <option value="about">About Us</option>
+            <option value="plants">Plants</option>
+            <option value="seeds">Seeds</option>
+            <option value="pots">Pots &amp; Planters</option>
+            <option value="plantcare">Plant Care</option>
           </select>
         </div>
       </div>
 
       {page === 'home' && (
-        <div className="admin-panel">
-          <p className="admin-panel-title">Choose a website section</p>
-          <div className="admin-field span-2" style={{ marginBottom: 0 }}>
-            <label htmlFor="section-picker">Section</label>
-            <select id="section-picker" value={selected} onChange={(e) => setSelected(e.target.value)}>
-              <option value="">-- Choose a section --</option>
-              {SECTIONS.map((s) => (
-                <option key={s.value} value={s.value}>{s.label}{s.ready ? '' : ' (not editable yet)'}</option>
-              ))}
-            </select>
-          </div>
-        </div>
+        <VisualEditor />
       )}
 
       {page === 'about' && (
@@ -1827,6 +1959,82 @@ function AdminContent() {
             )}
 
             <SectionActions onSave={handleSave} onPublish={handleSave} onReset={() => resetAboutSection(aboutSelected)} onCancel={cancelSectionEdits} />
+          </div>
+        );
+      })()}
+
+      {page === 'plants' && (() => {
+        const hub = content.plantsHub;
+        const allPlantCategories = PLANTS_NAV_CATEGORY_SLUGS.map((slug) => categories.find((c) => c.slug === slug)).filter(Boolean);
+        return (
+          <div className="admin-panel">
+            <p className="admin-panel-title">Plants Page &amp; Navbar</p>
+            <div className="admin-mock-banner" style={{ marginBottom: 18 }}>
+              The Plants page's hero banner, "Explore Plant Categories" row and "Popular Plants" grid are now fully
+              editable - including per-card image and text - from the Visual Editor (Admin → Pages → Plants). This
+              panel now only controls the "Plants ▾" navbar dropdown, which isn't part of that page.
+            </div>
+
+            <p className="admin-panel-title" style={{ marginTop: 4 }}>
+              Navbar "Plants" dropdown ({hub.navbarCategorySlugs.length} of 5 selected)
+            </p>
+            <p className="admin-page-sub" style={{ marginTop: -10, marginBottom: 14 }}>
+              Pick exactly the categories shown in the Plants navbar dropdown. Order here is the order shown.
+            </p>
+            {hub.navbarCategorySlugs.length > 0 && (
+              <div style={{ marginBottom: 12 }}>
+                {hub.navbarCategorySlugs.map((slug, i) => {
+                  const cat = categories.find((c) => c.slug === slug);
+                  if (!cat) return null;
+                  return (
+                    <div key={slug} className="admin-content-item">
+                      <span style={{ fontSize: '0.86rem' }}>{cat.label}</span>
+                      <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+                        <button type="button" className="admin-icon-btn" onClick={() => moveNavbarCategory(i, -1)} aria-label="Move up">↑</button>
+                        <button type="button" className="admin-icon-btn" onClick={() => moveNavbarCategory(i, 1)} aria-label="Move down">↓</button>
+                        <button type="button" className="admin-icon-btn danger" onClick={() => toggleNavbarCategory(slug)} aria-label="Remove">
+                          <TrashIcon width="14" height="14" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            <div style={{ maxHeight: 220, overflowY: 'auto', border: '1px solid var(--admin-border)', borderRadius: 8, padding: 8 }}>
+              {allPlantCategories.filter((c) => !hub.navbarCategorySlugs.includes(c.slug)).map((c) => (
+                <label key={c.slug} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 6px', fontSize: '0.86rem' }}>
+                  <input type="checkbox" checked={false} onChange={() => toggleNavbarCategory(c.slug)} />
+                  {c.label}
+                </label>
+              ))}
+            </div>
+
+            <SectionActions
+              onSave={handleSave}
+              onPublish={handleSave}
+              onReset={() => {
+                if (!confirm('Reset the Plants navbar dropdown back to the site default? This discards your edits.')) return;
+                setContent((prev) => ({ ...prev, plantsHub: DEFAULT_SITE_CONTENT.plantsHub }));
+                setSaved(false);
+              }}
+              onCancel={cancelSectionEdits}
+            />
+          </div>
+        );
+      })()}
+
+      {['seeds', 'pots', 'plantcare'].includes(page) && (() => {
+        const config = { seeds: SECTION_HUBS.seeds, pots: SECTION_HUBS.potsPlanters, plantcare: SECTION_HUBS.plantCare }[page];
+        return (
+          <div className="admin-panel">
+            <p className="admin-panel-title">{config.navLabel} Page</p>
+            <div className="admin-mock-banner">
+              The {config.navLabel} page (hero, categories and popular products) is now fully editable from the
+              Visual Editor - go to Admin → Pages → {config.navLabel} to edit its hero text/background, each
+              category card's image and name, and the curated product list, with the exact same live preview as the
+              real page.
+            </div>
           </div>
         );
       })()}
@@ -2794,103 +3002,6 @@ function AdminContent() {
               </div>
 
               <SectionActions onSave={handleSave} onPublish={handleSave} onReset={() => resetOneSection('gardenJournal')} onCancel={cancelSectionEdits} />
-            </div>
-          )}
-
-          {selected === 'gardenServices' && (
-            <div className="admin-panel">
-              <p className="admin-panel-title">Garden Services</p>
-              <div className="admin-form-grid">
-                <div className="admin-field">
-                  <label htmlFor="gs-visible">Section visibility</label>
-                  <select id="gs-visible" value={content.gardenServices.visible !== false ? 'show' : 'hide'} onChange={(e) => setGardenServicesSection('visible', e.target.value === 'show')}>
-                    <option value="show">Show</option>
-                    <option value="hide">Hide</option>
-                  </select>
-                </div>
-                <div className="admin-field" />
-                <div className="admin-field">
-                  <label htmlFor="gs-badge">Section badge text</label>
-                  <input id="gs-badge" value={content.gardenServices.badgeText} onChange={(e) => setGardenServicesSection('badgeText', e.target.value)} />
-                </div>
-                <div className="admin-field">
-                  <label htmlFor="gs-heading">Section heading</label>
-                  <input id="gs-heading" value={content.gardenServices.heading} onChange={(e) => setGardenServicesSection('heading', e.target.value)} />
-                </div>
-                <div className="admin-field span-2">
-                  <label htmlFor="gs-desc">Section description</label>
-                  <input id="gs-desc" value={content.gardenServices.description} onChange={(e) => setGardenServicesSection('description', e.target.value)} />
-                </div>
-              </div>
-
-              <div className="admin-cat-cards-head">
-                <p className="admin-panel-title" style={{ marginBottom: 0 }}>
-                  Services ({content.gardenServices.items.filter((i) => i.visible !== false).length} of {content.gardenServices.items.length} visible)
-                </p>
-                <button type="button" className="admin-btn admin-btn-primary admin-btn-sm" style={{ width: 'auto' }} onClick={addGsItem}>
-                  <PlusIcon width="14" height="14" /> Add New Garden Service
-                </button>
-              </div>
-
-              <div className="admin-cat-cards">
-                {[...content.gardenServices.items].sort((a, b) => (a.order ?? 0) - (b.order ?? 0)).map((item, sortedIndex) => {
-                  const index = content.gardenServices.items.findIndex((i) => i.id === item.id);
-                  return (
-                    <div key={item.id} className="admin-cat-card">
-                      <div className="admin-cat-card-image">
-                        {item.image ? <img src={item.image} alt={item.title} /> : <span className="admin-cat-card-noimage">No image yet</span>}
-                      </div>
-                      <ImageField
-                        id={`gs-item-${item.id}`}
-                        label="Replace image"
-                        value={item.image}
-                        onChange={(v) => setGsItem(index, 'image', v)}
-                      />
-                      <div className="admin-field">
-                        <label>Service title</label>
-                        <input value={item.title} onChange={(e) => setGsItem(index, 'title', e.target.value)} />
-                      </div>
-                      <div className="admin-field">
-                        <label>Description (optional)</label>
-                        <textarea rows="2" placeholder="Leave empty to show no description" value={item.description} onChange={(e) => setGsItem(index, 'description', e.target.value)} />
-                      </div>
-                      <div className="admin-field">
-                        <label>Button text</label>
-                        <input value={item.buttonText} onChange={(e) => setGsItem(index, 'buttonText', e.target.value)} />
-                      </div>
-                      <div className="admin-field">
-                        <label>Button link</label>
-                        <input value={item.buttonLink} onChange={(e) => setGsItem(index, 'buttonLink', e.target.value)} />
-                      </div>
-                      <div className="admin-cat-card-row">
-                        <div className="admin-field" style={{ flex: 1 }}>
-                          <label>Visibility</label>
-                          <select value={item.visible !== false ? 'show' : 'hide'} onChange={(e) => setGsItem(index, 'visible', e.target.value === 'show')}>
-                            <option value="show">Show</option>
-                            <option value="hide">Hide</option>
-                          </select>
-                        </div>
-                        <div className="admin-field" style={{ flex: 1 }}>
-                          <label>Display order</label>
-                          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                            <button type="button" className="admin-icon-btn" onClick={() => moveGsItem(sortedIndex, -1)} aria-label="Move up">↑</button>
-                            <span>{item.order}</span>
-                            <button type="button" className="admin-icon-btn" onClick={() => moveGsItem(sortedIndex, 1)} aria-label="Move down">↓</button>
-                          </div>
-                        </div>
-                      </div>
-                      <button type="button" className="admin-btn admin-btn-ghost admin-btn-sm" style={{ width: '100%' }} onClick={() => duplicateGsItem(item.id)}>
-                        Duplicate Service
-                      </button>
-                      <button type="button" className="admin-btn admin-btn-danger admin-btn-sm" style={{ width: '100%' }} onClick={() => removeGsItem(item.id, item.title)}>
-                        <TrashIcon width="14" height="14" /> Delete Service
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <SectionActions onSave={handleSave} onPublish={handleSave} onReset={() => resetOneSection('gardenServices')} onCancel={cancelSectionEdits} />
             </div>
           )}
 

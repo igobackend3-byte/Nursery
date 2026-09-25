@@ -1,70 +1,103 @@
 import { useLanguage } from '../context/LanguageContext';
 import { getLandscapingServiceTranslation } from '../i18n/translations';
-import landscapingImageMap from '../data/landscapingImageMap.json';
-
-const LANDSCAPING_SERVICES = [
-  'Villa Landscaping', 'Balcony Garden', 'Terrace Garden', 'Rooftop Garden', 'Vertical Garden',
-  'Courtyard Garden', 'Backyard Garden', 'Frontyard Landscaping', 'Farmhouse Landscaping',
-  'Resort Landscaping', 'Hotel Landscaping', 'Apartment Landscaping', 'Gated Community Landscaping',
-  'Office Landscaping', 'Commercial Landscaping', 'Corporate Landscaping', 'Industrial Landscaping',
-  'Campus Landscaping', 'School Landscaping', 'Hospital Landscaping', 'Temple Landscaping',
-  'Park Landscaping', 'Swimming Pool Landscaping', 'Entrance Landscaping', 'Driveway Landscaping',
-  'Walkway Landscaping', 'Pergola Garden', 'Gazebo Garden', 'Rock Garden', 'Zen Garden',
-  'Tropical Garden', 'Japanese Garden', 'Butterfly Garden', 'Fragrance Garden', 'Herbal Garden',
-  'Edible Garden', 'Water Garden', 'Koi Pond Landscaping', 'Fountain Landscaping', 'Bonsai Garden',
-  'Succulent Garden', 'Cactus Garden', 'Lawn Development', 'Indoor Green Decor', 'Living Wall',
-  'Moss Wall', 'Biophilic Landscaping', 'Sustainable Landscaping', 'Xeriscape Landscaping',
-  'Rain Garden', 'Smart Irrigation Landscaping',
-];
-
-// Using images dynamically synced from local folder
-function serviceImage(title) {
-  return landscapingImageMap[title] || null;
-}
+import { useSiteContent } from '../hooks/useSiteContent';
+import EditableSection from '../admin/editor/EditableSection';
+import EditableElement from '../admin/editor/EditableElement';
+import CardHoverControls from '../admin/editor/CardHoverControls';
 
 function Landscaping() {
+  const { landscaping: content } = useSiteContent();
   const { t, language } = useLanguage();
+
+  if (!content || content.visible === false) return null;
+
+  const badgeText = content.badgeText || t('pages.beyondProducts');
+  const heading = content.heading || t('pages.landscapingTitle');
+  const description = content.description || t('pages.landscapingTagline');
+  const cta = content.cta || {};
+
+  const items = (content.items || [])
+    .map((s, i) => ({ visible: true, order: i, ...s }))
+    .filter((s) => s.visible !== false)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+  const rawItems = content.items || [];
+
   return (
-    <div className="garden-services-page">
-      <p className="eyebrow">{t('pages.beyondProducts')}</p>
-      <h1>{t('pages.landscapingTitle')}</h1>
-      <p className="category-tagline">
-        {t('pages.landscapingTagline')}
-      </p>
+    <EditableSection sectionKey="landscaping" label="Landscaping Page">
+      <div className="garden-services-page">
+        <EditableElement sectionKey="landscaping" field="badgeText" type="text" label="Badge Text">
+          <p className="eyebrow">{badgeText}</p>
+        </EditableElement>
+        
+        <EditableElement sectionKey="landscaping" field="heading" type="text" label="Heading">
+          <h1>{heading}</h1>
+        </EditableElement>
+        
+        <EditableElement sectionKey="landscaping" field="description" type="text" label="Description">
+          <p className="category-tagline">
+            {description}
+          </p>
+        </EditableElement>
 
-      <div className="services-grid large landscaping-grid">
-        {LANDSCAPING_SERVICES.map((title) => {
-          const image = serviceImage(title);
-          const localizedTitle = getLandscapingServiceTranslation(title, language);
-          
-          if (!image) {
-            console.warn(`[MISSING IMAGE] No landscaping image found for: ${title}`);
-          }
+        <div className="services-grid large landscaping-grid">
+          {items.map((service) => {
+            const tr = getLandscapingServiceTranslation(service.title, language);
+            const itemIndex = rawItems.findIndex((it) => (it.id ?? it.title) === (service.id ?? service.title));
+            
+            const cardEl = (
+              <div className={`service-card static compact ${service.image ? 'has-image' : ''}`} key={service.id ?? service.title}>
+                {service.image ? (
+                  <img src={service.image} alt={tr?.title ?? service.title} loading="lazy" />
+                ) : (
+                  <div style={{ width: '100%', aspectRatio: '4/3', backgroundColor: '#f8f9f7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', marginBottom: '14px' }}>
+                    🌱
+                  </div>
+                )}
+                <h3>{tr?.title ?? service.title}</h3>
+                {service.description && <p>{tr?.desc ?? service.description}</p>}
+              </div>
+            );
 
-          return (
-            <div className="service-card static compact has-image" key={title}>
-              {image ? (
-                <img src={image} alt={localizedTitle} loading="lazy" />
-              ) : (
-                <div style={{ width: '100%', aspectRatio: '4/3', backgroundColor: '#f8f9f7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', marginBottom: '14px' }}>
-                  🌱
-                </div>
-              )}
-              <h3>{localizedTitle}</h3>
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="plant-finder-band">
-        <div>
-          <p className="eyebrow light">{t('pages.getStarted')}</p>
-          <h2>{t('pages.tellUsAboutSpace')}</h2>
-          <p>{t('pages.tellUsDesc')}</p>
+            if (itemIndex === -1) return cardEl;
+            
+            return (
+              <CardHoverControls key={service.id ?? service.title} sectionKey="landscaping" arrayField="items" index={itemIndex} itemLabel="Landscaping">
+                {cardEl}
+              </CardHoverControls>
+            );
+          })}
         </div>
-        <a href="mailto:ceojohnyesudas@gmail.com" className="btn-find-plant">{t('pages.requestConsultation')}</a>
+
+        <div 
+          className="plant-finder-band" 
+          style={{ 
+            backgroundImage: cta.backgroundImage ? `url('${cta.backgroundImage}')` : undefined,
+            backgroundColor: cta.backgroundColor || undefined
+          }}
+        >
+          <div>
+            <EditableElement sectionKey="landscaping" field="ctaLabel" type="text" label="CTA Label">
+              <p className="eyebrow light">{cta.label || t('pages.getStarted')}</p>
+            </EditableElement>
+            
+            <EditableElement sectionKey="landscaping" field="ctaHeading" type="text" label="CTA Heading">
+              <h2>{cta.heading || t('pages.tellUsAboutSpace')}</h2>
+            </EditableElement>
+            
+            <EditableElement sectionKey="landscaping" field="ctaDescription" type="text" label="CTA Description">
+              <p>{cta.description || t('pages.tellUsDesc')}</p>
+            </EditableElement>
+          </div>
+          
+          <EditableElement sectionKey="landscaping" field="ctaButtonText" type="text" label="CTA Button">
+            <a href={cta.buttonLink || "mailto:ceojohnyesudas@gmail.com"} className="btn-find-plant">
+              {cta.buttonText || t('pages.requestConsultation')}
+            </a>
+          </EditableElement>
+        </div>
       </div>
-    </div>
+    </EditableSection>
   );
 }
 

@@ -6,6 +6,9 @@ import { LanguageProvider } from './context/LanguageContext';
 import ToastHost from './components/ToastHost';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
+import SectionHub from './pages/SectionHub';
+import AllSectionCategories from './pages/AllSectionCategories';
+import { SECTION_HUBS } from './data/sectionHubs';
 import CategoryPage from './pages/CategoryPage';
 import SearchResults from './pages/SearchResults';
 import PlantFinder from './pages/PlantFinder';
@@ -50,6 +53,14 @@ function App() {
               <Route path="admin/*" element={<AdminApp />} />
               <Route element={<Layout />}>
                 <Route index element={<Home />} />
+                {Object.values(SECTION_HUBS).map((config) => (
+                  <Route key={config.basePath} path={config.basePath.slice(1)}>
+                    <Route index element={<SectionHub config={config} />} />
+                    <Route path="categories" element={<AllSectionCategories config={config} />} />
+                    <Route path="all" element={<CategoryPage slugOverride={config.umbrellaSlug} />} />
+                    <Route path=":slug" element={<CategoryPage />} />
+                  </Route>
+                ))}
                 <Route path="category/:slug" element={<CategoryPage />} />
                 <Route path="search" element={<SearchResults />} />
                 <Route path="plant-finder" element={<PlantFinder />} />

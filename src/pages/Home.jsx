@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import OffersSection from '../components/OffersSection';
@@ -77,49 +77,72 @@ const FAQS = [
   { key: 'Cod' },
 ];
 
+import EditableElement from '../admin/editor/EditableElement';
+import EditableSection from '../admin/editor/EditableSection';
+import CardHoverControls from '../admin/editor/CardHoverControls';
+import ProductCardHoverControls from '../admin/editor/ProductCardHoverControls';
+import { useVisualEditor } from '../admin/editor/VisualEditorContext';
+import { getSectionSchema } from '../admin/editor/sectionSchemas';
+
 function Hero() {
   const { hero } = useSiteContent();
   const { language } = useLanguage();
   const t = (v) => getHeroFieldTranslation(v, language);
   return (
-    <section className="hero-section">
-      <video
-        className="hero-video"
-        src={hero.videoUrl || undefined}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        aria-hidden="true"
-      />
+    <EditableSection sectionKey="hero" label="Hero Section">
+      <section className="hero-section">
+        <EditableElement sectionKey="hero" field="videoUrl" type="video" label="Hero Video" fill>
+          <video
+          className="hero-video"
+          src={hero.videoUrl || undefined}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        />
+      </EditableElement>
       <div className="hero-video-overlay" aria-hidden="true" />
       <DecorativeLeaves variant="hero" count={2} />
       <div className="hero-content">
-        <div className="tag">
-          <div className="tag-dot"></div>
-          {t(hero.tag)}
-        </div>
+        <EditableElement sectionKey="hero" field="tag" type="text" label="Badge Text">
+          <div className="tag">
+            <div className="tag-dot"></div>
+            {t(hero.tag)}
+          </div>
+        </EditableElement>
         <h1 className="hero-title">
-          {t(hero.titleLine1)}<br />
-          <span className="highlight-text">{t(hero.titleLine2)}</span>
-          <svg style={{ display: 'inline-block', marginLeft: '12px' }} width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary-lime)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <EditableElement sectionKey="hero" field="titleLine1" type="text" label="Title Line 1" wrapperStyle={{ display: 'block' }}>
+            <span style={{ display: 'block' }}>{t(hero.titleLine1)}</span>
+          </EditableElement>
+          <EditableElement sectionKey="hero" field="titleLine2" type="text" label="Title Line 2" wrapperStyle={{ display: 'block' }}>
+            <span className="highlight-text" style={{ display: 'block' }}>{t(hero.titleLine2)}</span>
+          </EditableElement>
+          <svg style={{ display: 'block', marginTop: '16px' }} width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary-lime)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 22C12 22 20 18 20 12V5l-8-3-8 3v7C4 18 12 22 12 22z"></path>
           </svg>
         </h1>
-        <p className="hero-description">
-          {t(hero.description)}
-        </p>
+        <EditableElement sectionKey="hero" field="description" type="text" label="Description">
+          <p className="hero-description">
+            {t(hero.description)}
+          </p>
+        </EditableElement>
         <div className="hero-buttons">
-          <button type="button" className="btn btn-primary">
-            {t(hero.primaryButtonText)}
-          </button>
-          <Link to={hero.secondaryButtonLink} className="btn btn-secondary">
-            {t(hero.secondaryButtonText)}
-          </Link>
+          <EditableElement sectionKey="hero" field="primaryButtonText" type="text" label="Primary CTA">
+            <button type="button" className="btn btn-primary">
+              {t(hero.primaryButtonText)}
+            </button>
+          </EditableElement>
+          <EditableElement sectionKey="hero" field="secondaryButtonText" type="text" label="Secondary CTA">
+            <Link to={hero.secondaryButtonLink || "#"} className="btn btn-secondary">
+              {t(hero.secondaryButtonText)}
+            </Link>
+          </EditableElement>
         </div>
       </div>
     </section>
+    </EditableSection>
   );
 }
 
@@ -163,6 +186,7 @@ function AboutIgo() {
   const animate = ourStory?.animation !== false;
 
   return (
+    <EditableSection sectionKey="ourStory" label="Our Story">
     <section
       ref={ref}
       className={`about-igo-section${animate ? ' reveal-section' : ''}${!animate || visible ? ' is-visible' : ''}`}
@@ -175,28 +199,41 @@ function AboutIgo() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="eyebrow-icon">
               <path d="M17.4,5.4C14.7,2.7,10.6,2,7.3,3.7C5,5,3.7,7.4,3.7,10c0,2.3,1.1,4.5,2.9,6c-0.6,1.4-1.6,2.6-2.9,3.6c-0.3,0.2-0.3,0.7,0,1 c0.2,0.2,0.6,0.3,0.9,0.1c4.8-3.3,7.6-6,9.1-8.5c2.1-3.6,1.9-8.1,0.2-10.7C13.2,1,16.5,2.1,19.2,4.8C20,5.6,20,6.9,19.2,7.7l-4.2,4.2 c-0.4,0.4-1,0.4-1.4,0c-0.4-0.4-0.4-1,0-1.4l4.2-4.2C18.2,5.9,17.8,5.8,17.4,5.4z"/>
             </svg>
-            {smallHeading}
+            <EditableElement sectionKey="ourStory" field="smallHeading" type="text" label="Small Heading">
+              <span>{smallHeading}</span>
+            </EditableElement>
           </p>
           <span className="eyebrow-line"></span>
         </div>
 
         <h2 style={headingStyle}>
-          <span className="heading-dark" style={darkStyle}>{headingPart1}</span>
+          <EditableElement sectionKey="ourStory" field="mainHeadingPart1" type="text" label="Main Heading (Part 1)">
+            <span className="heading-dark" style={darkStyle}>{headingPart1}</span>
+          </EditableElement>
           {headingPart2 && <br />}
-          {headingPart2 && <span className="heading-light" style={lightStyle}>{headingPart2}</span>}
+          {headingPart2 && (
+            <EditableElement sectionKey="ourStory" field="mainHeadingPart2" type="text" label="Main Heading (Part 2)">
+              <span className="heading-light" style={lightStyle}>{headingPart2}</span>
+            </EditableElement>
+          )}
         </h2>
 
-        <p className="about-igo-text">{description}</p>
+        <EditableElement sectionKey="ourStory" field="description" type="text" label="Description">
+          <p className="about-igo-text">{description}</p>
+        </EditableElement>
 
-        <Link to={buttonUrl} className="btn-discover-more">
-          {buttonText}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginLeft: '8px'}}>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </Link>
+        <EditableElement sectionKey="ourStory" field="buttonText" type="text" label="Button Text">
+          <Link to={buttonUrl} className="btn-discover-more">
+            {buttonText}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginLeft: '8px'}}>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </Link>
+        </EditableElement>
       </div>
     </section>
+    </EditableSection>
   );
 }
 
@@ -389,6 +426,17 @@ function SbcLeaf({ className }) {
 // labels, links and icons are unchanged. Tiles with no matching file in
 // the folder keep their existing fallback (category banner / catalogue
 // image) and are left without an `image` override.
+// Admin-selectable icon overrides for Shop by Category tiles (used when
+// a tile's `icon` field is set in the CMS data - see CAT_ICON_FIELD_OPTIONS
+// in sectionSchemas.js). Falls back to each tile's static Icon otherwise.
+const CAT_ICON_MAP = {
+  pottedPlant: CatIconPottedPlant, tree: CatIconTree, flower: CatIconFlower,
+  fruit: CatIconFruit, vegetable: CatIconVegetable, seed: CatIconSeed,
+  pot: CatIconPot, wateringCan: CatIconWateringCan, landscape: CatIconLandscape,
+  decor: CatIconDecor, box: CatIconBox, gift: CatIconGift, care: CatIconCare,
+  tools: CatIconTools, support: CatIconSupport, stones: CatIconStones, bulb: CatIconBulb,
+};
+
 const SHOP_CATEGORIES_V2 = [
   { label: 'Indoor Plants', slug: 'indoor-plants', to: '/category/indoor-plants', Icon: CatIconPottedPlant },
   { label: 'Outdoor Plants', slug: 'outdoor-plants', to: '/category/outdoor-plants', Icon: CatIconTree },
@@ -473,21 +521,26 @@ function ShopByCategory() {
   const animate = sbc?.animation !== false;
 
   return (
+    <EditableSection sectionKey="shopByCategory" label="Shop By Category">
     <section id="shop-by-category" ref={ref} className={`shop-by-category shop-by-category-v2${animate ? ' reveal-section' : ''}${!animate || visible ? ' is-visible' : ''}`} style={sectionStyle}>
       <div className="sbc-heading">
         <h2 style={headingStyle}>
           <SbcLeaf className="sbc-heading-leaf sbc-heading-leaf-left" />
-          {title}
+          <EditableElement sectionKey="shopByCategory" field="title" type="text" label="Title">
+            <span>{title}</span>
+          </EditableElement>
           <SbcLeaf className="sbc-heading-leaf sbc-heading-leaf-right" />
         </h2>
-        <p className="section-sub sbc-sub-shift">{subtitle}</p>
+        <EditableElement sectionKey="shopByCategory" field="subtitle" type="text" label="Subtitle">
+          <p className="section-sub sbc-sub-shift">{subtitle}</p>
+        </EditableElement>
       </div>
 
       <div className="category-grid">
         {orderedEntries.map(({ entry, override }) => {
           const cat = categories.find((c) => c.slug === entry.slug);
           const image = override?.image || entry.image || cat?.image || (entry.slug === 'gifting' ? giftImage : undefined);
-          const { Icon } = entry;
+          const Icon = (override?.icon && CAT_ICON_MAP[override.icon]) || entry.Icon || CatIconPottedPlant;
           // Always read the display name from the local, static translation
           // table by slug (not from the live `categories` doc, which may
           // not carry a `translations` field) - falls back to the English
@@ -501,22 +554,26 @@ function ShopByCategory() {
           // own translatable overlay on top and darken the image enough
           // there to fully hide the baked-in text underneath it.
           const isPrecomposed = PRECOMPOSED_TILE_IMAGES.has(image);
+          const tileIndex = tiles.indexOf(override);
           return (
-            <Link to={entry.to} key={entry.slug} className="cat-card">
-              <span className="cat-card-media">
-                <img src={image} alt="" className="cat-card-img" />
-                <span className={`cat-card-scrim${isPrecomposed ? ' cat-card-scrim-solid' : ''}`} aria-hidden="true" />
-                <span className="cat-card-content">
-                  <span className="cat-card-icon" aria-hidden="true"><Icon /></span>
-                  <span className="cat-card-title">{localizedLabel}</span>
-                  <span className="cat-card-explore">{exploreText}</span>
+            <CardHoverControls key={entry.slug} sectionKey="shopByCategory" arrayField="tiles" index={tileIndex} itemLabel="Category">
+              <Link to={entry.to} className="cat-card">
+                <span className="cat-card-media">
+                  <img src={image} alt="" className="cat-card-img" />
+                  <span className={`cat-card-scrim${isPrecomposed ? ' cat-card-scrim-solid' : ''}`} aria-hidden="true" />
+                  <span className="cat-card-content">
+                    <span className="cat-card-icon" aria-hidden="true"><Icon /></span>
+                    <span className="cat-card-title">{localizedLabel}</span>
+                    <span className="cat-card-explore">{exploreText}</span>
+                  </span>
                 </span>
-              </span>
-            </Link>
+              </Link>
+            </CardHoverControls>
           );
         })}
       </div>
     </section>
+    </EditableSection>
   );
 }
 
@@ -597,7 +654,14 @@ function HomeCorners() {
     sectionStyle.backgroundPosition = 'center';
   }
 
+  // Real, admin-editable data (hc.cards) vs. the built-in fallback used
+  // only when the admin has emptied the array entirely - hover controls
+  // target the real array by index, so they're only shown against real
+  // entries (editing a fallback placeholder would silently do nothing).
+  const rawCards = hc?.cards?.length ? hc.cards : null;
+
   return (
+    <EditableSection sectionKey="homeCorners" label="Home Corners">
     <section ref={ref} className={`home-corners reveal-section${visible ? ' is-visible' : ''}`} style={sectionStyle}>
       <DecorativeGlow variant="corners" />
       <DecorativeLeaves variant="category" count={4} />
@@ -605,14 +669,17 @@ function HomeCorners() {
 
       <div className="home-corners-heading">
         <span className="home-corners-leaf home-corners-leaf-left" aria-hidden="true"><SproutIcon /></span>
-        <h2>{title}</h2>
+        <EditableElement sectionKey="homeCorners" field="title" type="text" label="Title">
+          <h2>{title}</h2>
+        </EditableElement>
         <span className="home-corners-leaf home-corners-leaf-right" aria-hidden="true"><SproutIcon /></span>
       </div>
       {subtitle && <p className="section-sub" style={{ textAlign: 'center', marginTop: -8 }}>{subtitle}</p>}
       <div className="home-corners-grid">
         {cards.map((card) => {
           const CardIcon = HOME_CORNER_ICONS[card.icon] || SofaIcon;
-          return (
+          const cardIndex = rawCards ? rawCards.findIndex((c) => c.id === card.id) : -1;
+          const cardEl = (
             <Link to={card.buttonLink} className="home-corner-card" key={card.id}>
               <div className="home-corner-media">
                 <img src={card.image} alt={card.title} loading="lazy" />
@@ -622,9 +689,16 @@ function HomeCorners() {
               <span className="home-corner-cta">{card.buttonText}</span>
             </Link>
           );
+          if (cardIndex === -1) return cardEl;
+          return (
+            <CardHoverControls key={card.id} sectionKey="homeCorners" arrayField="cards" index={cardIndex} itemLabel="Corner">
+              {cardEl}
+            </CardHoverControls>
+          );
         })}
       </div>
     </section>
+    </EditableSection>
   );
 }
 
@@ -683,6 +757,10 @@ function CompleteGarden() {
   const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.15);
   const { completeGarden: cg } = useSiteContent();
+  // Only used so a hidden button stays visible/editable in the admin
+  // preview (outside the editor, useVisualEditor() safely returns the
+  // isEditorMode: false mock - see VisualEditorContext.jsx).
+  const { isEditorMode } = useVisualEditor();
 
   if (cg && cg.visible === false) return null;
 
@@ -712,23 +790,60 @@ function CompleteGarden() {
   if (cg?.textColor) headingStyle.color = cg.textColor;
   const animate = cg?.animation !== false;
 
+  // Real, admin-editable pills vs. the built-in fallback shown only when
+  // the admin has emptied the array entirely - hover controls target the
+  // real array by index (see homeCorners' identical rawCards pattern).
+  const rawPills = cg?.pills?.length ? cg.pills : null;
+
   return (
+    <EditableSection sectionKey="completeGarden" label="Complete Garden">
     <section ref={ref} className={`complete-garden${animate ? ' reveal-section' : ''}${!animate || visible ? ' is-visible' : ''}`} style={sectionStyle}>
-      <CompleteGardenVideo cg={cg} />
+      <EditableElement sectionKey="completeGarden" field="videoUrl" type="video" label="Section Video">
+        <CompleteGardenVideo cg={cg} />
+      </EditableElement>
       <div className="complete-garden-copy">
-        <h2 style={headingStyle}>{heading}</h2>
-        <p>{description}</p>
+        <EditableElement sectionKey="completeGarden" field="heading" type="text" label="Heading">
+          <h2 style={headingStyle}>{heading}</h2>
+        </EditableElement>
+        <EditableElement sectionKey="completeGarden" field="description" type="text" label="Description">
+          <p>{description}</p>
+        </EditableElement>
         <div className="pill-row">
-          {pills.map((p, i) => (
-            <span key={p.id ?? i} style={{ display: 'contents' }}>
-              {i > 0 && <span className="pill-plus">+</span>}
-              <span className="pill">{p.icon ? `${p.icon} ${p.text}` : p.text}</span>
-            </span>
-          ))}
+          {pills.map((p, i) => {
+            const pillIndex = rawPills ? rawPills.indexOf(p) : -1;
+            const pillEl = (
+              <span key={p.id ?? i} style={{ display: 'contents' }}>
+                {i > 0 && <span className="pill-plus">+</span>}
+                <span className="pill">{p.icon ? `${p.icon} ${p.text}` : p.text}</span>
+              </span>
+            );
+            if (pillIndex === -1) return pillEl;
+            return (
+              <CardHoverControls key={p.id ?? i} sectionKey="completeGarden" arrayField="pills" index={pillIndex} itemLabel="Pill">
+                {pillEl}
+              </CardHoverControls>
+            );
+          })}
         </div>
-        {buttonVisible && <Link to={buttonUrl} className="btn-build-garden">{buttonText}</Link>}
+        {(buttonVisible || isEditorMode) && (
+          <EditableElement
+            sectionKey="completeGarden"
+            field="__button__"
+            type="text_fields"
+            label="Button"
+            hideDelete
+            fields={[
+              { field: 'buttonText', label: 'Button Text' },
+              { field: 'buttonUrl', label: 'Button URL' },
+              { field: 'buttonVisible', label: 'Visible on live site', type: 'checkbox' },
+            ]}
+          >
+            <Link to={buttonUrl} className="btn-build-garden">{buttonText}</Link>
+          </EditableElement>
+        )}
       </div>
     </section>
+    </EditableSection>
   );
 }
 
@@ -751,25 +866,35 @@ function BestSellers() {
   const seeAllLink = ppl?.seeAllLink || '/category/indoor-plants';
 
   return (
+    <EditableSection sectionKey="plantsPeopleLove" label="Plants People Love" products={products}>
     <section ref={ref} className={`best-sellers reveal-section${visible ? ' is-visible' : ''}`}>
       <DecorativeLeaves variant="best-sellers" count={2} />
       <SectionVine variant="best-sellers" active={visible} />
       <div className="section-heading">
         <div>
-          <p className="eyebrow">{eyebrow}</p>
+          <EditableElement sectionKey="plantsPeopleLove" field="eyebrow" type="text" label="Eyebrow">
+            <p className="eyebrow">{eyebrow}</p>
+          </EditableElement>
           <h2>
-            {heading}
+            <EditableElement sectionKey="plantsPeopleLove" field="heading" type="text" label="Heading">
+              <span>{heading}</span>
+            </EditableElement>
             <span className="heading-leaf-accent" aria-hidden="true"><LeafGlyph /></span>
           </h2>
         </div>
-        <Link to={seeAllLink} className="see-all">{seeAllText}</Link>
+        <EditableElement sectionKey="plantsPeopleLove" field="seeAllText" type="text" label="See All Text">
+          <Link to={seeAllLink} className="see-all">{seeAllText}</Link>
+        </EditableElement>
       </div>
       <div className="product-grid">
         {products.map((p) => (
-          <ProductCard key={p.id} product={p} />
+          <ProductCardHoverControls key={p.id} sectionKey="plantsPeopleLove" product={p} displayedIds={products.map((x) => x.id)}>
+            <ProductCard product={p} />
+          </ProductCardHoverControls>
         ))}
       </div>
     </section>
+    </EditableSection>
   );
 }
 
@@ -806,6 +931,7 @@ function JustIn() {
   const viewAllLink = ji?.viewAllLink || '/just-in';
 
   return (
+    <EditableSection sectionKey="justIn" label="Just In" products={justInProducts}>
     <section ref={ref} className={`just-in reveal-section${visible ? ' is-visible' : ''}`}>
       <DecorativeGlow variant="just-in" />
       <DecorativeLeaves variant="just-in" count={3} />
@@ -815,19 +941,28 @@ function JustIn() {
       <div className="section-heading">
         <div>
           <h2>
-            {title}
+            <EditableElement sectionKey="justIn" field="title" type="text" label="Title">
+              <span>{title}</span>
+            </EditableElement>
             <span className="just-in-fresh-accent" aria-hidden="true"><LeafGlyph /></span>
           </h2>
-          <p className="section-sub">{subtitle}</p>
+          <EditableElement sectionKey="justIn" field="subtitle" type="text" label="Subtitle">
+            <p className="section-sub">{subtitle}</p>
+          </EditableElement>
         </div>
-        <Link to={viewAllLink} className="see-all">{viewAllText}</Link>
+        <EditableElement sectionKey="justIn" field="viewAllText" type="text" label="View All Text">
+          <Link to={viewAllLink} className="see-all">{viewAllText}</Link>
+        </EditableElement>
       </div>
       <div className="just-in-grid">
         {justInProducts.map((p) => (
-          <ProductCard key={p.id} product={p} isNew={!p.hideNewBadge} />
+          <ProductCardHoverControls key={p.id} sectionKey="justIn" product={p} displayedIds={justInProducts.map((x) => x.id)}>
+            <ProductCard product={p} isNew={!p.hideNewBadge} />
+          </ProductCardHoverControls>
         ))}
       </div>
     </section>
+    </EditableSection>
   );
 }
 
@@ -851,19 +986,33 @@ function GardenServicesTeaser() {
 
   if (items.length === 0) return null;
 
+  // Real, admin-editable items vs. whatever normalization above produced -
+  // hover controls need the index into the section's actual `items` array
+  // (same rawCards/rawPills pattern used elsewhere), not the filtered/
+  // sorted local copy.
+  const rawItems = gs?.items?.length ? gs.items : null;
+
   return (
+    <EditableSection sectionKey="gardenServices" label="Garden Services">
     <section ref={ref} className={`garden-services-teaser reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="section-heading">
         <div>
-          <p className="eyebrow">{badgeText}</p>
-          <h2>{heading}</h2>
+          <EditableElement sectionKey="gardenServices" field="badgeText" type="text" label="Label">
+            <p className="eyebrow">{badgeText}</p>
+          </EditableElement>
+          <EditableElement sectionKey="gardenServices" field="heading" type="text" label="Heading">
+            <h2>{heading}</h2>
+          </EditableElement>
         </div>
-        <p className="section-sub">{description}</p>
+        <EditableElement sectionKey="gardenServices" field="description" type="text" label="Description">
+          <p className="section-sub">{description}</p>
+        </EditableElement>
       </div>
       <div className="services-grid">
         {items.map((s) => {
           const localizedTitle = getGardenServiceTranslation(s.title, language)?.title ?? s.title;
-          return (
+          const itemIndex = rawItems ? rawItems.findIndex((it) => (it.id ?? it.title) === (s.id ?? s.title)) : -1;
+          const cardEl = (
             <Link to={s.buttonLink} key={s.id ?? s.title} className={`service-card${s.image ? ' has-image' : ''}`}>
               {s.image && <img src={s.image} alt={localizedTitle} loading="lazy" />}
               <h3>{localizedTitle}</h3>
@@ -871,9 +1020,16 @@ function GardenServicesTeaser() {
               <span>{s.buttonText || t('home.learnMore')}</span>
             </Link>
           );
+          if (itemIndex === -1) return cardEl;
+          return (
+            <CardHoverControls key={s.id ?? s.title} sectionKey="gardenServices" arrayField="items" index={itemIndex} itemLabel="Service">
+              {cardEl}
+            </CardHoverControls>
+          );
         })}
       </div>
     </section>
+    </EditableSection>
   );
 }
 
@@ -1151,21 +1307,44 @@ function NurseryJourney() {
 
   if (steps.length === 0) return null;
 
+  // Real, admin-editable steps vs. the built-in static fallback used when
+  // the admin has emptied nj.steps - hover controls need the index into the
+  // section's actual `steps` array (same rawCards/rawPills/rawItems pattern
+  // used on every other card section), not the filtered/sorted local copy.
+  const rawSteps = nj?.steps?.length ? nj.steps : null;
+
   return (
+    <EditableSection sectionKey="nurseryJourney" label="Nursery Journey">
     <section ref={ref} className={`nursery-journey reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="section-heading center">
-        <p className="eyebrow">{eyebrow}</p>
-        <h2>{heading}</h2>
-        <p className="section-sub">{subtitle}</p>
+        <EditableElement sectionKey="nurseryJourney" field="eyebrow" type="text" label="Eyebrow">
+          <p className="eyebrow">{eyebrow}</p>
+        </EditableElement>
+        <EditableElement sectionKey="nurseryJourney" field="heading" type="text" label="Heading">
+          <h2>{heading}</h2>
+        </EditableElement>
+        <EditableElement sectionKey="nurseryJourney" field="subtitle" type="text" label="Subtitle">
+          <p className="section-sub">{subtitle}</p>
+        </EditableElement>
       </div>
       <div className="journey-track">
         <div className="journey-line" aria-hidden="true" />
         {showRider && <DeliveryRider />}
-        {steps.map((step, i) => (
-          <JourneyStep key={step.id ?? step.title} step={step} index={i} number={String(i + 1).padStart(2, '0')} />
-        ))}
+        {steps.map((step, i) => {
+          const stepIndex = rawSteps ? rawSteps.findIndex((s) => (s.id ?? s.title) === (step.id ?? step.title)) : -1;
+          const stepEl = (
+            <JourneyStep key={step.id ?? step.title} step={step} index={i} number={String(i + 1).padStart(2, '0')} />
+          );
+          if (stepIndex === -1) return stepEl;
+          return (
+            <CardHoverControls key={step.id ?? step.title} sectionKey="nurseryJourney" arrayField="steps" index={stepIndex} itemLabel="Step">
+              {stepEl}
+            </CardHoverControls>
+          );
+        })}
       </div>
     </section>
+    </EditableSection>
   );
 }
 
@@ -1234,16 +1413,34 @@ function WhyIGO() {
   if (whyIgo?.textColor) headingStyle.color = whyIgo.textColor;
   const animate = whyIgo?.animation !== false;
 
+  // Real, admin-editable cards vs. the built-in static WHY_IGO fallback used
+  // when the admin has emptied whyIgo.cards - hover controls need the index
+  // into the section's actual `cards` array (same rawCards/rawItems pattern
+  // used on every other card section), not the filtered/sorted local copy.
+  const rawCards = whyIgo?.cards?.length ? whyIgo.cards : null;
+
   return (
+    <EditableSection sectionKey="whyIgo" label="Why IGO">
     <section ref={ref} className={`why-igo${animate ? ' reveal-section' : ''}${!animate || visible ? ' is-visible' : ''}`} style={sectionStyle}>
       <div className="section-heading center">
-        <p className="eyebrow">{eyebrow}</p>
-        <h2 style={headingStyle}>{heading}</h2>
+        <EditableElement sectionKey="whyIgo" field="eyebrow" type="text" label="Eyebrow">
+          <p className="eyebrow">{eyebrow}</p>
+        </EditableElement>
+        <EditableElement sectionKey="whyIgo" field="heading" type="text" label="Heading">
+          <h2 style={headingStyle}>{heading}</h2>
+        </EditableElement>
       </div>
       <div className="why-igo-grid">
-        {cards.map((item, i) => (
-          <WhyIgoCard item={item} index={i} key={item.id ?? item.key} />
-        ))}
+        {cards.map((item, i) => {
+          const cardIndex = rawCards ? rawCards.findIndex((c) => (c.id ?? c.key) === (item.id ?? item.key)) : -1;
+          const cardEl = <WhyIgoCard item={item} index={i} key={item.id ?? item.key} />;
+          if (cardIndex === -1) return cardEl;
+          return (
+            <CardHoverControls key={item.id ?? item.key} sectionKey="whyIgo" arrayField="cards" index={cardIndex} itemLabel="Card">
+              {cardEl}
+            </CardHoverControls>
+          );
+        })}
       </div>
       {buttonVisible && (
         <div className="why-igo-cta-row">
@@ -1251,6 +1448,7 @@ function WhyIGO() {
         </div>
       )}
     </section>
+    </EditableSection>
   );
 }
 
@@ -1476,43 +1674,89 @@ function OurStoryBand() {
     .filter((p) => p.visible !== false)
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
+  // Real, admin-editable paragraphs vs. the built-in defaultParagraphs
+  // fallback used when the admin has emptied osb.paragraphs - hover
+  // controls need the index into the section's actual `paragraphs` array
+  // (same rawCards/rawSteps pattern used on every other card section).
+  const rawParagraphs = osb?.paragraphs?.length ? osb.paragraphs : null;
+
   return (
+    <EditableSection sectionKey="ourStoryBand" label="Our Story Band">
     <section ref={ref} className={`os-band${visible ? ' os-band-visible' : ''}`}>
       <DecorativeLeaves variant="story" count={2} />
       <SectionVine variant="story" active={visible} />
       <div className="os-story">
         <div className="os-media">
-          {badgeEnabled && <span className="os-badge">{badgeText}</span>}
-          {founderImage ? (
-            <img
-              src={founderImage}
-              alt={`${founderName}, Founder of IGO Nursery`}
-              className="os-story-photo"
-              loading="lazy"
-            />
-          ) : (
-            <div className="os-story-photo os-story-photo-fallback" aria-hidden="true"><LeafGlyph /></div>
+          {badgeEnabled && (
+            <span className="os-badge">
+              <EditableElement sectionKey="ourStoryBand" field="badgeText" type="text" label="Section Label">
+                <span>{badgeText}</span>
+              </EditableElement>
+            </span>
           )}
+          <EditableElement sectionKey="ourStoryBand" field="founderImage" type="image" label="Founder Image" fill>
+            {founderImage ? (
+              <img
+                src={founderImage}
+                alt={`${founderName}, Founder of IGO Nursery`}
+                className="os-story-photo"
+                loading="lazy"
+              />
+            ) : (
+              <div className="os-story-photo os-story-photo-fallback" aria-hidden="true"><LeafGlyph /></div>
+            )}
+          </EditableElement>
           <div className="os-media-caption">
-            <p className="os-media-name">{founderName}</p>
-            <p className="os-media-title">{founderDesignation}</p>
+            <EditableElement
+              sectionKey="ourStoryBand"
+              field="__founder__"
+              type="text_fields"
+              label="CEO Info"
+              hideDelete
+              fields={[
+                { field: 'founderName', label: 'Name' },
+                { field: 'founderDesignation', label: 'Designation' },
+              ]}
+            >
+              <div>
+                <p className="os-media-name">{founderName}</p>
+                <p className="os-media-title">{founderDesignation}</p>
+              </div>
+            </EditableElement>
           </div>
         </div>
 
         <div className="os-copy">
-          <h2>{heading}</h2>
+          <EditableElement sectionKey="ourStoryBand" field="heading" type="text" label="Heading">
+            <h2>{heading}</h2>
+          </EditableElement>
           <p className="os-quote">
-            {taglinePlain} <span className="os-quote-highlight">{taglineHighlight}</span>
+            <EditableElement sectionKey="ourStoryBand" field="taglinePlain" type="text" label="Subheading">
+              <span>{taglinePlain}</span>
+            </EditableElement>{' '}
+            <EditableElement sectionKey="ourStoryBand" field="taglineHighlight" type="text" label="Highlighted Text">
+              <span className="os-quote-highlight">{taglineHighlight}</span>
+            </EditableElement>
             {showTaglineIcon && <span className="os-quote-leaf" aria-hidden="true"><LeafGlyph /></span>}
           </p>
-          {paragraphs.map((p) => (
-            <p key={p.id}>
-              {p.before}{p.strong && <strong>{p.strong}</strong>}{p.after}
-            </p>
-          ))}
+          {paragraphs.map((p, i) => {
+            const paragraphIndex = rawParagraphs ? rawParagraphs.findIndex((rp) => rp.id === p.id) : -1;
+            const paragraphEl = (
+              <p key={p.id}>
+                {p.before}{p.strong && <strong>{p.strong}</strong>}{p.after}
+              </p>
+            );
+            if (paragraphIndex === -1) return paragraphEl;
+            return (
+              <CardHoverControls key={p.id} sectionKey="ourStoryBand" arrayField="paragraphs" index={paragraphIndex} itemLabel="Paragraph">
+                {paragraphEl}
+              </CardHoverControls>
+            );
+          })}
         </div>
       </div>
     </section>
+    </EditableSection>
   );
 }
 
@@ -1613,17 +1857,27 @@ function PlantFinderBand() {
   if (pf?.buttonHoverBgColor) sectionStyle['--pf-btn-hover-bg'] = pf.buttonHoverBgColor;
   if (pf?.buttonHoverTextColor) sectionStyle['--pf-btn-hover-text'] = pf.buttonHoverTextColor;
 
+  const plantFinderButtonFields = getSectionSchema('plantFinder').button?.fields;
+
   return (
     <section ref={ref} className={`plant-finder-band reveal-section${visible ? ' is-visible' : ''}`} style={sectionStyle}>
       <div>
-        <p className="eyebrow light" style={pf?.labelColor ? { color: pf.labelColor } : undefined}>{eyebrow}</p>
-        <h2 style={pf?.headingColor ? { color: pf.headingColor } : undefined}>{heading}</h2>
-        <p style={pf?.descriptionColor ? { color: pf.descriptionColor } : undefined}>{description}</p>
+        <EditableElement sectionKey="plantFinder" field="eyebrow" type="text" label="Section Label">
+          <p className="eyebrow light" style={pf?.labelColor ? { color: pf.labelColor } : undefined}>{eyebrow}</p>
+        </EditableElement>
+        <EditableElement sectionKey="plantFinder" field="heading" type="text" label="Heading">
+          <h2 style={pf?.headingColor ? { color: pf.headingColor } : undefined}>{heading}</h2>
+        </EditableElement>
+        <EditableElement sectionKey="plantFinder" field="description" type="text" label="Description">
+          <p style={pf?.descriptionColor ? { color: pf.descriptionColor } : undefined}>{description}</p>
+        </EditableElement>
       </div>
       {buttonEnabled && (
-        <Link to={buttonUrl} target={pf?.buttonNewTab ? '_blank' : undefined} rel={pf?.buttonNewTab ? 'noopener noreferrer' : undefined} className="btn-find-plant">
-          {buttonText}
-        </Link>
+        <EditableElement sectionKey="plantFinder" field="__button__" type="text_fields" label="Button" hideDelete fields={plantFinderButtonFields}>
+          <Link to={buttonUrl} target={pf?.buttonNewTab ? '_blank' : undefined} rel={pf?.buttonNewTab ? 'noopener noreferrer' : undefined} className="btn-find-plant">
+            {buttonText}
+          </Link>
+        </EditableElement>
       )}
     </section>
   );
@@ -1648,32 +1902,50 @@ function GardenJournal() {
     .map((p) => ({ linkUrl: p.to || p.linkUrl, linkTarget: '_self', visible: true, ...p }))
     .filter((p) => p.visible !== false)
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  // Raw (unfiltered/unsorted) array so hover controls can target the real
+  // post by id, same pattern as ComparisonSection/TrustBenefits/Faq.
+  const rawPosts = gj?.posts?.length ? gj.posts : null;
 
   if (posts.length === 0) return null;
 
   const sectionStyle = {};
   if (gj?.backgroundColor) sectionStyle.backgroundColor = gj.backgroundColor;
+  if (gj?.backgroundImage) {
+    sectionStyle.backgroundImage = `url(${gj.backgroundImage})`;
+    sectionStyle.backgroundSize = 'cover';
+    sectionStyle.backgroundPosition = 'center';
+  }
   if (gj?.paddingY) sectionStyle.paddingTop = sectionStyle.paddingBottom = gj.paddingY;
   const headingStyle = gj?.textColor ? { color: gj.textColor } : undefined;
+
+  const seeAllFields = getSectionSchema('gardenJournal').button?.fields;
 
   return (
     <section ref={ref} className={`garden-journal reveal-section${visible ? ' is-visible' : ''}`} style={sectionStyle}>
       <div className="section-heading">
         <div>
-          <p className="eyebrow">{eyebrow}</p>
-          <h2 style={headingStyle}>{heading}</h2>
+          <EditableElement sectionKey="gardenJournal" field="eyebrow" type="text" label="Section Label">
+            <p className="eyebrow">{eyebrow}</p>
+          </EditableElement>
+          <EditableElement sectionKey="gardenJournal" field="heading" type="text" label="Heading" hideDelete>
+            <h2 style={headingStyle}>{heading}</h2>
+          </EditableElement>
         </div>
-        {seeAllEnabled && <Link to={seeAllLink} className="see-all">{seeAllText}</Link>}
+        {seeAllEnabled && (
+          <EditableElement sectionKey="gardenJournal" field="__button__" type="text_fields" label="See All Link" hideDelete fields={seeAllFields}>
+            <Link to={seeAllLink} className="see-all">{seeAllText}</Link>
+          </EditableElement>
+        )}
       </div>
       <div className="journal-grid">
         {posts.map((post) => {
           const title = getBlogPostTranslation(post.title, language)?.title ?? post.title;
-          return (
+          const rawIndex = rawPosts ? rawPosts.findIndex((p) => p.id === post.id) : -1;
+          const cardEl = (
             <Link
               to={post.linkUrl}
               target={post.linkTarget === '_blank' ? '_blank' : undefined}
               rel={post.linkTarget === '_blank' ? 'noopener noreferrer' : undefined}
-              key={post.id}
               className="journal-card"
             >
               {post.image ? (
@@ -1682,8 +1954,16 @@ function GardenJournal() {
                 <span className="journal-media journal-media-fallback" aria-hidden="true"><LeafGlyph /></span>
               )}
               <h3>{title}</h3>
-              <span>{readGuideText}</span>
+              <span>{post.linkText || readGuideText}</span>
             </Link>
+          );
+          if (rawIndex === -1) {
+            return <Fragment key={post.id}>{cardEl}</Fragment>;
+          }
+          return (
+            <CardHoverControls key={post.id} sectionKey="gardenJournal" arrayField="posts" index={rawIndex} itemLabel="Blog Card">
+              {cardEl}
+            </CardHoverControls>
           );
         })}
       </div>
@@ -1741,6 +2021,10 @@ function GiftingBand() {
   const { t } = useLanguage();
   const [ref, visible] = useScrollReveal(0.15);
   const { giftingBand: gb } = useSiteContent();
+  // Only used so a hidden highlight line stays visible/editable in the
+  // admin preview (outside the editor, useVisualEditor() safely returns
+  // the isEditorMode: false mock - see VisualEditorContext.jsx).
+  const { isEditorMode } = useVisualEditor();
 
   if (gb && gb.visible === false) return null;
 
@@ -1758,6 +2042,9 @@ function GiftingBand() {
   const features = (gb?.features?.length ? gb.features : defaultFeatures)
     .filter((f) => f.visible !== false)
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  // Raw (unfiltered/unsorted) array so hover controls can target the real
+  // feature/button by id, same pattern as GardenJournal's rawPosts.
+  const rawFeatures = gb?.features?.length ? gb.features : null;
   const defaultButtons = [
     { id: 1, icon: 'gift', text: t('home.giftingExploreBtn'), url: '/gifting', target: '_self', style: 'primary', visible: true, order: 1 },
     { id: 2, icon: 'chat', text: t('home.giftingQuoteBtn'), url: '/corporate-gifts', target: '_self', style: 'secondary', visible: true, order: 2 },
@@ -1765,28 +2052,60 @@ function GiftingBand() {
   const buttons = (gb?.buttons?.length ? gb.buttons : defaultButtons)
     .filter((b) => b.visible !== false)
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  const rawButtons = gb?.buttons?.length ? gb.buttons : null;
 
-  const sectionStyle = gb?.backgroundColor ? { backgroundColor: gb.backgroundColor } : undefined;
+  const sectionStyle = {};
+  if (gb?.backgroundColor) sectionStyle.backgroundColor = gb.backgroundColor;
+  if (gb?.backgroundImage) {
+    sectionStyle.backgroundImage = `url(${gb.backgroundImage})`;
+    sectionStyle.backgroundSize = 'cover';
+    sectionStyle.backgroundPosition = 'center';
+  }
 
   return (
     <section ref={ref} className={`gifting-band reveal-section${visible ? ' is-visible' : ''}`} style={sectionStyle}>
       <div className="gifting-band-copy">
-        <h2 style={gb?.headingColor ? { color: gb.headingColor } : undefined}>{heading}</h2>
-        <p style={gb?.descriptionColor ? { color: gb.descriptionColor } : undefined}>{description}</p>
-        {highlightEnabled && (
-          <p className="gifting-band-highlight" style={gb?.highlightColor ? { color: gb.highlightColor } : undefined}>{highlight}</p>
+        <EditableElement sectionKey="giftingBand" field="heading" type="text" label="Heading">
+          <h2 style={gb?.headingColor ? { color: gb.headingColor } : undefined}>{heading}</h2>
+        </EditableElement>
+        <EditableElement sectionKey="giftingBand" field="description" type="text" label="Description">
+          <p style={gb?.descriptionColor ? { color: gb.descriptionColor } : undefined}>{description}</p>
+        </EditableElement>
+        {(highlightEnabled || isEditorMode) && (
+          <EditableElement
+            sectionKey="giftingBand"
+            field="__highlight__"
+            type="text_fields"
+            label="Highlight Text"
+            hideDelete
+            fields={[
+              { field: 'highlight', label: 'Text' },
+              { field: 'highlightEnabled', label: 'Visible on live site', type: 'checkbox' },
+            ]}
+          >
+            <p className="gifting-band-highlight" style={gb?.highlightColor ? { color: gb.highlightColor } : undefined}>{highlight}</p>
+          </EditableElement>
         )}
 
         <div className="gifting-band-points">
-          {features.map((f, i) => (
-            <span key={f.id} style={{ display: 'contents' }}>
-              {i > 0 && <span className="gifting-band-divider" aria-hidden="true" />}
-              <span className="gifting-band-point">
-                <span className="gifting-band-point-icon">{GIFTING_ICONS[f.icon] || <GiftIcon />}</span>
-                {f.text}
+          {features.map((f, i) => {
+            const rawIndex = rawFeatures ? rawFeatures.findIndex((rf) => rf.id === f.id) : -1;
+            const pointEl = (
+              <span key={f.id} style={{ display: 'contents' }}>
+                {i > 0 && <span className="gifting-band-divider" aria-hidden="true" />}
+                <span className="gifting-band-point">
+                  <span className="gifting-band-point-icon">{GIFTING_ICONS[f.icon] || <GiftIcon />}</span>
+                  {f.text}
+                </span>
               </span>
-            </span>
-          ))}
+            );
+            if (rawIndex === -1) return pointEl;
+            return (
+              <CardHoverControls key={f.id} sectionKey="giftingBand" arrayField="features" index={rawIndex} itemLabel="Feature">
+                {pointEl}
+              </CardHoverControls>
+            );
+          })}
         </div>
 
         <div className="gifting-band-buttons">
@@ -1797,7 +2116,8 @@ function GiftingBand() {
             if (b.borderColor) btnStyle['--gb-btn-border'] = b.borderColor;
             if (b.hoverBgColor) btnStyle['--gb-btn-hover-bg'] = b.hoverBgColor;
             if (b.hoverTextColor) btnStyle['--gb-btn-hover-text'] = b.hoverTextColor;
-            return (
+            const rawIndex = rawButtons ? rawButtons.findIndex((rb) => rb.id === b.id) : -1;
+            const btnEl = (
               <Link
                 key={b.id}
                 to={b.url}
@@ -1809,12 +2129,20 @@ function GiftingBand() {
                 {GIFTING_ICONS[b.icon] || <GiftIcon />} {b.text}
               </Link>
             );
+            if (rawIndex === -1) return btnEl;
+            return (
+              <CardHoverControls key={b.id} sectionKey="giftingBand" arrayField="buttons" index={rawIndex} itemLabel="Button">
+                {btnEl}
+              </CardHoverControls>
+            );
           })}
         </div>
       </div>
 
       <div className="gifting-band-media">
-        {image ? <img src={image} alt={imageAlt} loading="lazy" /> : <span className="gifting-band-media-fallback" aria-hidden="true"><LeafGlyph /></span>}
+        <EditableElement sectionKey="giftingBand" field="image" type="image" label="Main Image" fill>
+          {image ? <img src={image} alt={imageAlt} loading="lazy" /> : <span className="gifting-band-media-fallback" aria-hidden="true"><LeafGlyph /></span>}
+        </EditableElement>
       </div>
     </section>
   );
@@ -1831,6 +2159,9 @@ function Faq() {
   const items = (faq?.items?.length ? faq.items : defaultItems)
     .filter((f) => f.visible !== false)
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  // Raw (unfiltered/unsorted) array from siteContent so hover controls can
+  // target the real item by id, same pattern as ComparisonSection/TrustBenefits.
+  const rawItems = faq?.items?.length ? faq.items : null;
   const initialOpen = items.findIndex((f) => f.defaultOpen);
   const [open, setOpen] = useState(initialOpen);
   const [ref, visible] = useScrollReveal(0.15);
@@ -1853,19 +2184,34 @@ function Faq() {
   return (
     <section ref={ref} className={`faq-section reveal-section${visible ? ' is-visible' : ''}`} id="faq" style={sectionStyle}>
       <div className="section-heading center">
-        <p className="eyebrow" style={faq?.eyebrowColor ? { color: faq.eyebrowColor } : undefined}>{eyebrow}</p>
-        <h2 style={faq?.headingColor ? { color: faq.headingColor } : undefined}>{heading}</h2>
+        <EditableElement sectionKey="faq" field="eyebrow" type="text" label="Section Label">
+          <p className="eyebrow" style={faq?.eyebrowColor ? { color: faq.eyebrowColor } : undefined}>{eyebrow}</p>
+        </EditableElement>
+        <EditableElement sectionKey="faq" field="heading" type="text" label="Heading" hideDelete>
+          <h2 style={faq?.headingColor ? { color: faq.headingColor } : undefined}>{heading}</h2>
+        </EditableElement>
       </div>
       <div className="faq-list">
-        {items.map((item, idx) => (
-          <div className={`faq-item ${open === idx ? 'open' : ''}`} key={item.id}>
-            <button type="button" onClick={() => setOpen(open === idx ? -1 : idx)}>
-              <span>{item.question}</span>
-              <span className="faq-toggle">{open === idx ? openIcon : closedIcon}</span>
-            </button>
-            {open === idx && <p>{item.answer}</p>}
-          </div>
-        ))}
+        {items.map((item, idx) => {
+          const rawIndex = rawItems ? rawItems.findIndex((it) => it.id === item.id) : -1;
+          const faqEl = (
+            <div className={`faq-item ${open === idx ? 'open' : ''}`}>
+              <button type="button" onClick={() => setOpen(open === idx ? -1 : idx)}>
+                <span>{item.question}</span>
+                <span className="faq-toggle">{open === idx ? openIcon : closedIcon}</span>
+              </button>
+              {open === idx && <p>{item.answer}</p>}
+            </div>
+          );
+          if (rawIndex === -1) {
+            return <Fragment key={item.id}>{faqEl}</Fragment>;
+          }
+          return (
+            <CardHoverControls key={item.id} sectionKey="faq" arrayField="items" index={rawIndex} itemLabel="FAQ">
+              {faqEl}
+            </CardHoverControls>
+          );
+        })}
       </div>
     </section>
   );
@@ -1881,18 +2227,31 @@ function Newsletter() {
   const [ref, visible] = useScrollReveal(0.2);
   const { newsletter: nl } = useSiteContent();
   const [status, setStatus] = useState(null);
+  // Only used so a hidden heading/input/button stays visible/editable in
+  // the admin preview (outside the editor, useVisualEditor() safely
+  // returns the isEditorMode: false mock - see VisualEditorContext.jsx).
+  const { isEditorMode } = useVisualEditor();
 
   if (nl && nl.visible === false) return null;
 
   const heading = nl?.heading || t('home.newsletterHeading');
+  const headingVisible = nl?.headingVisible !== false;
   const placeholder = nl?.placeholder || t('home.newsletterPlaceholder');
+  const inputRequired = nl?.inputRequired !== false;
+  const inputVisible = nl?.inputVisible !== false;
   const buttonEnabled = nl?.buttonEnabled !== false;
   const buttonText = nl?.buttonText || t('home.subscribe');
+  const buttonIcon = nl?.buttonIcon && nl.buttonIcon !== 'none' ? GIFTING_ICONS[nl.buttonIcon] : null;
   const successMessage = nl?.successMessage || 'Thanks for subscribing!';
   const errorMessage = nl?.errorMessage || 'Please enter a valid email address.';
 
   const sectionStyle = {};
   if (nl?.backgroundColor) sectionStyle.backgroundColor = nl.backgroundColor;
+  if (nl?.backgroundImage) {
+    sectionStyle.backgroundImage = `url(${nl.backgroundImage})`;
+    sectionStyle.backgroundSize = 'cover';
+    sectionStyle.backgroundPosition = 'center';
+  }
   if (nl?.paddingY) sectionStyle.paddingTop = sectionStyle.paddingBottom = nl.paddingY;
   if (nl?.inputBgColor) sectionStyle['--nl-input-bg'] = nl.inputBgColor;
   if (nl?.inputTextColor) sectionStyle['--nl-input-text'] = nl.inputTextColor;
@@ -1906,18 +2265,35 @@ function Newsletter() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const email = e.target.elements.email.value.trim();
+    const emailEl = e.target.elements.email;
+    const email = emailEl ? emailEl.value.trim() : '';
     const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     setStatus(isValid ? 'success' : 'error');
     if (isValid) e.target.reset();
   }
 
+  const headingFields = getSectionSchema('newsletter').fieldGroups?.find((g) => g.key === 'heading')?.fields;
+  const inputFields = getSectionSchema('newsletter').fieldGroups?.find((g) => g.key === 'input')?.fields;
+  const buttonFields = getSectionSchema('newsletter').button?.fields;
+
   return (
     <section ref={ref} className={`newsletter-section reveal-section${visible ? ' is-visible' : ''}`} style={sectionStyle}>
-      <h2 style={nl?.headingColor ? { color: nl.headingColor } : undefined}>{heading}</h2>
+      {(headingVisible || isEditorMode) && (
+        <EditableElement sectionKey="newsletter" field="__heading__" type="text_fields" label="Heading" hideDelete fields={headingFields}>
+          <h2 style={nl?.headingColor ? { color: nl.headingColor } : undefined}>{heading}</h2>
+        </EditableElement>
+      )}
       <form onSubmit={handleSubmit} className="newsletter-form">
-        <input name="email" type="email" placeholder={placeholder} required />
-        {buttonEnabled && <button type="submit">{buttonText}</button>}
+        {(inputVisible || isEditorMode) && (
+          <EditableElement sectionKey="newsletter" field="__input__" type="text_fields" label="Email Input" hideDelete fields={inputFields}>
+            <input name="email" type="email" placeholder={placeholder} required={inputRequired} />
+          </EditableElement>
+        )}
+        {(buttonEnabled || isEditorMode) && (
+          <EditableElement sectionKey="newsletter" field="__button__" type="text_fields" label="Subscribe Button" hideDelete fields={buttonFields}>
+            <button type="submit">{buttonIcon}{buttonIcon ? ' ' : ''}{buttonText}</button>
+          </EditableElement>
+        )}
       </form>
       {status && (
         <p className={`newsletter-message newsletter-message-${status}`}>
@@ -1971,31 +2347,42 @@ function StatsPinIcon() {
   );
 }
 
-const STATS_ITEMS = [
-  { key: 'Happy Customers', value: '1L+', title: 'Happy Customers', subtitle: 'Trust in Our Greenery', Icon: StatsUsersIcon },
-  { key: 'Plant Varieties', value: '1000+', title: 'Plant Varieties', subtitle: 'For Every Space', Icon: StatsPottedPlantIcon },
-  { key: 'Customer Rating', value: '4.7+', title: 'Customer Rating', subtitle: 'Loved by Plant Parents', Icon: StatsBadgeStarIcon },
-  { key: 'Orders Delivered', value: '2L+', title: 'Orders Delivered', subtitle: 'Successfully', Icon: StatsPackageIcon },
-  { key: 'Cities Served', value: '500+', title: 'Cities Served', subtitle: 'Across India', Icon: StatsPinIcon },
-];
+const STATS_ICON_MAP = {
+  users: StatsUsersIcon,
+  pottedPlant: StatsPottedPlantIcon,
+  badgeStar: StatsBadgeStarIcon,
+  package: StatsPackageIcon,
+  pin: StatsPinIcon,
+};
+
+export const STATS_ICON_OPTIONS = Object.keys(STATS_ICON_MAP);
 
 function StatsStrip() {
   const { language } = useLanguage();
+  const { statsStrip } = useSiteContent();
   const [ref, visible] = useScrollReveal(0.2);
+  const items = (statsStrip?.items || []).filter((it) => it.visible !== false);
   return (
     <section ref={ref} className={`stats-strip reveal-section${visible ? ' is-visible' : ''}`}>
       <div className="stats-strip-leaf" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2"><path d="M12 22V12" /><path d="M12 12C12 7 8 5 4 5c0 5 3 7 8 7Z" /><path d="M12 12c0-5 4-7 8-7 0 5-3 7-8 7Z" /></svg>
       </div>
-      {STATS_ITEMS.map((item) => {
-        const tr = getStatsStripTranslation(item.key, language);
+      {items.map((item, idx) => {
+        const tr = getStatsStripTranslation(item.title, language);
+        const Icon = STATS_ICON_MAP[item.icon] || StatsUsersIcon;
         return (
-          <div className="stats-strip-item" key={item.key}>
-            <span className="stats-strip-icon"><item.Icon /></span>
+          <div className="stats-strip-item" key={item.id || item.key || idx}>
+            <span className="stats-strip-icon"><Icon /></span>
             <div className="stats-strip-copy">
-              <strong className="stats-strip-value">{item.value}</strong>
-              <span className="stats-strip-title">{tr?.title ?? item.title}</span>
-              <span className="stats-strip-subtitle">{tr?.subtitle ?? item.subtitle}</span>
+              <EditableElement sectionKey="statsStrip" field={`items.${idx}.value`} type="text" label="Value">
+                <strong className="stats-strip-value">{item.value}</strong>
+              </EditableElement>
+              <EditableElement sectionKey="statsStrip" field={`items.${idx}.title`} type="text" label="Title">
+                <span className="stats-strip-title">{tr?.title ?? item.title}</span>
+              </EditableElement>
+              <EditableElement sectionKey="statsStrip" field={`items.${idx}.subtitle`} type="text" label="Subtitle">
+                <span className="stats-strip-subtitle">{tr?.subtitle ?? item.subtitle}</span>
+              </EditableElement>
             </div>
           </div>
         );
@@ -2019,8 +2406,12 @@ function Home() {
     <>
       <Hero />
       <AboutIgo />
-      <OffersSection />
-      <StatsStrip />
+      <EditableSection sectionKey="offers" label="Offer for You">
+        <OffersSection />
+      </EditableSection>
+      <EditableSection sectionKey="statsStrip" label="Content">
+        <StatsStrip />
+      </EditableSection>
       <ShopByCategory />
       <HomeCorners />
       <BestSellers />
@@ -2030,13 +2421,30 @@ function Home() {
       <NurseryJourney />
       <WhyIGO />
       <OurStoryBand />
-      <ComparisonSection />
-      <TrustBenefits />
-      <PlantFinderBand />
-      <GardenJournal />
-      <GiftingBand />
-      <Newsletter />
-      <Faq />
+      <EditableSection
+        sectionKey="comparisonSection"
+        label="How We Compare to Buying Plants Elsewhere"
+        linkedSectionKeys={['trustBenefits']}
+        extraAddActions={[{ sectionKey: 'trustBenefits', schema: getSectionSchema('trustBenefits') }]}
+      >
+        <ComparisonSection />
+        <TrustBenefits />
+      </EditableSection>
+      <EditableSection sectionKey="plantFinder" label="Plant Finder">
+        <PlantFinderBand />
+      </EditableSection>
+      <EditableSection sectionKey="gardenJournal" label="Garden Journal">
+        <GardenJournal />
+      </EditableSection>
+      <EditableSection sectionKey="giftingBand" label="Thoughtful Gifts, Beautifully Packaged">
+        <GiftingBand />
+      </EditableSection>
+      <EditableSection sectionKey="newsletter" label="Get Growing Tips in Your Inbox">
+        <Newsletter />
+      </EditableSection>
+      <EditableSection sectionKey="faq" label="Support">
+        <Faq />
+      </EditableSection>
     </>
   );
 }

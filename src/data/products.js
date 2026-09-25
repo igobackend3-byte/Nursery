@@ -130,7 +130,31 @@ export const PLANT_CARE_SUBCATEGORY_SLUGS = [
   'potting-media', 'organic-fertilizers', 'chemical-fertilizers', 'liquid-nutrients',
   'biofertilizers', 'plant-protection', 'propagation-supplies', 'composting-products',
 ];
+// Plant Care's category-browsing pages (Explore Plant Care Categories, All
+// Categories) also include Gardening Tools - a real, populated category
+// that's part of the Plant Care nav group but wasn't in the umbrella
+// product-aggregation list above (kept separate there so "All Plant Care
+// products" doesn't pull in tools alongside consumables).
+export const ALL_PLANT_CARE_CATEGORY_SLUGS = [...PLANT_CARE_SUBCATEGORY_SLUGS, 'gardening-tools'];
+// Every real plant category slug (mirrors the Plants nav group in
+// src/data/navigation.js and PLANTS_NAV_CATEGORY_SLUGS in siteContent.js -
+// kept here too, rather than importing across data files, so this module
+// has no dependency on the CMS content file).
+export const ALL_PLANT_CATEGORY_SLUGS = [
+  'indoor-plants', 'outdoor-plants', 'fruit-plants', 'flowering-plants', 'succulents',
+  'cactus', 'palms', 'cycads', 'table-top-plants', 'mini-plants', 'bonsai', 'orchids',
+  'bromeliads', 'ferns', 'carnivorous-plants', 'aquatic-pond-plants', 'vertical-garden-plants',
+  'green-wall-plants', 'terrace-garden-plants', 'balcony-plants', 'hanging-basket-plants',
+  'herbs', 'medicinal-plants', 'aromatic-plants', 'spice-plants', 'sacred-plants',
+  'butterfly-garden-plants', 'bee-friendly-plants', 'bird-attracting-plants', 'fragrant-plants',
+  'edible-flowers', 'coastal-plants', 'landscaping-trees', 'landscaping-plants',
+];
+
 export const UMBRELLA_GROUPS = {
+  // Virtual "every plant category" listing for /plants/all - a real,
+  // filterable product grid (reuses CategoryPage exactly like gifting/
+  // corporate-gifts already do) rather than a one-off product list.
+  plants: ALL_PLANT_CATEGORY_SLUGS,
   seeds: ['seeds', ...SEED_SUBCATEGORY_SLUGS],
   'pots-planters': ['pots-planters', ...POT_SUBCATEGORY_SLUGS],
   'plant-care': ['plant-care', ...PLANT_CARE_SUBCATEGORY_SLUGS],

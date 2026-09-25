@@ -3,7 +3,7 @@ import { getTranslation, LANGUAGES } from '../i18n/translations';
 
 const STORAGE_KEY = 'igo_lang';
 const VALID_CODES = LANGUAGES.map((l) => l.code);
-const LanguageContext = createContext(null);
+export const LanguageContext = createContext(null);
 
 function getInitialLanguage() {
   try {

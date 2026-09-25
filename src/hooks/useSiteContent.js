@@ -1,11 +1,48 @@
-import { useState } from 'react';
+import { useState, createContext, useContext, useMemo, useEffect } from 'react';
 import { getSiteContent } from '../lib/contentStore';
+import { useLanguage } from '../context/LanguageContext';
+import { translateDynamicString } from '../i18n/translations';
 
-// Reads current content once per mount. Since admin edits and storefront
-// views happen on different routes (full remount in between), reading
-// once on mount is enough to always show the latest saved content -
-// no live cross-tab sync needed for this use case.
+export const SiteContentContext = createContext(null);
+
+function deeplyTranslateContent(obj, lang) {
+  if (lang === 'en' || !obj) return obj;
+  if (Array.isArray(obj)) {
+    return obj.map(v => deeplyTranslateContent(v, lang));
+  } else if (typeof obj === 'object') {
+    const res = {};
+    for (const [k, v] of Object.entries(obj)) {
+      res[k] = deeplyTranslateContent(v, lang);
+    }
+    return res;
+  } else if (typeof obj === 'string') {
+    return translateDynamicString(obj, lang);
+  }
+  return obj;
+}
+
 export function useSiteContent() {
-  const [content] = useState(getSiteContent);
-  return content;
+  const contextContent = useContext(SiteContentContext);
+  const [content, setContent] = useState(getSiteContent);
+  
+  useEffect(() => {
+    const handler = () => setContent(getSiteContent());
+    window.addEventListener('igo-site-content-changed', handler);
+    // Also listen to normal storage events for cross-tab sync
+    const storageHandler = (e) => {
+      if (e.key === 'igo-site-content-v1') handler();
+    };
+    window.addEventListener('storage', storageHandler);
+    return () => {
+      window.removeEventListener('igo-site-content-changed', handler);
+      window.removeEventListener('storage', storageHandler);
+    };
+  }, []);
+  const { language } = useLanguage();
+  
+  const baseContent = contextContent || content;
+  
+  return useMemo(() => {
+    return deeplyTranslateContent(baseContent, language);
+  }, [baseContent, language]);
 }

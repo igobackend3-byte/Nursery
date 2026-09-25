@@ -2,6 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import { AdminAuthProvider } from './AdminAuthContext';
 import { AdminDataProvider } from './AdminDataContext';
 import ProtectedRoute from './ProtectedRoute';
+import { LanguageContext } from '../context/LanguageContext';
+import { getTranslation, LANGUAGES } from '../i18n/translations';
 import AdminLayout from './AdminLayout';
 import AdminLogin from './pages/Login';
 import AdminDashboard from './pages/Dashboard';
@@ -18,18 +20,14 @@ import AdminContent from './pages/Content';
 import AdminStaff from './pages/Staff';
 import AdminSettings from './pages/Settings';
 import ComingSoon from './pages/ComingSoon';
+import PagesList from './pages/PagesList';
+import VisualEditor from './editor/VisualEditor';
 import './admin.css';
 
 const SOON_ROUTES = [
-  { path: 'media', title: 'Media Library', description: 'Central image/video manager - upload, rename, replace, search, and reuse assets sitewide.' },
   { path: 'languages', title: 'Languages', description: 'Edit and translate every website string across English, Tamil, Hindi, Telugu, Malayalam and Kannada.' },
   { path: 'seo', title: 'SEO', description: 'Meta titles, descriptions, keywords, Open Graph images, sitemap and robots.txt per page.' },
   { path: 'reviews', title: 'Reviews', description: 'Approve, reject, reply to, feature, or delete customer reviews.' },
-  { path: 'garden-services', title: 'Garden Services', description: 'Add, edit, reorder and hide the garden services offered on the storefront.' },
-  { path: 'landscaping', title: 'Landscaping', description: 'Manage every landscaping service card (Villa, Balcony, Terrace, Rooftop, and the rest) with images, gallery, description and CTA.' },
-  { path: 'gifting', title: 'Gifting', description: 'Manage corporate, festival, birthday, wedding, and return gift catalogues, plus gift cards.' },
-  { path: 'b2b', title: 'B2B Sales', description: 'Manage dealer, retailer, bulk-order, hotel, apartment, school and office accounts.' },
-  { path: 'blog', title: 'Blog', description: 'Write, edit, publish, schedule and categorize blog posts, with SEO fields.' },
   { path: 'activity', title: 'Activity Logs', description: 'A timestamped audit trail of every admin action across the CMS.' },
   { path: 'backup', title: 'Backup & Restore', description: 'Export a full snapshot of site content/catalogue data, or restore from one.' },
 ];
@@ -40,9 +38,10 @@ const SOON_ROUTES = [
 // CSS - so nothing about the live site changes by this file existing.
 function AdminApp() {
   return (
-    <AdminAuthProvider>
-      <AdminDataProvider>
-        <Routes>
+    <LanguageContext.Provider value={{ language: 'en', setLanguage: () => {}, t: (path) => getTranslation('en', path), languages: LANGUAGES }}>
+      <AdminAuthProvider>
+        <AdminDataProvider>
+          <Routes>
           <Route path="login" element={<AdminLogin />} />
           <Route element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
             <Route index element={<AdminDashboard />} />
@@ -52,19 +51,23 @@ function AdminApp() {
             <Route path="categories" element={<AdminCategories />} />
             <Route path="inventory" element={<AdminInventory />} />
             <Route path="customers" element={<AdminCustomers />} />
-            <Route path="reports" element={<AdminReports />} />
             <Route path="coupons" element={<AdminCoupons />} />
             <Route path="notifications" element={<AdminNotifications />} />
             <Route path="content" element={<AdminContent />} />
-            <Route path="staff" element={<AdminStaff />} />
             <Route path="settings" element={<AdminSettings />} />
+            
+            <Route path="pages" element={<PagesList />} />
             {SOON_ROUTES.map((r) => (
               <Route key={r.path} path={r.path} element={<ComingSoon title={r.title} description={r.description} />} />
             ))}
           </Route>
-        </Routes>
-      </AdminDataProvider>
-    </AdminAuthProvider>
+          
+          {/* Visual Editor takes over the entire screen, outside AdminLayout */}
+          <Route path="pages/:pageId" element={<ProtectedRoute><VisualEditor /></ProtectedRoute>} />
+          </Routes>
+        </AdminDataProvider>
+      </AdminAuthProvider>
+    </LanguageContext.Provider>
   );
 }
 

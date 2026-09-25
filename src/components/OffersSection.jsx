@@ -2,80 +2,104 @@ import { Link } from 'react-router-dom';
 import { useSiteContent } from '../hooks/useSiteContent';
 import { useLanguage } from '../context/LanguageContext';
 import { getOfferNoteTranslation } from '../i18n/translations';
-import DecorativeLeaves from './DecorativeLeaves';
-import DecorativePetals from './DecorativePetals';
-import BundleButterfly from './BundleButterfly';
-
-// An elegant little leafy sprig used either side of the heading
-function LeafSprig() {
-  return (
-    <svg viewBox="0 0 60 90" fill="none" aria-hidden="true">
-      <path d="M30 4C30 4 30 60 30 86" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" opacity="0.7" />
-      <path d="M30 22C22 14 10 14 4 20c4 12 16 16 26 8z" fill="currentColor" opacity="0.85" />
-      <path d="M30 20c8-8 20-8 26-2-4 12-16 16-26 8z" fill="currentColor" opacity="0.7" />
-      <path d="M30 44c-8-8-20-8-26-2 4 12 16 16 26 8z" fill="currentColor" opacity="0.8" />
-      <path d="M30 42c8-8 20-8 26-2-4 12-16 16-26 8z" fill="currentColor" opacity="0.62" />
-      <path d="M30 66c-7-7-17-7-22-2 3 10 13 14 22 7z" fill="currentColor" opacity="0.72" />
-    </svg>
-  );
-}
+import EditableElement from '../admin/editor/EditableElement';
 
 function SingleLeaf() {
   return (
-    <svg viewBox="0 0 40 24" fill="currentColor" aria-hidden="true">
+    <svg viewBox="0 0 40 24" fill="currentColor" aria-hidden="true" width="20" height="12">
       <path d="M2 20C10 6 26 2 38 4 34 14 20 22 2 20Z" />
     </svg>
   );
 }
 
+function CornerLeaf() {
+  return (
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="corner-leaf-svg">
+      <path d="M10 90C30 40 80 10 90 10C80 50 40 80 10 90Z" fill="currentColor" opacity="0.15" />
+    </svg>
+  );
+}
+
+function SmallLeaf() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="small-leaf-svg">
+      <path d="M4 20C10 10 20 4 20 4C20 12 14 18 4 20Z" fill="currentColor" opacity="0.3" />
+    </svg>
+  );
+}
+
 function OffersSection() {
-  const { offers: OFFERS } = useSiteContent();
+  const { offers = {} } = useSiteContent();
   const { t, language } = useLanguage();
+  
+  // Provide defaults in case the old array structure was cached
+  const items = Array.isArray(offers) ? offers : (offers.items || []);
+  const eyebrowText = offers.eyebrow || t('offers.exclusiveDeals');
+  const headingText = offers.heading || t('offers.offersForYou');
+  const subtitleText = offers.subtitle || t('offers.offersSub') || 'Amazing deals to make your garden beautiful';
 
   return (
-    <section className="offers-section offers-section-v2 offers-animated">
-      {/* Botanical Background Image */}
-      <div className="offers-bg-image" aria-hidden="true">
-         <div className="offers-radial-glow"></div>
-      </div>
+    <section className="offers-section-premium">
+      <div className="offers-bg-premium" aria-hidden="true" style={offers.backgroundImage ? { backgroundImage: `url(${offers.backgroundImage})` } : {}}></div>
 
-      {/* Premium Animations */}
-      <div className="offers-animations" aria-hidden="true">
-        <DecorativeLeaves variant="offers" count={6} />
-        <DecorativePetals variant="offers" count={5} />
-        <div className="offers-flying-butterfly butterfly-1"><BundleButterfly tone="blue" /></div>
-        <div className="offers-flying-butterfly butterfly-2"><BundleButterfly tone="orange" delay={1} /></div>
-        <div className="offers-flying-butterfly butterfly-3"><BundleButterfly tone="pink" delay={2} /></div>
-      </div>
-
-      <div className="section-heading center offers-heading">
-        <p className="offers-eyebrow">{t('offers.exclusiveDeals')}</p>
-        <p className="offers-title">
-          <span className="offers-icon offers-icon-left"><LeafSprig /></span>
-          {t('offers.offersForYou')}
-          <span className="offers-icon offers-icon-right"><LeafSprig /></span>
-        </p>
-        <p className="section-sub">{t('offers.offersSub')}</p>
-        <div className="divider"><span /> <SingleLeaf /> <span /></div>
-      </div>
-
-      <div className="offers-grid">
-        {OFFERS.map((offer, index) => (
-          <div className="offer-card" key={offer.id} style={{ animationDelay: `${index * 0.15}s` }}>
-            <div className="offer-copy">
-              <h3>{t('offers.buyAny')} {offer.qty} @ ₹{offer.price}</h3>
-              <p>{getOfferNoteTranslation(offer.note, language)}</p>
-            </div>
-            <div className="offer-badge">
-              <span>{t('offers.buildBundle')}</span>
-            </div>
-            <div className="offer-card-media">
-              <img src={offer.image} alt="" loading="lazy" />
-            </div>
-            <Link to="/category/indoor-plants" className="btn-shop-now">{t('offers.shopNow')}</Link>
+      <div className="offers-content-wrapper">
+        <div className="offers-premium-header">
+          <div className="offers-eyebrow-premium">
+            <span className="line"></span>
+            <EditableElement sectionKey="offers" field="eyebrow" label="Eyebrow">
+              <span>{eyebrowText}</span>
+            </EditableElement>
+            <span className="line"></span>
           </div>
-        ))}
+          <h2 className="offers-title-premium">
+            <EditableElement sectionKey="offers" field="heading" label="Heading">
+              <span>{headingText}</span>
+            </EditableElement>
+            <span className="leaf-accent"><SingleLeaf /></span>
+          </h2>
+          <EditableElement sectionKey="offers" field="subtitle" label="Subtitle">
+            <p className="offers-subtitle-premium">{subtitleText}</p>
+          </EditableElement>
+          <div className="offers-divider-premium">
+            <span className="line"></span>
+            <SingleLeaf />
+            <span className="line"></span>
+          </div>
+        </div>
+
+        <div className="offers-premium-grid">
+          {items.map((offer, index) => (
+            <div className="offer-premium-card" key={offer.id || index} style={{ animationDelay: `${index * 0.1}s` }}>
+              <EditableElement sectionKey="offers" field={`items.${index}.image`} type="image" label="Card Image">
+                <div className="offer-premium-media">
+                  <img src={offer.image} alt={`Offer ${offer.id}`} loading="lazy" />
+                </div>
+              </EditableElement>
+              <div className="offer-premium-badge">
+                <span>{t('offers.buildBundle')}</span>
+              </div>
+              <div className="offer-premium-details">
+                <EditableElement sectionKey="offers" field={`items.${index}.qty`} label="Quantity">
+                  <h3>{t('offers.buyAny')} {offer.qty} @ ₹{offer.price}</h3>
+                </EditableElement>
+                <EditableElement sectionKey="offers" field={`items.${index}.note`} label="Note">
+                  <p>{getOfferNoteTranslation(offer.note, language)}</p>
+                </EditableElement>
+                <Link to="/category/indoor-plants" className="btn-shop-now-premium">
+                  {t('offers.shopNow')} &rarr;
+                </Link>
+                <div className="card-leaf-decoration">
+                  <SmallLeaf />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+      
+      {/* Decorative corner leaves */}
+      <div className="offers-corner top-left"><CornerLeaf /></div>
+      <div className="offers-corner top-right"><CornerLeaf /></div>
     </section>
   );
 }

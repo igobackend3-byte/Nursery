@@ -49,6 +49,15 @@ function ProductDetail() {
   const related = getProductsByCategory(product.category)
     .filter((p) => p.id !== product.id)
     .slice(0, 4);
+
+  // "Available types" - other real products in the same category that
+  // share this one's base name (e.g. "Snake Plant" from "Snake Plant
+  // (Green Wall)"). No variant/parent-product schema exists in the
+  // catalogue - this groups existing flat products by name convention
+  // rather than treating them as linked records.
+  const baseName = product.name.replace(/\s*\(.*?\)\s*$/, '').trim().toLowerCase();
+  const varieties = getProductsByCategory(product.category)
+    .filter((p) => p.id !== product.id && p.name.replace(/\s*\(.*?\)\s*$/, '').trim().toLowerCase() === baseName);
   const isWishlisted = wishlist.includes(product.id);
   const active = gallery[activeSlide] ?? gallery[0];
   const discountPercent = getDiscountPercent(product.originalPrice, product.price);
@@ -97,6 +106,20 @@ function ProductDetail() {
             <span className="price-was">₹{product.originalPrice}</span>
             {discountPercent > 0 && <span className="price-off">{discountPercent}% OFF</span>}
           </div>
+
+          {varieties.length > 0 && (
+            <div className="product-detail-varieties">
+              <p className="product-detail-varieties-label">Available Types</p>
+              <div className="product-detail-varieties-row">
+                <Link to={`/product/${product.id}`} className="variety-chip active">{localizedName}</Link>
+                {varieties.map((v) => (
+                  <Link key={v.id} to={`/product/${v.id}`} className="variety-chip">
+                    {getLocalizedProductName(v, language)}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="product-detail-specs">
             <div><span>{t('product.size')}</span><strong>{getLocalizedSpecValue(product.size, language)}</strong></div>

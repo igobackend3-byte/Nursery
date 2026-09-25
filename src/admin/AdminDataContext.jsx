@@ -131,3 +131,12 @@ export function useAdminData() {
   if (!ctx) throw new Error('useAdminData must be used inside AdminDataProvider');
   return ctx;
 }
+
+// Non-throwing variant for components that render on BOTH the public site
+// and inside the admin (e.g. ProductCardHoverControls, mounted on every
+// product card in Plants People Love / Just In) - the public route tree
+// has no AdminDataProvider, so the throwing useAdminData() above would
+// crash the whole page. Returns null outside the provider instead.
+export function useAdminDataSafe() {
+  return useContext(AdminDataContext);
+}
