@@ -1,0 +1,377 @@
+/* --- ComparisonSection.css --- */
+
+.comparison-section {
+  position: relative;
+  width: 100%;
+  padding: 80px 20px 100px;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  color: #2D3748;
+}
+
+/* Background */
+.comparison-bg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/comparison-bg.jpg');
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  z-index: -1;
+  opacity: 0.9;
+}
+
+.comparison-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Header Area --- */
+.comparison-header-area {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.comp-eyebrow-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.comp-eyebrow-line {
+  height: 1px;
+  width: 40px;
+  background-color: #2F855A;
+}
+
+.comp-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #2F855A;
+  text-transform: uppercase;
+}
+
+.comp-eyebrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+.comp-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1A202C;
+  margin-bottom: 12px;
+}
+
+.comp-highlight {
+  font-style: italic;
+  color: #2F855A;
+}
+
+.comp-subtitle {
+  font-size: 1rem;
+  color: #4A5568;
+  font-weight: 400;
+}
+
+/* --- Table Grid Layout --- */
+.comparison-table {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: flex-end; /* Align bottom of columns */
+}
+
+/* Base Column */
+.comp-col {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+}
+
+.comp-col-features {
+  background: rgba(255, 255, 255, 0.98);
+  border-right: none;
+}
+
+/* Highlighted IGO Column */
+.comp-col-igo {
+  background: #F0FFF4;
+  border: 2px solid #38A169;
+  box-shadow: 0 10px 30px rgba(56, 161, 105, 0.15);
+  transform: translateY(-10px); /* Make it stand out vertically */
+  position: relative;
+}
+
+/* --- Headers --- */
+.comp-col-header {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 16px;
+  text-align: center;
+  gap: 8px;
+}
+
+.comp-empty-header {
+  height: 80px;
+  background: transparent;
+}
+
+.comp-header-icon {
+  width: 20px;
+  height: 20px;
+  color: inherit;
+}
+
+.comp-local-header {
+  background: #FFF5F5;
+  color: #C53030;
+  border-bottom: 1px solid #FED7D7;
+}
+
+.comp-others-header {
+  background: #FFFFF0;
+  color: #B7791F;
+  border-bottom: 1px solid #FEFCBF;
+}
+
+/* IGO Header specifically styled */
+.comp-igo-header {
+  height: 90px;
+  background: #276749;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  justify-content: flex-start;
+  padding-left: 20px;
+}
+
+.comp-igo-header-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+.comp-igo-header-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #1C4532 20%, transparent);
+  z-index: 1;
+}
+
+.comp-igo-header-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+.comp-igo-header-content svg {
+  width: 32px;
+  height: 32px;
+}
+
+.comp-igo-title {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.comp-igo-subtitle {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+/* BEST CHOICE BADGE */
+.comp-best-choice-badge {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2F855A;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.comp-best-choice-badge svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* --- Rows / Cells --- */
+.comp-cell {
+  height: 60px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 0.85rem;
+}
+
+.comp-cell:last-child {
+  border-bottom: none;
+}
+
+/* Feature Column Cells */
+.comp-feature-cell {
+  gap: 12px;
+  font-weight: 600;
+  color: #2D3748;
+}
+
+.comp-feature-icon-wrapper {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #F0FFF4;
+  color: #2F855A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comp-feature-icon-wrapper svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Value Column Cells */
+.comp-value-cell {
+  gap: 10px;
+  color: #718096;
+}
+
+.comp-igo-cell {
+  color: #2D3748;
+}
+
+.comp-igo-cell strong {
+  color: #2F855A;
+  font-weight: 700;
+}
+
+/* Status Icons */
+.comp-status-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.comp-status-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+.comp-cross {
+  background: #FFF5F5;
+  color: #E53E3E;
+}
+
+.comp-check {
+  background: #2F855A;
+  color: white;
+}
+
+.comp-minus {
+  background: #FFFFF0;
+  color: #D69E2E;
+}
+
+.comp-value-text {
+  line-height: 1.3;
+}
+
+
+/* --- Responsive Design --- */
+@media (max-width: 1024px) {
+  .comparison-table {
+    gap: 10px;
+  }
+  .comp-title {
+    font-size: 2rem;
+  }
+  .comp-col-header {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+  .comp-cell {
+    font-size: 0.75rem;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 850px) {
+  .comparison-section {
+    padding: 60px 10px 80px;
+  }
+  
+  /* Convert to horizontally scrollable wrapper */
+  .comparison-container {
+    overflow-x: auto;
+    padding-bottom: 20px;
+    /* Hide scrollbar visually but allow scroll */
+    scrollbar-width: thin;
+    scrollbar-color: #CBD5E0 transparent;
+  }
+  
+  .comparison-table {
+    width: 900px; /* Force width to allow scroll */
+    margin: 0 auto;
+    align-items: stretch;
+  }
+  
+  .comp-col-igo {
+    transform: none; /* Remove vertical offset on mobile */
+    margin-top: 10px;
+  }
+  
+  .comp-best-choice-badge {
+    top: -12px;
+  }
+}

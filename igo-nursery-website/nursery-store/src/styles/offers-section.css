@@ -1,0 +1,291 @@
+/* ============================================================
+   "Offers For You" - Premium Redesign
+============================================================ */
+
+.offers-section-premium {
+  position: relative;
+  overflow: hidden;
+  max-width: 1400px;
+  margin: 60px auto;
+  padding: 80px 24px;
+  border-radius: 32px;
+  color: #123524;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 20px 60px -10px rgba(18, 53, 36, 0.2);
+}
+
+/* Premium Botanical Background */
+.offers-bg-premium {
+  position: absolute;
+  inset: 0;
+  /* Use the new bright background image */
+  background-image: url('/images/premium_garden_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  filter: blur(2px);
+  transform: scale(1.02); /* prevent blur edges from showing */
+}
+
+/* Decorative Corner Leaves */
+.offers-corner {
+  position: absolute;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  color: #4a7c59; /* Olive green */
+  pointer-events: none;
+}
+.offers-corner.top-left {
+  top: -20px;
+  left: -20px;
+  transform: rotate(-15deg);
+}
+.offers-corner.top-right {
+  top: -20px;
+  right: -20px;
+  transform: scaleX(-1) rotate(-15deg);
+}
+
+.offers-content-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* ---------- Header ---------- */
+.offers-premium-header {
+  text-align: center;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.offers-eyebrow-premium {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #4a7c59; /* Olive green */
+  margin-bottom: 12px;
+}
+.offers-eyebrow-premium .line {
+  width: 40px;
+  height: 1px;
+  background-color: #4a7c59;
+  opacity: 0.6;
+}
+
+.offers-title-premium {
+  font-family: var(--font-display, 'Georgia', serif);
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  color: #123524; /* Dark green */
+  margin-bottom: 12px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+}
+.offers-title-premium .leaf-accent {
+  color: #4a7c59;
+  display: inline-block;
+  transform: rotate(-15deg) translateY(-8px);
+}
+
+.offers-subtitle-premium {
+  font-size: 1rem;
+  color: #3e6e4f;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+.offers-divider-premium {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #4a7c59;
+}
+.offers-divider-premium .line {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(74, 124, 89, 0.5), transparent);
+}
+
+/* ---------- Cards Grid ---------- */
+.offers-premium-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* ---------- Offer Card ---------- */
+.offer-premium-card {
+  background: rgba(255, 255, 255, 0.85); /* Light glass */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(18, 53, 36, 0.1);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+  min-height: 380px;
+}
+
+.offer-premium-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(18, 53, 36, 0.15), 0 0 0 1px rgba(167, 211, 151, 0.5);
+}
+
+/* Media (Image) Area */
+.offer-premium-media {
+  width: 100%;
+  height: 200px;
+  background: rgba(255, 255, 255, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(18, 53, 36, 0.05);
+}
+.offer-premium-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.offer-premium-card:hover .offer-premium-media img {
+  transform: scale(1.08);
+}
+
+/* Discount Badge */
+.offer-premium-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #3e6e4f; /* Forest green */
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1.1;
+  box-shadow: 0 4px 12px rgba(18, 53, 36, 0.2);
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 4px;
+}
+.offer-premium-badge span {
+  display: block;
+}
+
+/* Card Details */
+.offer-premium-details {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+}
+
+.offer-premium-details h3 {
+  font-family: var(--font-display, 'Georgia', serif);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #123524;
+  margin: 0 0 6px 0;
+  line-height: 1.3;
+}
+
+.offer-premium-details p {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #4a7c59;
+  margin: 0 0 24px 0;
+}
+
+/* Button */
+.btn-shop-now-premium {
+  margin-top: auto;
+  align-self: flex-start;
+  background: #123524; /* Dark Green */
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 10px rgba(18, 53, 36, 0.2);
+}
+.btn-shop-now-premium:hover {
+  background: #3e6e4f; /* Forest Green */
+  transform: translateX(4px);
+  box-shadow: 0 6px 15px rgba(18, 53, 36, 0.3);
+}
+
+/* Card Decorative Leaf */
+.card-leaf-decoration {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: #a7d397;
+  pointer-events: none;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .offers-premium-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .offers-section-premium {
+    padding: 60px 16px;
+    margin: 30px 12px;
+    border-radius: 24px;
+  }
+  .offers-premium-grid {
+    grid-template-columns: 1fr;
+  }
+  .offers-title-premium {
+    font-size: 2rem;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .offer-premium-card,
+  .offer-premium-card:hover,
+  .offer-premium-card:hover .offer-premium-media img,
+  .btn-shop-now-premium:hover {
+    transition: none;
+    transform: none;
+  }
+}

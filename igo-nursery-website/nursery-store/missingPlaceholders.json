@@ -1,0 +1,32 @@
+{
+  "ta": {
+    "Enter your name": "உங்கள் பெயரை உள்ளிடவும்",
+    "Enter your email": "உங்கள் மின்னஞ்சலை உள்ளிடவும்",
+    "Enter your phone number": "உங்கள் தொலைபேசி எண்ணை உள்ளிடவும்",
+    "Write your message here...": "உங்கள் செய்தியை இங்கே எழுதுங்கள்..."
+  },
+  "hi": {
+    "Enter your name": "अपना नाम दर्ज करें",
+    "Enter your email": "अपना ईमेल दर्ज करें",
+    "Enter your phone number": "अपना फोन नंबर डालें",
+    "Write your message here...": "यहां अपना संदेश लिखें..."
+  },
+  "ml": {
+    "Enter your name": "നിങ്ങളുടെ പേര് നൽകുക",
+    "Enter your email": "നിങ്ങളുടെ ഇമെയിൽ നൽകുക",
+    "Enter your phone number": "നിങ്ങളുടെ ഫോൺ നമ്പർ നൽകുക",
+    "Write your message here...": "നിങ്ങളുടെ സന്ദേശം ഇവിടെ എഴുതുക..."
+  },
+  "te": {
+    "Enter your name": "మీ పేరును నమోదు చేయండి",
+    "Enter your email": "మీ ఇమెయిల్‌ను నమోదు చేయండి",
+    "Enter your phone number": "మీ ఫోన్ నంబర్‌ను నమోదు చేయండి",
+    "Write your message here...": "మీ సందేశాన్ని ఇక్కడ వ్రాయండి..."
+  },
+  "kn": {
+    "Enter your name": "ನಿಮ್ಮ ಹೆಸರನ್ನು ನಮೂದಿಸಿ",
+    "Enter your email": "ನಿಮ್ಮ ಇಮೇಲ್ ನಮೂದಿಸಿ",
+    "Enter your phone number": "ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ",
+    "Write your message here...": "ನಿಮ್ಮ ಸಂದೇಶವನ್ನು ಇಲ್ಲಿ ಬರೆಯಿರಿ..."
+  }
+}

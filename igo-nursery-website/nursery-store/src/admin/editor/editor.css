@@ -1,0 +1,984 @@
+/* Visual CMS Layout */
+.admin-page-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f3f4f6;
+  font-family: var(--font-primary, 'Inter', sans-serif);
+}
+
+.admin-page-editor-main {
+  display: flex;
+  flex: 1;
+  padding: 24px;
+  gap: 24px;
+  margin-top: 56px;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.admin-page-editor-sidebar {
+  width: 380px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid #e5e7eb;
+}
+
+.section-list-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.section-list-header {
+  padding: 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.section-list-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: #111827;
+}
+
+.section-list-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.section-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-list-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  gap: 12px;
+}
+
+.section-list-item:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.section-list-item.active {
+  background: #eef6f0;
+  border-color: #16a34a;
+}
+
+.section-drag-handle {
+  color: #9ca3af;
+  cursor: grab;
+  display: flex;
+}
+
+.section-number {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+  width: 20px;
+}
+
+.section-thumbnail {
+  width: 56px;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #f3f4f6;
+  flex-shrink: 0;
+}
+
+.section-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.section-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.section-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.section-list-item.active .section-name {
+  color: #166534;
+}
+
+.section-desc {
+  font-size: 12px;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.section-arrow {
+  color: #9ca3af;
+}
+
+.section-list-item.active .section-arrow {
+  color: #166534;
+}
+
+/* Right Panel / Preview */
+.admin-page-editor-preview {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+.active-section-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.active-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.active-section-title-wrap {
+  flex: 1;
+}
+
+.active-section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.active-section-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.active-section-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-section-settings {
+  background: #166534;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-delete-section {
+  background: white;
+  color: #ef4444;
+  border: 1px solid #fca5a5;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* The actual preview window */
+.editable-section-preview {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.quick-actions-panel {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.quick-actions-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  color: #111827;
+}
+
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.quick-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px 16px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.quick-action-btn:hover {
+  border-color: #d1d5db;
+  background: #f9fafb;
+}
+
+.quick-action-btn svg {
+  color: #111827;
+}
+
+.no-section-selected {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #6b7280;
+  text-align: center;
+}
+
+.no-section-selected h3 {
+  font-size: 20px;
+  color: #374151;
+  margin: 0 0 8px 0;
+}
+
+/* Editor Toolbar */
+.visual-editor-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  color: #111827;
+}
+
+.ve-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+}
+
+.ve-brand-logo {
+  height: 32px;
+}
+
+.ve-toolbar-center {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ve-btn-view-site {
+  background: white;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.ve-device-toggles {
+  display: flex;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ve-device-btn {
+  background: white;
+  border: none;
+  padding: 6px 12px;
+  color: #6b7280;
+  cursor: pointer;
+  border-right: 1px solid #d1d5db;
+}
+.ve-device-btn:last-child {
+  border-right: none;
+}
+.ve-device-btn.active {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.ve-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ve-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #16a34a;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.ve-btn-publish {
+  background: #166534;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ve-admin-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  border-left: 1px solid #e5e7eb;
+  padding-left: 16px;
+}
+.ve-admin-avatar {
+  width: 32px;
+  height: 32px;
+  background: #166534;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+/* Inline Edit Overlay */
+.editable-element-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* For wrapping an image/element that was itself absolutely positioned or
+   sized to fill its parent (a full-bleed header photo, a card's cover
+   image) - the default inline-block wrap above would replace it as the
+   positioning/sizing context and collapse to the image's own intrinsic
+   size instead of filling the card, visibly shrinking or displacing the
+   image. `fill` makes the wrapper occupy the exact box the element used
+   to (position:absolute; inset:0 against the same positioned ancestor),
+   so children with width/height:100% keep filling that box exactly as
+   before. Only pass `fill` when the child was already absolutely
+   positioned or meant to fill its parent - not for ordinary inline text. */
+.editable-element-fill {
+  position: absolute !important;
+  inset: 0;
+  display: block;
+}
+
+.editable-element-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px dashed rgba(22, 163, 74, 0);
+  border-radius: 4px;
+  transition: all 0.2s;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.editable-element-wrap:hover .editable-element-overlay {
+  border-color: rgba(22, 163, 74, 0.5);
+  background: rgba(22, 163, 74, 0.05);
+}
+
+.editable-element-badge {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background: #111827;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: auto;
+  transition: opacity 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  white-space: nowrap;
+}
+
+.editable-element-wrap:hover .editable-element-badge {
+  opacity: 1;
+}
+
+/* Opt-in variant (Contact Us hero/background/CTA-area images) - keeps
+   the badge fully INSIDE the wrapped box instead of poking outside it,
+   so an ancestor's `overflow: hidden` (the admin preview card, or a
+   cropped/blob-shaped image container) never clips it. Also sized for
+   comfortable click targets and legible text. */
+.editable-element-wrap.editable-badge-inset .editable-element-badge {
+  top: 10px;
+  right: 10px;
+  left: 10px;
+  z-index: 30;
+  padding: 8px 12px;
+  font-size: 13px;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  border-radius: 6px;
+}
+
+.editable-element-wrap.editable-badge-inset .editable-element-overlay {
+  z-index: 20;
+}
+
+.editable-element-wrap.editable-badge-inset .editable-element-action {
+  padding: 4px 8px;
+  border-radius: 4px;
+  min-height: 24px;
+}
+
+.editable-element-wrap.editable-badge-inset .editable-element-action:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* On a very narrow wrap (e.g. the Message Form's small oval photo) even
+   a wrapped 2-line badge is tight - drop the section-name label there
+   and keep just the action buttons, which stay fully visible and
+   tappable. */
+.editable-element-wrap.editable-badge-inset.editable-badge-compact .editable-label {
+  display: none;
+}
+
+.editable-element-wrap.editable-badge-inset.editable-badge-compact .editable-element-badge {
+  gap: 8px;
+  padding: 6px 8px;
+}
+
+.editable-element-action {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.editable-element-action:hover {
+  color: #90EE90;
+}
+.editable-element-action.delete:hover {
+  color: #ef4444;
+}
+
+/* Inline Editing Input */
+.editable-inline-input-wrapper {
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 1px solid #e5e7eb;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.editable-inline-input {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.editable-inline-input:focus {
+  outline: none;
+  border-color: #166534;
+  box-shadow: 0 0 0 2px rgba(22, 101, 52, 0.2);
+}
+
+.editable-inline-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ve-btn-sm {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ve-btn-save {
+  background: #166534;
+  color: white;
+  border: none;
+}
+
+.ve-btn-cancel {
+  background: white;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+/* Disable scroll-reveal entrance animations inside the Visual Editor
+   preview. The public site only reveals these elements once the page's
+   own scroll IntersectionObserver (useScrollReveal) marks a section
+   `.is-visible`; inside the editor's small, non-scrolling preview panel
+   that observer can fail to fire at all, which made whole sections
+   (Home Corners' cards, Shop by Category's grid, etc.) look like their
+   real content was missing rather than just not yet animated in. This
+   mirrors every scroll-reveal target declared in
+   src/styles/animations.css and src/styles/nature-decor.css and forces
+   each straight to its already-revealed end state. */
+.editable-section-preview .reveal-section,
+.editable-section-preview .reveal-section .section-heading,
+.editable-section-preview .reveal-section .category-grid > *,
+.editable-section-preview .reveal-section .home-corners-grid > *,
+.editable-section-preview .reveal-section .services-grid > *,
+.editable-section-preview .reveal-section .journal-grid > *,
+.editable-section-preview .best-sellers.reveal-section .product-grid > *,
+.editable-section-preview .just-in.reveal-section .just-in-grid > *,
+.editable-section-preview .complete-garden.reveal-section .complete-garden-media,
+.editable-section-preview .complete-garden.reveal-section .complete-garden-copy,
+.editable-section-preview .gifting-band.reveal-section .gifting-band-media,
+.editable-section-preview .gifting-band.reveal-section .gifting-band-copy,
+.editable-section-preview .plant-finder-band.reveal-section > div,
+.editable-section-preview .plant-finder-band.reveal-section > a,
+.editable-section-preview .newsletter-section.reveal-section > *,
+.editable-section-preview .faq-section.reveal-section .faq-list,
+.editable-section-preview .stats-strip.reveal-section .stats-strip-item,
+.editable-section-preview .about-igo-section.reveal-section .about-igo-copy,
+.editable-section-preview .home-corners.reveal-section .home-corners-heading,
+.editable-section-preview .reveal-section .heading-leaf-accent,
+.editable-section-preview .hero-content,
+.editable-section-preview .trust-benefit,
+.editable-section-preview .comparison-table-wrapper,
+/* Per-item scroll-reveal gates that sit BELOW a section's own
+   .reveal-section/.is-visible pair, and so weren't caught by the rules
+   above even after the section wrapper itself was forced visible - same
+   root cause (IntersectionObserver rarely fires inside the confined,
+   non-scrolling admin preview panel), just declared per-card/per-cell
+   instead of per-section. Found while wiring up Our Story Band (.os-band
+   never reaching .os-band-visible hid the whole section behind its own
+   heading/background); .journey-step, .why-igo-card and .compare-cell use
+   the identical pattern and are fixed here at the same time so this exact
+   bug class can't resurface on Nursery Journey, Why IGO or How We Compare
+   either. */
+.editable-section-preview .os-band,
+.editable-section-preview .journey-step,
+.editable-section-preview .why-igo-card,
+.editable-section-preview .compare-cell {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  transition: none !important;
+}
+
+/* Per-card hover controls (Edit/Delete) overlaid directly on a card/tile
+   rendered inside a live section preview - see CardHoverControls.jsx. */
+.card-hover-wrap {
+  position: relative;
+  cursor: default;
+}
+.card-hover-toolbar {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 40;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  pointer-events: none;
+}
+.card-hover-wrap:hover .card-hover-toolbar {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.card-hover-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  background: rgba(17, 24, 39, 0.85);
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+.card-hover-btn:hover {
+  background: #166534;
+}
+.card-hover-btn-danger:hover {
+  background: #dc2626;
+}
+
+/* Category Management list (Shop by Category admin section only) */
+.ve-preview-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin: 0 0 8px 2px;
+}
+.cat-mgmt-panel {
+  margin-top: 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+}
+.cat-mgmt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cat-mgmt-row {
+  display: grid;
+  grid-template-columns: 48px 1fr 80px 56px auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.cat-mgmt-row:hover {
+  background: #f3faf5;
+  border-color: #cfe8d6;
+}
+.cat-mgmt-row:active {
+  background: #eafaf0;
+  border-color: #86efac;
+}
+.cat-mgmt-row:active .cat-mgmt-name {
+  color: #14532d;
+}
+.cat-mgmt-row.is-inactive-row {
+  background: #f9fafb;
+}
+.cat-mgmt-row.is-inactive-row .cat-mgmt-name {
+  color: #6b7280;
+}
+.cat-mgmt-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #e5e7eb;
+  flex-shrink: 0;
+}
+.cat-mgmt-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cat-mgmt-thumb-empty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #6b7280;
+  background: #e5e7eb;
+  text-align: center;
+  padding: 2px;
+}
+.cat-mgmt-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cat-mgmt-name-sub {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  color: #64748b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cat-mgmt-status {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  text-align: center;
+  white-space: nowrap;
+}
+.cat-mgmt-status.is-active {
+  background: #dcfce7;
+  color: #15803d;
+}
+.cat-mgmt-status.is-inactive {
+  background: #f1f5f9;
+  color: #64748b;
+}
+.cat-mgmt-order {
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  text-align: center;
+}
+.cat-mgmt-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Inline Editor Modal (InlineEditorModal.jsx / CategoryManagementList's
+   delete-confirm) - these `.ve-*` classes were referenced in the JSX but
+   never actually styled anywhere in the codebase, so every "Edit"/"Delete
+   confirm" modal in the Visual Editor has been rendering with no overlay,
+   no box, no button styling at all. Styled here to match the rest of the
+   admin's light theme (white panels, dark readable text - see the
+   Category Management contrast fix) rather than a dark theme, so nothing
+   repeats the earlier white-text-on-white-background bug. */
+.ve-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+.ve-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+.ve-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.ve-modal-header h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f2937;
+}
+.ve-modal-close {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+}
+.ve-modal-close:hover {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+.ve-modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  color: #1f2937;
+}
+.ve-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 20px;
+  border-top: 1px solid #e5e7eb;
+}
+.ve-form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 6px;
+}
+.ve-form-group .ve-input {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #1f2937;
+  background: #ffffff;
+  font-family: inherit;
+}
+.ve-form-group select.ve-input {
+  cursor: pointer;
+}
+.ve-form-group .ve-input:focus {
+  outline: none;
+  border-color: #166534;
+  box-shadow: 0 0 0 3px rgba(22,101,52,0.12);
+}
+.ve-btn {
+  padding: 9px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #374151;
+}
+.ve-btn:hover {
+  background: #f9fafb;
+}
+.ve-btn-primary {
+  background: #166534;
+  border-color: #166534;
+  color: #ffffff;
+}
+.ve-btn-primary:hover {
+  background: #14532d;
+}
+.ve-btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #374151;
+  cursor: pointer;
+}
+.ve-btn-sm:hover {
+  background: #f3f4f6;
+}
+.ve-btn-cancel {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+.ve-btn-cancel:hover {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+/* ------------------------------------------------------------------ */
+/* Fallback --admin-* design tokens for the Home Page Visual Editor.
+   These custom properties (--admin-surface, --admin-border, --admin-ink,
+   etc.) are normally only defined on the `.admin-root` wrapper div used
+   by the regular admin pages (Products, Categories, ...) - see
+   src/admin/admin.css. The Visual Editor (src/admin/editor/VisualEditor.jsx)
+   renders on its own route, outside `.admin-root` (see AdminApp.jsx's
+   routes), so reusing admin-styled components here - like the real
+   Products admin's ProductFormModal, now shown from the Plants People
+   Love / Just In product editors - resolved those variables to nothing:
+   the modal box, its borders and its field labels all rendered
+   transparent/unstyled, letting whatever was underneath (e.g. the Manage
+   Products list) show straight through it.
+   Defining the same values at :root gives every element outside
+   `.admin-root` this same fallback, while `.admin-root` itself still
+   wins for its own subtree (a rule applied directly to an element always
+   beats an inherited one) - so nothing changes on the Products/Categories/
+   etc. admin pages themselves. Values copied verbatim from admin.css's
+   light theme (the Visual Editor has no dark-mode toggle of its own). */
+:root {
+  --admin-bg: #f5f4ee;
+  --admin-surface: #ffffff;
+  --admin-border: #e3e0d3;
+  --admin-ink: #16241c;
+  --admin-muted: #6b7a70;
+  --admin-primary: #1b4b36;
+  --admin-primary-deep: #0b3d2e;
+  --admin-accent: #a7f822;
+  --admin-danger: #c0392b;
+  --admin-warn: #b8860b;
+}
+
+/* Fix for Contact Info Cards clipping in Admin Preview */
+.editable-section-preview .ctc-info-col {
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+.editable-section-preview .ctc-info-card {
+  min-width: 260px;
+}

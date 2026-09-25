@@ -1,0 +1,1448 @@
+// Translation dictionary for the site's UI chrome (nav, header, footer,
+// cart, checkout, orders, auth, notifications, common buttons/messages).
+// Deliberately does NOT cover the ~800 real product names/descriptions in
+// the catalogue - those are actual business content pulled from
+// Firestore/data/products.js, and machine-generating translations for real
+// products across 5 languages would be inaccurate and worse than leaving
+// them as-is. The admin panel exposes per-language fields (Products/
+// Categories pages) so real, reviewed translations can be entered over
+// time instead.
+export const LANGUAGES = [
+  { code: 'en', label: 'English' },
+  { code: 'ta', label: 'தமிழ்' },
+  { code: 'hi', label: 'हिन्दी' },
+  { code: 'ml', label: 'മലയാളം' },
+  { code: 'te', label: 'తెలుగు' },
+  { code: 'kn', label: 'ಕನ್ನಡ' },
+];
+
+const nav = {
+  en: { home: 'Home', products: 'Products', services: 'Services', gallery: 'Gallery', aboutUs: 'About Us', contactUs: 'Contact Us', plants: 'Plants', seeds: 'Seeds', potsPlanters: 'Pots & Planters', plantCare: 'Plant Care', landscaping: 'Landscaping', gifting: 'Gifting', b2bSales: 'Corporate Gifting', gardenServices: 'Garden Services', blog: 'Blog', offers: 'Offers', locateStore: 'Locate Store' },
+  ta: { home: 'முகப்பு', products: 'தயாரிப்புகள்', services: 'சேவைகள்', gallery: 'கேலரி', aboutUs: 'எங்களைப் பற்றி', contactUs: 'தொடர்பு கொள்ள', plants: 'செடிகள்', seeds: 'விதைகள்', potsPlanters: 'தொட்டிகள் மற்றும் பாட்ஸ்', plantCare: 'செடி பராமரிப்பு', landscaping: 'லேண்ட்ஸ்கேப்பிங்', gifting: 'பரிசுகள்', b2bSales: 'B2B விற்பனை', gardenServices: 'தோட்ட சேவைகள்', blog: 'வலைப்பதிவு', offers: 'சலுகைகள்', locateStore: 'கடை கண்டறிக' },
+  hi: { home: 'होम', products: 'उत्पाद', services: 'सेवाएं', gallery: 'गैलरी', aboutUs: 'हमारे बारे में', contactUs: 'संपर्क करें', plants: 'पौधे', seeds: 'बीज', potsPlanters: 'गमले और प्लांटर', plantCare: 'पौधों की देखभाल', landscaping: 'लैंडस्केपिंग', gifting: 'उपहार', b2bSales: 'B2B बिक्री', gardenServices: 'बागवानी सेवाएं', blog: 'ब्लॉग', offers: 'ऑफ़र', locateStore: 'स्टोर खोजें' },
+  ml: { home: 'ഹോം', products: 'ഉൽപ്പന്നങ്ങൾ', services: 'സേവനങ്ങൾ', gallery: 'ഗാലറി', aboutUs: 'ഞങ്ങളെക്കുറിച്ച്', contactUs: 'ബന്ധപ്പെടുക', plants: 'ചെടികൾ', seeds: 'വിത്തുകൾ', potsPlanters: 'ചട്ടികളും പ്ലാന്ററുകളും', plantCare: 'ചെടി പരിചരണം', landscaping: 'ലാൻഡ്സ്കേപ്പിംഗ്', gifting: 'സമ്മാനങ്ങൾ', b2bSales: 'B2B വിൽപ്പന', gardenServices: 'തോട്ട സേവനങ്ങൾ', blog: 'ബ്ലോഗ്', offers: 'ഓഫറുകൾ', locateStore: 'സ്റ്റോർ കണ്ടെത്തുക' },
+  te: { home: 'హోమ్', products: 'ఉత్పత్తులు', services: 'సేవలు', gallery: 'గ్యాలరీ', aboutUs: 'మా గురించి', contactUs: 'సంప్రదించండి', plants: 'మొక్కలు', seeds: 'విత్తనాలు', potsPlanters: 'కుండలు & ప్లాంటర్లు', plantCare: 'మొక్కల సంరక్షణ', landscaping: 'ల్యాండ్‌స్కేపింగ్', gifting: 'బహుమతులు', b2bSales: 'B2B అమ్మకాలు', gardenServices: 'తోట సేవలు', blog: 'బ్లాగ్', offers: 'ఆఫర్లు', locateStore: 'స్టోర్ కనుగొనండి' },
+  kn: { home: 'ಹೋಮ್', products: 'ಉತ್ಪನ್ನಗಳು', services: 'ಸೇವೆಗಳು', gallery: 'ಗ್ಯಾಲರಿ', aboutUs: 'ನಮ್ಮ ಬಗ್ಗೆ', contactUs: 'ಸಂಪರ್ಕಿಸಿ', plants: 'ಸಸ್ಯಗಳು', seeds: 'ಬೀಜಗಳು', potsPlanters: 'ಪಾಟ್‌ಗಳು ಮತ್ತು ಪ್ಲಾಂಟರ್‌ಗಳು', plantCare: 'ಸಸ್ಯ ಆರೈಕೆ', landscaping: 'ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್', gifting: 'ಉಡುಗೊರೆಗಳು', b2bSales: 'B2B ಮಾರಾಟ', gardenServices: 'ತೋಟ ಸೇವೆಗಳು', blog: 'ಬ್ಲಾಗ್', offers: 'ಆಫರ್‌ಗಳು', locateStore: 'ಅಂಗಡಿ ಹುಡುಕಿ' },
+};
+
+const search = {
+  en: { placeholders: ['Search plants...', 'Search seeds...', 'Search pots & planters...', 'Search plant care...', 'Search gifting...'], ariaLabel: 'Search plants, pots, seeds', micSearch: 'Search by voice', micListening: 'Listening... click to stop', micDenied: 'Microphone access denied.', micError: "Couldn't hear that - try again." },
+  ta: { placeholders: ['செடிகளை தேடுங்கள்...', 'விதைகளை தேடுங்கள்...', 'தொட்டிகளை தேடுங்கள்...', 'செடி பராமரிப்பு தேடுங்கள்...', 'பரிசுகளை தேடுங்கள்...'], ariaLabel: 'செடிகள், தொட்டிகள், விதைகளை தேடுங்கள்', micSearch: 'குரல் மூலம் தேடுக', micListening: 'கேட்கிறது... நிறுத்த கிளிக் செய்யவும்', micDenied: 'மைக்ரோஃபோன் அணுகல் மறுக்கப்பட்டது.', micError: 'கேட்க முடியவில்லை - மீண்டும் முயற்சிக்கவும்.' },
+  hi: { placeholders: ['पौधे खोजें...', 'बीज खोजें...', 'गमले खोजें...', 'पौध देखभाल खोजें...', 'उपहार खोजें...'], ariaLabel: 'पौधे, गमले, बीज खोजें', micSearch: 'आवाज़ से खोजें', micListening: 'सुन रहा है... रोकने के लिए क्लिक करें', micDenied: 'माइक्रोफ़ोन एक्सेस अस्वीकृत।', micError: 'सुन नहीं पाया - फिर से प्रयास करें।' },
+  ml: { placeholders: ['ചെടികൾ തിരയുക...', 'വിത്തുകൾ തിരയുക...', 'ചട്ടികൾ തിരയുക...', 'ചെടി പരിചരണം തിരയുക...', 'സമ്മാനങ്ങൾ തിരയുക...'], ariaLabel: 'ചെടികൾ, ചട്ടികൾ, വിത്തുകൾ തിരയുക', micSearch: 'ശബ്ദത്തിലൂടെ തിരയുക', micListening: 'കേൾക്കുന്നു... നിർത്താൻ ക്ലിക്ക് ചെയ്യുക', micDenied: 'മൈക്രോഫോൺ ആക്സസ് നിരസിച്ചു.', micError: 'കേൾക്കാൻ കഴിഞ്ഞില്ല - വീണ്ടും ശ്രമിക്കുക.' },
+  te: { placeholders: ['మొక్కలను వెతకండి...', 'విత్తనాలను వెతకండి...', 'కుండలను వెతకండి...', 'మొక్కల సంరక్షణ వెతకండి...', 'బహుమతులను వెతకండి...'], ariaLabel: 'మొక్కలు, కుండలు, విత్తనాలు వెతకండి', micSearch: 'వాయిస్ ద్వారా వెతకండి', micListening: 'వింటోంది... ఆపడానికి క్లిక్ చేయండి', micDenied: 'మైక్రోఫోన్ యాక్సెస్ నిరాకరించబడింది.', micError: 'వినడం సాధ్యం కాలేదు - మళ్ళీ ప్రయత్నించండి.' },
+  kn: { placeholders: ['ಸಸ್ಯಗಳನ್ನು ಹುಡುಕಿ...', 'ಬೀಜಗಳನ್ನು ಹುಡುಕಿ...', 'ಪಾಟ್‌ಗಳನ್ನು ಹುಡುಕಿ...', 'ಸಸ್ಯ ಆರೈಕೆ ಹುಡುಕಿ...', 'ಉಡುಗೊರೆಗಳನ್ನು ಹುಡುಕಿ...'], ariaLabel: 'ಸಸ್ಯಗಳು, ಪಾಟ್‌ಗಳು, ಬೀಜಗಳನ್ನು ಹುಡುಕಿ', micSearch: 'ಧ್ವನಿಯ ಮೂಲಕ ಹುಡುಕಿ', micListening: 'ಕೇಳುತ್ತಿದೆ... ನಿಲ್ಲಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ', micDenied: 'ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶ ನಿರಾಕರಿಸಲಾಗಿದೆ.', micError: 'ಕೇಳಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ - ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.' },
+};
+
+const header = {
+  en: { account: 'Account', wishlist: 'Wishlist', cart: 'Cart', notifications: 'Notifications', language: 'Language' },
+  ta: { account: 'கணக்கு', wishlist: 'விருப்பப்பட்டியல்', cart: 'கார்ட்', notifications: 'அறிவிப்புகள்', language: 'மொழி' },
+  hi: { account: 'खाता', wishlist: 'विशलिस्ट', cart: 'कार्ट', notifications: 'सूचनाएं', language: 'भाषा' },
+  ml: { account: 'അക്കൗണ്ട്', wishlist: 'വിഷ്‌ലിസ്റ്റ്', cart: 'കാർട്ട്', notifications: 'അറിയിപ്പുകൾ', language: 'ഭാഷ' },
+  te: { account: 'ఖాతా', wishlist: 'విష్‌లిస్ట్', cart: 'కార్ట్', notifications: 'నోటిఫికేషన్‌లు', language: 'భాష' },
+  kn: { account: 'ಖಾತೆ', wishlist: 'ವಿಶ್‌ಲಿಸ್ಟ್', cart: 'ಕಾರ್ಟ್', notifications: 'ಅಧಿಸೂಚನೆಗಳು', language: 'ಭಾಷೆ' },
+};
+
+const notifications = {
+  en: { title: 'Notifications', empty: 'No notifications yet - order updates will show up here.', markAllRead: 'Mark all as read', allCaughtUp: "You're all caught up!" },
+  ta: { title: 'அறிவிப்புகள்', empty: 'இதுவரை அறிவிப்புகள் இல்லை - ஆர்டர் புதுப்பிப்புகள் இங்கே காண்பிக்கப்படும்.', markAllRead: 'அனைத்தையும் படித்ததாக குறிக்கவும்', allCaughtUp: 'நீங்கள் அனைத்தையும் பார்த்துவிட்டீர்கள்!' },
+  hi: { title: 'सूचनाएं', empty: 'अभी तक कोई सूचना नहीं - ऑर्डर अपडेट यहां दिखेंगे।', markAllRead: 'सभी को पढ़ा हुआ चिह्नित करें', allCaughtUp: 'आप सब कुछ देख चुके हैं!' },
+  ml: { title: 'അറിയിപ്പുകൾ', empty: 'ഇതുവരെ അറിയിപ്പുകൾ ഇല്ല - ഓർഡർ അപ്‌ഡേറ്റുകൾ ഇവിടെ കാണിക്കും.', markAllRead: 'എല്ലാം വായിച്ചതായി അടയാളപ്പെടുത്തുക', allCaughtUp: 'നിങ്ങൾ എല്ലാം കണ്ടുകഴിഞ്ഞു!' },
+  te: { title: 'నోటిఫికేషన్‌లు', empty: 'ఇంకా నోటిఫికేషన్‌లు లేవు - ఆర్డర్ అప్‌డేట్‌లు ఇక్కడ కనిపిస్తాయి.', markAllRead: 'అన్నింటినీ చదివినట్లు గుర్తించండి', allCaughtUp: 'మీరు అన్నీ చూశారు!' },
+  kn: { title: 'ಅಧಿಸೂಚನೆಗಳು', empty: 'ಇನ್ನೂ ಅಧಿಸೂಚನೆಗಳಿಲ್ಲ - ಆರ್ಡರ್ ಅಪ್‌ಡೇಟ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.', markAllRead: 'ಎಲ್ಲವನ್ನೂ ಓದಿದಂತೆ ಗುರುತಿಸಿ', allCaughtUp: 'ನೀವು ಎಲ್ಲವನ್ನೂ ನೋಡಿದ್ದೀರಿ!' },
+};
+
+const footer = {
+  // `tagline`/`description`/`shop`/`discover`/`account`/`rights`/`builtFor`
+  // were written for an earlier footer layout and are no longer read by
+  // any component (kept only so nothing that might still reference them
+  // breaks) - the keys actually used by the current Footer.jsx follow.
+  en: { tagline: 'GROW BETTER • LIVE GREENER', description: 'A modern AgriTech nursery bringing plants, seeds, planters and gardening essentials together in one place.', shop: 'Shop', discover: 'Discover', account: 'Account', rights: 'All rights reserved.', builtFor: 'Built for a greener everyday.',
+    desc1: 'Healthy soil. Green tomorrow.', desc2: 'Quality products for a sustainable future.',
+    quickLinks: 'Quick Links', linkHome: 'Home', linkAbout: 'About', linkProducts: 'Products', linkServices: 'Services', linkBlog: 'Blog', linkContact: 'Contact Us',
+    ourServices: 'Our Services', seedsNursery: 'Seeds & Nursery', potsPlanters: 'Pots & Planters', plantCare: 'Plant Care', gardenEssentials: 'Garden Essentials', agriculturalSolutions: 'Agricultural Solutions',
+    contactUs: 'Contact Us', copyright: '© 2026 IGO Nursery. All rights reserved.', privacyPolicy: 'Privacy Policy', termsConditions: 'Terms & Conditions' },
+  ta: { tagline: 'சிறப்பாக வளருங்கள் • பசுமையாக வாழுங்கள்', description: 'செடிகள், விதைகள், தொட்டிகள் மற்றும் தோட்ட தேவைகள் அனைத்தையும் ஒரே இடத்தில் வழங்கும் நவீன அக்ரிடெக் நர்சரி.', shop: 'கடை', discover: 'கண்டறியுங்கள்', account: 'கணக்கு', rights: 'அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.', builtFor: 'பசுமையான நாளைக்காக உருவாக்கப்பட்டது.',
+    desc1: 'ஆரோக்கியமான மண். பசுமையான நாளை.', desc2: 'நிலையான எதிர்காலத்திற்கான தரமான தயாரிப்புகள்.',
+    quickLinks: 'விரைவு இணைப்புகள்', linkHome: 'முகப்பு', linkAbout: 'எங்களைப் பற்றி', linkProducts: 'தயாரிப்புகள்', linkServices: 'சேவைகள்', linkBlog: 'வலைப்பதிவு', linkContact: 'தொடர்பு கொள்ள',
+    ourServices: 'எங்கள் சேவைகள்', seedsNursery: 'விதைகள் & நர்சரி', potsPlanters: 'தொட்டிகள் & பிளாண்டர்கள்', plantCare: 'தாவர பராமரிப்பு', gardenEssentials: 'தோட்ட அத்தியாவசியங்கள்', agriculturalSolutions: 'விவசாய தீர்வுகள்',
+    contactUs: 'தொடர்பு கொள்ள', copyright: '© 2026 IGO நர்சரி. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.', privacyPolicy: 'தனியுரிமைக் கொள்கை', termsConditions: 'விதிமுறைகள் & நிபந்தனைகள்' },
+  hi: { tagline: 'बेहतर उगाएं • हरा जिएं', description: 'पौधे, बीज, गमले और बागवानी की हर ज़रूरत एक ही जगह लाने वाली एक आधुनिक एग्रीटेक नर्सरी।', shop: 'दुकान', discover: 'खोजें', account: 'खाता', rights: 'सर्वाधिकार सुरक्षित।', builtFor: 'एक हरे-भरे कल के लिए बनाया गया।',
+    desc1: 'स्वस्थ मिट्टी। हरा कल।', desc2: 'एक स्थायी भविष्य के लिए गुणवत्तापूर्ण उत्पाद।',
+    quickLinks: 'त्वरित लिंक', linkHome: 'होम', linkAbout: 'हमारे बारे में', linkProducts: 'उत्पाद', linkServices: 'सेवाएं', linkBlog: 'ब्लॉग', linkContact: 'संपर्क करें',
+    ourServices: 'हमारी सेवाएं', seedsNursery: 'बीज व नर्सरी', potsPlanters: 'गमले व प्लांटर', plantCare: 'पौधों की देखभाल', gardenEssentials: 'बागवानी आवश्यक वस्तुएं', agriculturalSolutions: 'कृषि समाधान',
+    contactUs: 'संपर्क करें', copyright: '© 2026 IGO नर्सरी। सर्वाधिकार सुरक्षित।', privacyPolicy: 'गोपनीयता नीति', termsConditions: 'नियम व शर्तें' },
+  ml: { tagline: 'നന്നായി വളരൂ • പച്ചയായി ജീവിക്കൂ', description: 'ചെടികൾ, വിത്തുകൾ, ചട്ടികൾ, തോട്ട ആവശ്യങ്ങൾ എല്ലാം ഒരിടത്ത് എത്തിക്കുന്ന ആധുനിക അഗ്രിടെക് നഴ്സറി.', shop: 'ഷോപ്പ്', discover: 'കണ്ടെത്തുക', account: 'അക്കൗണ്ട്', rights: 'എല്ലാ അവകാശങ്ങളും നിക്ഷിപ്തം.', builtFor: 'പച്ചപ്പുള്ള നാളെക്കായി നിർമ്മിച്ചത്.',
+    desc1: 'ആരോഗ്യമുള്ള മണ്ണ്. പച്ചയായ നാളെ.', desc2: 'സുസ്ഥിരമായ ഭാവിക്കായി ഗുണനിലവാരമുള്ള ഉൽപ്പന്നങ്ങൾ.',
+    quickLinks: 'ദ്രുത ലിങ്കുകൾ', linkHome: 'ഹോം', linkAbout: 'ഞങ്ങളെക്കുറിച്ച്', linkProducts: 'ഉൽപ്പന്നങ്ങൾ', linkServices: 'സേവനങ്ങൾ', linkBlog: 'ബ്ലോഗ്', linkContact: 'ബന്ധപ്പെടുക',
+    ourServices: 'ഞങ്ങളുടെ സേവനങ്ങൾ', seedsNursery: 'വിത്തുകളും നഴ്സറിയും', potsPlanters: 'ചട്ടികളും പ്ലാന്ററുകളും', plantCare: 'ചെടി പരിചരണം', gardenEssentials: 'തോട്ട അവശ്യവസ്തുക്കൾ', agriculturalSolutions: 'കാർഷിക പരിഹാരങ്ങൾ',
+    contactUs: 'ബന്ധപ്പെടുക', copyright: '© 2026 IGO നഴ്സറി. എല്ലാ അവകാശങ്ങളും നിക്ഷിപ്തം.', privacyPolicy: 'സ്വകാര്യതാ നയം', termsConditions: 'നിബന്ധനകളും വ്യവസ്ഥകളും' },
+  te: { tagline: 'బాగా పెంచండి • పచ్చగా జీవించండి', description: 'మొక్కలు, విత్తనాలు, కుండలు మరియు తోట అవసరాలను ఒకే చోట తీసుకువచ్చే ఆధునిక అగ్రిటెక్ నర్సరీ.', shop: 'షాప్', discover: 'కనుగొనండి', account: 'ఖాతా', rights: 'అన్ని హక్కులు రక్షించబడ్డాయి.', builtFor: 'పచ్చని రేపటి కోసం నిర్మించబడింది.',
+    desc1: 'ఆరోగ్యకరమైన నేల. పచ్చని రేపు.', desc2: 'సుస్థిర భవిష్యత్తు కోసం నాణ్యమైన ఉత్పత్తులు.',
+    quickLinks: 'త్వరిత లింకులు', linkHome: 'హోమ్', linkAbout: 'మా గురించి', linkProducts: 'ఉత్పత్తులు', linkServices: 'సేవలు', linkBlog: 'బ్లాగ్', linkContact: 'సంప్రదించండి',
+    ourServices: 'మా సేవలు', seedsNursery: 'విత్తనాలు & నర్సరీ', potsPlanters: 'కుండలు & ప్లాంటర్లు', plantCare: 'మొక్కల సంరక్షణ', gardenEssentials: 'తోట అవసరాలు', agriculturalSolutions: 'వ్యవసాయ పరిష్కారాలు',
+    contactUs: 'సంప్రదించండి', copyright: '© 2026 IGO నర్సరీ. అన్ని హక్కులు రక్షించబడ్డాయి.', privacyPolicy: 'గోప్యతా విధానం', termsConditions: 'నిబంధనలు & షరతులు' },
+  kn: { tagline: 'ಚೆನ್ನಾಗಿ ಬೆಳೆಸಿ • ಹಸಿರಾಗಿ ಬದುಕಿ', description: 'ಸಸ್ಯಗಳು, ಬೀಜಗಳು, ಪಾಟ್‌ಗಳು ಮತ್ತು ತೋಟದ ಅಗತ್ಯಗಳನ್ನು ಒಂದೇ ಸ್ಥಳದಲ್ಲಿ ತರುವ ಆಧುನಿಕ ಅಗ್ರಿಟೆಕ್ ನರ್ಸರಿ.', shop: 'ಅಂಗಡಿ', discover: 'ಅನ್ವೇಷಿಸಿ', account: 'ಖಾತೆ', rights: 'ಎಲ್ಲಾ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.', builtFor: 'ಹಸಿರಾದ ನಾಳೆಗಾಗಿ ನಿರ್ಮಿಸಲಾಗಿದೆ.',
+    desc1: 'ಆರೋಗ್ಯಕರ ಮಣ್ಣು. ಹಸಿರು ನಾಳೆ.', desc2: 'ಸುಸ್ಥಿರ ಭವಿಷ್ಯಕ್ಕಾಗಿ ಗುಣಮಟ್ಟದ ಉತ್ಪನ್ನಗಳು.',
+    quickLinks: 'ತ್ವರಿತ ಲಿಂಕ್‌ಗಳು', linkHome: 'ಹೋಮ್', linkAbout: 'ನಮ್ಮ ಬಗ್ಗೆ', linkProducts: 'ಉತ್ಪನ್ನಗಳು', linkServices: 'ಸೇವೆಗಳು', linkBlog: 'ಬ್ಲಾಗ್', linkContact: 'ಸಂಪರ್ಕಿಸಿ',
+    ourServices: 'ನಮ್ಮ ಸೇವೆಗಳು', seedsNursery: 'ಬೀಜಗಳು & ನರ್ಸರಿ', potsPlanters: 'ಪಾಟ್‌ಗಳು ಮತ್ತು ಪ್ಲಾಂಟರ್‌ಗಳು', plantCare: 'ಸಸ್ಯ ಆರೈಕೆ', gardenEssentials: 'ತೋಟದ ಅಗತ್ಯ ವಸ್ತುಗಳು', agriculturalSolutions: 'ಕೃಷಿ ಪರಿಹಾರಗಳು',
+    contactUs: 'ಸಂಪರ್ಕಿಸಿ', copyright: '© 2026 IGO ನರ್ಸರಿ. ಎಲ್ಲಾ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.', privacyPolicy: 'ಗೌಪ್ಯತಾ ನೀತಿ', termsConditions: 'ನಿಯಮಗಳು ಮತ್ತು ಷರತ್ತುಗಳು' },
+};
+
+const about = {
+  en: { badge: 'Our Story', title: 'Our Story.', quotePlain: 'Anyone can grow', quoteHighlight: 'something beautiful.',
+    paragraph1: 'IGO Nursery started as a small AgriTech lab in Muttukadu, testing how IoT monitoring and precision trials could grow healthier plants at scale. Today every plant that reaches your door has passed through that same lab before it ever reaches the catalogue.',
+    paragraph2Before: 'We believe that once you feel a real connection to nature, ', paragraph2Strong: 'it stays with you', paragraph2After: " - which is why every plant, pot and seed in our catalogue is chosen to make that connection easier to find, whether you're growing your first leaf or your hundredth.",
+    paragraph3: 'Welcome to IGO Nursery, your one-stop gardening shop!', designation: 'Founder, IGO Nursery', customerReviews: 'What Our Customers Say' },
+  ta: { badge: 'எங்கள் கதை', title: 'எங்கள் கதை.', quotePlain: 'யார் வேண்டுமானாலும் வளர்க்கலாம்', quoteHighlight: 'ஒரு அழகான விஷயத்தை.',
+    paragraph1: 'IGO நர்சரி முட்டுக்காடில் ஒரு சிறிய அக்ரிடெக் ஆய்வகமாக தொடங்கியது, IoT கண்காணிப்பு மற்றும் துல்லியமான சோதனைகள் மூலம் ஆரோக்கியமான செடிகளை பெரிய அளவில் வளர்க்க முடியுமா என்பதை சோதித்தது. இன்று உங்கள் வீட்டு வாசலை அடையும் ஒவ்வொரு செடியும் பட்டியலில் சேருவதற்கு முன் அதே ஆய்வகத்தின் வழியாக சென்றுள்ளது.',
+    paragraph2Before: 'இயற்கையுடன் ஒரு உண்மையான தொடர்பை நீங்கள் உணர்ந்தால், ', paragraph2Strong: 'அது உங்களுடனே இருக்கும்', paragraph2After: ' - அதனால்தான் எங்கள் பட்டியலில் உள்ள ஒவ்வொரு செடி, தொட்டி மற்றும் விதையும் அந்த தொடர்பை எளிதாக்க தேர்ந்தெடுக்கப்படுகிறது, நீங்கள் உங்கள் முதல் இலையை வளர்த்தாலும் சரி, நூறாவது இலையை வளர்த்தாலும் சரி.',
+    paragraph3: 'IGO நர்சரிக்கு வரவேற்கிறோம், உங்கள் ஒரே இடத் தோட்ட கடை!', designation: 'நிறுவனர், IGO நர்சரி', customerReviews: 'எங்கள் வாடிக்கையாளர்கள் என்ன சொல்கிறார்கள்' },
+  hi: { badge: 'हमारी कहानी', title: 'हमारी कहानी.', quotePlain: 'कोई भी उगा सकता है', quoteHighlight: 'कुछ खूबसूरत।',
+    paragraph1: 'IGO नर्सरी मुट्टुक्कादु में एक छोटी एग्रीटेक लैब के रूप में शुरू हुई, यह परखते हुए कि IoT मॉनिटरिंग और सटीक परीक्षण बड़े पैमाने पर स्वस्थ पौधे कैसे उगा सकते हैं। आज आपके दरवाज़े तक पहुंचने वाला हर पौधा कैटलॉग में शामिल होने से पहले उसी लैब से गुज़रा है।',
+    paragraph2Before: 'हमारा मानना है कि प्रकृति से एक सच्चा जुड़ाव महसूस करने के बाद, ', paragraph2Strong: 'वह हमेशा आपके साथ रहता है', paragraph2After: ' - इसीलिए हमारे कैटलॉग में हर पौधा, गमला और बीज इस तरह चुना जाता है कि यह जुड़ाव ढूंढना आसान हो जाए, चाहे आप अपना पहला पत्ता उगा रहे हों या सौवां।',
+    paragraph3: 'IGO नर्सरी में आपका स्वागत है, आपकी वन-स्टॉप बागवानी दुकान!', designation: 'संस्थापक, IGO नर्सरी', customerReviews: 'हमारे ग्राहक क्या कहते हैं' },
+  ml: { badge: 'ഞങ്ങളുടെ കഥ', title: 'ഞങ്ങളുടെ കഥ.', quotePlain: 'ആർക്കും വളർത്താം', quoteHighlight: 'മനോഹരമായ എന്തെങ്കിലും.',
+    paragraph1: 'IGO നഴ്സറി മുട്ടുക്കാട്ടിൽ ഒരു ചെറിയ അഗ്രിടെക് ലാബായി ആരംഭിച്ചു, IoT നിരീക്ഷണവും കൃത്യമായ പരീക്ഷണങ്ങളും വലിയ തോതിൽ ആരോഗ്യമുള്ള ചെടികൾ വളർത്താൻ എങ്ങനെ സഹായിക്കുമെന്ന് പരിശോധിച്ചു. ഇന്ന് നിങ്ങളുടെ വീട്ടിലെത്തുന്ന ഓരോ ചെടിയും കാറ്റലോഗിൽ എത്തുന്നതിന് മുമ്പ് അതേ ലാബിലൂടെ കടന്നുപോയിട്ടുണ്ട്.',
+    paragraph2Before: 'പ്രകൃതിയുമായി ഒരു യഥാർത്ഥ ബന്ധം അനുഭവിച്ചാൽ, ', paragraph2Strong: 'അത് നിങ്ങളോടൊപ്പം നിലനിൽക്കും', paragraph2After: ' - അതുകൊണ്ടാണ് ഞങ്ങളുടെ കാറ്റലോഗിലെ ഓരോ ചെടിയും ചട്ടിയും വിത്തും ആ ബന്ധം കണ്ടെത്താൻ എളുപ്പമാക്കാൻ തിരഞ്ഞെടുക്കുന്നത്, നിങ്ങൾ നിങ്ങളുടെ ആദ്യ ഇല വളർത്തുകയാണെങ്കിലും നൂറാമത്തേതായാലും.',
+    paragraph3: 'IGO നഴ്സറിയിലേക്ക് സ്വാഗതം, നിങ്ങളുടെ വൺ-സ്റ്റോപ്പ് ഗാർഡനിംഗ് ഷോപ്പ്!', designation: 'സ്ഥാപകൻ, IGO നഴ്സറി', customerReviews: 'ഞങ്ങളുടെ ഉപഭോക്താക്കൾ എന്ത് പറയുന്നു' },
+  te: { badge: 'మా కథ', title: 'మా కథ.', quotePlain: 'ఎవరైనా పెంచగలరు', quoteHighlight: 'అందమైనదాన్ని.',
+    paragraph1: 'IGO నర్సరీ ముట్టుక్కాడులో ఒక చిన్న అగ్రిటెక్ ల్యాబ్‌గా ప్రారంభమైంది, IoT పర్యవేక్షణ మరియు ఖచ్చితమైన ట్రయల్స్ పెద్ద ఎత్తున ఆరోగ్యకరమైన మొక్కలను ఎలా పెంచగలవో పరీక్షించింది. ఈరోజు మీ ఇంటికి చేరే ప్రతి మొక్క కేటలాగ్‌లోకి చేరడానికి ముందు అదే ల్యాబ్ ద్వారా వెళ్ళింది.',
+    paragraph2Before: 'ప్రకృతితో నిజమైన అనుబంధాన్ని అనుభవించిన తర్వాత, ', paragraph2Strong: 'అది మీతోనే ఉంటుంది', paragraph2After: ' - అందుకే మా కేటలాగ్‌లోని ప్రతి మొక్క, కుండ మరియు విత్తనం ఆ అనుబంధాన్ని సులభంగా కనుగొనేలా ఎంపిక చేయబడింది, మీరు మీ మొదటి ఆకును పెంచుతున్నా లేదా వందవదైనా.',
+    paragraph3: 'IGO నర్సరీకి స్వాగతం, మీ వన్-స్టాప్ గార్డెనింగ్ షాప్!', designation: 'వ్యవస్థాపకుడు, IGO నర్సరీ', customerReviews: 'మా కస్టమర్లు ఏమి చెబుతున్నారు' },
+  kn: { badge: 'ನಮ್ಮ ಕಥೆ', title: 'ನಮ್ಮ ಕಥೆ.', quotePlain: 'ಯಾರಾದರೂ ಬೆಳೆಸಬಹುದು', quoteHighlight: 'ಸುಂದರವಾದದ್ದನ್ನು.',
+    paragraph1: 'IGO ನರ್ಸರಿ ಮುಟ್ಟುಕಾಡಿನಲ್ಲಿ ಒಂದು ಸಣ್ಣ ಅಗ್ರಿಟೆಕ್ ಲ್ಯಾಬ್ ಆಗಿ ಪ್ರಾರಂಭವಾಯಿತು, IoT ಮಾನಿಟರಿಂಗ್ ಮತ್ತು ನಿಖರವಾದ ಪ್ರಯೋಗಗಳು ದೊಡ್ಡ ಪ್ರಮಾಣದಲ್ಲಿ ಆರೋಗ್ಯಕರ ಸಸ್ಯಗಳನ್ನು ಹೇಗೆ ಬೆಳೆಸಬಹುದು ಎಂದು ಪರೀಕ್ಷಿಸಿತು. ಇಂದು ನಿಮ್ಮ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪುವ ಪ್ರತಿ ಸಸ್ಯವೂ ಕ್ಯಾಟಲಾಗ್‌ಗೆ ಸೇರುವ ಮೊದಲು ಅದೇ ಲ್ಯಾಬ್ ಮೂಲಕ ಹಾದುಹೋಗಿದೆ.',
+    paragraph2Before: 'ಪ್ರಕೃತಿಯೊಂದಿಗೆ ನಿಜವಾದ ಸಂಪರ್ಕವನ್ನು ಅನುಭವಿಸಿದ ನಂತರ, ', paragraph2Strong: 'ಅದು ನಿಮ್ಮೊಂದಿಗೆ ಉಳಿಯುತ್ತದೆ', paragraph2After: ' - ಅದಕ್ಕಾಗಿಯೇ ನಮ್ಮ ಕ್ಯಾಟಲಾಗ್‌ನಲ್ಲಿರುವ ಪ್ರತಿ ಸಸ್ಯ, ಪಾಟ್ ಮತ್ತು ಬೀಜವನ್ನು ಆ ಸಂಪರ್ಕವನ್ನು ಸುಲಭವಾಗಿ ಕಂಡುಕೊಳ್ಳಲು ಆಯ್ಕೆ ಮಾಡಲಾಗುತ್ತದೆ, ನೀವು ನಿಮ್ಮ ಮೊದಲ ಎಲೆಯನ್ನು ಬೆಳೆಸುತ್ತಿರಲಿ ಅಥವಾ ನೂರನೆಯದನ್ನಾಗಲಿ.',
+    paragraph3: 'IGO ನರ್ಸರಿಗೆ ಸ್ವಾಗತ, ನಿಮ್ಮ ಒನ್-ಸ್ಟಾಪ್ ಗಾರ್ಡನಿಂಗ್ ಶಾಪ್!', designation: 'ಸಂಸ್ಥಾಪಕರು, IGO ನರ್ಸರಿ', customerReviews: 'ನಮ್ಮ ಗ್ರಾಹಕರು ಏನು ಹೇಳುತ್ತಾರೆ' },
+};
+
+const cart = {
+  en: { title: 'Shopping cart', empty: 'Your cart is waiting for something green.', continueShopping: 'Continue shopping', orderSummary: 'Order summary', subtotal: 'Subtotal', delivery: 'Delivery', calculatedAtCheckout: 'Calculated at checkout', proceedToCheckout: 'Proceed to checkout', remove: 'Remove', quantity: 'Quantity', discount: 'Discount', total: 'Total', applyCoupon: 'Apply coupon' },
+  ta: { title: 'கார்ட்', empty: 'உங்கள் கார்ட் ஏதோ பசுமையானதற்காக காத்திருக்கிறது.', continueShopping: 'தொடர்ந்து ஷாப்பிங் செய்யுங்கள்', orderSummary: 'ஆர்டர் சுருக்கம்', subtotal: 'மொத்தம்', delivery: 'டெலிவரி', calculatedAtCheckout: 'செக்அவுட்டில் கணக்கிடப்படும்', proceedToCheckout: 'செக்அவுட் செய்யவும்', remove: 'நீக்கு', quantity: 'எண்ணிக்கை', discount: 'தள்ளுபடி', total: 'மொத்த தொகை', applyCoupon: 'கூப்பன் பயன்படுத்து' },
+  hi: { title: 'शॉपिंग कार्ट', empty: 'आपका कार्ट किसी हरे-भरे चीज़ का इंतज़ार कर रहा है।', continueShopping: 'खरीदारी जारी रखें', orderSummary: 'ऑर्डर सारांश', subtotal: 'उप-योग', delivery: 'डिलीवरी', calculatedAtCheckout: 'चेकआउट पर गणना की जाएगी', proceedToCheckout: 'चेकआउट पर जाएं', remove: 'हटाएं', quantity: 'मात्रा', discount: 'छूट', total: 'कुल', applyCoupon: 'कूपन लगाएं' },
+  ml: { title: 'ഷോപ്പിംഗ് കാർട്ട്', empty: 'നിങ്ങളുടെ കാർട്ട് പച്ചയായ എന്തിനോ കാത്തിരിക്കുന്നു.', continueShopping: 'ഷോപ്പിംഗ് തുടരുക', orderSummary: 'ഓർഡർ സംഗ്രഹം', subtotal: 'ഉപആകെത്തുക', delivery: 'ഡെലിവറി', calculatedAtCheckout: 'ചെക്ക്ഔട്ടിൽ കണക്കാക്കും', proceedToCheckout: 'ചെക്ക്ഔട്ട് ചെയ്യുക', remove: 'നീക്കം ചെയ്യുക', quantity: 'അളവ്', discount: 'കിഴിവ്', total: 'ആകെ', applyCoupon: 'കൂപ്പൺ പ്രയോഗിക്കുക' },
+  te: { title: 'షాపింగ్ కార్ట్', empty: 'మీ కార్ట్ పచ్చని దాని కోసం ఎదురుచూస్తోంది.', continueShopping: 'షాపింగ్ కొనసాగించండి', orderSummary: 'ఆర్డర్ సారాంశం', subtotal: 'ఉప మొత్తం', delivery: 'డెలివరీ', calculatedAtCheckout: 'చెక్అవుట్‌లో లెక్కించబడుతుంది', proceedToCheckout: 'చెక్అవుట్‌కు వెళ్లండి', remove: 'తొలగించు', quantity: 'పరిమాణం', discount: 'తగ్గింపు', total: 'మొత్తం', applyCoupon: 'కూపన్ వర్తింపజేయండి' },
+  kn: { title: 'ಶಾಪಿಂಗ್ ಕಾರ್ಟ್', empty: 'ನಿಮ್ಮ ಕಾರ್ಟ್ ಹಸಿರಾದ ಏನೋ ಒಂದಕ್ಕಾಗಿ ಕಾಯುತ್ತಿದೆ.', continueShopping: 'ಶಾಪಿಂಗ್ ಮುಂದುವರಿಸಿ', orderSummary: 'ಆರ್ಡರ್ ಸಾರಾಂಶ', subtotal: 'ಉಪ ಮೊತ್ತ', delivery: 'ಡೆಲಿವರಿ', calculatedAtCheckout: 'ಚೆಕ್‌ಔಟ್‌ನಲ್ಲಿ ಲೆಕ್ಕಹಾಕಲಾಗುತ್ತದೆ', proceedToCheckout: 'ಚೆಕ್‌ಔಟ್‌ಗೆ ಮುಂದುವರಿಯಿರಿ', remove: 'ತೆಗೆದುಹಾಕಿ', quantity: 'ಪ್ರಮಾಣ', discount: 'ರಿಯಾಯಿತಿ', total: 'ಒಟ್ಟು', applyCoupon: 'ಕೂಪನ್ ಅನ್ವಯಿಸಿ' },
+};
+
+const auth = {
+  en: { signIn: 'Sign in', createAccount: 'Create account', email: 'Email', password: 'Password', name: 'Name', logIn: 'Log in', logOut: 'Log out', phone: 'Phone number', emailRequired: 'Please enter your email address.', passwordRequired: 'Please enter your password.', invalidCredentials: 'Incorrect email or password.', heroLine1: 'Future of', heroLine2: 'Farming', heroLine3: 'Starts Here', heroDesc: 'Experience innovation through smart monitoring, intelligent alerts, and advanced agricultural systems.', createYourAccount: 'Create your account', fullName: 'Full Name', emailAddress: 'Email Address', hide: 'HIDE', show: 'SHOW', rememberMe: 'Remember Me', creatingAccount: 'CREATING ACCOUNT…', signingIn: 'SIGNING IN…', createAccountBtn: 'CREATE ACCOUNT', signInNow: 'SIGN IN NOW', notMemberYet: 'Not a member yet?', joinNow: 'Join Now!', alreadyHaveAccount: 'Already have an account?', close: 'Close and return to homepage', errInvalidEmail: "That email address doesn't look right.", errAccountExists: 'An account already exists with this email - try signing in instead.', errWeakPassword: 'Password should be at least 6 characters.', errGeneric: 'Something went wrong. Please try again.' },
+  ta: { signIn: 'உள்நுழையவும்', createAccount: 'கணக்கை உருவாக்கவும்', email: 'மின்னஞ்சல்', password: 'கடவுச்சொல்', name: 'பெயர்', logIn: 'உள்நுழையவும்', logOut: 'வெளியேறு', phone: 'தொலைபேசி எண்', emailRequired: 'உங்கள் மின்னஞ்சல் முகவரியை உள்ளிடவும்.', passwordRequired: 'உங்கள் கடவுச்சொல்லை உள்ளிடவும்.', invalidCredentials: 'தவறான மின்னஞ்சல் அல்லது கடவுச்சொல்.', heroLine1: 'விவசாயத்தின்', heroLine2: 'எதிர்காலம்', heroLine3: 'இங்கே தொடங்குகிறது', heroDesc: 'ஸ்மார்ட் மானிட்டரிங், அறிவார்ந்த எச்சரிக்கைகள் மற்றும் மேம்பட்ட விவசாய அமைப்புகள் மூலம் புத்தாக்கத்தை அனுபவிக்கவும்.', createYourAccount: 'உங்கள் கணக்கை உருவாக்கவும்', fullName: 'முழு பெயர்', emailAddress: 'மின்னஞ்சல் முகவரி', hide: 'மறை', show: 'காட்டு', rememberMe: 'என்னை நினைவில் வை', creatingAccount: 'கணக்கு உருவாக்கப்படுகிறது…', signingIn: 'உள்நுழைகிறது…', createAccountBtn: 'கணக்கை உருவாக்கவும்', signInNow: 'இப்போது உள்நுழையவும்', notMemberYet: 'இன்னும் உறுப்பினர் இல்லையா?', joinNow: 'இப்போது சேரவும்!', alreadyHaveAccount: 'ஏற்கனவே கணக்கு உள்ளதா?', close: 'மூடி முகப்புக்குத் திரும்பு', errInvalidEmail: 'அந்த மின்னஞ்சல் முகவரி சரியாகத் தெரியவில்லை.', errAccountExists: 'இந்த மின்னஞ்சலில் ஏற்கனவே ஒரு கணக்கு உள்ளது - உள்நுழைய முயற்சிக்கவும்.', errWeakPassword: 'கடவுச்சொல் குறைந்தது 6 எழுத்துக்கள் இருக்க வேண்டும்.', errGeneric: 'ஏதோ தவறு நடந்தது. மீண்டும் முயற்சிக்கவும்.' },
+  hi: { signIn: 'साइन इन करें', createAccount: 'खाता बनाएं', email: 'ईमेल', password: 'पासवर्ड', name: 'नाम', logIn: 'लॉग इन करें', logOut: 'लॉग आउट', phone: 'फ़ोन नंबर', emailRequired: 'कृपया अपना ईमेल पता दर्ज करें।', passwordRequired: 'कृपया अपना पासवर्ड दर्ज करें।', invalidCredentials: 'गलत ईमेल या पासवर्ड।', heroLine1: 'खेती का', heroLine2: 'भविष्य', heroLine3: 'यहीं से शुरू होता है', heroDesc: 'स्मार्ट मॉनिटरिंग, बुद्धिमान अलर्ट और उन्नत कृषि प्रणालियों के माध्यम से नवाचार का अनुभव करें।', createYourAccount: 'अपना खाता बनाएं', fullName: 'पूरा नाम', emailAddress: 'ईमेल पता', hide: 'छुपाएं', show: 'दिखाएं', rememberMe: 'मुझे याद रखें', creatingAccount: 'खाता बनाया जा रहा है…', signingIn: 'साइन इन हो रहा है…', createAccountBtn: 'खाता बनाएं', signInNow: 'अभी साइन इन करें', notMemberYet: 'अभी सदस्य नहीं हैं?', joinNow: 'अभी जुड़ें!', alreadyHaveAccount: 'पहले से खाता है?', close: 'बंद करें और होम पेज पर लौटें', errInvalidEmail: 'वह ईमेल पता सही नहीं लगता।', errAccountExists: 'इस ईमेल से पहले से एक खाता मौजूद है - इसके बजाय साइन इन करें।', errWeakPassword: 'पासवर्ड कम से कम 6 अक्षरों का होना चाहिए।', errGeneric: 'कुछ गलत हो गया। कृपया पुनः प्रयास करें।' },
+  ml: { signIn: 'സൈൻ ഇൻ ചെയ്യുക', createAccount: 'അക്കൗണ്ട് സൃഷ്ടിക്കുക', email: 'ഇമെയിൽ', password: 'പാസ്‌വേഡ്', name: 'പേര്', logIn: 'ലോഗിൻ ചെയ്യുക', logOut: 'ലോഗ് ഔട്ട്', phone: 'ഫോൺ നമ്പർ', emailRequired: 'നിങ്ങളുടെ ഇമെയിൽ വിലാസം നൽകുക.', passwordRequired: 'നിങ്ങളുടെ പാസ്‌വേഡ് നൽകുക.', invalidCredentials: 'തെറ്റായ ഇമെയിൽ അല്ലെങ്കിൽ പാസ്‌വേഡ്.', heroLine1: 'കൃഷിയുടെ', heroLine2: 'ഭാവി', heroLine3: 'ഇവിടെ തുടങ്ങുന്നു', heroDesc: 'സ്മാർട്ട് മോണിറ്ററിംഗ്, ബുദ്ധിപരമായ അലേർട്ടുകൾ, വിപുലമായ കാർഷിക സംവിധാനങ്ങൾ എന്നിവയിലൂടെ നൂതനത്വം അനുഭവിക്കൂ.', createYourAccount: 'നിങ്ങളുടെ അക്കൗണ്ട് സൃഷ്ടിക്കുക', fullName: 'പൂർണ്ണ നാമം', emailAddress: 'ഇമെയിൽ വിലാസം', hide: 'മറയ്ക്കുക', show: 'കാണിക്കുക', rememberMe: 'എന്നെ ഓർമ്മിക്കുക', creatingAccount: 'അക്കൗണ്ട് സൃഷ്ടിക്കുന്നു…', signingIn: 'സൈൻ ഇൻ ചെയ്യുന്നു…', createAccountBtn: 'അക്കൗണ്ട് സൃഷ്ടിക്കുക', signInNow: 'ഇപ്പോൾ സൈൻ ഇൻ ചെയ്യുക', notMemberYet: 'ഇതുവരെ അംഗമല്ലേ?', joinNow: 'ഇപ്പോൾ ചേരുക!', alreadyHaveAccount: 'ഇതിനകം അക്കൗണ്ട് ഉണ്ടോ?', close: 'അടച്ച് ഹോമിലേക്ക് മടങ്ങുക', errInvalidEmail: 'ആ ഇമെയിൽ വിലാസം ശരിയായി തോന്നുന്നില്ല.', errAccountExists: 'ഈ ഇമെയിലിൽ ഒരു അക്കൗണ്ട് ഇതിനകം നിലവിലുണ്ട് - പകരം സൈൻ ഇൻ ചെയ്യാൻ ശ്രമിക്കുക.', errWeakPassword: 'പാസ്‌വേഡ് കുറഞ്ഞത് 6 പ്രതീകങ്ങൾ ആയിരിക്കണം.', errGeneric: 'എന്തോ പിശക് സംഭവിച്ചു. വീണ്ടും ശ്രമിക്കുക.' },
+  te: { signIn: 'సైన్ ఇన్ చేయండి', createAccount: 'ఖాతా సృష్టించండి', email: 'ఇమెయిల్', password: 'పాస్‌వర్డ్', name: 'పేరు', logIn: 'లాగిన్ చేయండి', logOut: 'లాగ్ అవుట్', phone: 'ఫోన్ నంబర్', emailRequired: 'దయచేసి మీ ఇమెయిల్ చిరునామాను నమోదు చేయండి.', passwordRequired: 'దయచేసి మీ పాస్‌వర్డ్‌ను నమోదు చేయండి.', invalidCredentials: 'తప్పు ఇమెయిల్ లేదా పాస్‌వర్డ్.', heroLine1: 'వ్యవసాయ', heroLine2: 'భవిష్యత్తు', heroLine3: 'ఇక్కడ ప్రారంభమవుతుంది', heroDesc: 'స్మార్ట్ మానిటరింగ్, తెలివైన హెచ్చరికలు మరియు అధునాతన వ్యవసాయ వ్యవస్థల ద్వారా ఆవిష్కరణను అనుభవించండి.', createYourAccount: 'మీ ఖాతాను సృష్టించండి', fullName: 'పూర్తి పేరు', emailAddress: 'ఇమెయిల్ చిరునామా', hide: 'దాచు', show: 'చూపించు', rememberMe: 'నన్ను గుర్తుంచుకో', creatingAccount: 'ఖాతా సృష్టించబడుతోంది…', signingIn: 'సైన్ ఇన్ అవుతోంది…', createAccountBtn: 'ఖాతా సృష్టించండి', signInNow: 'ఇప్పుడే సైన్ ఇన్ చేయండి', notMemberYet: 'ఇంకా సభ్యులు కాదా?', joinNow: 'ఇప్పుడే చేరండి!', alreadyHaveAccount: 'ఇప్పటికే ఖాతా ఉందా?', close: 'మూసివేసి హోమ్‌కు తిరిగి వెళ్లండి', errInvalidEmail: 'ఆ ఇమెయిల్ చిరునామా సరిగ్గా కనిపించడం లేదు.', errAccountExists: 'ఈ ఇమెయిల్‌తో ఖాతా ఇప్పటికే ఉంది - బదులుగా సైన్ ఇన్ చేయడానికి ప్రయత్నించండి.', errWeakPassword: 'పాస్‌వర్డ్ కనీసం 6 అక్షరాలు ఉండాలి.', errGeneric: 'ఏదో తప్పు జరిగింది. దయచేసి మళ్ళీ ప్రయత్నించండి.' },
+  kn: { signIn: 'ಸೈನ್ ಇನ್ ಮಾಡಿ', createAccount: 'ಖಾತೆ ರಚಿಸಿ', email: 'ಇಮೇಲ್', password: 'ಪಾಸ್‌ವರ್ಡ್', name: 'ಹೆಸರು', logIn: 'ಲಾಗ್ ಇನ್ ಮಾಡಿ', logOut: 'ಲಾಗ್ ಔಟ್', phone: 'ಫೋನ್ ಸಂಖ್ಯೆ', emailRequired: 'ದಯವಿಟ್ಟು ನಿಮ್ಮ ಇಮೇಲ್ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ.', passwordRequired: 'ದಯವಿಟ್ಟು ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ.', invalidCredentials: 'ತಪ್ಪಾದ ಇಮೇಲ್ ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್.', heroLine1: 'ಕೃಷಿಯ', heroLine2: 'ಭವಿಷ್ಯ', heroLine3: 'ಇಲ್ಲಿ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ', heroDesc: 'ಸ್ಮಾರ್ಟ್ ಮಾನಿಟರಿಂಗ್, ಬುದ್ಧಿವಂತ ಎಚ್ಚರಿಕೆಗಳು ಮತ್ತು ಸುಧಾರಿತ ಕೃಷಿ ವ್ಯವಸ್ಥೆಗಳ ಮೂಲಕ ನಾವೀನ್ಯತೆಯನ್ನು ಅನುಭವಿಸಿ.', createYourAccount: 'ನಿಮ್ಮ ಖಾತೆಯನ್ನು ರಚಿಸಿ', fullName: 'ಪೂರ್ಣ ಹೆಸರು', emailAddress: 'ಇಮೇಲ್ ವಿಳಾಸ', hide: 'ಮರೆಮಾಡಿ', show: 'ತೋರಿಸಿ', rememberMe: 'ನನ್ನನ್ನು ನೆನಪಿಡಿ', creatingAccount: 'ಖಾತೆ ರಚಿಸಲಾಗುತ್ತಿದೆ…', signingIn: 'ಸೈನ್ ಇನ್ ಆಗುತ್ತಿದೆ…', createAccountBtn: 'ಖಾತೆ ರಚಿಸಿ', signInNow: 'ಈಗ ಸೈನ್ ಇನ್ ಮಾಡಿ', notMemberYet: 'ಇನ್ನೂ ಸದಸ್ಯರಲ್ಲವೇ?', joinNow: 'ಈಗ ಸೇರಿ!', alreadyHaveAccount: 'ಈಗಾಗಲೇ ಖಾತೆ ಇದೆಯೇ?', close: 'ಮುಚ್ಚಿ ಹೋಮ್‌ಗೆ ಹಿಂತಿರುಗಿ', errInvalidEmail: 'ಆ ಇಮೇಲ್ ವಿಳಾಸ ಸರಿಯಾಗಿ ಕಾಣುತ್ತಿಲ್ಲ.', errAccountExists: 'ಈ ಇಮೇಲ್‌ನೊಂದಿಗೆ ಖಾತೆ ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ - ಬದಲಿಗೆ ಸೈನ್ ಇನ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಿ.', errWeakPassword: 'ಪಾಸ್‌ವರ್ಡ್ ಕನಿಷ್ಠ 6 ಅಕ್ಷರಗಳಿರಬೇಕು.', errGeneric: 'ಏನೋ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.' },
+};
+
+const checkout = {
+  en: { customerInfo: 'Customer information', address: 'Address', deliveryAddress: 'Delivery address', paymentMethod: 'Payment method', orderSummary: 'Order summary', placeOrder: 'Place order', placingOrder: 'Placing order…', paymentSuccessful: 'Payment successful', paymentFailed: 'Payment failed', addAddress: 'Add address', title: 'Checkout', secureCheckout: 'Secure checkout', emptyCart: "Your cart is empty - add something before checking out.", step1: 'Delivery address', step2: 'Payment method', step3: 'Review your order', loadingAddresses: 'Loading addresses…', addNewAddress: '+ Add a new address', useSavedAddress: '← Use a saved address', cashOnDelivery: 'Cash on Delivery', upi: 'UPI', delivery: 'Delivery', free: 'Free', total: 'Total', secureNote: '🔒 Your information is encrypted and secure.', fillRequiredFields: 'Please fill in all the required address fields.', selectOrAddAddress: 'Please select or add a delivery address.', couldNotPlaceOrder: 'Could not place your order. Please try again.', orderPlacedToast: 'Order placed! Thank you for shopping with us.', viewOrders: 'View Orders' },
+  ta: { customerInfo: 'வாடிக்கையாளர் தகவல்', address: 'முகவரி', deliveryAddress: 'டெலிவரி முகவரி', paymentMethod: 'கட்டண முறை', orderSummary: 'ஆர்டர் சுருக்கம்', placeOrder: 'ஆர்டர் செய்யவும்', placingOrder: 'ஆர்டர் செய்யப்படுகிறது…', paymentSuccessful: 'கட்டணம் வெற்றிகரமாக முடிந்தது', paymentFailed: 'கட்டணம் தோல்வியடைந்தது', addAddress: 'முகவரி சேர்', title: 'செக்அவுட்', secureCheckout: 'பாதுகாப்பான செக்அவுட்', emptyCart: 'உங்கள் கார்ட் காலியாக உள்ளது - செக்அவுட் செய்வதற்கு முன் ஏதாவது சேர்க்கவும்.', step1: 'டெலிவரி முகவரி', step2: 'கட்டண முறை', step3: 'உங்கள் ஆர்டரை மதிப்பாய்வு செய்யவும்', loadingAddresses: 'முகவரிகள் ஏற்றப்படுகின்றன…', addNewAddress: '+ புதிய முகவரியைச் சேர்க்கவும்', useSavedAddress: '← சேமிக்கப்பட்ட முகவரியைப் பயன்படுத்தவும்', cashOnDelivery: 'டெலிவரியில் பணம் செலுத்துதல்', upi: 'UPI', delivery: 'டெலிவரி', free: 'இலவசம்', total: 'மொத்த தொகை', secureNote: '🔒 உங்கள் தகவல் குறியாக்கம் செய்யப்பட்டு பாதுகாப்பாக உள்ளது.', fillRequiredFields: 'தேவையான அனைத்து முகவரி விவரங்களையும் நிரப்பவும்.', selectOrAddAddress: 'டெலிவரி முகவரியைத் தேர்ந்தெடுக்கவும் அல்லது சேர்க்கவும்.', couldNotPlaceOrder: 'உங்கள் ஆர்டரை செய்ய முடியவில்லை. மீண்டும் முயற்சிக்கவும்.', orderPlacedToast: 'ஆர்டர் செய்யப்பட்டது! எங்களிடம் ஷாப்பிங் செய்ததற்கு நன்றி.', viewOrders: 'ஆர்டர்களைக் காண்க' },
+  hi: { customerInfo: 'ग्राहक जानकारी', address: 'पता', deliveryAddress: 'डिलीवरी पता', paymentMethod: 'भुगतान विधि', orderSummary: 'ऑर्डर सारांश', placeOrder: 'ऑर्डर करें', placingOrder: 'ऑर्डर किया जा रहा है…', paymentSuccessful: 'भुगतान सफल', paymentFailed: 'भुगतान असफल', addAddress: 'पता जोड़ें', title: 'चेकआउट', secureCheckout: 'सुरक्षित चेकआउट', emptyCart: 'आपका कार्ट खाली है - चेकआउट करने से पहले कुछ जोड़ें।', step1: 'डिलीवरी पता', step2: 'भुगतान विधि', step3: 'अपने ऑर्डर की समीक्षा करें', loadingAddresses: 'पते लोड हो रहे हैं…', addNewAddress: '+ नया पता जोड़ें', useSavedAddress: '← सहेजा गया पता उपयोग करें', cashOnDelivery: 'कैश ऑन डिलीवरी', upi: 'UPI', delivery: 'डिलीवरी', free: 'मुफ़्त', total: 'कुल', secureNote: '🔒 आपकी जानकारी एन्क्रिप्टेड और सुरक्षित है।', fillRequiredFields: 'कृपया सभी आवश्यक पता फ़ील्ड भरें।', selectOrAddAddress: 'कृपया डिलीवरी पता चुनें या जोड़ें।', couldNotPlaceOrder: 'आपका ऑर्डर नहीं दिया जा सका। कृपया पुनः प्रयास करें।', orderPlacedToast: 'ऑर्डर दे दिया गया! हमारे साथ खरीदारी करने के लिए धन्यवाद।', viewOrders: 'ऑर्डर देखें' },
+  ml: { customerInfo: 'ഉപഭോക്തൃ വിവരങ്ങൾ', address: 'വിലാസം', deliveryAddress: 'ഡെലിവറി വിലാസം', paymentMethod: 'പേയ്‌മെന്റ് രീതി', orderSummary: 'ഓർഡർ സംഗ്രഹം', placeOrder: 'ഓർഡർ ചെയ്യുക', placingOrder: 'ഓർഡർ ചെയ്യുന്നു…', paymentSuccessful: 'പേയ്‌മെന്റ് വിജയകരം', paymentFailed: 'പേയ്‌മെന്റ് പരാജയപ്പെട്ടു', addAddress: 'വിലാസം ചേർക്കുക', title: 'ചെക്ക്ഔട്ട്', secureCheckout: 'സുരക്ഷിത ചെക്ക്ഔട്ട്', emptyCart: 'നിങ്ങളുടെ കാർട്ട് ശൂന്യമാണ് - ചെക്ക്ഔട്ട് ചെയ്യുന്നതിന് മുമ്പ് എന്തെങ്കിലും ചേർക്കുക.', step1: 'ഡെലിവറി വിലാസം', step2: 'പേയ്‌മെന്റ് രീതി', step3: 'നിങ്ങളുടെ ഓർഡർ അവലോകനം ചെയ്യുക', loadingAddresses: 'വിലാസങ്ങൾ ലോഡ് ചെയ്യുന്നു…', addNewAddress: '+ പുതിയ വിലാസം ചേർക്കുക', useSavedAddress: '← സേവ് ചെയ്ത വിലാസം ഉപയോഗിക്കുക', cashOnDelivery: 'ഡെലിവറിയിൽ പണം നൽകുക', upi: 'UPI', delivery: 'ഡെലിവറി', free: 'സൗജന്യം', total: 'ആകെ', secureNote: '🔒 നിങ്ങളുടെ വിവരങ്ങൾ എൻക്രിപ്റ്റ് ചെയ്ത് സുരക്ഷിതമാണ്.', fillRequiredFields: 'ദയവായി എല്ലാ ആവശ്യമായ വിലാസ ഫീൽഡുകളും പൂരിപ്പിക്കുക.', selectOrAddAddress: 'ദയവായി ഡെലിവറി വിലാസം തിരഞ്ഞെടുക്കുക അല്ലെങ്കിൽ ചേർക്കുക.', couldNotPlaceOrder: 'നിങ്ങളുടെ ഓർഡർ നൽകാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കുക.', orderPlacedToast: 'ഓർഡർ ചെയ്തു! ഞങ്ങളിൽ നിന്ന് ഷോപ്പിംഗ് ചെയ്തതിന് നന്ദി.', viewOrders: 'ഓർഡറുകൾ കാണുക' },
+  te: { customerInfo: 'కస్టమర్ సమాచారం', address: 'చిరునామా', deliveryAddress: 'డెలివరీ చిరునామా', paymentMethod: 'చెల్లింపు విధానం', orderSummary: 'ఆర్డర్ సారాంశం', placeOrder: 'ఆర్డర్ చేయండి', placingOrder: 'ఆర్డర్ చేయబడుతోంది…', paymentSuccessful: 'చెల్లింపు విజయవంతమైంది', paymentFailed: 'చెల్లింపు విఫలమైంది', addAddress: 'చిరునామా జోడించండి', title: 'చెక్అవుట్', secureCheckout: 'సురక్షిత చెక్అవుట్', emptyCart: 'మీ కార్ట్ ఖాళీగా ఉంది - చెక్అవుట్ చేయడానికి ముందు ఏదైనా జోడించండి.', step1: 'డెలివరీ చిరునామా', step2: 'చెల్లింపు విధానం', step3: 'మీ ఆర్డర్‌ను సమీక్షించండి', loadingAddresses: 'చిరునామాలు లోడ్ అవుతున్నాయి…', addNewAddress: '+ కొత్త చిరునామా జోడించండి', useSavedAddress: '← సేవ్ చేసిన చిరునామాను ఉపయోగించండి', cashOnDelivery: 'డెలివరీ సమయంలో నగదు చెల్లింపు', upi: 'UPI', delivery: 'డెలివరీ', free: 'ఉచితం', total: 'మొత్తం', secureNote: '🔒 మీ సమాచారం గుప్తీకరించబడింది మరియు సురక్షితంగా ఉంది.', fillRequiredFields: 'దయచేసి అవసరమైన అన్ని చిరునామా ఫీల్డ్‌లను పూరించండి.', selectOrAddAddress: 'దయచేసి డెలివరీ చిరునామాను ఎంచుకోండి లేదా జోడించండి.', couldNotPlaceOrder: 'మీ ఆర్డర్‌ను ఉంచడం సాధ్యం కాలేదు. దయచేసి మళ్ళీ ప్రయత్నించండి.', orderPlacedToast: 'ఆర్డర్ చేయబడింది! మాతో షాపింగ్ చేసినందుకు ధన్యవాదాలు.', viewOrders: 'ఆర్డర్‌లను చూడండి' },
+  kn: { customerInfo: 'ಗ್ರಾಹಕ ಮಾಹಿತಿ', address: 'ವಿಳಾಸ', deliveryAddress: 'ಡೆಲಿವರಿ ವಿಳಾಸ', paymentMethod: 'ಪಾವತಿ ವಿಧಾನ', orderSummary: 'ಆರ್ಡರ್ ಸಾರಾಂಶ', placeOrder: 'ಆರ್ಡರ್ ಮಾಡಿ', placingOrder: 'ಆರ್ಡರ್ ಮಾಡಲಾಗುತ್ತಿದೆ…', paymentSuccessful: 'ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿದೆ', paymentFailed: 'ಪಾವತಿ ವಿಫಲವಾಗಿದೆ', addAddress: 'ವಿಳಾಸ ಸೇರಿಸಿ', title: 'ಚೆಕ್‌ಔಟ್', secureCheckout: 'ಸುರಕ್ಷಿತ ಚೆಕ್‌ಔಟ್', emptyCart: 'ನಿಮ್ಮ ಕಾರ್ಟ್ ಖಾಲಿಯಾಗಿದೆ - ಚೆಕ್‌ಔಟ್ ಮಾಡುವ ಮೊದಲು ಏನನ್ನಾದರೂ ಸೇರಿಸಿ.', step1: 'ಡೆಲಿವರಿ ವಿಳಾಸ', step2: 'ಪಾವತಿ ವಿಧಾನ', step3: 'ನಿಮ್ಮ ಆರ್ಡರ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ', loadingAddresses: 'ವಿಳಾಸಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ…', addNewAddress: '+ ಹೊಸ ವಿಳಾಸ ಸೇರಿಸಿ', useSavedAddress: '← ಉಳಿಸಿದ ವಿಳಾಸ ಬಳಸಿ', cashOnDelivery: 'ಡೆಲಿವರಿಯಲ್ಲಿ ನಗದು ಪಾವತಿ', upi: 'UPI', delivery: 'ಡೆಲಿವರಿ', free: 'ಉಚಿತ', total: 'ಒಟ್ಟು', secureNote: '🔒 ನಿಮ್ಮ ಮಾಹಿತಿ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲ್ಪಟ್ಟಿದೆ ಮತ್ತು ಸುರಕ್ಷಿತವಾಗಿದೆ.', fillRequiredFields: 'ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಅಗತ್ಯ ವಿಳಾಸ ಕ್ಷೇತ್ರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ.', selectOrAddAddress: 'ದಯವಿಟ್ಟು ಡೆಲಿವರಿ ವಿಳಾಸವನ್ನು ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಸೇರಿಸಿ.', couldNotPlaceOrder: 'ನಿಮ್ಮ ಆರ್ಡರ್ ಅನ್ನು ಇರಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.', orderPlacedToast: 'ಆರ್ಡರ್ ಮಾಡಲಾಗಿದೆ! ನಮ್ಮೊಂದಿಗೆ ಶಾಪಿಂಗ್ ಮಾಡಿದ್ದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು.', viewOrders: 'ಆರ್ಡರ್‌ಗಳನ್ನು ವೀಕ್ಷಿಸಿ' },
+};
+
+const product = {
+  en: { home: 'Home', notFound: 'Product not found', backToHome: 'Back to home', size: 'Size', light: 'Light', idealLocation: 'Ideal location', maintenance: 'Maintenance', watering: 'Watering', saved: 'Saved', saveForLater: 'Save for later', youMayAlsoLike: 'You may also like', descTemplate: '{name} is grown at our Muttukadu lab under monitored conditions and passes our 99.2% health check before it ships. Pairs well with our terracotta pots and organic potting mix for the best start.' },
+  ta: { home: 'முகப்பு', notFound: 'தயாரிப்பு கிடைக்கவில்லை', backToHome: 'முகப்புக்குத் திரும்பு', size: 'அளவு', light: 'ஒளி', idealLocation: 'ஏற்ற இடம்', maintenance: 'பராமரிப்பு', watering: 'நீர்ப்பாசனம்', saved: 'சேமிக்கப்பட்டது', saveForLater: 'பின்னர் சேமி', youMayAlsoLike: 'இதுவும் உங்களுக்குப் பிடிக்கலாம்', descTemplate: '{name} எங்கள் முத்துக்காடு ஆய்வகத்தில் கண்காணிக்கப்பட்ட நிலைமைகளின் கீழ் வளர்க்கப்பட்டு, அனுப்பும் முன் எங்கள் 99.2% ஆரோக்கிய சோதனையில் தேர்ச்சி பெறுகிறது. எங்கள் டெரகோட்டா தொட்டிகள் மற்றும் இயற்கை மண் கலவையுடன் சிறப்பாகப் பொருந்தும்.' },
+  hi: { home: 'होम', notFound: 'उत्पाद नहीं मिला', backToHome: 'होम पर वापस जाएं', size: 'आकार', light: 'रोशनी', idealLocation: 'उपयुक्त स्थान', maintenance: 'रखरखाव', watering: 'पानी देना', saved: 'सहेजा गया', saveForLater: 'बाद के लिए सहेजें', youMayAlsoLike: 'आपको यह भी पसंद आ सकता है', descTemplate: '{name} हमारी मुत्तुकाडु लैब में निगरानी की गई परिस्थितियों में उगाया जाता है और भेजे जाने से पहले हमारी 99.2% स्वास्थ्य जांच पास करता है। हमारे टेराकोटा गमलों और जैविक पॉटिंग मिश्रण के साथ बेहतरीन शुरुआत के लिए उपयुक्त।' },
+  ml: { home: 'ഹോം', notFound: 'ഉൽപ്പന്നം കണ്ടെത്തിയില്ല', backToHome: 'ഹോമിലേക്ക് മടങ്ങുക', size: 'വലുപ്പം', light: 'വെളിച്ചം', idealLocation: 'അനുയോജ്യമായ സ്ഥലം', maintenance: 'പരിപാലനം', watering: 'നനയ്ക്കൽ', saved: 'സേവ് ചെയ്തു', saveForLater: 'പിന്നീട് സേവ് ചെയ്യുക', youMayAlsoLike: 'നിങ്ങൾക്ക് ഇതും ഇഷ്ടപ്പെട്ടേക്കാം', descTemplate: '{name} ഞങ്ങളുടെ മുട്ടുകാട് ലാബിൽ നിരീക്ഷിത സാഹചര്യങ്ങളിൽ വളർത്തി, അയക്കുന്നതിന് മുമ്പ് ഞങ്ങളുടെ 99.2% ആരോഗ്യ പരിശോധന വിജയിക്കുന്നു. ഞങ്ങളുടെ ടെറാക്കോട്ട ചട്ടികളും ജൈവ പോട്ടിംഗ് മിശ്രിതവുമായി നന്നായി യോജിക്കുന്നു.' },
+  te: { home: 'హోమ్', notFound: 'ఉత్పత్తి కనుగొనబడలేదు', backToHome: 'హోమ్‌కు తిరిగి వెళ్లండి', size: 'పరిమాణం', light: 'వెలుతురు', idealLocation: 'అనువైన ప్రదేశం', maintenance: 'నిర్వహణ', watering: 'నీరు పెట్టడం', saved: 'సేవ్ చేయబడింది', saveForLater: 'తర్వాత కోసం సేవ్ చేయండి', youMayAlsoLike: 'మీకు ఇది కూడా నచ్చవచ్చు', descTemplate: '{name} మా ముత్తుకాడు ల్యాబ్‌లో పర్యవేక్షించబడిన పరిస్థితుల్లో పెంచబడి, పంపే ముందు మా 99.2% ఆరోగ్య తనిఖీలో ఉత్తీర్ణత సాధిస్తుంది. మా టెర్రకోట కుండలు మరియు సేంద్రీయ పాటింగ్ మిశ్రమంతో బాగా సరిపోతుంది.' },
+  kn: { home: 'ಹೋಮ್', notFound: 'ಉತ್ಪನ್ನ ಕಂಡುಬಂದಿಲ್ಲ', backToHome: 'ಹೋಮ್‌ಗೆ ಹಿಂತಿರುಗಿ', size: 'ಗಾತ್ರ', light: 'ಬೆಳಕು', idealLocation: 'ಸೂಕ್ತ ಸ್ಥಳ', maintenance: 'ನಿರ್ವಹಣೆ', watering: 'ನೀರುಣಿಸುವಿಕೆ', saved: 'ಉಳಿಸಲಾಗಿದೆ', saveForLater: 'ನಂತರಕ್ಕಾಗಿ ಉಳಿಸಿ', youMayAlsoLike: 'ನೀವು ಇದನ್ನೂ ಇಷ್ಟಪಡಬಹುದು', descTemplate: '{name} ನಮ್ಮ ಮುತ್ತುಕಾಡು ಲ್ಯಾಬ್‌ನಲ್ಲಿ ಮೇಲ್ವಿಚಾರಣೆಯ ಪರಿಸ್ಥಿತಿಗಳಲ್ಲಿ ಬೆಳೆಸಲಾಗುತ್ತದೆ ಮತ್ತು ಕಳುಹಿಸುವ ಮೊದಲು ನಮ್ಮ 99.2% ಆರೋಗ್ಯ ತಪಾಸಣೆಯಲ್ಲಿ ಉತ್ತೀರ್ಣರಾಗುತ್ತದೆ. ನಮ್ಮ ಟೆರಾಕೋಟಾ ಪಾಟ್‌ಗಳು ಮತ್ತು ಸಾವಯವ ಪಾಟಿಂಗ್ ಮಿಶ್ರಣದೊಂದಿಗೆ ಚೆನ್ನಾಗಿ ಹೊಂದಿಕೊಳ್ಳುತ್ತದೆ.' },
+};
+
+const orders = {
+  en: { myOrders: 'My orders', orderId: 'Order ID', orderDate: 'Order date', trackOrder: 'Track order', viewDetails: 'View details', statuses: { 'Order Placed': 'Order Placed', 'Order Confirmed': 'Order Confirmed', 'Order Processing': 'Order Processing', Packed: 'Packed', Shipped: 'Shipped', 'Out for Delivery': 'Out for Delivery', Delivered: 'Delivered', Cancelled: 'Cancelled' } },
+  ta: { myOrders: 'எனது ஆர்டர்கள்', orderId: 'ஆர்டர் ஐடி', orderDate: 'ஆர்டர் தேதி', trackOrder: 'ஆர்டரை கண்காணிக்கவும்', viewDetails: 'விவரங்களைக் காண்க', statuses: { 'Order Placed': 'ஆர்டர் செய்யப்பட்டது', 'Order Confirmed': 'ஆர்டர் உறுதி செய்யப்பட்டது', 'Order Processing': 'ஆர்டர் தயாராகிறது', Packed: 'பேக் செய்யப்பட்டது', Shipped: 'அனுப்பப்பட்டது', 'Out for Delivery': 'டெலிவரிக்கு புறப்பட்டது', Delivered: 'டெலிவரி செய்யப்பட்டது', Cancelled: 'ரத்து செய்யப்பட்டது' } },
+  hi: { myOrders: 'मेरे ऑर्डर', orderId: 'ऑर्डर आईडी', orderDate: 'ऑर्डर तिथि', trackOrder: 'ऑर्डर ट्रैक करें', viewDetails: 'विवरण देखें', statuses: { 'Order Placed': 'ऑर्डर दिया गया', 'Order Confirmed': 'ऑर्डर की पुष्टि हुई', 'Order Processing': 'ऑर्डर तैयार हो रहा है', Packed: 'पैक किया गया', Shipped: 'भेज दिया गया', 'Out for Delivery': 'डिलीवरी के लिए निकल गया', Delivered: 'डिलीवर हो गया', Cancelled: 'रद्द किया गया' } },
+  ml: { myOrders: 'എന്റെ ഓർഡറുകൾ', orderId: 'ഓർഡർ ഐഡി', orderDate: 'ഓർഡർ തീയതി', trackOrder: 'ഓർഡർ ട്രാക്ക് ചെയ്യുക', viewDetails: 'വിശദാംശങ്ങൾ കാണുക', statuses: { 'Order Placed': 'ഓർഡർ ചെയ്തു', 'Order Confirmed': 'ഓർഡർ സ്ഥിരീകരിച്ചു', 'Order Processing': 'ഓർഡർ തയ്യാറാകുന്നു', Packed: 'പാക്ക് ചെയ്തു', Shipped: 'അയച്ചു', 'Out for Delivery': 'ഡെലിവറിക്ക് പുറപ്പെട്ടു', Delivered: 'ഡെലിവർ ചെയ്തു', Cancelled: 'റദ്ദാക്കി' } },
+  te: { myOrders: 'నా ఆర్డర్‌లు', orderId: 'ఆర్డర్ ఐడి', orderDate: 'ఆర్డర్ తేదీ', trackOrder: 'ఆర్డర్‌ను ట్రాక్ చేయండి', viewDetails: 'వివరాలు చూడండి', statuses: { 'Order Placed': 'ఆర్డర్ చేయబడింది', 'Order Confirmed': 'ఆర్డర్ నిర్ధారించబడింది', 'Order Processing': 'ఆర్డర్ సిద్ధమవుతోంది', Packed: 'ప్యాక్ చేయబడింది', Shipped: 'పంపబడింది', 'Out for Delivery': 'డెలివరీకి బయలుదేరింది', Delivered: 'డెలివరీ చేయబడింది', Cancelled: 'రద్దు చేయబడింది' } },
+  kn: { myOrders: 'ನನ್ನ ಆರ್ಡರ್‌ಗಳು', orderId: 'ಆರ್ಡರ್ ಐಡಿ', orderDate: 'ಆರ್ಡರ್ ದಿನಾಂಕ', trackOrder: 'ಆರ್ಡರ್ ಟ್ರ್ಯಾಕ್ ಮಾಡಿ', viewDetails: 'ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಿ', statuses: { 'Order Placed': 'ಆರ್ಡರ್ ಮಾಡಲಾಗಿದೆ', 'Order Confirmed': 'ಆರ್ಡರ್ ದೃಢಪಡಿಸಲಾಗಿದೆ', 'Order Processing': 'ಆರ್ಡರ್ ಸಿದ್ಧವಾಗುತ್ತಿದೆ', Packed: 'ಪ್ಯಾಕ್ ಮಾಡಲಾಗಿದೆ', Shipped: 'ರವಾನಿಸಲಾಗಿದೆ', 'Out for Delivery': 'ಡೆಲಿವರಿಗೆ ಹೊರಟಿದೆ', Delivered: 'ಡೆಲಿವರಿ ಆಗಿದೆ', Cancelled: 'ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ' } },
+};
+
+const common = {
+  en: { addToCart: 'Add to cart', buyNow: 'Buy now', viewDetails: 'Details', trackOrder: 'Track order', outOfStock: 'Out of stock', lowStock: 'Low stock', clearFilters: 'Clear filters', noProductsFound: 'No products found', tryDifferentSearch: 'Try a different word, or check the spelling.', loading: 'Loading...', submit: 'Submit', cancel: 'Cancel', save: 'Save', delete: 'Delete', edit: 'Edit', confirm: 'Confirm', close: 'Close', back: 'Back', next: 'Next', previous: 'Previous', continueLabel: 'Continue', retry: 'Retry', success: 'Success', error: 'Something went wrong. Please try again.', bestseller: 'Bestseller', price: 'Price', search: 'SEARCH', giftType: 'Gift Type', productType: 'Product Type', noProductsMatchFilters: 'No products match your filters.', tryRemovingFilters: 'Try removing some filters or changing your selection.', noNotificationsYet: 'No notifications yet', categoryEyebrow: 'CATEGORY', backToShopByCategory: 'Back to Shop by Category', allProducts: 'All Products' },
+  ta: { addToCart: 'கார்ட்டில் சேர்', buyNow: 'இப்போது வாங்கு', viewDetails: 'விவரங்கள்', trackOrder: 'ஆர்டரை கண்காணிக்கவும்', outOfStock: 'கையிருப்பில் இல்லை', lowStock: 'கையிருப்பு குறைவு', clearFilters: 'வடிகட்டிகளை அழிக்கவும்', noProductsFound: 'தயாரிப்புகள் எதுவும் இல்லை', tryDifferentSearch: 'வேறு வார்த்தையை முயற்சிக்கவும், அல்லது எழுத்துப்பிழையை சரிபார்க்கவும்.', loading: 'ஏற்றுகிறது...', submit: 'சமர்ப்பிக்கவும்', cancel: 'ரத்து செய்', save: 'சேமி', delete: 'நீக்கு', edit: 'திருத்து', confirm: 'உறுதிப்படுத்து', close: 'மூடு', back: 'பின்செல்', next: 'அடுத்து', previous: 'முந்தைய', continueLabel: 'தொடரவும்', retry: 'மீண்டும் முயற்சி', success: 'வெற்றி', error: 'ஏதோ தவறு நடந்தது. மீண்டும் முயற்சிக்கவும்.', bestseller: 'அதிக விற்பனை', price: 'விலை', search: 'தேடல்', giftType: 'பரிசு வகை', productType: 'தயாரிப்பு வகை', noProductsMatchFilters: 'உங்கள் வடிகட்டிகளுடன் பொருந்தும் தயாரிப்புகள் இல்லை.', tryRemovingFilters: 'சில வடிகட்டிகளை அகற்ற முயற்சிக்கவும் அல்லது தேர்வை மாற்றவும்.', noNotificationsYet: 'இதுவரை அறிவிப்புகள் இல்லை', categoryEyebrow: 'வகை', backToShopByCategory: 'வகைகளுக்குத் திரும்பு', allProducts: 'அனைத்து தயாரிப்புகள்' },
+  hi: { addToCart: 'कार्ट में जोड़ें', buyNow: 'अभी खरीदें', viewDetails: 'विवरण', trackOrder: 'ऑर्डर ट्रैक करें', outOfStock: 'स्टॉक में नहीं', lowStock: 'सीमित स्टॉक', clearFilters: 'फ़िल्टर हटाएं', noProductsFound: 'कोई उत्पाद नहीं मिला', tryDifferentSearch: 'कोई अन्य शब्द आज़माएं, या वर्तनी जांचें।', loading: 'लोड हो रहा है...', submit: 'सबमिट करें', cancel: 'रद्द करें', save: 'सहेजें', delete: 'हटाएं', edit: 'संपादित करें', confirm: 'पुष्टि करें', close: 'बंद करें', back: 'वापस', next: 'अगला', previous: 'पिछला', continueLabel: 'जारी रखें', retry: 'पुनः प्रयास करें', success: 'सफल', error: 'कुछ गलत हो गया। कृपया पुनः प्रयास करें।', bestseller: 'बेस्टसेलर', price: 'कीमत', search: 'खोजें', giftType: 'गिफ्ट टाइप', productType: 'प्रोडक्ट टाइप', noProductsMatchFilters: 'आपके फ़िल्टर से मेल खाने वाला कोई उत्पाद नहीं है।', tryRemovingFilters: 'कुछ फ़िल्टर हटाकर देखें या अपना चयन बदलें।', noNotificationsYet: 'अभी तक कोई सूचना नहीं', categoryEyebrow: 'श्रेणी', backToShopByCategory: 'श्रेणी अनुभाग पर वापस जाएं', allProducts: 'सभी उत्पाद' },
+  ml: { addToCart: 'കാർട്ടിൽ ചേർക്കുക', buyNow: 'ഇപ്പോൾ വാങ്ങുക', viewDetails: 'വിശദാംശങ്ങൾ', trackOrder: 'ഓർഡർ ട്രാക്ക് ചെയ്യുക', outOfStock: 'സ്റ്റോക്ക് ഇല്ല', lowStock: 'സ്റ്റോക്ക് കുറവാണ്', clearFilters: 'ഫിൽട്ടറുകൾ മായ്ക്കുക', noProductsFound: 'ഉൽപ്പന്നങ്ങളൊന്നും കണ്ടെത്തിയില്ല', tryDifferentSearch: 'മറ്റൊരു വാക്ക് ശ്രമിക്കുക, അല്ലെങ്കിൽ സ്പെല്ലിംഗ് പരിശോധിക്കുക.', loading: 'ലോഡ് ചെയ്യുന്നു...', submit: 'സമർപ്പിക്കുക', cancel: 'റദ്ദാക്കുക', save: 'സേവ് ചെയ്യുക', delete: 'ഇല്ലാതാക്കുക', edit: 'എഡിറ്റ് ചെയ്യുക', confirm: 'സ്ഥിരീകരിക്കുക', close: 'അടയ്ക്കുക', back: 'തിരികെ', next: 'അടുത്തത്', previous: 'മുമ്പത്തെ', continueLabel: 'തുടരുക', retry: 'വീണ്ടും ശ്രമിക്കുക', success: 'വിജയം', error: 'എന്തോ പിശക് സംഭവിച്ചു. വീണ്ടും ശ്രമിക്കുക.', bestseller: 'ബെസ്റ്റ്സെല്ലർ', price: 'വില', search: 'തിരയുക', giftType: 'ഗിഫ്റ്റ് ടൈപ്പ്', productType: 'പ്രൊഡക്ട് ടൈപ്പ്', noProductsMatchFilters: 'നിങ്ങളുടെ ഫിൽട്ടറുകളുമായി പൊരുത്തപ്പെടുന്ന ഉൽപ്പന്നങ്ങളില്ല.', tryRemovingFilters: 'ചില ഫിൽട്ടറുകൾ നീക്കം ചെയ്യുകയോ തിരഞ്ഞെടുപ്പ് മാറ്റുകയോ ചെയ്യുക.', noNotificationsYet: 'ഇതുവരെ അറിയിപ്പുകളൊന്നുമില്ല', categoryEyebrow: 'വിഭാഗം', backToShopByCategory: 'വിഭാഗങ്ങളിലേക്ക് മടങ്ങുക', allProducts: 'എല്ലാ ഉൽപ്പന്നങ്ങളും' },
+  te: { addToCart: 'కార్ట్‌కు జోడించండి', buyNow: 'ఇప్పుడే కొనండి', viewDetails: 'వివరాలు', trackOrder: 'ఆర్డర్‌ను ట్రాక్ చేయండి', outOfStock: 'స్టాక్‌లో లేదు', lowStock: 'తక్కువ స్టాక్', clearFilters: 'ఫిల్టర్‌లను క్లియర్ చేయండి', noProductsFound: 'ఉత్పత్తులు కనుగొనబడలేదు', tryDifferentSearch: 'వేరే పదాన్ని ప్రయత్నించండి, లేదా స్పెల్లింగ్ తనిఖీ చేయండి.', loading: 'లోడ్ అవుతోంది...', submit: 'సమర్పించండి', cancel: 'రద్దు చేయండి', save: 'సేవ్ చేయండి', delete: 'తొలగించండి', edit: 'సవరించండి', confirm: 'నిర్ధారించండి', close: 'మూసివేయండి', back: 'వెనుకకు', next: 'తదుపరి', previous: 'మునుపటి', continueLabel: 'కొనసాగించండి', retry: 'మళ్ళీ ప్రయత్నించండి', success: 'విజయం', error: 'ఏదో తప్పు జరిగింది. దయచేసి మళ్ళీ ప్రయత్నించండి.', bestseller: 'బెస్ట్‌సెల్లర్', price: 'ధర', search: 'వెతకండి', giftType: 'గిఫ్ట్ టైప్', productType: 'ప్రొడక్ట్ టైప్', noProductsMatchFilters: 'మీ ఫిల్టర్‌లకు సరిపోలే ఉత్పత్తులు లేవు.', tryRemovingFilters: 'కొన్ని ఫిల్టర్‌లను తీసివేయడానికి ప్రయత్నించండి లేదా మీ ఎంపికను మార్చండి.', noNotificationsYet: 'ఇంకా నోటిఫికేషన్‌లు లేవు', categoryEyebrow: 'కేటగిరీ', backToShopByCategory: 'కేటగిరీలకు తిరిగి వెళ్లండి', allProducts: 'అన్ని ఉత్పత్తులు' },
+  kn: { addToCart: 'ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ', buyNow: 'ಈಗ ಖರೀದಿಸಿ', viewDetails: 'ವಿವರಗಳು', trackOrder: 'ಆರ್ಡರ್ ಟ್ರ್ಯಾಕ್ ಮಾಡಿ', outOfStock: 'ಸ್ಟಾಕ್ ಇಲ್ಲ', lowStock: 'ಕಡಿಮೆ ಸ್ಟಾಕ್', clearFilters: 'ಫಿಲ್ಟರ್‌ಗಳನ್ನು ತೆರವುಗೊಳಿಸಿ', noProductsFound: 'ಯಾವುದೇ ಉತ್ಪನ್ನಗಳು ಕಂಡುಬಂದಿಲ್ಲ', tryDifferentSearch: 'ಬೇರೆ ಪದವನ್ನು ಪ್ರಯತ್ನಿಸಿ, ಅಥವಾ ಕಾಗುಣಿತ ಪರಿಶೀಲಿಸಿ.', loading: 'ಲೋಡ್ ಆಗುತ್ತಿದೆ...', submit: 'ಸಲ್ಲಿಸಿ', cancel: 'ರದ್ದುಮಾಡಿ', save: 'ಉಳಿಸಿ', delete: 'ಅಳಿಸಿ', edit: 'ಸಂಪಾದಿಸಿ', confirm: 'ದೃಢೀಕರಿಸಿ', close: 'ಮುಚ್ಚಿ', back: 'ಹಿಂದೆ', next: 'ಮುಂದೆ', previous: 'ಹಿಂದಿನ', continueLabel: 'ಮುಂದುವರಿಸಿ', retry: 'ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ', success: 'ಯಶಸ್ಸು', error: 'ಏನೋ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.', bestseller: 'ಬೆಸ್ಟ್‌ಸೆಲ್ಲರ್', price: 'ಬೆಲೆ', search: 'ಹುಡುಕಿ', giftType: 'ಗಿಫ್ಟ್ ಟೈಪ್', productType: 'ಪ್ರೊಡಕ್ಟ್ ಟೈಪ್', noProductsMatchFilters: 'ನಿಮ್ಮ ಫಿಲ್ಟರ್‌ಗಳಿಗೆ ಹೊಂದುವ ಉತ್ಪನ್ನಗಳಿಲ್ಲ.', tryRemovingFilters: 'ಕೆಲವು ಫಿಲ್ಟರ್‌ಗಳನ್ನು ತೆಗೆದುಹಾಕಿ ಅಥವಾ ನಿಮ್ಮ ಆಯ್ಕೆಯನ್ನು ಬದಲಾಯಿಸಿ.', noNotificationsYet: 'ಇನ್ನೂ ಯಾವುದೇ ಅಧಿಸೂಚನೆಗಳಿಲ್ಲ', categoryEyebrow: 'ವರ್ಗ', backToShopByCategory: 'ವರ್ಗಗಳಿಗೆ ಹಿಂತಿರುಗಿ', allProducts: 'ಎಲ್ಲಾ ಉತ್ಪನ್ನಗಳು' },
+};
+
+const wishlist = {
+  en: { title: 'Your wishlist', empty: "Nothing saved yet - tap the heart on any product to add it here.", browsePlants: 'Browse plants' },
+  ta: { title: 'உங்கள் விருப்பப்பட்டியல்', empty: 'இதுவரை எதுவும் சேமிக்கப்படவில்லை - எந்த தயாரிப்பிலும் இதயத்தை தட்டி இங்கே சேர்க்கவும்.', browsePlants: 'செடிகளை உலாவுக' },
+  hi: { title: 'आपकी विशलिस्ट', empty: 'अभी तक कुछ भी सहेजा नहीं गया - किसी भी उत्पाद पर दिल पर टैप करके यहां जोड़ें।', browsePlants: 'पौधे देखें' },
+  ml: { title: 'നിങ്ങളുടെ വിഷ്‌ലിസ്റ്റ്', empty: 'ഇതുവരെ ഒന്നും സേവ് ചെയ്തിട്ടില്ല - ഏതെങ്കിലും ഉൽപ്പന്നത്തിലെ ഹൃദയത്തിൽ ടാപ്പ് ചെയ്ത് ഇവിടെ ചേർക്കുക.', browsePlants: 'ചെടികൾ ബ്രൗസ് ചെയ്യുക' },
+  te: { title: 'మీ విష్‌లిస్ట్', empty: 'ఇంకా ఏమీ సేవ్ చేయబడలేదు - ఏదైనా ఉత్పత్తిపై హృదయాన్ని నొక్కి ఇక్కడ జోడించండి.', browsePlants: 'మొక్కలను బ్రౌజ్ చేయండి' },
+  kn: { title: 'ನಿಮ್ಮ ವಿಶ್‌ಲಿಸ್ಟ್', empty: 'ಇನ್ನೂ ಏನೂ ಉಳಿಸಲಾಗಿಲ್ಲ - ಯಾವುದೇ ಉತ್ಪನ್ನದ ಹೃದಯವನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ ಇಲ್ಲಿ ಸೇರಿಸಿ.', browsePlants: 'ಸಸ್ಯಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಿ' },
+};
+
+const filters = {
+  en: { filter: 'Filter', products: 'products', clearAll: 'Clear All', showProducts: 'Show {n} Products', selectedFilters: 'Selected Filters', showMore: 'Show More', showLess: 'Show Less', closeFilters: 'Close filters', from: 'From', to: 'To', clear: 'Clear', apply: 'Apply', productsFound: '{n} products found' },
+  ta: { filter: 'வடிகட்டி', products: 'தயாரிப்புகள்', clearAll: 'அனைத்தையும் அழி', showProducts: '{n} தயாரிப்புகளைக் காட்டு', selectedFilters: 'தேர்ந்தெடுக்கப்பட்ட வடிகட்டிகள்', showMore: 'மேலும் காட்டு', showLess: 'குறைவாகக் காட்டு', closeFilters: 'வடிகட்டிகளை மூடு', from: 'இருந்து', to: 'வரை', clear: 'அழி', apply: 'பயன்படுத்து', productsFound: '{n} தயாரிப்புகள் கிடைத்தன' },
+  hi: { filter: 'फ़िल्टर', products: 'उत्पाद', clearAll: 'सभी हटाएं', showProducts: '{n} उत्पाद दिखाएं', selectedFilters: 'चयनित फ़िल्टर', showMore: 'और दिखाएं', showLess: 'कम दिखाएं', closeFilters: 'फ़िल्टर बंद करें', from: 'से', to: 'तक', clear: 'हटाएं', apply: 'लागू करें', productsFound: '{n} उत्पाद मिले' },
+  ml: { filter: 'ഫിൽട്ടർ', products: 'ഉൽപ്പന്നങ്ങൾ', clearAll: 'എല്ലാം മായ്ക്കുക', showProducts: '{n} ഉൽപ്പന്നങ്ങൾ കാണിക്കുക', selectedFilters: 'തിരഞ്ഞെടുത്ത ഫിൽട്ടറുകൾ', showMore: 'കൂടുതൽ കാണിക്കുക', showLess: 'കുറച്ച് കാണിക്കുക', closeFilters: 'ഫിൽട്ടറുകൾ അടയ്ക്കുക', from: 'മുതൽ', to: 'വരെ', clear: 'മായ്ക്കുക', apply: 'പ്രയോഗിക്കുക', productsFound: '{n} ഉൽപ്പന്നങ്ങൾ കണ്ടെത്തി' },
+  te: { filter: 'ఫిల్టర్', products: 'ఉత్పత్తులు', clearAll: 'అన్నీ క్లియర్ చేయండి', showProducts: '{n} ఉత్పత్తులను చూపించు', selectedFilters: 'ఎంచుకున్న ఫిల్టర్‌లు', showMore: 'మరిన్ని చూపించు', showLess: 'తక్కువ చూపించు', closeFilters: 'ఫిల్టర్‌లను మూసివేయండి', from: 'నుండి', to: 'వరకు', clear: 'క్లియర్ చేయండి', apply: 'వర్తింపజేయండి', productsFound: '{n} ఉత్పత్తులు కనుగొనబడ్డాయి' },
+  kn: { filter: 'ಫಿಲ್ಟರ್', products: 'ಉತ್ಪನ್ನಗಳು', clearAll: 'ಎಲ್ಲವನ್ನೂ ತೆರವುಗೊಳಿಸಿ', showProducts: '{n} ಉತ್ಪನ್ನಗಳನ್ನು ತೋರಿಸಿ', selectedFilters: 'ಆಯ್ಕೆಮಾಡಿದ ಫಿಲ್ಟರ್‌ಗಳು', showMore: 'ಹೆಚ್ಚು ತೋರಿಸಿ', showLess: 'ಕಡಿಮೆ ತೋರಿಸಿ', closeFilters: 'ಫಿಲ್ಟರ್‌ಗಳನ್ನು ಮುಚ್ಚಿ', from: 'ಇಂದ', to: 'ವರೆಗೆ', clear: 'ತೆರವುಗೊಳಿಸಿ', apply: 'ಅನ್ವಯಿಸಿ', productsFound: '{n} ಉತ್ಪನ್ನಗಳು ಕಂಡುಬಂದಿವೆ' },
+};
+
+const home = {
+  en: { exploreEyebrow: 'EXPLORE', shopByCategory: 'Shop by category', shopByCategorySub: 'Everything you need to bring your garden to life', explore: 'Explore →', lovedEyebrow: 'LOVED BY OUR GARDENERS', plantsPeopleLove: 'Plants people love', seeAll: 'See all →', viewAll: 'View All →', buildYourGarden: 'Build your garden →', beyondProducts: 'BEYOND PRODUCTS', gardenServices: 'Garden Services', learnMore: 'Learn more →', ourProcess: 'OUR PROCESS', journeyHeading: "From IGO Nursery to Your Home", journeySub: "Every plant's journey, start to finish.", whyIgoEyebrow: 'WHY IGO NURSERY', whyIgoHeading: 'Grown with data, delivered with care', discoverMore: 'Discover More', plantFinderEyebrow: 'PLANT FINDER', plantFinderHeading: 'Not sure where to begin?', findMyPlant: 'Find my plant', learnGrowThrive: 'LEARN • GROW • THRIVE', gardenJournal: 'Garden journal', readGuide: 'Read guide →', customerReviews: 'Customer reviews', supportEyebrow: 'SUPPORT', faqHeading: "We've probably answered it already", newsletterHeading: 'Get growing tips in your inbox.', newsletterPlaceholder: 'you@example.com', subscribe: 'SUBSCRIBE', completeGardenHeading: 'Complete your garden, not just your cart.', completeGardenDesc: 'Pair a plant with the right pot, growing media and nutrition. Our catalogue brings the complete gardening journey together.', pillYourPlant: '🌱 Your plant', pillRightPot: '🪴 Right pot', pillGrowingMix: '🌾 Growing mix', pillPlantNutrition: '💧 Plant nutrition', gardenServicesTeaserSub: 'From terrace gardens to full landscaping, our team can help.', plantFinderBandDesc: 'Start with easy-care plants, compact-space favourites or fruit and herb growers.', reviewsSub: '4.8 / 5 average across 2,400+ orders', giftingHeading: 'Thoughtful gifts, beautifully packaged.', giftingDesc: 'From festive surprises to corporate gifting, we make every gesture memorable with curated hampers and personalized touches.', giftingHighlight: 'Perfect for every occasion.', giftingPointHampers: 'Curated Hampers', giftingPointBulk: 'Bulk Gifting', giftingPointCustom: 'Custom Options', giftingExploreBtn: 'Explore Hampers', giftingQuoteBtn: 'Request a Quote',
+    cornersHeading: 'Plants for Every Corner of Your Home', cornerLivingRoom: 'Living Room', cornerBedroom: 'Bedroom', cornerBalcony: 'Balcony', cornerOffice: 'Office',
+    justInEyebrow: 'JUST IN', justInTitle: 'Just In', justInSubtitle: 'Fresh picks, newly added for your green space', newBadge: 'NEW', },
+  ta: { exploreEyebrow: 'ஆராயுங்கள்', shopByCategory: 'வகை வாரியாக வாங்குங்கள்', shopByCategorySub: 'உங்கள் தோட்டத்தை உயிர்ப்பிக்க தேவையான அனைத்தும்', explore: 'ஆராயுங்கள் →', lovedEyebrow: 'எங்கள் தோட்டக்காரர்களால் விரும்பப்படுகிறது', plantsPeopleLove: 'மக்கள் விரும்பும் செடிகள்', seeAll: 'அனைத்தையும் காண்க →', viewAll: 'அனைத்தையும் பார்க்கவும் →', buildYourGarden: 'உங்கள் தோட்டத்தை உருவாக்குங்கள் →', beyondProducts: 'தயாரிப்புகளுக்கு அப்பால்', gardenServices: 'தோட்ட சேவைகள்', learnMore: 'மேலும் அறிக →', ourProcess: 'எங்கள் செயல்முறை', journeyHeading: 'IGO நர்சரியிலிருந்து உங்கள் வீடு வரை', journeySub: 'ஒவ்வொரு செடியின் பயணமும், தொடக்கம் முதல் முடிவு வரை.', whyIgoEyebrow: 'ஏன் IGO நர்சரி', whyIgoHeading: 'தரவுகளுடன் வளர்க்கப்பட்டு, அக்கறையுடன் வழங்கப்படுகிறது', discoverMore: 'மேலும் கண்டறியவும்', plantFinderEyebrow: 'செடி கண்டுபிடிப்பான்', plantFinderHeading: 'எங்கிருந்து தொடங்குவது எனத் தெரியவில்லையா?', findMyPlant: 'எனது செடியைக் கண்டறியவும்', learnGrowThrive: 'கற்றுக்கொள் • வளர் • செழிக்க', gardenJournal: 'தோட்ட பத்திரிகை', readGuide: 'வழிகாட்டியைப் படிக்கவும் →', customerReviews: 'வாடிக்கையாளர் விமர்சனங்கள்', supportEyebrow: 'ஆதரவு', faqHeading: 'நாங்கள் ஏற்கனவே பதிலளித்திருக்கலாம்', newsletterHeading: 'உங்கள் இன்பாக்ஸில் வளர்ப்பு குறிப்புகளைப் பெறுங்கள்.', newsletterPlaceholder: 'you@example.com', subscribe: 'குழுசேரு', completeGardenHeading: 'உங்கள் தோட்டத்தை நிறைவு செய்யுங்கள், உங்கள் கார்ட்டை மட்டும் அல்ல.', completeGardenDesc: 'ஒரு செடியை சரியான தொட்டி, வளர்ப்பு ஊடகம் மற்றும் ஊட்டச்சத்துடன் இணைக்கவும். எங்கள் கேட்டலாக் முழுமையான தோட்டப் பயணத்தை ஒன்றிணைக்கிறது.', pillYourPlant: '🌱 உங்கள் செடி', pillRightPot: '🪴 சரியான தொட்டி', pillGrowingMix: '🌾 வளர்ப்பு மிக்ஸ்', pillPlantNutrition: '💧 செடி ஊட்டச்சத்து', gardenServicesTeaserSub: 'மொட்டை மாடி தோட்டங்கள் முதல் முழு நிலத்தோற்றம் வரை, எங்கள் குழு உதவ முடியும்.', plantFinderBandDesc: 'எளிதில் பராமரிக்கக்கூடிய செடிகள், சிறிய இட விருப்பங்கள் அல்லது பழம்/மூலிகை வளர்ப்பாளர்களுடன் தொடங்குங்கள்.', reviewsSub: '2,400+ ஆர்டர்களில் சராசரி 4.8 / 5', giftingHeading: 'சிந்தனையுள்ள பரிசுகள், அழகாக பொதிசெய்யப்பட்டவை.', giftingDesc: 'திருவிழா ஆச்சரியங்கள் முதல் கார்ப்பரேட் பரிசுகள் வரை, க்யூரேட் செய்யப்பட்ட ஹாம்பர்கள் மற்றும் தனிப்பயன் தொடுதல்களுடன் ஒவ்வொரு சைகையையும் மறக்க முடியாததாக்குகிறோம்.', giftingHighlight: 'ஒவ்வொரு சந்தர்ப்பத்திற்கும் ஏற்றது.', giftingPointHampers: 'க்யூரேட் செய்யப்பட்ட ஹாம்பர்கள்', giftingPointBulk: 'மொத்த பரிசுகள்', giftingPointCustom: 'தனிப்பயன் விருப்பங்கள்', giftingExploreBtn: 'ஹாம்பர்களை ஆராயுங்கள் →', giftingQuoteBtn: 'விலைப்பட்டியல் கேளுங்கள்',
+    cornersHeading: 'உங்கள் வீட்டின் ஒவ்வொரு மூலைக்கும் செடிகள்', cornerLivingRoom: 'வரவேற்பறை', cornerBedroom: 'படுக்கையறை', cornerBalcony: 'பால்கனி', cornerOffice: 'அலுவலகம்',
+    justInEyebrow: 'புதிது', justInTitle: 'புதிதாக வந்தவை', justInSubtitle: 'உங்கள் பசுமை இடத்திற்கு புதிதாக சேர்க்கப்பட்ட தேர்வுகள்', newBadge: 'புதியது', },
+  hi: { exploreEyebrow: 'एक्सप्लोर करें', shopByCategory: 'श्रेणी अनुसार खरीदें', shopByCategorySub: 'आपके बगीचे को जीवंत बनाने के लिए हर ज़रूरत की चीज़', explore: 'एक्सप्लोर करें →', lovedEyebrow: 'हमारे बागवानों द्वारा पसंद किया गया', plantsPeopleLove: 'लोगों के पसंदीदा पौधे', seeAll: 'सभी देखें →', viewAll: 'सभी उत्पाद देखें →', buildYourGarden: 'अपना बगीचा बनाएं →', beyondProducts: 'उत्पादों से परे', gardenServices: 'बागवानी सेवाएं', learnMore: 'और जानें →', ourProcess: 'हमारी प्रक्रिया', journeyHeading: 'IGO नर्सरी से आपके घर तक', journeySub: 'हर पौधे की यात्रा, शुरुआत से अंत तक।', whyIgoEyebrow: 'IGO नर्सरी क्यों', whyIgoHeading: 'डेटा के साथ उगाया गया, देखभाल के साथ पहुंचाया गया', discoverMore: 'और जानें', plantFinderEyebrow: 'प्लांट फाइंडर', plantFinderHeading: 'शुरुआत कहाँ से करें, समझ नहीं आ रहा?', findMyPlant: 'मेरा पौधा खोजें', learnGrowThrive: 'सीखें • उगाएं • फलें-फूलें', gardenJournal: 'गार्डन जर्नल', readGuide: 'गाइड पढ़ें →', customerReviews: 'ग्राहक समीक्षाएं', supportEyebrow: 'सहायता', faqHeading: 'हमने शायद पहले ही इसका जवाब दे दिया है', newsletterHeading: 'अपने इनबॉक्स में उगाने के टिप्स पाएं।', newsletterPlaceholder: 'you@example.com', subscribe: 'सब्सक्राइब करें', completeGardenHeading: 'अपना बगीचा पूरा करें, सिर्फ अपना कार्ट नहीं।', completeGardenDesc: 'एक पौधे को सही गमले, ग्रोइंग मीडिया और पोषण के साथ जोड़ें। हमारा कैटलॉग पूरी बागवानी यात्रा को एक साथ लाता है।', pillYourPlant: '🌱 आपका पौधा', pillRightPot: '🪴 सही गमला', pillGrowingMix: '🌾 ग्रोइंग मिक्स', pillPlantNutrition: '💧 पौधे का पोषण', gardenServicesTeaserSub: 'छत के बगीचों से लेकर पूर्ण लैंडस्केपिंग तक, हमारी टीम मदद कर सकती है।', plantFinderBandDesc: 'आसान देखभाल वाले पौधों, छोटी जगह के पसंदीदा या फल-जड़ी-बूटी उगाने वालों से शुरुआत करें।', reviewsSub: '2,400+ ऑर्डर में औसतन 4.8 / 5', giftingHeading: 'सोच-समझकर चुने गए उपहार, खूबसूरती से पैक किए गए।', giftingDesc: 'त्योहारों की खुशियों से लेकर कॉर्पोरेट गिफ्टिंग तक, हम क्यूरेटेड हैम्पर्स और व्यक्तिगत स्पर्श के साथ हर पल को यादगार बनाते हैं।', giftingHighlight: 'हर अवसर के लिए उपयुक्त।', giftingPointHampers: 'क्यूरेटेड हैम्पर्स', giftingPointBulk: 'थोक उपहार', giftingPointCustom: 'कस्टम विकल्प', giftingExploreBtn: 'हैम्पर्स देखें →', giftingQuoteBtn: 'कोटेशन मांगें',
+    cornersHeading: 'आपके घर के हर कोने के लिए पौधे', cornerLivingRoom: 'लिविंग रूम', cornerBedroom: 'बेडरूम', cornerBalcony: 'बालकनी', cornerOffice: 'ऑफिस',
+    justInEyebrow: 'नया आया', justInTitle: 'नया आया', justInSubtitle: 'आपकी हरियाली के लिए ताज़ा, नए जोड़े गए चुनाव', newBadge: 'नया', },
+  ml: { exploreEyebrow: 'പര്യവേക്ഷണം ചെയ്യുക', shopByCategory: 'വിഭാഗം അനുസരിച്ച് ഷോപ്പ് ചെയ്യുക', shopByCategorySub: 'നിങ്ങളുടെ തോട്ടത്തെ ജീവസുറ്റതാക്കാൻ വേണ്ടതെല്ലാം', explore: 'പര്യവേക്ഷണം ചെയ്യുക →', lovedEyebrow: 'ഞങ്ങളുടെ തോട്ടക്കാർ ഇഷ്ടപ്പെടുന്നത്', plantsPeopleLove: 'ആളുകൾ ഇഷ്ടപ്പെടുന്ന ചെടികൾ', seeAll: 'എല്ലാം കാണുക →', viewAll: 'എല്ലാം കാണുക →', buildYourGarden: 'നിങ്ങളുടെ തോട്ടം നിർമ്മിക്കുക →', beyondProducts: 'ഉൽപ്പന്നങ്ങൾക്കപ്പുറം', gardenServices: 'തോട്ട സേവനങ്ങൾ', learnMore: 'കൂടുതൽ അറിയുക →', ourProcess: 'ഞങ്ങളുടെ പ്രക്രിയ', journeyHeading: 'IGO നഴ്സറിയിൽ നിന്ന് നിങ്ങളുടെ വീട്ടിലേക്ക്', journeySub: 'ഓരോ ചെടിയുടെയും യാത്ര, തുടക്കം മുതൽ അവസാനം വരെ.', whyIgoEyebrow: 'എന്തുകൊണ്ട് IGO നഴ്സറി', whyIgoHeading: 'ഡാറ്റയോടെ വളർത്തി, കരുതലോടെ എത്തിക്കുന്നു', discoverMore: 'കൂടുതൽ കണ്ടെത്തുക', plantFinderEyebrow: 'പ്ലാന്റ് ഫൈൻഡർ', plantFinderHeading: 'എവിടെ തുടങ്ങണമെന്ന് അറിയില്ലേ?', findMyPlant: 'എന്റെ ചെടി കണ്ടെത്തുക', learnGrowThrive: 'പഠിക്കുക • വളരുക • തഴച്ചുവളരുക', gardenJournal: 'ഗാർഡൻ ജേണൽ', readGuide: 'ഗൈഡ് വായിക്കുക →', customerReviews: 'ഉപഭോക്തൃ അവലോകനങ്ങൾ', supportEyebrow: 'പിന്തുണ', faqHeading: 'ഞങ്ങൾ ഇതിനകം ഉത്തരം നൽകിയിരിക്കാം', newsletterHeading: 'നിങ്ങളുടെ ഇൻബോക്സിൽ വളർത്തൽ നുറുങ്ങുകൾ നേടുക.', newsletterPlaceholder: 'you@example.com', subscribe: 'സബ്സ്ക്രൈബ് ചെയ്യുക', completeGardenHeading: 'നിങ്ങളുടെ കാർട്ട് മാത്രമല്ല, തോട്ടം പൂർത്തിയാക്കൂ.', completeGardenDesc: 'ഒരു ചെടിയെ ശരിയായ ചട്ടി, വളർച്ചാ മാധ്യമം, പോഷണം എന്നിവയുമായി ജോടിയാക്കുക. ഞങ്ങളുടെ കാറ്റലോഗ് സമ്പൂർണ്ണ തോട്ടപരിപാലന യാത്ര ഒരുമിച്ച് കൊണ്ടുവരുന്നു.', pillYourPlant: '🌱 നിങ്ങളുടെ ചെടി', pillRightPot: '🪴 ശരിയായ ചട്ടി', pillGrowingMix: '🌾 വളർച്ചാ മിക്സ്', pillPlantNutrition: '💧 ചെടിയുടെ പോഷണം', gardenServicesTeaserSub: 'ടെറസ് തോട്ടങ്ങൾ മുതൽ പൂർണ്ണ ലാൻഡ്‌സ്കേപ്പിംഗ് വരെ, ഞങ്ങളുടെ ടീമിന് സഹായിക്കാനാകും.', plantFinderBandDesc: 'എളുപ്പം പരിപാലിക്കാവുന്ന ചെടികൾ, ചെറിയ ഇടത്തിന് അനുയോജ്യമായവ അല്ലെങ്കിൽ ഫലം/ഔഷധസസ്യ കർഷകരിൽ നിന്ന് തുടങ്ങുക.', reviewsSub: '2,400+ ഓർഡറുകളിൽ ശരാശരി 4.8 / 5', giftingHeading: 'ചിന്തനീയമായ സമ്മാനങ്ങൾ, മനോഹരമായി പാക്ക് ചെയ്തത്.', giftingDesc: 'ഉത്സവ ആശ്ചര്യങ്ങൾ മുതൽ കോർപ്പറേറ്റ് ഗിഫ്റ്റിംഗ് വരെ, ക്യൂറേറ്റഡ് ഹാമ്പറുകളും വ്യക്തിഗത സ്പർശങ്ങളും കൊണ്ട് ഓരോ ആംഗ്യവും അവിസ്മരണീയമാക്കുന്നു.', giftingHighlight: 'ഏത് അവസരത്തിനും അനുയോജ്യം.', giftingPointHampers: 'ക്യൂറേറ്റഡ് ഹാമ്പറുകൾ', giftingPointBulk: 'ബൾക്ക് ഗിഫ്റ്റിംഗ്', giftingPointCustom: 'കസ്റ്റം ഓപ്ഷനുകൾ', giftingExploreBtn: 'ഹാമ്പറുകൾ കാണുക →', giftingQuoteBtn: 'ക്വോട്ട് ആവശ്യപ്പെടുക',
+    cornersHeading: 'നിങ്ങളുടെ വീടിന്റെ ഓരോ മൂലയ്ക്കും ചെടികൾ', cornerLivingRoom: 'ലിവിംഗ് റൂം', cornerBedroom: 'ബെഡ്റൂം', cornerBalcony: 'ബാൽക്കണി', cornerOffice: 'ഓഫീസ്',
+    justInEyebrow: 'പുതിയത്', justInTitle: 'പുതുതായി എത്തി', justInSubtitle: 'നിങ്ങളുടെ പച്ചപ്പിന് പുതുതായി ചേർത്ത തിരഞ്ഞെടുപ്പുകൾ', newBadge: 'പുതിയത്', },
+  te: { exploreEyebrow: 'అన్వేషించండి', shopByCategory: 'కేటగిరీ ద్వారా షాప్ చేయండి', shopByCategorySub: 'మీ తోటను జీవం పోసేందుకు అవసరమైనవన్నీ', explore: 'అన్వేషించండి →', lovedEyebrow: 'మా తోటమాలుల ఇష్టమైనది', plantsPeopleLove: 'ప్రజలు ఇష్టపడే మొక్కలు', seeAll: 'అన్నీ చూడండి →', viewAll: 'అన్నీ చూడండి →', buildYourGarden: 'మీ తోటను నిర్మించండి →', beyondProducts: 'ఉత్పత్తులకు అతీతంగా', gardenServices: 'తోట సేవలు', learnMore: 'మరింత తెలుసుకోండి →', ourProcess: 'మా ప్రక్రియ', journeyHeading: 'IGO నర్సరీ నుండి మీ ఇంటికి', journeySub: 'ప్రతి మొక్క ప్రయాణం, ప్రారంభం నుండి ముగింపు వరకు.', whyIgoEyebrow: 'IGO నర్సరీ ఎందుకు', whyIgoHeading: 'డేటాతో పెంచబడి, శ్రద్ధతో అందించబడుతుంది', discoverMore: 'మరింత కనుగొనండి', plantFinderEyebrow: 'ప్లాంట్ ఫైండర్', plantFinderHeading: 'ఎక్కడ ప్రారంభించాలో తెలియదా?', findMyPlant: 'నా మొక్కను కనుగొనండి', learnGrowThrive: 'నేర్చుకోండి • పెంచండి • వర్ధిల్లండి', gardenJournal: 'గార్డెన్ జర్నల్', readGuide: 'గైడ్ చదవండి →', customerReviews: 'కస్టమర్ సమీక్షలు', supportEyebrow: 'మద్దతు', faqHeading: 'మేము ఇప్పటికే దానికి సమాధానం ఇచ్చి ఉండవచ్చు', newsletterHeading: 'మీ ఇన్‌బాక్స్‌లో పెంపకం చిట్కాలు పొందండి.', newsletterPlaceholder: 'you@example.com', subscribe: 'సబ్‌స్క్రైబ్ చేయండి', completeGardenHeading: 'మీ కార్ట్‌ను మాత్రమే కాదు, మీ తోటను పూర్తి చేయండి.', completeGardenDesc: 'ఒక మొక్కను సరైన కుండ, గ్రోయింగ్ మీడియా మరియు పోషణతో జత చేయండి. మా కేటలాగ్ పూర్తి తోటపని ప్రయాణాన్ని ఒకచోట చేరుస్తుంది.', pillYourPlant: '🌱 మీ మొక్క', pillRightPot: '🪴 సరైన కుండ', pillGrowingMix: '🌾 గ్రోయింగ్ మిక్స్', pillPlantNutrition: '💧 మొక్క పోషణ', gardenServicesTeaserSub: 'టెర్రస్ తోటల నుండి పూర్తి ల్యాండ్‌స్కేపింగ్ వరకు, మా బృందం సహాయపడగలదు.', plantFinderBandDesc: 'సులభంగా సంరక్షించే మొక్కలు, చిన్న స్థల ఇష్టమైనవి లేదా పండ్ల/మూలికల పెంపకందారులతో ప్రారంభించండి.', reviewsSub: '2,400+ ఆర్డర్లలో సగటున 4.8 / 5', giftingHeading: 'ఆలోచనాత్మక బహుమతులు, అందంగా ప్యాక్ చేయబడ్డాయి.', giftingDesc: 'పండుగ ఆశ్చర్యాల నుండి కార్పొరేట్ గిఫ్టింగ్ వరకు, క్యూరేటెడ్ హాంపర్లు మరియు వ్యక్తిగతీకరించిన టచ్‌లతో ప్రతి సందర్భాన్ని గుర్తుండిపోయేలా చేస్తాము.', giftingHighlight: 'ప్రతి సందర్భానికి సరిపోతుంది.', giftingPointHampers: 'క్యూరేటెడ్ హాంపర్లు', giftingPointBulk: 'బల్క్ గిఫ్టింగ్', giftingPointCustom: 'కస్టమ్ ఆప్షన్లు', giftingExploreBtn: 'హాంపర్లను చూడండి →', giftingQuoteBtn: 'కోట్ కోరండి',
+    cornersHeading: 'మీ ఇంటి ప్రతి మూలకు మొక్కలు', cornerLivingRoom: 'లివింగ్ రూమ్', cornerBedroom: 'బెడ్రూమ్', cornerBalcony: 'బాల్కనీ', cornerOffice: 'ఆఫీసు',
+    justInEyebrow: 'కొత్తగా వచ్చినవి', justInTitle: 'కొత్తగా వచ్చినవి', justInSubtitle: 'మీ పచ్చదనం కోసం కొత్తగా జోడించిన ఎంపికలు', newBadge: 'కొత్తది', },
+  kn: { exploreEyebrow: 'ಅನ್ವೇಷಿಸಿ', shopByCategory: 'ವರ್ಗದ ಮೂಲಕ ಶಾಪಿಂಗ್ ಮಾಡಿ', shopByCategorySub: 'ನಿಮ್ಮ ತೋಟವನ್ನು ಜೀವಂತಗೊಳಿಸಲು ಬೇಕಾದ ಎಲ್ಲವೂ', explore: 'ಅನ್ವೇಷಿಸಿ →', lovedEyebrow: 'ನಮ್ಮ ತೋಟಗಾರರಿಂದ ಇಷ್ಟಪಡಲಾಗಿದೆ', plantsPeopleLove: 'ಜನರು ಇಷ್ಟಪಡುವ ಸಸ್ಯಗಳು', seeAll: 'ಎಲ್ಲಾ ನೋಡಿ →', viewAll: 'ಎಲ್ಲಾ ನೋಡಿ →', buildYourGarden: 'ನಿಮ್ಮ ತೋಟವನ್ನು ನಿರ್ಮಿಸಿ →', beyondProducts: 'ಉತ್ಪನ್ನಗಳನ್ನು ಮೀರಿ', gardenServices: 'ತೋಟ ಸೇವೆಗಳು', learnMore: 'ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ →', ourProcess: 'ನಮ್ಮ ಪ್ರಕ್ರಿಯೆ', journeyHeading: 'IGO ನರ್ಸರಿಯಿಂದ ನಿಮ್ಮ ಮನೆಗೆ', journeySub: 'ಪ್ರತಿ ಸಸ್ಯದ ಪ್ರಯಾಣ, ಆರಂಭದಿಂದ ಅಂತ್ಯದವರೆಗೆ.', whyIgoEyebrow: 'ಏಕೆ IGO ನರ್ಸರಿ', whyIgoHeading: 'ಡೇಟಾದೊಂದಿಗೆ ಬೆಳೆಸಲಾಗಿದೆ, ಕಾಳಜಿಯಿಂದ ತಲುಪಿಸಲಾಗಿದೆ', discoverMore: 'ಇನ್ನಷ್ಟು ಅನ್ವೇಷಿಸಿ', plantFinderEyebrow: 'ಪ್ಲಾಂಟ್ ಫೈಂಡರ್', plantFinderHeading: 'ಎಲ್ಲಿಂದ ಪ್ರಾರಂಭಿಸಬೇಕೆಂದು ಖಚಿತವಿಲ್ಲವೇ?', findMyPlant: 'ನನ್ನ ಸಸ್ಯವನ್ನು ಹುಡುಕಿ', learnGrowThrive: 'ಕಲಿಯಿರಿ • ಬೆಳೆಸಿ • ಅಭಿವೃದ್ಧಿ ಹೊಂದಿ', gardenJournal: 'ಗಾರ್ಡನ್ ಜರ್ನಲ್', readGuide: 'ಗೈಡ್ ಓದಿ →', customerReviews: 'ಗ್ರಾಹಕ ವಿಮರ್ಶೆಗಳು', supportEyebrow: 'ಬೆಂಬಲ', faqHeading: 'ನಾವು ಈಗಾಗಲೇ ಅದಕ್ಕೆ ಉತ್ತರಿಸಿರಬಹುದು', newsletterHeading: 'ನಿಮ್ಮ ಇನ್‌ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಬೆಳೆಸುವ ಸಲಹೆಗಳನ್ನು ಪಡೆಯಿರಿ.', newsletterPlaceholder: 'you@example.com', subscribe: 'ಚಂದಾದಾರರಾಗಿ', completeGardenHeading: 'ನಿಮ್ಮ ಕಾರ್ಟ್ ಅಷ್ಟೇ ಅಲ್ಲ, ನಿಮ್ಮ ತೋಟವನ್ನು ಪೂರ್ಣಗೊಳಿಸಿ.', completeGardenDesc: 'ಒಂದು ಗಿಡವನ್ನು ಸರಿಯಾದ ಪಾಟ್, ಬೆಳವಣಿಗೆಯ ಮಾಧ್ಯಮ ಮತ್ತು ಪೋಷಣೆಯೊಂದಿಗೆ ಜೋಡಿಸಿ. ನಮ್ಮ ಕ್ಯಾಟಲಾಗ್ ಸಂಪೂರ್ಣ ತೋಟಗಾರಿಕೆ ಪ್ರಯಾಣವನ್ನು ಒಟ್ಟುಗೂಡಿಸುತ್ತದೆ.', pillYourPlant: '🌱 ನಿಮ್ಮ ಗಿಡ', pillRightPot: '🪴 ಸರಿಯಾದ ಪಾಟ್', pillGrowingMix: '🌾 ಬೆಳವಣಿಗೆಯ ಮಿಶ್ರಣ', pillPlantNutrition: '💧 ಗಿಡದ ಪೋಷಣೆ', gardenServicesTeaserSub: 'ಟೆರೇಸ್ ತೋಟಗಳಿಂದ ಪೂರ್ಣ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್‌ವರೆಗೆ, ನಮ್ಮ ತಂಡ ಸಹಾಯ ಮಾಡಬಹುದು.', plantFinderBandDesc: 'ಸುಲಭ ಆರೈಕೆಯ ಗಿಡಗಳು, ಸಣ್ಣ ಸ್ಥಳಕ್ಕೆ ಸೂಕ್ತವಾದವು ಅಥವಾ ಹಣ್ಣು/ಔಷಧೀಯ ಸಸ್ಯ ಬೆಳೆಗಾರರೊಂದಿಗೆ ಪ್ರಾರಂಭಿಸಿ.', reviewsSub: '2,400+ ಆರ್ಡರ್‌ಗಳಲ್ಲಿ ಸರಾಸರಿ 4.8 / 5', giftingHeading: 'ಚಿಂತನಶೀಲ ಉಡುಗೊರೆಗಳು, ಸುಂದರವಾಗಿ ಪ್ಯಾಕ್ ಮಾಡಲಾಗಿದೆ.', giftingDesc: 'ಹಬ್ಬದ ಅಚ್ಚರಿಗಳಿಂದ ಕಾರ್ಪೊರೇಟ್ ಗಿಫ್ಟಿಂಗ್‌ವರೆಗೆ, ಕ್ಯುರೇಟೆಡ್ ಹ್ಯಾಂಪರ್‌ಗಳು ಮತ್ತು ವೈಯಕ್ತಿಕ ಸ್ಪರ್ಶಗಳೊಂದಿಗೆ ಪ್ರತಿ ಸನ್ನಿವೇಶವನ್ನು ನೆನಪಿನಲ್ಲಿ ಉಳಿಯುವಂತೆ ಮಾಡುತ್ತೇವೆ.', giftingHighlight: 'ಪ್ರತಿ ಸಂದರ್ಭಕ್ಕೂ ಸೂಕ್ತ.', giftingPointHampers: 'ಕ್ಯುರೇಟೆಡ್ ಹ್ಯಾಂಪರ್‌ಗಳು', giftingPointBulk: 'ಬಲ್ಕ್ ಗಿಫ್ಟಿಂಗ್', giftingPointCustom: 'ಕಸ್ಟಮ್ ಆಯ್ಕೆಗಳು', giftingExploreBtn: 'ಹ್ಯಾಂಪರ್‌ಗಳನ್ನು ನೋಡಿ →', giftingQuoteBtn: 'ಕೋಟ್ ಕೇಳಿ',
+    cornersHeading: 'ನಿಮ್ಮ ಮನೆಯ ಪ್ರತಿ ಮೂಲೆಗೂ ಗಿಡಗಳು', cornerLivingRoom: 'ಲಿವಿಂಗ್ ರೂಮ್', cornerBedroom: 'ಬೆಡ್ ರೂಮ್', cornerBalcony: 'ಬಾಲ್ಕನಿ', cornerOffice: 'ಆಫೀಸ್',
+    justInEyebrow: 'ಹೊಸದಾಗಿ ಬಂದಿದೆ', justInTitle: 'ಹೊಸದಾಗಿ ಬಂದಿದೆ', justInSubtitle: 'ನಿಮ್ಮ ಹಸಿರು ಸ್ಥಳಕ್ಕಾಗಿ ಹೊಸದಾಗಿ ಸೇರಿಸಿದ ಆಯ್ಕೆಗಳು', newBadge: 'ಹೊಸದು', },
+};
+
+const offers = {
+  en: { offersForYou: 'Offers For You', exclusiveDeals: 'Exclusive Deals', offersSub: 'Amazing deals to make your garden beautiful', buyAny: 'BUY ANY', shopNow: 'SHOP NOW →', buildBundle: 'BUILD YOUR OWN BUNDLE' },
+  ta: { offersForYou: 'உங்களுக்கான சலுகைகள்', exclusiveDeals: 'சிறப்பு சலுகைகள்', offersSub: 'உங்கள் தோட்டத்தை அழகாக்க அற்புதமான ஒப்பந்தங்கள்', buyAny: 'எதேனும் வாங்குங்கள்', shopNow: 'இப்போது வாங்குங்கள் →', buildBundle: 'உங்கள் சொந்த தொகுப்பை உருவாக்குங்கள்' },
+  hi: { offersForYou: 'आपके लिए ऑफ़र', exclusiveDeals: 'एक्सक्लूसिव डील्स', offersSub: 'आपके बगीचे को खूबसूरत बनाने के शानदार सौदे', buyAny: 'कोई भी खरीदें', shopNow: 'अभी खरीदें →', buildBundle: 'अपना बंडल बनाएं' },
+  ml: { offersForYou: 'നിങ്ങൾക്കുള്ള ഓഫറുകൾ', exclusiveDeals: 'എക്‌സ്‌ക്ലൂസീവ് ഡീലുകൾ', offersSub: 'നിങ്ങളുടെ തോട്ടം മനോഹരമാക്കാൻ അതിശയകരമായ ഡീലുകൾ', buyAny: 'ഏതെങ്കിലും വാങ്ങുക', shopNow: 'ഇപ്പോൾ ഷോപ്പ് ചെയ്യുക →', buildBundle: 'നിങ്ങളുടെ സ്വന്തം ബണ്ടിൽ നിർമ്മിക്കുക' },
+  te: { offersForYou: 'మీ కోసం ఆఫర్‌లు', exclusiveDeals: 'ఎక్స్‌క్లూజివ్ డీల్స్', offersSub: 'మీ తోటను అందంగా మార్చే అద్భుతమైన డీల్స్', buyAny: 'ఏదైనా కొనండి', shopNow: 'ఇప్పుడే షాప్ చేయండి →', buildBundle: 'మీ సొంత బండిల్‌ను నిర్మించండి' },
+  kn: { offersForYou: 'ನಿಮಗಾಗಿ ಆಫರ್‌ಗಳು', exclusiveDeals: 'ಎಕ್ಸ್‌ಕ್ಲೂಸಿವ್ ಡೀಲ್‌ಗಳು', offersSub: 'ನಿಮ್ಮ ತೋಟವನ್ನು ಸುಂದರಗೊಳಿಸುವ ಅದ್ಭುತ ಡೀಲ್‌ಗಳು', buyAny: 'ಯಾವುದಾದರೂ ಖರೀದಿಸಿ', shopNow: 'ಈಗ ಶಾಪಿಂಗ್ ಮಾಡಿ →', buildBundle: 'ನಿಮ್ಮ ಸ್ವಂತ ಬಂಡಲ್ ನಿರ್ಮಿಸಿ' },
+};
+
+// WHY_IGO card copy (matched by the array's `title`/`statLabel` key in
+// Home.jsx, since the array itself stays the single source of truth for
+// icon/order/featured-flag - only the display text is looked up here).
+const whyIgo = {
+  en: {
+    titleIot: 'IoT-monitored nurseries', descIot: 'Every polyhouse tracks temperature, humidity and soil health in real time.',
+    titlePrecision: 'Precision trials', descPrecision: 'New varieties are tested for months before they ever reach your cart.',
+    titleGuarantee: 'health guarantee', descGuarantee: 'Plants leave the lab only when they clear our quality checks.',
+    titleExpert: 'Expert plant-care guidance', descExpert: 'Free care notes and a support line for every plant you buy.',
+    tagVerified: 'Verified',
+  },
+  ta: { titleIot: 'IoT-கண்காணிக்கப்படும் நர்சரிகள்', descIot: 'ஒவ்வொரு பாலிஹவுஸும் வெப்பநிலை, ஈரப்பதம் மற்றும் மண் ஆரோக்கியத்தை நேரடியாகக் கண்காணிக்கிறது.', titlePrecision: 'துல்லியமான சோதனைகள்', descPrecision: 'புதிய வகைகள் உங்கள் கார்ட்டை அடைவதற்கு முன் மாதக்கணக்கில் சோதிக்கப்படுகின்றன.', titleGuarantee: 'ஆரோக்கிய உத்தரவாதம்', descGuarantee: 'செடிகள் எங்கள் தர சோதனைகளில் தேர்ச்சி பெற்றால் மட்டுமே ஆய்வகத்தை விட்டு வெளியேறும்.', titleExpert: 'நிபுணர் செடி பராமரிப்பு வழிகாட்டுதல்', descExpert: 'நீங்கள் வாங்கும் ஒவ்வொரு செடிக்கும் இலவச பராமரிப்பு குறிப்புகள் மற்றும் ஆதரவு வரி.', tagVerified: 'சரிபார்க்கப்பட்டது' },
+  hi: { titleIot: 'IoT-निगरानी वाली नर्सरी', descIot: 'हर पॉलीहाउस तापमान, नमी और मिट्टी के स्वास्थ्य को वास्तविक समय में ट्रैक करता है।', titlePrecision: 'सटीक परीक्षण', descPrecision: 'नई किस्मों को आपके कार्ट तक पहुंचने से पहले महीनों तक परखा जाता है।', titleGuarantee: 'स्वास्थ्य गारंटी', descGuarantee: 'पौधे तभी लैब छोड़ते हैं जब वे हमारी गुणवत्ता जांच पास करते हैं।', titleExpert: 'विशेषज्ञ पौध-देखभाल मार्गदर्शन', descExpert: 'आपके द्वारा खरीदे गए हर पौधे के लिए मुफ़्त देखभाल नोट्स और सहायता लाइन।', tagVerified: 'सत्यापित' },
+  ml: { titleIot: 'IoT-നിരീക്ഷിത നഴ്സറികൾ', descIot: 'ഓരോ പോളിഹൗസും താപനില, ഈർപ്പം, മണ്ണിന്റെ ആരോഗ്യം എന്നിവ തത്സമയം ട്രാക്ക് ചെയ്യുന്നു.', titlePrecision: 'കൃത്യമായ പരീക്ഷണങ്ങൾ', descPrecision: 'പുതിയ ഇനങ്ങൾ നിങ്ങളുടെ കാർട്ടിലെത്തുന്നതിന് മുമ്പ് മാസങ്ങളോളം പരീക്ഷിക്കപ്പെടുന്നു.', titleGuarantee: 'ആരോഗ്യ ഉറപ്പ്', descGuarantee: 'ഞങ്ങളുടെ ഗുണനിലവാര പരിശോധനകൾ വിജയിക്കുമ്പോൾ മാത്രമേ ചെടികൾ ലാബ് വിടുകയുള്ളൂ.', titleExpert: 'വിദഗ്ദ്ധ ചെടി പരിചരണ മാർഗ്ഗനിർദ്ദേശം', descExpert: 'നിങ്ങൾ വാങ്ങുന്ന ഓരോ ചെടിക്കും സൗജന്യ പരിചരണ കുറിപ്പുകളും സപ്പോർട്ട് ലൈനും.', tagVerified: 'സ്ഥിരീകരിച്ചു' },
+  te: { titleIot: 'IoT-పర్యవేక్షిత నర్సరీలు', descIot: 'ప్రతి పాలీహౌస్ ఉష్ణోగ్రత, తేమ మరియు నేల ఆరోగ్యాన్ని నిజ సమయంలో ట్రాక్ చేస్తుంది.', titlePrecision: 'ఖచ్చితమైన పరీక్షలు', descPrecision: 'కొత్త రకాలు మీ కార్ట్‌కు చేరే ముందు నెలల తరబడి పరీక్షించబడతాయి.', titleGuarantee: 'ఆరోగ్య హామీ', descGuarantee: 'మా నాణ్యత తనిఖీలలో ఉత్తీర్ణత సాధించినప్పుడే మొక్కలు ల్యాబ్‌ను వదిలివెళ్తాయి.', titleExpert: 'నిపుణుల మొక్కల సంరక్షణ మార్గదర్శకత్వం', descExpert: 'మీరు కొనుగోలు చేసే ప్రతి మొక్కకు ఉచిత సంరక్షణ గమనికలు మరియు సపోర్ట్ లైన్.', tagVerified: 'ధృవీకరించబడింది' },
+  kn: { titleIot: 'IoT-ಮೇಲ್ವಿಚಾರಣೆಯ ನರ್ಸರಿಗಳು', descIot: 'ಪ್ರತಿ ಪಾಲಿಹೌಸ್ ತಾಪಮಾನ, ಆರ್ದ್ರತೆ ಮತ್ತು ಮಣ್ಣಿನ ಆರೋಗ್ಯವನ್ನು ನೈಜ ಸಮಯದಲ್ಲಿ ಟ್ರ್ಯಾಕ್ ಮಾಡುತ್ತದೆ.', titlePrecision: 'ನಿಖರವಾದ ಪ್ರಯೋಗಗಳು', descPrecision: 'ಹೊಸ ಪ್ರಭೇದಗಳು ನಿಮ್ಮ ಕಾರ್ಟ್ ತಲುಪುವ ಮೊದಲು ತಿಂಗಳುಗಟ್ಟಲೆ ಪರೀಕ್ಷಿಸಲ್ಪಡುತ್ತವೆ.', titleGuarantee: 'ಆರೋಗ್ಯ ಖಾತರಿ', descGuarantee: 'ನಮ್ಮ ಗುಣಮಟ್ಟ ಪರಿಶೀಲನೆಗಳಲ್ಲಿ ಉತ್ತೀರ್ಣರಾದಾಗ ಮಾತ್ರ ಸಸ್ಯಗಳು ಲ್ಯಾಬ್ ಬಿಡುತ್ತವೆ.', titleExpert: 'ತಜ್ಞ ಸಸ್ಯ ಆರೈಕೆ ಮಾರ್ಗದರ್ಶನ', descExpert: 'ನೀವು ಖರೀದಿಸುವ ಪ್ರತಿ ಸಸ್ಯಕ್ಕೂ ಉಚಿತ ಆರೈಕೆ ಟಿಪ್ಪಣಿಗಳು ಮತ್ತು ಬೆಂಬಲ ಲೈನ್.', tagVerified: 'ಪರಿಶೀಲಿಸಲಾಗಿದೆ' },
+};
+
+const faq = {
+  en: { qPackaging: 'How are plants packaged for delivery?', aPackaging: 'Every plant ships in a secure nursery pot with moisture-locking wrap and a care card, so it arrives ready to repot.', qGuarantee: 'Do you offer a health guarantee?', aGuarantee: "We don't offer refunds, but we'll replace any plant that arrives damaged — just report it with photo proof within 24–48 hours of delivery.", qHelp: 'Can I get gardening help after I buy?', aHelp: 'Every order includes access to our plant-care guidance line for as long as you own the plant.', qSeparate: 'Do you deliver pots and planters separately?', aSeparate: 'Yes, pots, seeds and tools can be ordered on their own or bundled with a plant.', qDelivery: 'Do you deliver everywhere in India?', aDelivery: 'Yes — we ship pan-India, with same-day delivery available within a 30 km radius. Delivery charges are calculated based on order weight and size.', qCod: 'Is Cash on Delivery available?', aCod: 'Yes, Cash on Delivery is currently available for Chennai only. All other locations are prepaid.' },
+  ta: { qPackaging: 'டெலிவரிக்கு செடிகள் எவ்வாறு பேக் செய்யப்படுகின்றன?', aPackaging: 'ஒவ்வொரு செடியும் ஈரப்பத தடுப்பு போர்வையுடன் பாதுகாப்பான நர்சரி பாட்டில் அனுப்பப்படுகிறது, ஒரு பராமரிப்பு அட்டையுடன், மறுநடவுக்குத் தயாராக வரும்.', qGuarantee: 'நீங்கள் ஆரோக்கிய உத்தரவாதம் வழங்குகிறீர்களா?', aGuarantee: 'நாங்கள் பணத் திரும்பப் பெறுதல் வழங்குவதில்லை, ஆனால் சேதமடைந்து வரும் எந்த செடியையும் மாற்றித் தருவோம் — டெலிவரி செய்த 24-48 மணி நேரத்திற்குள் புகைப்பட ஆதாரத்துடன் தெரிவிக்கவும்.', qHelp: 'வாங்கிய பிறகு தோட்ட உதவி கிடைக்குமா?', aHelp: 'நீங்கள் செடியை வைத்திருக்கும் வரை ஒவ்வொரு ஆர்டரிலும் எங்கள் செடி பராமரிப்பு வழிகாட்டுதல் வரிக்கான அணுகல் அடங்கும்.', qSeparate: 'தொட்டிகள் மற்றும் பாட்களை தனியாக டெலிவரி செய்கிறீர்களா?', aSeparate: 'ஆம், தொட்டிகள், விதைகள் மற்றும் கருவிகளை தனியாகவோ அல்லது ஒரு செடியுடன் இணைத்தோ ஆர்டர் செய்யலாம்.', qDelivery: 'இந்தியா முழுவதும் டெலிவரி செய்கிறீர்களா?', aDelivery: 'ஆம் — நாங்கள் இந்தியா முழுவதும் அனுப்புகிறோம், 30 கிமீ சுற்றளவில் அதே நாள் டெலிவரி கிடைக்கும். டெலிவரி கட்டணம் ஆர்டரின் எடை மற்றும் அளவின் அடிப்படையில் கணக்கிடப்படும்.', qCod: 'டெலிவரியில் பணம் செலுத்தும் வசதி உள்ளதா?', aCod: 'ஆம், தற்போது சென்னைக்கு மட்டும் கேஷ் ஆன் டெலிவரி உள்ளது. மற்ற இடங்களுக்கு முன்பணமாக செலுத்த வேண்டும்.' },
+  hi: { qPackaging: 'डिलीवरी के लिए पौधों को कैसे पैक किया जाता है?', aPackaging: 'हर पौधा नमी-रोधी रैप और केयर कार्ड के साथ एक सुरक्षित नर्सरी पॉट में भेजा जाता है, ताकि यह रीपॉटिंग के लिए तैयार पहुंचे।', qGuarantee: 'क्या आप स्वास्थ्य गारंटी देते हैं?', aGuarantee: 'हम रिफंड नहीं देते, लेकिन क्षतिग्रस्त पहुंचे किसी भी पौधे को बदल देंगे — बस डिलीवरी के 24-48 घंटों के भीतर फ़ोटो प्रमाण के साथ रिपोर्ट करें।', qHelp: 'क्या खरीदने के बाद बागवानी सहायता मिल सकती है?', aHelp: 'हर ऑर्डर में हमारी पौध-देखभाल मार्गदर्शन लाइन तक पहुंच शामिल है, जब तक आपके पास वह पौधा है।', qSeparate: 'क्या आप गमले और प्लांटर अलग से डिलीवर करते हैं?', aSeparate: 'हां, गमले, बीज और उपकरण अकेले या किसी पौधे के साथ बंडल करके ऑर्डर किए जा सकते हैं।', qDelivery: 'क्या आप पूरे भारत में डिलीवरी करते हैं?', aDelivery: 'हां — हम पूरे भारत में शिप करते हैं, 30 किमी के दायरे में उसी दिन डिलीवरी उपलब्ध है। डिलीवरी शुल्क ऑर्डर के वज़न और आकार पर आधारित होता है।', qCod: 'क्या कैश ऑन डिलीवरी उपलब्ध है?', aCod: 'हां, फिलहाल कैश ऑन डिलीवरी केवल चेन्नई के लिए उपलब्ध है। अन्य सभी जगहों के लिए भुगतान पहले करना होगा।' },
+  ml: { qPackaging: 'ഡെലിവറിക്കായി ചെടികൾ എങ്ങനെ പാക്ക് ചെയ്യുന്നു?', aPackaging: 'ഓരോ ചെടിയും ഈർപ്പം-പൂട്ടുന്ന റാപ്പും കെയർ കാർഡുമായി സുരക്ഷിതമായ നഴ്സറി പോട്ടിൽ അയക്കുന്നു, അതിനാൽ ഇത് റീപോട്ട് ചെയ്യാൻ തയ്യാറായി എത്തുന്നു.', qGuarantee: 'നിങ്ങൾ ആരോഗ്യ ഉറപ്പ് നൽകുന്നുണ്ടോ?', aGuarantee: 'ഞങ്ങൾ റീഫണ്ട് നൽകുന്നില്ല, പക്ഷേ കേടായി എത്തുന്ന ഏതൊരു ചെടിയും മാറ്റിനൽകും — ഡെലിവറി കഴിഞ്ഞ് 24-48 മണിക്കൂറിനുള്ളിൽ ഫോട്ടോ തെളിവോടെ റിപ്പോർട്ട് ചെയ്യുക.', qHelp: 'വാങ്ങിയ ശേഷം തോട്ട സഹായം ലഭിക്കുമോ?', aHelp: 'നിങ്ങൾ ചെടി കൈവശം വയ്ക്കുന്നിടത്തോളം ഓരോ ഓർഡറിലും ഞങ്ങളുടെ ചെടി പരിചരണ മാർഗ്ഗനിർദ്ദേശ ലൈനിലേക്കുള്ള ആക്സസ് ഉൾപ്പെടുന്നു.', qSeparate: 'ചട്ടികളും പ്ലാന്ററുകളും പ്രത്യേകം ഡെലിവർ ചെയ്യുമോ?', aSeparate: 'അതെ, ചട്ടികൾ, വിത്തുകൾ, ഉപകരണങ്ങൾ എന്നിവ ഒറ്റയ്ക്കോ ഒരു ചെടിയോടൊപ്പം ബണ്ടിൽ ചെയ്തോ ഓർഡർ ചെയ്യാം.', qDelivery: 'ഇന്ത്യയിൽ എല്ലായിടത്തും ഡെലിവറി ചെയ്യുമോ?', aDelivery: 'അതെ — ഞങ്ങൾ ഇന്ത്യയിലുടനീളം ഷിപ്പ് ചെയ്യുന്നു, 30 കിമീ ചുറ്റളവിൽ അതേ ദിവസം ഡെലിവറി ലഭ്യമാണ്. ഡെലിവറി ചാർജ് ഓർഡറിന്റെ ഭാരവും വലുപ്പവും അനുസരിച്ച് കണക്കാക്കും.', qCod: 'ക്യാഷ് ഓൺ ഡെലിവറി ലഭ്യമാണോ?', aCod: 'അതെ, നിലവിൽ ചെന്നൈയിൽ മാത്രം ക്യാഷ് ഓൺ ഡെലിവറി ലഭ്യമാണ്. മറ്റെല്ലായിടത്തും മുൻകൂർ പണമടയ്ക്കണം.' },
+  te: { qPackaging: 'డెలివరీ కోసం మొక్కలు ఎలా ప్యాక్ చేయబడతాయి?', aPackaging: 'ప్రతి మొక్క తేమ-లాకింగ్ ర్యాప్ మరియు కేర్ కార్డుతో సురక్షితమైన నర్సరీ కుండలో పంపబడుతుంది, కాబట్టి ఇది రీపాటింగ్‌కు సిద్ధంగా వస్తుంది.', qGuarantee: 'మీరు ఆరోగ్య హామీ అందిస్తారా?', aGuarantee: 'మేము రీఫండ్ ఇవ్వము, కానీ దెబ్బతిన్న ఏ మొక్కనైనా మార్చి ఇస్తాము — డెలివరీ చేసిన 24-48 గంటల్లోపు ఫోటో ఆధారంతో తెలియజేయండి.', qHelp: 'కొనుగోలు చేసిన తర్వాత తోటపని సహాయం పొందవచ్చా?', aHelp: 'మీరు మొక్కను కలిగి ఉన్నంత కాలం ప్రతి ఆర్డర్‌లో మా మొక్కల సంరక్షణ మార్గదర్శక లైన్‌కు యాక్సెస్ ఉంటుంది.', qSeparate: 'మీరు కుండలు మరియు ప్లాంటర్‌లను విడిగా డెలివరీ చేస్తారా?', aSeparate: 'అవును, కుండలు, విత్తనాలు మరియు పనిముట్లను విడిగా లేదా మొక్కతో కలిపి ఆర్డర్ చేయవచ్చు.', qDelivery: 'మీరు భారతదేశం అంతటా డెలివరీ చేస్తారా?', aDelivery: 'అవును — మేము పాన్-ఇండియా షిప్ చేస్తాము, 30 కి.మీ పరిధిలో అదే రోజు డెలివరీ అందుబాటులో ఉంది. డెలివరీ ఛార్జీలు ఆర్డర్ బరువు మరియు పరిమాణం ఆధారంగా లెక్కించబడతాయి.', qCod: 'క్యాష్ ఆన్ డెలివరీ అందుబాటులో ఉందా?', aCod: 'అవును, ప్రస్తుతం చెన్నైకి మాత్రమే క్యాష్ ఆన్ డెలివరీ అందుబాటులో ఉంది. మిగతా అన్ని ప్రాంతాలకు ముందుగా చెల్లించాలి.' },
+  kn: { qPackaging: 'ಡೆಲಿವರಿಗಾಗಿ ಸಸ್ಯಗಳನ್ನು ಹೇಗೆ ಪ್ಯಾಕ್ ಮಾಡಲಾಗುತ್ತದೆ?', aPackaging: 'ಪ್ರತಿ ಸಸ್ಯವನ್ನು ತೇವಾಂಶ-ಲಾಕಿಂಗ್ ರಾಪ್ ಮತ್ತು ಕೇರ್ ಕಾರ್ಡ್‌ನೊಂದಿಗೆ ಸುರಕ್ಷಿತ ನರ್ಸರಿ ಪಾಟ್‌ನಲ್ಲಿ ಕಳುಹಿಸಲಾಗುತ್ತದೆ, ಆದ್ದರಿಂದ ಇದು ಮರುನೆಡಲು ಸಿದ್ಧವಾಗಿ ಬರುತ್ತದೆ.', qGuarantee: 'ನೀವು ಆರೋಗ್ಯ ಖಾತರಿ ನೀಡುತ್ತೀರಾ?', aGuarantee: 'ನಾವು ರೀಫಂಡ್ ನೀಡುವುದಿಲ್ಲ, ಆದರೆ ಹಾನಿಗೊಳಗಾಗಿ ಬಂದ ಯಾವುದೇ ಸಸ್ಯವನ್ನು ಬದಲಾಯಿಸುತ್ತೇವೆ — ಡೆಲಿವರಿಯ 24-48 ಗಂಟೆಗಳಲ್ಲಿ ಫೋಟೋ ಪುರಾವೆಯೊಂದಿಗೆ ವರದಿ ಮಾಡಿ.', qHelp: 'ಖರೀದಿಸಿದ ನಂತರ ತೋಟಗಾರಿಕೆ ಸಹಾಯ ಪಡೆಯಬಹುದೇ?', aHelp: 'ನೀವು ಸಸ್ಯವನ್ನು ಹೊಂದಿರುವವರೆಗೆ ಪ್ರತಿ ಆರ್ಡರ್‌ನಲ್ಲಿ ನಮ್ಮ ಸಸ್ಯ ಆರೈಕೆ ಮಾರ್ಗದರ್ಶನ ಲೈನ್‌ಗೆ ಪ್ರವೇಶ ಸೇರಿದೆ.', qSeparate: 'ನೀವು ಪಾಟ್‌ಗಳು ಮತ್ತು ಪ್ಲಾಂಟರ್‌ಗಳನ್ನು ಪ್ರತ್ಯೇಕವಾಗಿ ಡೆಲಿವರಿ ಮಾಡುತ್ತೀರಾ?', aSeparate: 'ಹೌದು, ಪಾಟ್‌ಗಳು, ಬೀಜಗಳು ಮತ್ತು ಉಪಕರಣಗಳನ್ನು ಒಂಟಿಯಾಗಿ ಅಥವಾ ಸಸ್ಯದೊಂದಿಗೆ ಬಂಡಲ್ ಮಾಡಿ ಆರ್ಡರ್ ಮಾಡಬಹುದು.', qDelivery: 'ನೀವು ಭಾರತದಾದ್ಯಂತ ಡೆಲಿವರಿ ಮಾಡುತ್ತೀರಾ?', aDelivery: 'ಹೌದು — ನಾವು ಪ್ಯಾನ್-ಇಂಡಿಯಾ ಶಿಪ್ ಮಾಡುತ್ತೇವೆ, 30 ಕಿ.ಮೀ ವ್ಯಾಪ್ತಿಯಲ್ಲಿ ಅದೇ ದಿನ ಡೆಲಿವರಿ ಲಭ್ಯವಿದೆ. ಡೆಲಿವರಿ ಶುಲ್ಕವನ್ನು ಆರ್ಡರ್‌ನ ತೂಕ ಮತ್ತು ಗಾತ್ರದ ಆಧಾರದ ಮೇಲೆ ಲೆಕ್ಕಹಾಕಲಾಗುತ್ತದೆ.', qCod: 'ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ ಲಭ್ಯವಿದೆಯೇ?', aCod: 'ಹೌದು, ಪ್ರಸ್ತುತ ಚೆನ್ನೈಗೆ ಮಾತ್ರ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ ಲಭ್ಯವಿದೆ. ಇತರ ಎಲ್ಲಾ ಸ್ಥಳಗಳಿಗೆ ಮುಂಗಡ ಪಾವತಿ ಅಗತ್ಯ.' },
+};
+
+const pages = {
+  en: { home: 'Home', notFoundTitle: '404', notFoundDesc: "We couldn't find that page.", backToHome: 'Back to home', offersEyebrow: 'OFFERS', offersTitle: 'All offers, in one place', offersTagline: 'Plant bundles, category discounts and seasonal deals across the IGO catalogue.', visitUs: 'VISIT US', locateStoreTitle: 'Locate our store', storeHours: 'Store hours', contact: 'Contact', getStarted: 'GET STARTED', tellUsAboutSpace: 'Tell us about your space', tellUsDesc: 'Share a few photos and dimensions, and our team will put together a plan and quote.', requestConsultation: 'Request a consultation', beyondProducts: 'BEYOND PRODUCTS', gardenServicesTitle: 'Garden Services', gardenServicesTagline: 'From terrace gardens to full landscaping, our team can help.', landscapingTitle: 'Landscaping', landscapingTagline: 'End-to-end landscaping design and build - from a single balcony to a full campus. Browse the services below and reach out for a site visit and quote.', learnMore: 'Learn more →', blogEyebrow: 'LEARN • GROW • THRIVE', blogTitle: 'Garden journal', blogTagline: 'Care guides and ideas from the IGO Nursery team.', readGuide: 'Read guide →', ourStory: 'OUR STORY', corporateGiftsTitle: 'Corporate Gifts', corporateGiftsTagline: 'Thoughtful, ready-to-gift plants and planters for every occasion.', resultsFor: 'Results for "{q}"', aboutStory: "IGO Nursery started as a small AgriTech lab in Muttukadu, testing how IoT monitoring and precision trials could grow healthier plants at scale. Today every plant that reaches your door has passed through that same lab before it ever reaches the catalogue.", galleryEyebrow: 'GALLERY', galleryTitle: 'Our Gallery', galleryTagline: 'A look at our nursery, gardens and completed projects.', galleryComingSoon: 'Photos coming soon — check back for a look at our nursery and completed projects.', contactEyebrow: 'GET IN TOUCH', contactTitle: 'Contact Us', contactTagline: "Have a question or need a quote? We'd love to hear from you.", contactNameLabel: 'Name', contactEmailLabel: 'Email', contactMessageLabel: 'Message', contactSend: 'Send Message', contactVisitTitle: 'Visit or write to us', everyDay: 'every day', customerVisitsWelcome: 'Customer visits to the nursery are welcome.', supportHoursLabel: 'CUSTOMER SUPPORT', support247: 'Available 24/7', founderLabel: 'FOUNDER', founderName: 'Dr John Yesudhas', establishedLabel: 'Established', visionLabel: 'Our Vision', visionText: 'To be a trusted name in providing healthy, high-quality plants while promoting greener living spaces.', missionLabel: 'Our Mission', missionText: 'To make gardening accessible to everyone by offering a wide variety of plants, expert guidance, and reliable delivery services, while fostering environmental sustainability.', policyDraftNotice: 'This page is a draft based on our current policies. Please have it reviewed before relying on it for legal purposes.', shippingEyebrow: 'SHIPPING & RETURNS', shippingTitle: 'Shipping Policy', shippingCoverageTitle: 'Where we deliver', shippingCoverageText: 'We ship pan-India. Same-day delivery is available within a 30 km radius of our nursery.', shippingChargesTitle: 'Delivery charges', shippingChargesText: 'Delivery charges are calculated based on the weight and size of your order.', shippingCodTitle: 'Cash on Delivery', shippingCodText: 'Cash on Delivery is currently available for Chennai only. Orders to all other locations must be prepaid.', shippingReplacementTitle: 'Damaged plants', shippingReplacementText: "We don't offer refunds, but we will replace any plant that arrives damaged - report it with photo proof within 24-48 hours of delivery.", privacyEyebrow: 'PRIVACY', privacyTitle: 'Privacy Policy', privacyCollectTitle: 'What we collect', privacyCollectText: 'When you use our enquiry, consultation or contact forms, we collect the details you provide - name, phone number, email, address/location, and the message or plant/service you are interested in.', privacyUseTitle: 'How we use it', privacyUseText: "We use your details only to respond to your enquiry, arrange delivery or consultation, and provide customer support. We don't sell your information to third parties.", privacyContactTitle: 'Questions about your data', privacyContactText: 'If you have any questions about the information we hold, write to us at ceojohnyesudas@gmail.com.', termsEyebrow: 'TERMS', termsTitle: 'Terms & Conditions', termsOrdersTitle: 'Orders', termsOrdersText: 'Prices and availability shown on the site are as accurate as possible at the time of browsing, but stock is confirmed at the time of order.', termsReplacementTitle: 'Replacements', termsReplacementText: 'We do not offer cash refunds. If a plant arrives damaged, we will replace it - report it with photo proof within 24-48 hours of delivery.', termsPaymentTitle: 'Payment', termsPaymentText: 'Cash on Delivery is available for Chennai only; all other orders are prepaid.', differentTitle: 'What Makes Us Different', differentVarietyTitle: 'Wide Plant Variety', differentVarietyText: 'From seedlings to fully grown mature plants, across a wide range of Indoor and Outdoor categories.', differentExpertTitle: 'Founder-Led Expertise', differentExpertText: 'Personal plant consultation and guidance shaped directly by our founder’s experience.', differentDeliveryTitle: 'Fast, Premium-Packaged Delivery', differentDeliveryText: 'Every plant ships pan-India in secure, protective packaging designed to arrive fresh and undamaged.', aboutCta: 'Explore Our Plants', founderTitle: 'Tech Farming Scientist · TEDx Speaker · Author, Polyhouse Farming', founderBio: 'Dr. John Yesudhas is the CEO of IGO Group, pioneering precision farming, hydroponics and polyhouse projects across India while mentoring the next generation of agripreneurs.', founderReadMore: "Read Dr. John Yesudhas's full story →", groupTitle: 'Part of the IGO Group', groupText: 'IGO Nursery is part of the IGO Group, whose sister company IGO Agritech Farms brings over a decade of precision farming and agricultural engineering expertise across India.', groupStatYears: 'Years of Group Experience', groupStatProjects: 'Projects Across the Group', groupStatIsoValue: 'ISO', groupStatIso: 'Certified Organisation', groupStatPanIndiaValue: 'Pan-India', groupStatPanIndia: 'Presence', groupCta: 'Visit IGO Agritech Farms →' },
+  ta: { home: 'முகப்பு', notFoundTitle: '404', notFoundDesc: 'அந்தப் பக்கம் கிடைக்கவில்லை.', backToHome: 'முகப்புக்குத் திரும்பு', offersEyebrow: 'சலுகைகள்', offersTitle: 'அனைத்து சலுகைகளும், ஒரே இடத்தில்', offersTagline: 'IGO கேட்டலாக் முழுவதும் செடி பண்டில்கள், வகை தள்ளுபடிகள் மற்றும் சீசன் சலுகைகள்.', visitUs: 'எங்களைப் பார்வையிடவும்', locateStoreTitle: 'எங்கள் கடையைக் கண்டறியவும்', storeHours: 'கடை நேரங்கள்', contact: 'தொடர்பு', getStarted: 'தொடங்குங்கள்', tellUsAboutSpace: 'உங்கள் இடத்தைப் பற்றி எங்களிடம் கூறுங்கள்', tellUsDesc: 'சில புகைப்படங்களையும் அளவீடுகளையும் பகிரவும், எங்கள் குழு ஒரு திட்டத்தையும் மேற்கோளையும் தயார் செய்யும்.', requestConsultation: 'ஆலோசனை கோருங்கள்', beyondProducts: 'தயாரிப்புகளுக்கு அப்பால்', gardenServicesTitle: 'தோட்ட சேவைகள்', gardenServicesTagline: 'மொட்டை மாடி தோட்டங்கள் முதல் முழு லேண்ட்ஸ்கேப்பிங் வரை, எங்கள் குழு உதவ முடியும்.', landscapingTitle: 'லேண்ட்ஸ்கேப்பிங்', landscapingTagline: 'ஒரு பால்கனியிலிருந்து முழு வளாகம் வரை - முழுமையான லேண்ட்ஸ்கேப்பிங் வடிவமைப்பு மற்றும் கட்டுமானம். கீழே உள்ள சேவைகளை உலாவி, தள பார்வை மற்றும் மேற்கோளுக்கு தொடர்பு கொள்ளுங்கள்.', learnMore: 'மேலும் அறிக →', blogEyebrow: 'கற்றுக்கொள் • வளர் • செழிக்க', blogTitle: 'தோட்ட பத்திரிகை', blogTagline: 'IGO நர்சரி குழுவின் பராமரிப்பு வழிகாட்டிகள் மற்றும் யோசனைகள்.', readGuide: 'வழிகாட்டியைப் படிக்கவும் →', ourStory: 'எங்கள் கதை', corporateGiftsTitle: 'கார்ப்பரேட் பரிசுகள்', corporateGiftsTagline: 'ஒவ்வொரு சந்தர்ப்பத்திற்கும் ஏற்ற, பரிசாக வழங்கத் தயாரான செடிகள் மற்றும் தொட்டிகள்.', resultsFor: '"{q}" க்கான முடிவுகள்', aboutStory: 'IGO நர்சரி முட்டுக்காடில் ஒரு சிறிய அக்ரிடெக் ஆய்வகமாகத் தொடங்கியது, IoT கண்காணிப்பு மற்றும் துல்லியமான சோதனைகள் மூலம் ஆரோக்கியமான செடிகளை பெரிய அளவில் வளர்க்க முடியுமா என்று சோதித்தது. இன்று உங்கள் வீட்டு வாசலை அடையும் ஒவ்வொரு செடியும், கேட்டலாகை அடையும் முன் அதே ஆய்வகத்தை கடந்து வந்திருக்கும்.', galleryEyebrow: 'கேலரி', galleryTitle: 'எங்கள் கேலரி', galleryTagline: 'எங்கள் நர்சரி, தோட்டங்கள் மற்றும் முடிக்கப்பட்ட திட்டங்களைப் பாருங்கள்.', galleryComingSoon: 'புகைப்படங்கள் விரைவில் வரும் — மீண்டும் பாருங்கள்.', contactEyebrow: 'தொடர்பில் இருங்கள்', contactTitle: 'தொடர்பு கொள்ள', contactTagline: 'ஒரு கேள்வி உள்ளதா அல்லது மேற்கோள் தேவையா? உங்களிடமிருந்து கேட்க விரும்புகிறோம்.', contactNameLabel: 'பெயர்', contactEmailLabel: 'மின்னஞ்சல்', contactMessageLabel: 'செய்தி', contactSend: 'செய்தி அனுப்பு', contactVisitTitle: 'எங்களை சந்திக்கவும் அல்லது எழுதவும்', everyDay: 'தினமும்', customerVisitsWelcome: 'நர்சரிக்கு வாடிக்கையாளர்கள் வருகை தரலாம்.', supportHoursLabel: 'வாடிக்கையாளர் ஆதரவு', support247: '24/7 கிடைக்கும்', founderLabel: 'நிறுவனர்', founderName: 'டாக்டர் ஜான் யேசுதாஸ்', establishedLabel: 'நிறுவப்பட்டது', visionLabel: 'எங்கள் நோக்கம்', visionText: 'ஆரோக்கியமான, உயர்தர செடிகளை வழங்குவதிலும், பசுமையான வாழ்விடங்களை ஊக்குவிப்பதிலும் நம்பகமான பெயராக இருப்பது.', missionLabel: 'எங்கள் பணி', missionText: 'பரந்த அளவிலான செடிகள், நிபுணர் வழிகாட்டுதல், நம்பகமான டெலிவரி சேவைகளை வழங்குவதன் மூலம் தோட்டக்கலையை அனைவருக்கும் அணுகக்கூடியதாக மாற்றுவது, சுற்றுச்சூழல் நிலைத்தன்மையை மேம்படுத்துவது.', differentTitle: 'நாங்கள் ஏன் வேறுபட்டவர்கள்', differentVarietyTitle: 'பரந்த செடி வகைகள்', differentVarietyText: 'நாற்றுகள் முதல் முழு வளர்ந்த செடிகள் வரை, உள்/வெளி வகைகள் பலவற்றில்.', differentExpertTitle: 'நிறுவனர் வழிநடத்தும் நிபுணத்துவம்', differentExpertText: 'எங்கள் நிறுவனரின் அனுபவத்தால் வடிவமைக்கப்பட்ட தனிப்பட்ட செடி ஆலோசனை.', differentDeliveryTitle: 'விரைவான, பிரீமியம் பேக்கேஜிங் டெலிவரி', differentDeliveryText: 'ஒவ்வொரு செடியும் பாதுகாப்பான பேக்கேஜிங்கில் இந்தியா முழுவதும் அனுப்பப்படுகிறது.', aboutCta: 'எங்கள் செடிகளை ஆராயுங்கள்', founderTitle: 'டெக் ஃபார்மிங் சயின்டிஸ்ட் · TEDx பேச்சாளர் · Polyhouse Farming புத்தக ஆசிரியர்', founderBio: 'டாக்டர் ஜான் யேசுதாஸ் IGO குழுமத்தின் CEO ஆவார், இந்தியா முழுவதும் துல்லிய விவசாயம், ஹைட்ரோபோனிக்ஸ் மற்றும் பாலிஹவுஸ் திட்டங்களை முன்னெடுத்து, அடுத்த தலைமுறை விவசாய தொழில்முனைவோருக்கு வழிகாட்டுகிறார்.', founderReadMore: 'டாக்டர் ஜான் யேசுதாஸின் முழு கதையைப் படியுங்கள் →', groupTitle: 'IGO குழுமத்தின் ஒரு பகுதி', groupText: 'IGO நர்சரி என்பது IGO குழுமத்தின் ஒரு பகுதி, அதன் துணை நிறுவனமான IGO அக்ரிடெக் பார்ம்ஸ் இந்தியா முழுவதும் ஒரு தசாப்தத்திற்கும் மேலான துல்லிய விவசாய மற்றும் விவசாய பொறியியல் நிபுணத்துவத்தை கொண்டுள்ளது.', groupStatYears: 'குழும அனுபவ ஆண்டுகள்', groupStatProjects: 'குழுமம் முழுவதும் திட்டங்கள்', groupStatIsoValue: 'ISO', groupStatIso: 'சான்றளிக்கப்பட்ட நிறுவனம்', groupStatPanIndiaValue: 'இந்தியா முழுவதும்', groupStatPanIndia: 'இருப்பு', groupCta: 'IGO அக்ரிடெக் பார்ம்ஸை பார்வையிடவும் →' },
+  hi: { home: 'होम', notFoundTitle: '404', notFoundDesc: 'हमें वह पेज नहीं मिला।', backToHome: 'होम पर वापस जाएं', offersEyebrow: 'ऑफ़र', offersTitle: 'सभी ऑफ़र, एक ही जगह', offersTagline: 'IGO कैटलॉग में प्लांट बंडल, श्रेणी छूट और मौसमी डील्स।', visitUs: 'हमसे मिलें', locateStoreTitle: 'हमारा स्टोर खोजें', storeHours: 'स्टोर समय', contact: 'संपर्क करें', getStarted: 'शुरू करें', tellUsAboutSpace: 'अपनी जगह के बारे में हमें बताएं', tellUsDesc: 'कुछ फ़ोटो और माप साझा करें, और हमारी टीम एक योजना और कोटेशन तैयार करेगी।', requestConsultation: 'परामर्श का अनुरोध करें', beyondProducts: 'उत्पादों से परे', gardenServicesTitle: 'बागवानी सेवाएं', gardenServicesTagline: 'छत के बगीचों से लेकर पूर्ण लैंडस्केपिंग तक, हमारी टीम मदद कर सकती है।', landscapingTitle: 'लैंडस्केपिंग', landscapingTagline: 'एक बालकनी से लेकर पूरे कैंपस तक - पूर्ण लैंडस्केपिंग डिज़ाइन और निर्माण। नीचे दी गई सेवाएं देखें और साइट विज़िट व कोटेशन के लिए संपर्क करें।', learnMore: 'और जानें →', blogEyebrow: 'सीखें • उगाएं • फलें-फूलें', blogTitle: 'गार्डन जर्नल', blogTagline: 'IGO नर्सरी टीम की देखभाल गाइड और विचार।', readGuide: 'गाइड पढ़ें →', ourStory: 'हमारी कहानी', corporateGiftsTitle: 'कॉर्पोरेट गिफ्ट्स', corporateGiftsTagline: 'हर मौके के लिए सोच-समझकर चुने गए, गिफ्ट-रेडी पौधे और प्लांटर।', resultsFor: '"{q}" के लिए परिणाम', aboutStory: 'IGO नर्सरी मुत्तुकाडु में एक छोटी एग्रीटेक लैब के रूप में शुरू हुई, जहां यह परखा गया कि IoT मॉनिटरिंग और सटीक परीक्षण बड़े पैमाने पर स्वस्थ पौधे उगाने में कैसे मदद कर सकते हैं। आज आपके दरवाजे तक पहुंचने वाला हर पौधा कैटलॉग में आने से पहले उसी लैब से होकर गुजरा है।', galleryEyebrow: 'गैलरी', galleryTitle: 'हमारी गैलरी', galleryTagline: 'हमारी नर्सरी, बगीचों और पूर्ण परियोजनाओं की एक झलक।', galleryComingSoon: 'फ़ोटो जल्द आ रहे हैं — फिर देखें।', contactEyebrow: 'संपर्क में रहें', contactTitle: 'संपर्क करें', contactTagline: 'कोई सवाल है या कोटेशन चाहिए? हमें आपसे सुनना अच्छा लगेगा।', contactNameLabel: 'नाम', contactEmailLabel: 'ईमेल', contactMessageLabel: 'संदेश', contactSend: 'संदेश भेजें', contactVisitTitle: 'हमसे मिलें या लिखें', everyDay: 'रोज़ाना', customerVisitsWelcome: 'नर्सरी में ग्राहकों का आना स्वागत योग्य है।', supportHoursLabel: 'ग्राहक सहायता', support247: '24/7 उपलब्ध', founderLabel: 'संस्थापक', founderName: 'डॉ. जॉन येसुदास', establishedLabel: 'स्थापित', visionLabel: 'हमारा विज़न', visionText: 'स्वस्थ, उच्च-गुणवत्ता वाले पौधे प्रदान करने और हरित रहने की जगहों को बढ़ावा देने में एक विश्वसनीय नाम बनना।', missionLabel: 'हमारा मिशन', missionText: 'विभिन्न प्रकार के पौधे, विशेषज्ञ मार्गदर्शन और भरोसेमंद डिलीवरी सेवाएं प्रदान करके बागवानी को सभी के लिए सुलभ बनाना, साथ ही पर्यावरणीय स्थिरता को बढ़ावा देना।', differentTitle: 'हम अलग क्यों हैं', differentVarietyTitle: 'विविध पौधों की रेंज', differentVarietyText: 'पौध से लेकर पूरी तरह उगे पौधों तक, इनडोर और आउटडोर की कई श्रेणियों में।', differentExpertTitle: 'संस्थापक-नेतृत्व वाली विशेषज्ञता', differentExpertText: 'हमारे संस्थापक के अनुभव से तैयार व्यक्तिगत पौध परामर्श।', differentDeliveryTitle: 'तेज़, प्रीमियम-पैक्ड डिलीवरी', differentDeliveryText: 'हर पौधा सुरक्षित पैकेजिंग में पूरे भारत में भेजा जाता है।', aboutCta: 'हमारे पौधे देखें', founderTitle: 'टेक फार्मिंग साइंटिस्ट · TEDx स्पीकर · लेखक, Polyhouse Farming', founderBio: 'डॉ. जॉन येसुदास IGO ग्रुप के सीईओ हैं, जो पूरे भारत में सटीक खेती, हाइड्रोपोनिक्स और पॉलीहाउस परियोजनाओं का नेतृत्व करते हुए अगली पीढ़ी के कृषि-उद्यमियों को मार्गदर्शन देते हैं।', founderReadMore: 'डॉ. जॉन येसुदास की पूरी कहानी पढ़ें →', groupTitle: 'IGO ग्रुप का हिस्सा', groupText: 'IGO नर्सरी, IGO ग्रुप का हिस्सा है, जिसकी सहयोगी कंपनी IGO एग्रीटेक फार्म्स पूरे भारत में एक दशक से अधिक की सटीक खेती और कृषि इंजीनियरिंग विशेषज्ञता लाती है।', groupStatYears: 'ग्रुप अनुभव के वर्ष', groupStatProjects: 'ग्रुप में परियोजनाएं', groupStatIsoValue: 'ISO', groupStatIso: 'प्रमाणित संगठन', groupStatPanIndiaValue: 'पूरे भारत', groupStatPanIndia: 'में उपस्थिति', groupCta: 'IGO एग्रीटेक फार्म्स देखें →' },
+  ml: { home: 'ഹോം', notFoundTitle: '404', notFoundDesc: 'ആ പേജ് ഞങ്ങൾക്ക് കണ്ടെത്താനായില്ല.', backToHome: 'ഹോമിലേക്ക് മടങ്ങുക', offersEyebrow: 'ഓഫറുകൾ', offersTitle: 'എല്ലാ ഓഫറുകളും, ഒരിടത്ത്', offersTagline: 'IGO കാറ്റലോഗിലുടനീളം ചെടി ബണ്ടിലുകൾ, വിഭാഗ കിഴിവുകൾ, സീസണൽ ഡീലുകൾ.', visitUs: 'ഞങ്ങളെ സന്ദർശിക്കുക', locateStoreTitle: 'ഞങ്ങളുടെ സ്റ്റോർ കണ്ടെത്തുക', storeHours: 'സ്റ്റോർ സമയം', contact: 'ബന്ധപ്പെടുക', getStarted: 'ആരംഭിക്കുക', tellUsAboutSpace: 'നിങ്ങളുടെ സ്ഥലത്തെക്കുറിച്ച് ഞങ്ങളോട് പറയുക', tellUsDesc: 'കുറച്ച് ഫോട്ടോകളും അളവുകളും പങ്കിടുക, ഞങ്ങളുടെ ടീം ഒരു പ്ലാനും ക്വോട്ടും തയ്യാറാക്കും.', requestConsultation: 'കൺസൾട്ടേഷൻ അഭ്യർത്ഥിക്കുക', beyondProducts: 'ഉൽപ്പന്നങ്ങൾക്കപ്പുറം', gardenServicesTitle: 'തോട്ട സേവനങ്ങൾ', gardenServicesTagline: 'ടെറസ് തോട്ടങ്ങൾ മുതൽ പൂർണ്ണ ലാൻഡ്സ്കേപ്പിംഗ് വരെ, ഞങ്ങളുടെ ടീമിന് സഹായിക്കാനാകും.', landscapingTitle: 'ലാൻഡ്സ്കേപ്പിംഗ്', landscapingTagline: 'ഒരു ബാൽക്കണി മുതൽ പൂർണ്ണ കാമ്പസ് വരെ - സമ്പൂർണ്ണ ലാൻഡ്സ്കേപ്പിംഗ് ഡിസൈനും നിർമ്മാണവും. താഴെയുള്ള സേവനങ്ങൾ ബ്രൗസ് ചെയ്ത് സൈറ്റ് സന്ദർശനത്തിനും ക്വോട്ടിനും ബന്ധപ്പെടുക.', learnMore: 'കൂടുതൽ അറിയുക →', blogEyebrow: 'പഠിക്കുക • വളരുക • തഴച്ചുവളരുക', blogTitle: 'ഗാർഡൻ ജേണൽ', blogTagline: 'IGO നഴ്സറി ടീമിന്റെ പരിചരണ ഗൈഡുകളും ആശയങ്ങളും.', readGuide: 'ഗൈഡ് വായിക്കുക →', ourStory: 'ഞങ്ങളുടെ കഥ', corporateGiftsTitle: 'കോർപ്പറേറ്റ് ഗിഫ്റ്റുകൾ', corporateGiftsTagline: 'ഓരോ അവസരത്തിനും അനുയോജ്യമായ, സമ്മാനിക്കാൻ തയ്യാറായ ചെടികളും പ്ലാന്ററുകളും.', resultsFor: '"{q}" എന്നതിനുള്ള ഫലങ്ങൾ', aboutStory: 'IGO നഴ്സറി മുട്ടുക്കാട്ടിലെ ഒരു ചെറിയ അഗ്രിടെക് ലാബായി തുടങ്ങി, IoT നിരീക്ഷണവും കൃത്യതയുള്ള പരീക്ഷണങ്ങളും വലിയ തോതിൽ ആരോഗ്യമുള്ള ചെടികൾ വളർത്താൻ എങ്ങനെ സഹായിക്കും എന്ന് പരീക്ഷിച്ചു. ഇന്ന് നിങ്ങളുടെ വീട്ടുവാതിൽക്കൽ എത്തുന്ന ഓരോ ചെടിയും കാറ്റലോഗിൽ എത്തുന്നതിന് മുമ്പ് അതേ ലാബിലൂടെ കടന്നുപോയിട്ടുണ്ട്.', galleryEyebrow: 'ഗാലറി', galleryTitle: 'ഞങ്ങളുടെ ഗാലറി', galleryTagline: 'ഞങ്ങളുടെ നഴ്സറി, തോട്ടങ്ങൾ, പൂർത്തിയായ പദ്ധതികൾ എന്നിവയുടെ ഒരു കാഴ്ച.', galleryComingSoon: 'ഫോട്ടോകൾ ഉടൻ വരുന്നു — വീണ്ടും പരിശോധിക്കുക.', contactEyebrow: 'ബന്ധപ്പെടുക', contactTitle: 'ബന്ധപ്പെടുക', contactTagline: 'ഒരു ചോദ്യമുണ്ടോ അല്ലെങ്കിൽ ക്വോട്ട് വേണോ? നിങ്ങളിൽ നിന്ന് കേൾക്കാൻ ഞങ്ങൾ ആഗ്രഹിക്കുന്നു.', contactNameLabel: 'പേര്', contactEmailLabel: 'ഇമെയിൽ', contactMessageLabel: 'സന്ദേശം', contactSend: 'സന്ദേശം അയയ്ക്കുക', contactVisitTitle: 'ഞങ്ങളെ സന്ദർശിക്കുക അല്ലെങ്കിൽ എഴുതുക', everyDay: 'എല്ലാ ദിവസവും', customerVisitsWelcome: 'നഴ്സറി സന്ദർശിക്കാൻ ഉപഭോക്താക്കൾക്ക് സ്വാഗതം.', supportHoursLabel: 'ഉപഭോക്തൃ പിന്തുണ', support247: '24/7 ലഭ്യമാണ്', founderLabel: 'സ്ഥാപകൻ', founderName: 'ഡോ. ജോൺ യേശുദാസ്', establishedLabel: 'സ്ഥാപിതം', visionLabel: 'ഞങ്ങളുടെ കാഴ്ചപ്പാട്', visionText: 'ആരോഗ്യമുള്ള, ഉയർന്ന നിലവാരമുള്ള ചെടികൾ നൽകുന്നതിലും പച്ചപ്പുള്ള ജീവിതയിടങ്ങൾ പ്രോത്സാഹിപ്പിക്കുന്നതിലും വിശ്വസനീയമായ പേരാകുക.', missionLabel: 'ഞങ്ങളുടെ ദൗത്യം', missionText: 'വൈവിധ്യമാർന്ന ചെടികൾ, വിദഗ്ദ്ധ മാർഗ്ഗനിർദ്ദേശം, വിശ്വസനീയമായ ഡെലിവറി സേവനങ്ങൾ എന്നിവയിലൂടെ എല്ലാവർക്കും തോട്ടപരിപാലനം പ്രാപ്യമാക്കുക, പരിസ്ഥിതി സുസ്ഥിരത വളർത്തുക.', differentTitle: 'ഞങ്ങൾ വ്യത്യസ്തരാകുന്നത് എങ്ങനെ', differentVarietyTitle: 'വിശാലമായ ചെടി വൈവിധ്യം', differentVarietyText: 'തൈകൾ മുതൽ പൂർണ്ണവളർച്ചയെത്തിയ ചെടികൾ വരെ, ഇൻഡോർ, ഔട്ട്ഡോർ വിഭാഗങ്ങളിൽ.', differentExpertTitle: 'സ്ഥാപകൻ നയിക്കുന്ന വൈദഗ്ദ്ധ്യം', differentExpertText: 'ഞങ്ങളുടെ സ്ഥാപകന്റെ അനുഭവത്തിലൂടെ രൂപപ്പെടുത്തിയ വ്യക്തിഗത ചെടി കൺസൾട്ടേഷൻ.', differentDeliveryTitle: 'വേഗതയേറിയ, പ്രീമിയം പാക്കേജിംഗ് ഡെലിവറി', differentDeliveryText: 'ഓരോ ചെടിയും സുരക്ഷിതമായ പാക്കേജിംഗിൽ ഇന്ത്യയിലുടനീളം അയക്കുന്നു.', aboutCta: 'ഞങ്ങളുടെ ചെടികൾ കാണുക', founderTitle: 'ടെക് ഫാർമിംഗ് സയന്റിസ്റ്റ് · TEDx സ്പീക്കർ · Polyhouse Farming ഗ്രന്ഥകാരൻ', founderBio: 'ഡോ. ജോൺ യേശുദാസ് IGO ഗ്രൂപ്പിന്റെ CEO ആണ്, ഇന്ത്യയിലുടനീളം കൃത്യമായ കൃഷി, ഹൈഡ്രോപോണിക്സ്, പോളിഹൗസ് പദ്ധതികൾ നയിക്കുകയും അടുത്ത തലമുറ കാർഷിക സംരംഭകരെ നയിക്കുകയും ചെയ്യുന്നു.', founderReadMore: 'ഡോ. ജോൺ യേശുദാസിന്റെ പൂർണ്ണ കഥ വായിക്കുക →', groupTitle: 'IGO ഗ്രൂപ്പിന്റെ ഭാഗം', groupText: 'IGO നഴ്സറി IGO ഗ്രൂപ്പിന്റെ ഭാഗമാണ്, അതിന്റെ സഹോദര കമ്പനിയായ IGO അഗ്രിടെക് ഫാംസ് ഇന്ത്യയിലുടനീളം ഒരു ദശാബ്ദത്തിലധികം കൃത്യമായ കൃഷിയും കാർഷിക എഞ്ചിനീയറിംഗ് വൈദഗ്ധ്യവും കൊണ്ടുവരുന്നു.', groupStatYears: 'ഗ്രൂപ്പ് അനുഭവ വർഷങ്ങൾ', groupStatProjects: 'ഗ്രൂപ്പിലുടനീളമുള്ള പദ്ധതികൾ', groupStatIsoValue: 'ISO', groupStatIso: 'സർട്ടിഫൈഡ് ഓർഗനൈസേഷൻ', groupStatPanIndiaValue: 'പാൻ-ഇന്ത്യ', groupStatPanIndia: 'സാന്നിധ്യം', groupCta: 'IGO അഗ്രിടെക് ഫാംസ് സന്ദർശിക്കുക →' },
+  te: { home: 'హోమ్', notFoundTitle: '404', notFoundDesc: 'ఆ పేజీ మాకు కనుగొనబడలేదు.', backToHome: 'హోమ్‌కు తిరిగి వెళ్లండి', offersEyebrow: 'ఆఫర్లు', offersTitle: 'అన్ని ఆఫర్‌లు, ఒకే చోట', offersTagline: 'IGO కేటలాగ్‌లో మొక్కల బండిల్స్, కేటగిరీ తగ్గింపులు మరియు సీజనల్ డీల్స్.', visitUs: 'మమ్మల్ని సందర్శించండి', locateStoreTitle: 'మా స్టోర్‌ను కనుగొనండి', storeHours: 'స్టోర్ సమయాలు', contact: 'సంప్రదించండి', getStarted: 'ప్రారంభించండి', tellUsAboutSpace: 'మీ స్థలం గురించి మాకు చెప్పండి', tellUsDesc: 'కొన్ని ఫోటోలు మరియు కొలతలు పంచుకోండి, మా బృందం ఒక ప్రణాళిక మరియు కోట్‌ను రూపొందిస్తుంది.', requestConsultation: 'కన్సల్టేషన్ అభ్యర్థించండి', beyondProducts: 'ఉత్పత్తులకు అతీతంగా', gardenServicesTitle: 'తోట సేవలు', gardenServicesTagline: 'టెర్రస్ తోటల నుండి పూర్తి ల్యాండ్‌స్కేపింగ్ వరకు, మా బృందం సహాయపడగలదు.', landscapingTitle: 'ల్యాండ్‌స్కేపింగ్', landscapingTagline: 'ఒక బాల్కనీ నుండి పూర్తి క్యాంపస్ వరకు - పూర్తి ల్యాండ్‌స్కేపింగ్ డిజైన్ మరియు నిర్మాణం. దిగువ సేవలను బ్రౌజ్ చేసి సైట్ సందర్శన మరియు కోట్ కోసం సంప్రదించండి.', learnMore: 'మరింత తెలుసుకోండి →', blogEyebrow: 'నేర్చుకోండి • పెంచండి • వర్ధిల్లండి', blogTitle: 'గార్డెన్ జర్నల్', blogTagline: 'IGO నర్సరీ బృందం నుండి సంరక్షణ గైడ్‌లు మరియు ఆలోచనలు.', readGuide: 'గైడ్ చదవండి →', ourStory: 'మా కథ', corporateGiftsTitle: 'కార్పొరేట్ గిఫ్ట్‌లు', corporateGiftsTagline: 'ప్రతి సందర్భానికి తగిన, గిఫ్ట్‌కు సిద్ధంగా ఉన్న మొక్కలు మరియు ప్లాంటర్లు.', resultsFor: '"{q}" కోసం ఫలితాలు', aboutStory: 'IGO నర్సరీ ముత్తుకాడులో ఒక చిన్న అగ్రిటెక్ ల్యాబ్‌గా ప్రారంభమైంది, IoT పర్యవేక్షణ మరియు ఖచ్చితమైన పరీక్షలు పెద్ద ఎత్తున ఆరోగ్యకరమైన మొక్కలను పెంచడంలో ఎలా సహాయపడతాయో పరీక్షించింది. ఈరోజు మీ ఇంటి తలుపు వరకు వచ్చే ప్రతి మొక్క, కేటలాగ్‌లోకి రాకముందే అదే ల్యాబ్ గుండా వెళ్లింది.', galleryEyebrow: 'గ్యాలరీ', galleryTitle: 'మా గ్యాలరీ', galleryTagline: 'మా నర్సరీ, తోటలు మరియు పూర్తయిన ప్రాజెక్టుల ఒక సంగ్రహావలోకనం.', galleryComingSoon: 'ఫోటోలు త్వరలో వస్తాయి — మళ్ళీ చూడండి.', contactEyebrow: 'మాతో సంప్రదించండి', contactTitle: 'సంప్రదించండి', contactTagline: 'ప్రశ్న ఉందా లేదా కోట్ కావాలా? మీ నుండి వినాలని మేము కోరుకుంటున్నాము.', contactNameLabel: 'పేరు', contactEmailLabel: 'ఇమెయిల్', contactMessageLabel: 'సందేశం', contactSend: 'సందేశం పంపండి', contactVisitTitle: 'మమ్మల్ని సందర్శించండి లేదా రాయండి', everyDay: 'ప్రతిరోజూ', customerVisitsWelcome: 'నర్సరీని సందర్శించడానికి కస్టమర్‌లకు స్వాగతం.', supportHoursLabel: 'కస్టమర్ సపోర్ట్', support247: '24/7 అందుబాటులో', founderLabel: 'వ్యవస్థాపకుడు', founderName: 'డా. జాన్ యేసుదాస్', establishedLabel: 'స్థాపించబడింది', visionLabel: 'మా దృష్టి', visionText: 'ఆరోగ్యకరమైన, అధిక నాణ్యత గల మొక్కలను అందించడంలో, పచ్చని జీవన ప్రదేశాలను ప్రోత్సహించడంలో విశ్వసనీయమైన పేరుగా నిలవడం.', missionLabel: 'మా లక్ష్యం', missionText: 'విభిన్న రకాల మొక్కలు, నిపుణుల మార్గదర్శకత్వం, నమ్మకమైన డెలివరీ సేవలను అందించడం ద్వారా తోటపనిని అందరికీ అందుబాటులోకి తీసుకురావడం, పర్యావరణ సుస్థిరతను పెంపొందించడం.', differentTitle: 'మేము ఎలా భిన్నం', differentVarietyTitle: 'విస్తృత మొక్కల వైవిధ్యం', differentVarietyText: 'మొలకల నుండి పూర్తిగా పెరిగిన మొక్కల వరకు, ఇండోర్, అవుట్‌డోర్ కేటగిరీలలో.', differentExpertTitle: 'వ్యవస్థాపకుని నేతృత్వంలోని నైపుణ్యం', differentExpertText: 'మా వ్యవస్థాపకుని అనుభవంతో రూపొందించిన వ్యక్తిగత మొక్కల సలహా.', differentDeliveryTitle: 'వేగవంతమైన, ప్రీమియం ప్యాకేజింగ్ డెలివరీ', differentDeliveryText: 'ప్రతి మొక్క సురక్షితమైన ప్యాకేజింగ్‌లో పాన్-ఇండియా పంపబడుతుంది.', aboutCta: 'మా మొక్కలను చూడండి', founderTitle: 'టెక్ ఫార్మింగ్ సైంటిస్ట్ · TEDx స్పీకర్ · Polyhouse Farming రచయిత', founderBio: 'డా. జాన్ యేసుదాస్ IGO గ్రూప్ CEO, భారతదేశం అంతటా ఖచ్చితమైన వ్యవసాయం, హైడ్రోపోనిక్స్, పాలీహౌస్ ప్రాజెక్టులను ముందుండి నడిపిస్తూ తదుపరి తరం వ్యవసాయ పారిశ్రామికవేత్తలకు మార్గదర్శకత్వం వహిస్తున్నారు.', founderReadMore: 'డా. జాన్ యేసుదాస్ పూర్తి కథను చదవండి →', groupTitle: 'IGO గ్రూప్‌లో భాగం', groupText: 'IGO నర్సరీ IGO గ్రూప్‌లో భాగం, దాని సోదర సంస్థ IGO అగ్రిటెక్ ఫార్మ్స్ భారతదేశం అంతటా దశాబ్దానికి పైగా ఖచ్చితమైన వ్యవసాయం మరియు వ్యవసాయ ఇంజనీరింగ్ నైపుణ్యాన్ని తెస్తుంది.', groupStatYears: 'గ్రూప్ అనుభవ సంవత్సరాలు', groupStatProjects: 'గ్రూప్ అంతటా ప్రాజెక్టులు', groupStatIsoValue: 'ISO', groupStatIso: 'సర్టిఫైడ్ ఆర్గనైజేషన్', groupStatPanIndiaValue: 'పాన్-ఇండియా', groupStatPanIndia: 'ఉనికి', groupCta: 'IGO అగ్రిటెక్ ఫార్మ్స్ చూడండి →' },
+  kn: { home: 'ಹೋಮ್', notFoundTitle: '404', notFoundDesc: 'ಆ ಪುಟ ನಮಗೆ ಕಂಡುಬಂದಿಲ್ಲ.', backToHome: 'ಹೋಮ್‌ಗೆ ಹಿಂತಿರುಗಿ', offersEyebrow: 'ಆಫರ್‌ಗಳು', offersTitle: 'ಎಲ್ಲಾ ಆಫರ್‌ಗಳು, ಒಂದೇ ಸ್ಥಳದಲ್ಲಿ', offersTagline: 'IGO ಕ್ಯಾಟಲಾಗ್‌ನಾದ್ಯಂತ ಸಸ್ಯ ಬಂಡಲ್‌ಗಳು, ವರ್ಗ ರಿಯಾಯಿತಿಗಳು ಮತ್ತು ಋತುಮಾನ ಡೀಲ್‌ಗಳು.', visitUs: 'ನಮ್ಮನ್ನು ಭೇಟಿ ಮಾಡಿ', locateStoreTitle: 'ನಮ್ಮ ಅಂಗಡಿಯನ್ನು ಹುಡುಕಿ', storeHours: 'ಅಂಗಡಿ ಸಮಯ', contact: 'ಸಂಪರ್ಕಿಸಿ', getStarted: 'ಪ್ರಾರಂಭಿಸಿ', tellUsAboutSpace: 'ನಿಮ್ಮ ಸ್ಥಳದ ಬಗ್ಗೆ ನಮಗೆ ತಿಳಿಸಿ', tellUsDesc: 'ಕೆಲವು ಫೋಟೋಗಳು ಮತ್ತು ಅಳತೆಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ, ನಮ್ಮ ತಂಡ ಯೋಜನೆ ಮತ್ತು ಕೋಟ್ ಅನ್ನು ಸಿದ್ಧಪಡಿಸುತ್ತದೆ.', requestConsultation: 'ಸಮಾಲೋಚನೆ ವಿನಂತಿಸಿ', beyondProducts: 'ಉತ್ಪನ್ನಗಳನ್ನು ಮೀರಿ', gardenServicesTitle: 'ತೋಟ ಸೇವೆಗಳು', gardenServicesTagline: 'ಟೆರೇಸ್ ತೋಟಗಳಿಂದ ಪೂರ್ಣ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್‌ವರೆಗೆ, ನಮ್ಮ ತಂಡ ಸಹಾಯ ಮಾಡಬಹುದು.', landscapingTitle: 'ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್', landscapingTagline: 'ಒಂದು ಬಾಲ್ಕನಿಯಿಂದ ಪೂರ್ಣ ಕ್ಯಾಂಪಸ್‌ವರೆಗೆ - ಸಂಪೂರ್ಣ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್ ವಿನ್ಯಾಸ ಮತ್ತು ನಿರ್ಮಾಣ. ಕೆಳಗಿನ ಸೇವೆಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಿ ಮತ್ತು ಸೈಟ್ ಭೇಟಿ ಮತ್ತು ಕೋಟ್‌ಗಾಗಿ ಸಂಪರ್ಕಿಸಿ.', learnMore: 'ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ →', blogEyebrow: 'ಕಲಿಯಿರಿ • ಬೆಳೆಸಿ • ಅಭಿವೃದ್ಧಿ ಹೊಂದಿ', blogTitle: 'ಗಾರ್ಡನ್ ಜರ್ನಲ್', blogTagline: 'IGO ನರ್ಸರಿ ತಂಡದ ಆರೈಕೆ ಗೈಡ್‌ಗಳು ಮತ್ತು ಆಲೋಚನೆಗಳು.', readGuide: 'ಗೈಡ್ ಓದಿ →', ourStory: 'ನಮ್ಮ ಕಥೆ', corporateGiftsTitle: 'ಕಾರ್ಪೊರೇಟ್ ಗಿಫ್ಟ್‌ಗಳು', corporateGiftsTagline: 'ಪ್ರತಿ ಸಂದರ್ಭಕ್ಕೂ ಸೂಕ್ತವಾದ, ಉಡುಗೊರೆಗೆ ಸಿದ್ಧವಾದ ಗಿಡಗಳು ಮತ್ತು ಪ್ಲಾಂಟರ್‌ಗಳು.', resultsFor: '"{q}" ಗಾಗಿ ಫಲಿತಾಂಶಗಳು', aboutStory: 'IGO ನರ್ಸರಿ ಮುಟ್ಟುಕಾಡುವಿನಲ್ಲಿ ಒಂದು ಸಣ್ಣ ಅಗ್ರಿಟೆಕ್ ಲ್ಯಾಬ್ ಆಗಿ ಪ್ರಾರಂಭವಾಯಿತು, IoT ಮಾನಿಟರಿಂಗ್ ಮತ್ತು ನಿಖರ ಪ್ರಯೋಗಗಳು ದೊಡ್ಡ ಪ್ರಮಾಣದಲ್ಲಿ ಆರೋಗ್ಯಕರ ಗಿಡಗಳನ್ನು ಬೆಳೆಸಲು ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು ಎಂದು ಪರೀಕ್ಷಿಸಿತು. ಇಂದು ನಿಮ್ಮ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪುವ ಪ್ರತಿ ಗಿಡವೂ ಕ್ಯಾಟಲಾಗ್‌ಗೆ ಸೇರುವ ಮೊದಲು ಅದೇ ಲ್ಯಾಬ್ ಮೂಲಕ ಹಾದುಹೋಗಿದೆ.', galleryEyebrow: 'ಗ್ಯಾಲರಿ', galleryTitle: 'ನಮ್ಮ ಗ್ಯಾಲರಿ', galleryTagline: 'ನಮ್ಮ ನರ್ಸರಿ, ತೋಟಗಳು ಮತ್ತು ಪೂರ್ಣಗೊಂಡ ಯೋಜನೆಗಳ ಒಂದು ನೋಟ.', galleryComingSoon: 'ಫೋಟೋಗಳು ಶೀಘ್ರದಲ್ಲೇ ಬರುತ್ತಿವೆ — ಮತ್ತೆ ಪರಿಶೀಲಿಸಿ.', contactEyebrow: 'ಸಂಪರ್ಕದಲ್ಲಿರಿ', contactTitle: 'ಸಂಪರ್ಕಿಸಿ', contactTagline: 'ಪ್ರಶ್ನೆ ಇದೆಯೇ ಅಥವಾ ಕೋಟ್ ಬೇಕೇ? ನಿಮ್ಮಿಂದ ಕೇಳಲು ನಾವು ಇಷ್ಟಪಡುತ್ತೇವೆ.', contactNameLabel: 'ಹೆಸರು', contactEmailLabel: 'ಇಮೇಲ್', contactMessageLabel: 'ಸಂದೇಶ', contactSend: 'ಸಂದೇಶ ಕಳುಹಿಸಿ', contactVisitTitle: 'ನಮ್ಮನ್ನು ಭೇಟಿ ಮಾಡಿ ಅಥವಾ ಬರೆಯಿರಿ', everyDay: 'ಪ್ರತಿದಿನ', customerVisitsWelcome: 'ನರ್ಸರಿಗೆ ಗ್ರಾಹಕರ ಭೇಟಿಗೆ ಸ್ವಾಗತ.', supportHoursLabel: 'ಗ್ರಾಹಕ ಬೆಂಬಲ', support247: '24/7 ಲಭ್ಯವಿದೆ', founderLabel: 'ಸಂಸ್ಥಾಪಕರು', founderName: 'ಡಾ. ಜಾನ್ ಯೇಸುದಾಸ್', establishedLabel: 'ಸ್ಥಾಪಿಸಲಾಗಿದೆ', visionLabel: 'ನಮ್ಮ ದೃಷ್ಟಿಕೋನ', visionText: 'ಆರೋಗ್ಯಕರ, ಉನ್ನತ ಗುಣಮಟ್ಟದ ಸಸ್ಯಗಳನ್ನು ಒದಗಿಸುವಲ್ಲಿ ಮತ್ತು ಹಸಿರು ಜೀವನ ಸ್ಥಳಗಳನ್ನು ಉತ್ತೇಜಿಸುವಲ್ಲಿ ವಿಶ್ವಾಸಾರ್ಹ ಹೆಸರಾಗುವುದು.', missionLabel: 'ನಮ್ಮ ಧ್ಯೇಯ', missionText: 'ವೈವಿಧ್ಯಮಯ ಸಸ್ಯಗಳು, ತಜ್ಞರ ಮಾರ್ಗದರ್ಶನ ಮತ್ತು ವಿಶ್ವಾಸಾರ್ಹ ಡೆಲಿವರಿ ಸೇವೆಗಳನ್ನು ನೀಡುವ ಮೂಲಕ ತೋಟಗಾರಿಕೆಯನ್ನು ಎಲ್ಲರಿಗೂ ಪ್ರವೇಶಿಸುವಂತೆ ಮಾಡುವುದು, ಪರಿಸರ ಸುಸ್ಥಿರತೆಯನ್ನು ಬೆಳೆಸುವುದು.', differentTitle: 'ನಾವು ಹೇಗೆ ಭಿನ್ನ', differentVarietyTitle: 'ವಿಶಾಲ ಸಸ್ಯ ವೈವಿಧ್ಯ', differentVarietyText: 'ಸಸಿಗಳಿಂದ ಪೂರ್ಣ ಬೆಳೆದ ಸಸ್ಯಗಳವರೆಗೆ, ಒಳಾಂಗಣ ಮತ್ತು ಹೊರಾಂಗಣ ವಿಭಾಗಗಳಲ್ಲಿ.', differentExpertTitle: 'ಸಂಸ್ಥಾಪಕರ ನೇತೃತ್ವದ ಪರಿಣತಿ', differentExpertText: 'ನಮ್ಮ ಸಂಸ್ಥಾಪಕರ ಅನುಭವದಿಂದ ರೂಪುಗೊಂಡ ವೈಯಕ್ತಿಕ ಸಸ್ಯ ಸಲಹೆ.', differentDeliveryTitle: 'ವೇಗದ, ಪ್ರೀಮಿಯಂ ಪ್ಯಾಕೇಜಿಂಗ್ ಡೆಲಿವರಿ', differentDeliveryText: 'ಪ್ರತಿ ಸಸ್ಯವನ್ನು ಸುರಕ್ಷಿತ ಪ್ಯಾಕೇಜಿಂಗ್‌ನಲ್ಲಿ ಪ್ಯಾನ್-ಇಂಡಿಯಾ ಕಳುಹಿಸಲಾಗುತ್ತದೆ.', aboutCta: 'ನಮ್ಮ ಸಸ್ಯಗಳನ್ನು ನೋಡಿ', founderTitle: 'ಟೆಕ್ ಫಾರ್ಮಿಂಗ್ ಸೈಂಟಿಸ್ಟ್ · TEDx ಸ್ಪೀಕರ್ · Polyhouse Farming ಲೇಖಕ', founderBio: 'ಡಾ. ಜಾನ್ ಯೇಸುದಾಸ್ IGO ಗ್ರೂಪ್‌ನ CEO ಆಗಿದ್ದು, ಭಾರತದಾದ್ಯಂತ ನಿಖರ ಕೃಷಿ, ಹೈಡ್ರೋಪೋನಿಕ್ಸ್ ಮತ್ತು ಪಾಲಿಹೌಸ್ ಯೋಜನೆಗಳನ್ನು ಮುನ್ನಡೆಸುತ್ತಾ ಮುಂದಿನ ಪೀಳಿಗೆಯ ಕೃಷಿ ಉದ್ಯಮಿಗಳಿಗೆ ಮಾರ್ಗದರ್ಶನ ನೀಡುತ್ತಿದ್ದಾರೆ.', founderReadMore: 'ಡಾ. ಜಾನ್ ಯೇಸುದಾಸ್ ಅವರ ಪೂರ್ಣ ಕಥೆಯನ್ನು ಓದಿ →', groupTitle: 'IGO ಗ್ರೂಪ್‌ನ ಭಾಗ', groupText: 'IGO ನರ್ಸರಿ IGO ಗ್ರೂಪ್‌ನ ಭಾಗವಾಗಿದೆ, ಇದರ ಸಹೋದರ ಸಂಸ್ಥೆ IGO ಅಗ್ರಿಟೆಕ್ ಫಾರ್ಮ್ಸ್ ಭಾರತದಾದ್ಯಂತ ಒಂದು ದಶಕಕ್ಕೂ ಹೆಚ್ಚು ನಿಖರ ಕೃಷಿ ಮತ್ತು ಕೃಷಿ ಎಂಜಿನಿಯರಿಂಗ್ ಪರಿಣತಿಯನ್ನು ತರುತ್ತದೆ.', groupStatYears: 'ಗ್ರೂಪ್ ಅನುಭವದ ವರ್ಷಗಳು', groupStatProjects: 'ಗ್ರೂಪ್‌ನಾದ್ಯಂತ ಯೋಜನೆಗಳು', groupStatIsoValue: 'ISO', groupStatIso: 'ಸರ್ಟಿಫೈಡ್ ಸಂಸ್ಥೆ', groupStatPanIndiaValue: 'ಪ್ಯಾನ್-ಇಂಡಿಯಾ', groupStatPanIndia: 'ಉಪಸ್ಥಿತಿ', groupCta: 'IGO ಅಗ್ರಿಟೆಕ್ ಫಾರ್ಮ್ಸ್ ಭೇಟಿ ನೀಡಿ →' },
+};
+
+const finder = {
+  en: { eyebrow: 'FIND YOUR PLANT', questionsTitle: 'A few quick questions', questionsTagline: "Answer four short questions and we'll point you to plants that actually fit your space.", resultsTitle: 'Your matches', questionOf: 'Question {n} of {total}', back: '← Back', skipQuiz: 'Skip the quiz, browse everything →', startOver: 'Start over', browseAll: 'Browse all plants →', widenedNote: "We didn't have a tight match on every answer, so we widened your results to our best picks for the space and budget you chose.", noResults: "We couldn't find a plant for that combination yet. Try different answers, or browse the full catalogue.", resultsSummary: 'Based on your answers, we picked {count} plant{plural} from our catalogue for you.',
+    qSpace: 'Where will your plant live?', qSpaceIndoor: 'Indoors', qSpaceIndoorHint: 'Living room, bedroom, desk, office', qSpaceOutdoor: 'Outdoors', qSpaceOutdoorHint: 'Balcony, terrace, garden',
+    qSize: 'How much space do you have for it?', qSizeSmall: 'Small', qSizeSmallHint: 'Desk, shelf or windowsill', qSizeMedium: 'Medium', qSizeMediumHint: 'A corner or side table', qSizeLarge: 'Large', qSizeLargeHint: 'Floor space to spare',
+    qExperience: 'How much plant experience do you have?', qExperienceBeginner: 'Just starting out', qExperienceBeginnerHint: 'Something forgiving and easy', qExperienceExperienced: "I've kept plants before", qExperienceExperiencedHint: 'Open to something more particular',
+    qBudget: "What's your budget?", qBudgetLow: 'Under ₹250', qBudgetMid: '₹250 – ₹500', qBudgetHigh: '₹500+' },
+  ta: { eyebrow: 'உங்கள் செடியைக் கண்டறியவும்', questionsTitle: 'சில விரைவான கேள்விகள்', questionsTagline: 'நான்கு சிறு கேள்விகளுக்குப் பதிலளியுங்கள், உங்கள் இடத்திற்குப் பொருந்தும் செடிகளை நாங்கள் காண்பிப்போம்.', resultsTitle: 'உங்கள் பொருத்தங்கள்', questionOf: 'கேள்வி {n} / {total}', back: '← பின்செல்', skipQuiz: 'வினாடி வினாவைத் தவிர்த்து, அனைத்தையும் உலாவுங்கள் →', startOver: 'மீண்டும் தொடங்கு', browseAll: 'அனைத்து செடிகளையும் உலாவுங்கள் →', widenedNote: 'ஒவ்வொரு பதிலுக்கும் சரியான பொருத்தம் இல்லை, எனவே உங்கள் இட மற்றும் பட்ஜெட்டிற்கு எங்கள் சிறந்த தேர்வுகளுக்கு விரிவுபடுத்தினோம்.', noResults: 'அந்த சேர்க்கைக்கு இன்னும் செடி கிடைக்கவில்லை. வேறு பதில்களை முயற்சிக்கவும், அல்லது முழு பட்டியலையும் உலாவவும்.', resultsSummary: 'உங்கள் பதில்களின் அடிப்படையில், எங்கள் பட்டியலிலிருந்து {count} செடிகளைத் தேர்ந்தெடுத்தோம்.',
+    qSpace: 'உங்கள் செடி எங்கு வாழும்?', qSpaceIndoor: 'உட்புறம்', qSpaceIndoorHint: 'வரவேற்பறை, படுக்கையறை, மேசை, அலுவலகம்', qSpaceOutdoor: 'வெளிப்புறம்', qSpaceOutdoorHint: 'பால்கனி, மொட்டை மாடி, தோட்டம்',
+    qSize: 'அதற்கு எவ்வளவு இடம் உள்ளது?', qSizeSmall: 'சிறியது', qSizeSmallHint: 'மேசை, அலமாரி அல்லது ஜன்னல்', qSizeMedium: 'நடுத்தரம்', qSizeMediumHint: 'ஒரு மூலை அல்லது பக்க மேசை', qSizeLarge: 'பெரியது', qSizeLargeHint: 'தரை இடம் உள்ளது',
+    qExperience: 'உங்களுக்கு எவ்வளவு செடி அனுபவம் உள்ளது?', qExperienceBeginner: 'புதிதாகத் தொடங்குகிறேன்', qExperienceBeginnerHint: 'மன்னிக்கக்கூடிய, எளிதான ஒன்று', qExperienceExperienced: 'முன்பே செடிகள் வளர்த்திருக்கிறேன்', qExperienceExperiencedHint: 'சிறப்பு வாய்ந்த ஒன்றுக்குத் தயார்',
+    qBudget: 'உங்கள் பட்ஜெட் என்ன?', qBudgetLow: '₹250க்கு கீழ்', qBudgetMid: '₹250 – ₹500', qBudgetHigh: '₹500+' },
+  hi: { eyebrow: 'अपना पौधा खोजें', questionsTitle: 'कुछ त्वरित प्रश्न', questionsTagline: 'चार छोटे प्रश्नों के उत्तर दें और हम आपको ऐसे पौधे दिखाएंगे जो आपकी जगह के लिए एकदम सही हों।', resultsTitle: 'आपके मैच', questionOf: 'प्रश्न {n} / {total}', back: '← वापस', skipQuiz: 'क्विज़ छोड़ें, सब कुछ ब्राउज़ करें →', startOver: 'फिर से शुरू करें', browseAll: 'सभी पौधे ब्राउज़ करें →', widenedNote: 'हर उत्तर पर सटीक मेल नहीं मिला, इसलिए हमने आपके स्थान और बजट के लिए अपने बेहतरीन विकल्पों तक परिणाम बढ़ा दिए।', noResults: 'उस संयोजन के लिए अभी हमें कोई पौधा नहीं मिला। अलग उत्तर आज़माएं, या पूरा कैटलॉग ब्राउज़ करें।', resultsSummary: 'आपके उत्तरों के आधार पर, हमने आपके लिए हमारे कैटलॉग से {count} पौधे चुने हैं।',
+    qSpace: 'आपका पौधा कहाँ रहेगा?', qSpaceIndoor: 'घर के अंदर', qSpaceIndoorHint: 'लिविंग रूम, बेडरूम, डेस्क, ऑफिस', qSpaceOutdoor: 'बाहर', qSpaceOutdoorHint: 'बालकनी, छत, बगीचा',
+    qSize: 'आपके पास इसके लिए कितनी जगह है?', qSizeSmall: 'छोटा', qSizeSmallHint: 'डेस्क, शेल्फ या खिड़की', qSizeMedium: 'मध्यम', qSizeMediumHint: 'एक कोना या साइड टेबल', qSizeLarge: 'बड़ा', qSizeLargeHint: 'फर्श की जगह उपलब्ध',
+    qExperience: 'आपके पास कितना पौधों का अनुभव है?', qExperienceBeginner: 'अभी शुरुआत कर रहा हूं', qExperienceBeginnerHint: 'कुछ आसान और क्षमाशील', qExperienceExperienced: 'पहले भी पौधे रखे हैं', qExperienceExperiencedHint: 'कुछ खास के लिए तैयार',
+    qBudget: 'आपका बजट क्या है?', qBudgetLow: '₹250 से कम', qBudgetMid: '₹250 – ₹500', qBudgetHigh: '₹500+' },
+  ml: { eyebrow: 'നിങ്ങളുടെ ചെടി കണ്ടെത്തുക', questionsTitle: 'ചില പെട്ടെന്നുള്ള ചോദ്യങ്ങൾ', questionsTagline: 'നാല് ചെറിയ ചോദ്യങ്ങൾക്ക് ഉത്തരം നൽകുക, നിങ്ങളുടെ സ്ഥലത്തിന് യോജിക്കുന്ന ചെടികൾ ഞങ്ങൾ കാണിക്കും.', resultsTitle: 'നിങ്ങളുടെ പൊരുത്തങ്ങൾ', questionOf: 'ചോദ്യം {n} / {total}', back: '← തിരികെ', skipQuiz: 'ക്വിസ് ഒഴിവാക്കുക, എല്ലാം ബ്രൗസ് ചെയ്യുക →', startOver: 'വീണ്ടും തുടങ്ങുക', browseAll: 'എല്ലാ ചെടികളും ബ്രൗസ് ചെയ്യുക →', widenedNote: 'എല്ലാ ഉത്തരത്തിനും കൃത്യമായ പൊരുത്തം ലഭിച്ചില്ല, അതിനാൽ നിങ്ങളുടെ സ്ഥലത്തിനും ബജറ്റിനും ഞങ്ങളുടെ മികച്ച തിരഞ്ഞെടുപ്പുകളിലേക്ക് വിശാലമാക്കി.', noResults: 'ആ കോമ്പിനേഷന് ഇതുവരെ ചെടി കണ്ടെത്തിയില്ല. വ്യത്യസ്ത ഉത്തരങ്ങൾ ശ്രമിക്കുക, അല്ലെങ്കിൽ മുഴുവൻ കാറ്റലോഗും ബ്രൗസ് ചെയ്യുക.', resultsSummary: 'നിങ്ങളുടെ ഉത്തരങ്ങളുടെ അടിസ്ഥാനത്തിൽ, ഞങ്ങളുടെ കാറ്റലോഗിൽ നിന്ന് {count} ചെടികൾ നിങ്ങൾക്കായി തിരഞ്ഞെടുത്തു.',
+    qSpace: 'നിങ്ങളുടെ ചെടി എവിടെ ജീവിക്കും?', qSpaceIndoor: 'അകത്ത്', qSpaceIndoorHint: 'ലിവിംഗ് റൂം, ബെഡ്റൂം, ഡെസ്ക്, ഓഫീസ്', qSpaceOutdoor: 'പുറത്ത്', qSpaceOutdoorHint: 'ബാൽക്കണി, ടെറസ്, തോട്ടം',
+    qSize: 'അതിന് നിങ്ങൾക്ക് എത്ര സ്ഥലമുണ്ട്?', qSizeSmall: 'ചെറുത്', qSizeSmallHint: 'ഡെസ്ക്, ഷെൽഫ് അല്ലെങ്കിൽ ജനാലവക്ക്', qSizeMedium: 'ഇടത്തരം', qSizeMediumHint: 'ഒരു മൂലയോ സൈഡ് ടേബിളോ', qSizeLarge: 'വലുത്', qSizeLargeHint: 'ഫ്ലോർ സ്ഥലം ബാക്കിയുണ്ട്',
+    qExperience: 'നിങ്ങൾക്ക് എത്ര ചെടി പരിചയമുണ്ട്?', qExperienceBeginner: 'ഇപ്പോൾ തുടങ്ങുന്നു', qExperienceBeginnerHint: 'ക്ഷമിക്കാവുന്നതും എളുപ്പമുള്ളതുമായ ഒന്ന്', qExperienceExperienced: 'മുമ്പ് ചെടികൾ വളർത്തിയിട്ടുണ്ട്', qExperienceExperiencedHint: 'കൂടുതൽ പ്രത്യേകതയുള്ള ഒന്നിന് തയ്യാർ',
+    qBudget: 'നിങ്ങളുടെ ബജറ്റ് എന്താണ്?', qBudgetLow: '₹250ൽ താഴെ', qBudgetMid: '₹250 – ₹500', qBudgetHigh: '₹500+' },
+  te: { eyebrow: 'మీ మొక్కను కనుగొనండి', questionsTitle: 'కొన్ని త్వరిత ప్రశ్నలు', questionsTagline: 'నాలుగు చిన్న ప్రశ్నలకు సమాధానం ఇవ్వండి, మీ స్థలానికి సరిపోయే మొక్కలను మేము చూపిస్తాము.', resultsTitle: 'మీ మ్యాచ్‌లు', questionOf: 'ప్రశ్న {n} / {total}', back: '← వెనుకకు', skipQuiz: 'క్విజ్‌ను దాటవేయండి, అన్నీ బ్రౌజ్ చేయండి →', startOver: 'మళ్ళీ ప్రారంభించండి', browseAll: 'అన్ని మొక్కలను బ్రౌజ్ చేయండి →', widenedNote: 'ప్రతి సమాధానానికి ఖచ్చితమైన మ్యాచ్ లభించలేదు, కాబట్టి మీ స్థలం మరియు బడ్జెట్ కోసం మా అత్యుత్తమ ఎంపికలకు ఫలితాలను విస్తరించాము.', noResults: 'ఆ కలయిక కోసం ఇంకా మొక్క కనుగొనబడలేదు. వేరే సమాధానాలను ప్రయత్నించండి, లేదా పూర్తి కేటలాగ్‌ను బ్రౌజ్ చేయండి.', resultsSummary: 'మీ సమాధానాల ఆధారంగా, మా కేటలాగ్ నుండి మీ కోసం {count} మొక్కలను ఎంచుకున్నాము.',
+    qSpace: 'మీ మొక్క ఎక్కడ ఉంటుంది?', qSpaceIndoor: 'ఇంటి లోపల', qSpaceIndoorHint: 'లివింగ్ రూమ్, బెడ్రూమ్, డెస్క్, ఆఫీస్', qSpaceOutdoor: 'బయట', qSpaceOutdoorHint: 'బాల్కనీ, టెర్రస్, తోట',
+    qSize: 'దాని కోసం మీకు ఎంత స్థలం ఉంది?', qSizeSmall: 'చిన్నది', qSizeSmallHint: 'డెస్క్, షెల్ఫ్ లేదా కిటికీ', qSizeMedium: 'మధ్యస్థం', qSizeMediumHint: 'ఒక మూల లేదా సైడ్ టేబుల్', qSizeLarge: 'పెద్దది', qSizeLargeHint: 'నేల స్థలం మిగులు ఉంది',
+    qExperience: 'మీకు ఎంత మొక్కల అనుభవం ఉంది?', qExperienceBeginner: 'ఇప్పుడే ప్రారంభిస్తున్నాను', qExperienceBeginnerHint: 'క్షమించదగిన మరియు సులభమైనది', qExperienceExperienced: 'ఇంతకు ముందు మొక్కలు పెంచాను', qExperienceExperiencedHint: 'మరింత ప్రత్యేకమైన దానికి సిద్ధం',
+    qBudget: 'మీ బడ్జెట్ ఎంత?', qBudgetLow: '₹250 లోపు', qBudgetMid: '₹250 – ₹500', qBudgetHigh: '₹500+' },
+  kn: { eyebrow: 'ನಿಮ್ಮ ಸಸ್ಯವನ್ನು ಹುಡುಕಿ', questionsTitle: 'ಕೆಲವು ತ್ವರಿತ ಪ್ರಶ್ನೆಗಳು', questionsTagline: 'ನಾಲ್ಕು ಚಿಕ್ಕ ಪ್ರಶ್ನೆಗಳಿಗೆ ಉತ್ತರಿಸಿ, ನಿಮ್ಮ ಸ್ಥಳಕ್ಕೆ ಸೂಕ್ತವಾದ ಸಸ್ಯಗಳನ್ನು ನಾವು ತೋರಿಸುತ್ತೇವೆ.', resultsTitle: 'ನಿಮ್ಮ ಹೊಂದಾಣಿಕೆಗಳು', questionOf: 'ಪ್ರಶ್ನೆ {n} / {total}', back: '← ಹಿಂದೆ', skipQuiz: 'ಕ್ವಿಜ್ ಬಿಟ್ಟುಬಿಡಿ, ಎಲ್ಲವನ್ನೂ ಬ್ರೌಸ್ ಮಾಡಿ →', startOver: 'ಮತ್ತೆ ಪ್ರಾರಂಭಿಸಿ', browseAll: 'ಎಲ್ಲಾ ಸಸ್ಯಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಿ →', widenedNote: 'ಪ್ರತಿ ಉತ್ತರಕ್ಕೂ ನಿಖರವಾದ ಹೊಂದಾಣಿಕೆ ಸಿಗಲಿಲ್ಲ, ಆದ್ದರಿಂದ ನಿಮ್ಮ ಸ್ಥಳ ಮತ್ತು ಬಜೆಟ್‌ಗಾಗಿ ನಮ್ಮ ಅತ್ಯುತ್ತಮ ಆಯ್ಕೆಗಳಿಗೆ ಫಲಿತಾಂಶಗಳನ್ನು ವಿಸ್ತರಿಸಿದ್ದೇವೆ.', noResults: 'ಆ ಸಂಯೋಜನೆಗೆ ಇನ್ನೂ ಸಸ್ಯ ಕಂಡುಬಂದಿಲ್ಲ. ವಿಭಿನ್ನ ಉತ್ತರಗಳನ್ನು ಪ್ರಯತ್ನಿಸಿ, ಅಥವಾ ಪೂರ್ಣ ಕ್ಯಾಟಲಾಗ್ ಬ್ರೌಸ್ ಮಾಡಿ.', resultsSummary: 'ನಿಮ್ಮ ಉತ್ತರಗಳ ಆಧಾರದ ಮೇಲೆ, ನಮ್ಮ ಕ್ಯಾಟಲಾಗ್‌ನಿಂದ {count} ಸಸ್ಯಗಳನ್ನು ನಿಮಗಾಗಿ ಆಯ್ಕೆ ಮಾಡಿದ್ದೇವೆ.',
+    qSpace: 'ನಿಮ್ಮ ಸಸ್ಯ ಎಲ್ಲಿ ವಾಸಿಸುತ್ತದೆ?', qSpaceIndoor: 'ಒಳಾಂಗಣ', qSpaceIndoorHint: 'ಲಿವಿಂಗ್ ರೂಮ್, ಬೆಡ್ರೂಮ್, ಡೆಸ್ಕ್, ಆಫೀಸ್', qSpaceOutdoor: 'ಹೊರಾಂಗಣ', qSpaceOutdoorHint: 'ಬಾಲ್ಕನಿ, ಟೆರೇಸ್, ತೋಟ',
+    qSize: 'ಅದಕ್ಕೆ ನಿಮ್ಮ ಬಳಿ ಎಷ್ಟು ಸ್ಥಳವಿದೆ?', qSizeSmall: 'ಚಿಕ್ಕದು', qSizeSmallHint: 'ಡೆಸ್ಕ್, ಶೆಲ್ಫ್ ಅಥವಾ ಕಿಟಕಿ', qSizeMedium: 'ಮಧ್ಯಮ', qSizeMediumHint: 'ಒಂದು ಮೂಲೆ ಅಥವಾ ಸೈಡ್ ಟೇಬಲ್', qSizeLarge: 'ದೊಡ್ಡದು', qSizeLargeHint: 'ನೆಲದ ಸ್ಥಳ ಹೆಚ್ಚು ಇದೆ',
+    qExperience: 'ನಿಮಗೆ ಎಷ್ಟು ಸಸ್ಯ ಅನುಭವವಿದೆ?', qExperienceBeginner: 'ಈಗಷ್ಟೇ ಪ್ರಾರಂಭಿಸುತ್ತಿದ್ದೇನೆ', qExperienceBeginnerHint: 'ಕ್ಷಮಿಸಬಹುದಾದ ಮತ್ತು ಸುಲಭವಾದದ್ದು', qExperienceExperienced: 'ಮೊದಲು ಸಸ್ಯಗಳನ್ನು ಇಟ್ಟುಕೊಂಡಿದ್ದೇನೆ', qExperienceExperiencedHint: 'ಹೆಚ್ಚು ವಿಶಿಷ್ಟವಾದದ್ದಕ್ಕೆ ಸಿದ್ಧ',
+    qBudget: 'ನಿಮ್ಮ ಬಜೆಟ್ ಎಷ್ಟು?', qBudgetLow: '₹250 ಕ್ಕಿಂತ ಕಡಿಮೆ', qBudgetMid: '₹250 – ₹500', qBudgetHigh: '₹500+' },
+};
+
+// Translations for the fixed set of enum-like values used in product specs
+// (maintenance level, watering instructions, light needs, ideal location,
+// size band). Unlike product names/descriptions (~800 items, admin-entered
+// per product - see the note at the top of this file), this is a small,
+// closed vocabulary reused across every product, so it's safe to translate
+// once here and apply everywhere via getLocalizedSpecValue().
+const specValues = {
+  en: {
+    'Low Maintenance': 'Low Maintenance', 'High Maintenance': 'High Maintenance', 'Medium Maintenance': 'Medium Maintenance', 'Moderate': 'Moderate', 'Easy': 'Easy', 'Very Easy': 'Very Easy',
+    'Water when topsoil dries': 'Water when topsoil dries', 'Keep soil consistently moist': 'Keep soil consistently moist', 'Water sparingly': 'Water sparingly', 'Water When Dry': 'Water When Dry', 'Regular Watering': 'Regular Watering', 'Keep Soil Moist': 'Keep Soil Moist', 'Water Sparingly': 'Water Sparingly', '2-3 Times a Week': '2-3 Times a Week', 'Low Water': 'Low Water', 'Once a Week': 'Once a Week', 'Frequent Watering': 'Frequent Watering',
+    'Low Light': 'Low Light', 'Indirect Light': 'Indirect Light', 'Bright Indirect Light': 'Bright Indirect Light', 'Direct Sunlight': 'Direct Sunlight', 'Bright Light': 'Bright Light', 'Medium Light': 'Medium Light',
+    'Indoors, tabletop or hanging': 'Indoors, tabletop or hanging', 'Indoors, low light corner': 'Indoors, low light corner', 'Garden bed or grow bag': 'Garden bed or grow bag', 'Living Room': 'Living Room', 'Bedroom': 'Bedroom', 'Bathroom': 'Bathroom', 'Office Desk': 'Office Desk', 'Office': 'Office Desk', 'Balcony': 'Balcony', 'Kitchen': 'Kitchen', 'Terrace': 'Terrace', 'Garden': 'Garden',
+    'Large (Above 60cm)': 'Large (Above 60cm)', 'Small (Under 20cm)': 'Small (Under 20cm)', 'Medium (20-60cm)': 'Medium (20-60cm)',
+    'Full sun to partial shade': 'Full sun to partial shade', 'Garden bed, terrace or balcony': 'Garden bed, terrace or balcony', 'Regular watering, more in summer': 'Regular watering, more in summer',
+  },
+  ta: {
+    'Low Maintenance': 'குறைந்த பராமரிப்பு', 'High Maintenance': 'அதிக பராமரிப்பு', 'Medium Maintenance': 'நடுத்தர பராமரிப்பு', 'Moderate': 'மிதமான', 'Easy': 'எளிதானது', 'Very Easy': 'மிக எளிதானது',
+    'Water when topsoil dries': 'மேல் மண் உலரும்போது நீர் ஊற்றவும்', 'Keep soil consistently moist': 'மண்ணை எப்போதும் ஈரமாக வைக்கவும்', 'Water sparingly': 'குறைவாக நீர் ஊற்றவும்', 'Water When Dry': 'உலரும்போது நீர் ஊற்றவும்', 'Regular Watering': 'தொடர்ந்து நீர் ஊற்றவும்', 'Keep Soil Moist': 'மண்ணை ஈரமாக வைக்கவும்', 'Water Sparingly': 'குறைவாக நீர் ஊற்றவும்', '2-3 Times a Week': 'வாரத்திற்கு 2-3 முறை', 'Low Water': 'குறைந்த நீர்', 'Once a Week': 'வாரத்திற்கு ஒரு முறை', 'Frequent Watering': 'அடிக்கடி நீர் ஊற்றவும்',
+    'Low Light': 'குறைந்த ஒளி', 'Indirect Light': 'மறைமுக ஒளி', 'Bright Indirect Light': 'பிரகாசமான மறைமுக ஒளி', 'Direct Sunlight': 'நேரடி சூரிய ஒளி', 'Bright Light': 'பிரகாசமான ஒளி', 'Medium Light': 'நடுத்தர ஒளி',
+    'Indoors, tabletop or hanging': 'உட்புறம், மேசை மேல் அல்லது தொங்கவிடலாம்', 'Indoors, low light corner': 'உட்புறம், குறைந்த ஒளியுள்ள மூலையில்', 'Garden bed or grow bag': 'தோட்ட படுக்கை அல்லது வளர்ப்பு பை', 'Living Room': 'வரவேற்பறை', 'Bedroom': 'படுக்கையறை', 'Bathroom': 'குளியலறை', 'Office Desk': 'அலுவலக மேசை', 'Office': 'அலுவலக மேசை', 'Balcony': 'பால்கனி', 'Kitchen': 'சமையலறை', 'Terrace': 'மொட்டை மாடி', 'Garden': 'தோட்டம்',
+    'Large (Above 60cm)': 'பெரியது (60செமீக்கு மேல்)', 'Small (Under 20cm)': 'சிறியது (20செமீக்கு கீழ்)', 'Medium (20-60cm)': 'நடுத்தரம் (20-60செமீ)',
+    'Full sun to partial shade': 'முழு வெயில் முதல் பகுதி நிழல் வரை', 'Garden bed, terrace or balcony': 'தோட்ட படுக்கை, மொட்டை மாடி அல்லது பால்கனி', 'Regular watering, more in summer': 'தொடர்ந்து நீர் ஊற்றவும், கோடையில் அதிகமாக',
+  },
+  hi: {
+    'Low Maintenance': 'कम रखरखाव', 'High Maintenance': 'अधिक रखरखाव', 'Medium Maintenance': 'मध्यम रखरखाव', 'Moderate': 'मध्यम', 'Easy': 'आसान', 'Very Easy': 'बहुत आसान',
+    'Water when topsoil dries': 'ऊपरी मिट्टी सूखने पर पानी दें', 'Keep soil consistently moist': 'मिट्टी को हमेशा नम रखें', 'Water sparingly': 'कम पानी दें', 'Water When Dry': 'सूखने पर पानी दें', 'Regular Watering': 'नियमित पानी दें', 'Keep Soil Moist': 'मिट्टी को नम रखें', 'Water Sparingly': 'कम पानी दें', '2-3 Times a Week': 'सप्ताह में 2-3 बार', 'Low Water': 'कम पानी', 'Once a Week': 'सप्ताह में एक बार', 'Frequent Watering': 'बार-बार पानी दें',
+    'Low Light': 'कम रोशनी', 'Indirect Light': 'अप्रत्यक्ष रोशनी', 'Bright Indirect Light': 'उज्ज्वल अप्रत्यक्ष रोशनी', 'Direct Sunlight': 'सीधी धूप', 'Bright Light': 'तेज रोशनी', 'Medium Light': 'मध्यम रोशनी',
+    'Indoors, tabletop or hanging': 'घर के अंदर, टेबल पर या लटकाकर', 'Indoors, low light corner': 'घर के अंदर, कम रोशनी वाले कोने में', 'Garden bed or grow bag': 'गार्डन बेड या ग्रो बैग', 'Living Room': 'लिविंग रूम', 'Bedroom': 'शयनकक्ष', 'Bathroom': 'बाथरूम', 'Office Desk': 'ऑफिस डेस्क', 'Office': 'ऑफिस डेस्क', 'Balcony': 'बालकनी', 'Kitchen': 'रसोई', 'Terrace': 'छत', 'Garden': 'बगीचा',
+    'Large (Above 60cm)': 'बड़ा (60सेमी से ऊपर)', 'Small (Under 20cm)': 'छोटा (20सेमी से कम)', 'Medium (20-60cm)': 'मध्यम (20-60सेमी)',
+    'Full sun to partial shade': 'पूर्ण धूप से आंशिक छाया तक', 'Garden bed, terrace or balcony': 'गार्डन बेड, छत या बालकनी', 'Regular watering, more in summer': 'नियमित पानी, गर्मियों में अधिक',
+  },
+  ml: {
+    'Low Maintenance': 'കുറഞ്ഞ പരിപാലനം', 'High Maintenance': 'കൂടിയ പരിപാലനം', 'Medium Maintenance': 'ഇടത്തരം പരിപാലനം', 'Moderate': 'മിതമായ', 'Easy': 'എളുപ്പം', 'Very Easy': 'വളരെ എളുപ്പം',
+    'Water when topsoil dries': 'മേൽമണ്ണ് ഉണങ്ങുമ്പോൾ വെള്ളം നൽകുക', 'Keep soil consistently moist': 'മണ്ണ് എപ്പോഴും ഈർപ്പമുള്ളതാക്കി വയ്ക്കുക', 'Water sparingly': 'കുറച്ച് വെള്ളം മാത്രം നൽകുക', 'Water When Dry': 'ഉണങ്ങുമ്പോൾ വെള്ളം നൽകുക', 'Regular Watering': 'സ്ഥിരമായി വെള്ളം നൽകുക', 'Keep Soil Moist': 'മണ്ണ് ഈർപ്പമുള്ളതാക്കി വയ്ക്കുക', 'Water Sparingly': 'കുറച്ച് വെള്ളം മാത്രം നൽകുക', '2-3 Times a Week': 'ആഴ്ചയിൽ 2-3 തവണ', 'Low Water': 'കുറഞ്ഞ വെള്ളം', 'Once a Week': 'ആഴ്ചയിൽ ഒരിക്കൽ', 'Frequent Watering': 'ഇടയ്ക്കിടെ വെള്ളം നൽകുക',
+    'Low Light': 'കുറഞ്ഞ വെളിച്ചം', 'Indirect Light': 'പരോക്ഷ വെളിച്ചം', 'Bright Indirect Light': 'തിളക്കമുള്ള പരോക്ഷ വെളിച്ചം', 'Direct Sunlight': 'നേരിട്ടുള്ള സൂര്യപ്രകാശം', 'Bright Light': 'തിളക്കമുള്ള വെളിച്ചം', 'Medium Light': 'ഇടത്തരം വെളിച്ചം',
+    'Indoors, tabletop or hanging': 'അകത്ത്, മേശപ്പുറത്ത് അല്ലെങ്കിൽ തൂക്കിയിടാം', 'Indoors, low light corner': 'അകത്ത്, കുറഞ്ഞ വെളിച്ചമുള്ള മൂലയിൽ', 'Garden bed or grow bag': 'ഗാർഡൻ ബെഡ് അല്ലെങ്കിൽ ഗ്രോ ബാഗ്', 'Living Room': 'ലിവിംഗ് റൂം', 'Bedroom': 'ബെഡ്റൂം', 'Bathroom': 'ബാത്ത്റൂം', 'Office Desk': 'ഓഫീസ് ഡെസ്ക്', 'Office': 'ഓഫീസ് ഡെസ്ക്', 'Balcony': 'ബാൽക്കണി', 'Kitchen': 'അടുക്കള', 'Terrace': 'ടെറസ്', 'Garden': 'പൂന്തോട്ടം',
+    'Large (Above 60cm)': 'വലുത് (60സെമീയിൽ കൂടുതൽ)', 'Small (Under 20cm)': 'ചെറുത് (20സെമീയിൽ താഴെ)', 'Medium (20-60cm)': 'ഇടത്തരം (20-60സെമീ)',
+    'Full sun to partial shade': 'പൂർണ്ണ വെയിൽ മുതൽ ഭാഗിക തണൽ വരെ', 'Garden bed, terrace or balcony': 'ഗാർഡൻ ബെഡ്, ടെറസ് അല്ലെങ്കിൽ ബാൽക്കണി', 'Regular watering, more in summer': 'സ്ഥിരമായി വെള്ളം നൽകുക, വേനലിൽ കൂടുതൽ',
+  },
+  te: {
+    'Low Maintenance': 'తక్కువ నిర్వహణ', 'High Maintenance': 'ఎక్కువ నిర్వహణ', 'Medium Maintenance': 'మధ్యస్థ నిర్వహణ', 'Moderate': 'మధ్యస్థమైన', 'Easy': 'సులభం', 'Very Easy': 'చాలా సులభం',
+    'Water when topsoil dries': 'పైమట్టి ఎండినప్పుడు నీరు పోయండి', 'Keep soil consistently moist': 'మట్టిని ఎప్పుడూ తడిగా ఉంచండి', 'Water sparingly': 'తక్కువగా నీరు పోయండి', 'Water When Dry': 'ఎండినప్పుడు నీరు పోయండి', 'Regular Watering': 'క్రమం తప్పకుండా నీరు పోయండి', 'Keep Soil Moist': 'మట్టిని తడిగా ఉంచండి', 'Water Sparingly': 'తక్కువగా నీరు పోయండి', '2-3 Times a Week': 'వారానికి 2-3 సార్లు', 'Low Water': 'తక్కువ నీరు', 'Once a Week': 'వారానికి ఒకసారి', 'Frequent Watering': 'తరచుగా నీరు పోయండి',
+    'Low Light': 'తక్కువ వెలుతురు', 'Indirect Light': 'పరోక్ష వెలుతురు', 'Bright Indirect Light': 'ప్రకాశవంతమైన పరోక్ష వెలుతురు', 'Direct Sunlight': 'ప్రత్యక్ష సూర్యకాంతి', 'Bright Light': 'ప్రకాశవంతమైన వెలుతురు', 'Medium Light': 'మధ్యస్థ వెలుతురు',
+    'Indoors, tabletop or hanging': 'ఇంటి లోపల, టేబుల్ పైన లేదా వేలాడదీయవచ్చు', 'Indoors, low light corner': 'ఇంటి లోపల, తక్కువ వెలుతురు ఉన్న మూలలో', 'Garden bed or grow bag': 'గార్డెన్ బెడ్ లేదా గ్రో బ్యాగ్', 'Living Room': 'లివింగ్ రూమ్', 'Bedroom': 'బెడ్రూమ్', 'Bathroom': 'బాత్రూమ్', 'Office Desk': 'ఆఫీస్ డెస్క్', 'Office': 'ఆఫీస్ డెస్క్', 'Balcony': 'బాల్కనీ', 'Kitchen': 'వంటగది', 'Terrace': 'టెర్రస్', 'Garden': 'తోట',
+    'Large (Above 60cm)': 'పెద్దది (60సెం.మీ పైన)', 'Small (Under 20cm)': 'చిన్నది (20సెం.మీ కంటే తక్కువ)', 'Medium (20-60cm)': 'మధ్యస్థం (20-60సెం.మీ)',
+    'Full sun to partial shade': 'పూర్తి ఎండ నుండి పాక్షిక నీడ వరకు', 'Garden bed, terrace or balcony': 'గార్డెన్ బెడ్, టెర్రస్ లేదా బాల్కనీ', 'Regular watering, more in summer': 'క్రమం తప్పకుండా నీరు, వేసవిలో ఎక్కువ',
+  },
+  kn: {
+    'Low Maintenance': 'ಕಡಿಮೆ ನಿರ್ವಹಣೆ', 'High Maintenance': 'ಹೆಚ್ಚು ನಿರ್ವಹಣೆ', 'Medium Maintenance': 'ಮಧ್ಯಮ ನಿರ್ವಹಣೆ', 'Moderate': 'ಮಧ್ಯಮ', 'Easy': 'ಸುಲಭ', 'Very Easy': 'ಬಹಳ ಸುಲಭ',
+    'Water when topsoil dries': 'ಮೇಲ್ಮಣ್ಣು ಒಣಗಿದಾಗ ನೀರು ಹಾಕಿ', 'Keep soil consistently moist': 'ಮಣ್ಣನ್ನು ಯಾವಾಗಲೂ ತೇವವಾಗಿಡಿ', 'Water sparingly': 'ಕಡಿಮೆ ನೀರು ಹಾಕಿ', 'Water When Dry': 'ಒಣಗಿದಾಗ ನೀರು ಹಾಕಿ', 'Regular Watering': 'ನಿಯಮಿತವಾಗಿ ನೀರು ಹಾಕಿ', 'Keep Soil Moist': 'ಮಣ್ಣನ್ನು ತೇವವಾಗಿಡಿ', 'Water Sparingly': 'ಕಡಿಮೆ ನೀರು ಹಾಕಿ', '2-3 Times a Week': 'ವಾರಕ್ಕೆ 2-3 ಬಾರಿ', 'Low Water': 'ಕಡಿಮೆ ನೀರು', 'Once a Week': 'ವಾರಕ್ಕೊಮ್ಮೆ', 'Frequent Watering': 'ಆಗಾಗ್ಗೆ ನೀರು ಹಾಕಿ',
+    'Low Light': 'ಕಡಿಮೆ ಬೆಳಕು', 'Indirect Light': 'ಪರೋಕ್ಷ ಬೆಳಕು', 'Bright Indirect Light': 'ಪ್ರಕಾಶಮಾನ ಪರೋಕ್ಷ ಬೆಳಕು', 'Direct Sunlight': 'ನೇರ ಸೂರ್ಯನ ಬೆಳಕು', 'Bright Light': 'ಪ್ರಕಾಶಮಾನ ಬೆಳಕು', 'Medium Light': 'ಮಧ್ಯಮ ಬೆಳಕು',
+    'Indoors, tabletop or hanging': 'ಒಳಾಂಗಣ, ಮೇಜಿನ ಮೇಲೆ ಅಥವಾ ನೇತುಹಾಕಬಹುದು', 'Indoors, low light corner': 'ಒಳಾಂಗಣ, ಕಡಿಮೆ ಬೆಳಕಿನ ಮೂಲೆಯಲ್ಲಿ', 'Garden bed or grow bag': 'ಗಾರ್ಡನ್ ಬೆಡ್ ಅಥವಾ ಗ್ರೋ ಬ್ಯಾಗ್', 'Living Room': 'ಲಿವಿಂಗ್ ರೂಮ್', 'Bedroom': 'ಬೆಡ್ ರೂಮ್', 'Bathroom': 'ಬಾತ್ ರೂಮ್', 'Office Desk': 'ಆಫೀಸ್ ಡೆಸ್ಕ್', 'Office': 'ಆಫೀಸ್ ಡೆಸ್ಕ್', 'Balcony': 'ಬಾಲ್ಕನಿ', 'Kitchen': 'ಅಡುಗೆಮನೆ', 'Terrace': 'ಟೆರೇಸ್', 'Garden': 'ಉದ್ಯಾನ',
+    'Large (Above 60cm)': 'ದೊಡ್ಡದು (60ಸೆಂ.ಮೀ ಗಿಂತ ಹೆಚ್ಚು)', 'Small (Under 20cm)': 'ಚಿಕ್ಕದು (20ಸೆಂ.ಮೀ ಗಿಂತ ಕಡಿಮೆ)', 'Medium (20-60cm)': 'ಮಧ್ಯಮ (20-60ಸೆಂ.ಮೀ)',
+    'Full sun to partial shade': 'ಪೂರ್ಣ ಬಿಸಿಲಿನಿಂದ ಭಾಗಶಃ ನೆರಳಿನವರೆಗೆ', 'Garden bed, terrace or balcony': 'ಗಾರ್ಡನ್ ಬೆಡ್, ಟೆರೇಸ್ ಅಥವಾ ಬಾಲ್ಕನಿ', 'Regular watering, more in summer': 'ನಿಯಮಿತ ನೀರುಣಿಸುವಿಕೆ, ಬೇಸಿಗೆಯಲ್ಲಿ ಹೆಚ್ಚು',
+  },
+};
+
+export function getSpecValueTranslation(value, lang) {
+  if (!value) return value;
+  const dict = specValues[lang] ?? specValues.en;
+  return dict[value] ?? specValues.en[value] ?? value;
+}
+
+// Translated labels for every nav dropdown / footer sub-item in
+// data/navigation.js, keyed by its unique `to` route (stable even if the
+// English label text changes). Static site chrome, not Firestore-backed
+// catalogue content, so unlike product names this takes effect immediately
+// on deploy - no admin sync step needed. See getNavLabelTranslation() /
+// NavBar.jsx & Footer.jsx for how this is applied.
+const navChildLabels = {
+  '/category/indoor-plants': { ta: 'உட்புற செடிகள்', hi: 'इनडोर पौधे', ml: 'ഇൻഡോർ ചെടികൾ', te: 'ఇండోర్ మొక్కలు', kn: 'ಒಳಾಂಗಣ ಗಿಡಗಳು' },
+  '/category/outdoor-plants': { ta: 'வெளிப்புற செடிகள்', hi: 'आउटडोर पौधे', ml: 'ഔട്ട്ഡോർ ചെടികൾ', te: 'అవుట్‌డోర్ మొక్కలు', kn: 'ಹೊರಾಂಗಣ ಗಿಡಗಳು' },
+  '/category/palms': { ta: 'பனை செடிகள்', hi: 'ताड़ के पौधे', ml: 'പന ചെടികൾ', te: 'తాటి మొక్కలు', kn: 'ತಾಳೆ ಗಿಡಗಳು' },
+  '/category/cycads': { ta: 'சைகாட் செடிகள்', hi: 'साइकैड पौधे', ml: 'സൈക്കാഡ് ചെടികൾ', te: 'సైకాడ్ మొక్కలు', kn: 'ಸೈಕಾಡ್ ಗಿಡಗಳು' },
+  '/category/succulents': { ta: 'சுக்குலெண்ட் செடிகள்', hi: 'सक्युलेंट पौधे', ml: 'സക്യുലന്റ് ചെടികൾ', te: 'సక్యులెంట్ మొక్కలు', kn: 'ಸಕ್ಯುಲೆಂಟ್ ಗಿಡಗಳು' },
+  '/category/cactus': { ta: 'கள்ளிச் செடிகள்', hi: 'कैक्टस', ml: 'കള്ളിച്ചെടികൾ', te: 'కాక్టస్', kn: 'ಕಳ್ಳಿ ಗಿಡಗಳು' },
+  '/category/table-top-plants': { ta: 'மேசை மேல் செடிகள்', hi: 'टेबल टॉप पौधे', ml: 'ടേബിൾ ടോപ്പ് ചെടികൾ', te: 'టేబుల్ టాప్ మొక్కలు', kn: 'ಟೇಬಲ್ ಟಾಪ್ ಗಿಡಗಳು' },
+  '/category/mini-plants': { ta: 'மினி செடிகள்', hi: 'मिनी पौधे', ml: 'മിനി ചെടികൾ', te: 'మిని మొక్కలు', kn: 'ಮಿನಿ ಗಿಡಗಳು' },
+  '/category/bonsai': { ta: 'பொன்சாய்', hi: 'बोन्साई', ml: 'ബോൺസായ്', te: 'బోన్సాయ్', kn: 'ಬೊನ್ಸಾಯ್' },
+  '/category/orchids': { ta: 'ஆர்க்கிட் மலர்கள்', hi: 'ऑर्किड', ml: 'ഓർക്കിഡുകൾ', te: 'ఆర్కిడ్‌లు', kn: 'ಆರ್ಕಿಡ್‌ಗಳು' },
+  '/category/bromeliads': { ta: 'புரோமிலியாட்', hi: 'ब्रोमेलियाड', ml: 'ബ്രോമെലിയാഡ്', te: 'బ్రోమెలియాడ్', kn: 'ಬ್ರೊಮೀಲಿಯಾಡ್' },
+  '/category/ferns': { ta: 'பெர்ன் செடிகள்', hi: 'फर्न', ml: 'ഫേണുകൾ', te: 'ఫెర్న్‌లు', kn: 'ಫರ್ನ್‌ಗಳು' },
+  '/category/carnivorous-plants': { ta: 'இறைச்சி உண்ணும் செடிகள்', hi: 'मांसाहारी पौधे', ml: 'മാംസഭോജി ചെടികൾ', te: 'మాంసాహార మొక్కలు', kn: 'ಮಾಂಸಾಹಾರಿ ಗಿಡಗಳು' },
+  '/category/aquatic-pond-plants': { ta: 'நீர்/குளம் செடிகள்', hi: 'जलीय व तालाब पौधे', ml: 'ജല/കുളം ചെടികൾ', te: 'నీటి/చెరువు మొక్కలు', kn: 'ಜಲ/ಕೊಳ ಗಿಡಗಳು' },
+  '/category/vertical-garden-plants': { ta: 'செங்குத்து தோட்ட செடிகள்', hi: 'वर्टिकल गार्डन पौधे', ml: 'വെർട്ടിക്കൽ ഗാർഡൻ ചെടികൾ', te: 'వర్టికల్ గార్డెన్ మొక్కలు', kn: 'ವರ್ಟಿಕಲ್ ಗಾರ್ಡನ್ ಗಿಡಗಳು' },
+  '/category/green-wall-plants': { ta: 'பசுமை சுவர் செடிகள்', hi: 'ग्रीन वॉल पौधे', ml: 'ഗ്രീൻ വാൾ ചെടികൾ', te: 'గ్రీన్ వాల్ మొక్కలు', kn: 'ಗ್ರೀನ್ ವಾಲ್ ಗಿಡಗಳು' },
+  '/category/terrace-garden-plants': { ta: 'மொட்டை மாடி தோட்ட செடிகள்', hi: 'टैरेस गार्डन पौधे', ml: 'ടെറസ് ഗാർഡൻ ചെടികൾ', te: 'టెర్రస్ గార్డెన్ మొక్కలు', kn: 'ಟೆರೇಸ್ ಗಾರ್ಡನ್ ಗಿಡಗಳು' },
+  '/category/balcony-plants': { ta: 'பால்கனி செடிகள்', hi: 'बालकनी पौधे', ml: 'ബാൽക്കണി ചെടികൾ', te: 'బాల్కనీ మొక్కలు', kn: 'ಬಾಲ್ಕನಿ ಗಿಡಗಳು' },
+  '/category/hanging-basket-plants': { ta: 'தொங்கு கூடை செடிகள்', hi: 'हैंगिंग बास्केट पौधे', ml: 'ഹാംഗിംഗ് ബാസ്ക്കറ്റ് ചെടികൾ', te: 'హ్యాంగింగ్ బాస్కెట్ మొక్కలు', kn: 'ಹ್ಯಾಂಗಿಂಗ್ ಬ್ಯಾಸ್ಕೆಟ್ ಗಿಡಗಳು' },
+  '/category/fruit-plants': { ta: 'பழச் செடிகள்', hi: 'फलों के पौधे', ml: 'ഫലവൃക്ഷ ചെടികൾ', te: 'పండ్ల మొక్కలు', kn: 'ಹಣ್ಣಿನ ಗಿಡಗಳು' },
+  '/category/herbs': { ta: 'மூலிகைகள்', hi: 'जड़ी-बूटियां', ml: 'ഔഷധസസ്യങ്ങൾ', te: 'మూలికలు', kn: 'ಔಷಧೀಯ ಸಸ್ಯಗಳು' },
+  '/category/medicinal-plants': { ta: 'மருத்துவ செடிகள்', hi: 'औषधीय पौधे', ml: 'ഔഷധ ചെടികൾ', te: 'ఔషధ మొక్కలు', kn: 'ಔಷಧೀಯ ಗಿಡಗಳು' },
+  '/category/aromatic-plants': { ta: 'நறுமண செடிகள்', hi: 'सुगंधित पौधे', ml: 'സുഗന്ധ ചെടികൾ', te: 'సుగంధ మొక్కలు', kn: 'ಸುಗಂಧ ಗಿಡಗಳು' },
+  '/category/spice-plants': { ta: 'மசாலா செடிகள்', hi: 'मसाला पौधे', ml: 'സുഗന്ധവ്യഞ്ജന ചെടികൾ', te: 'మసాలా మొక్కలు', kn: 'ಮಸಾಲೆ ಗಿಡಗಳು' },
+  '/category/sacred-plants': { ta: 'புனித செடிகள்', hi: 'पवित्र पौधे', ml: 'പുണ്യ ചെടികൾ', te: 'పవిత్ర మొక్కలు', kn: 'ಪವಿತ್ರ ಗಿಡಗಳು' },
+  '/category/butterfly-garden-plants': { ta: 'பட்டாம்பூச்சி தோட்ட செடிகள்', hi: 'बटरफ्लाई गार्डन पौधे', ml: 'ബട്ടർഫ്ലൈ ഗാർഡൻ ചെടികൾ', te: 'బటర్‌ఫ్లై గార్డెన్ మొక్కలు', kn: 'ಬಟರ್‌ಫ್ಲೈ ಗಾರ್ಡನ್ ಗಿಡಗಳು' },
+  '/category/bee-friendly-plants': { ta: 'தேனீ நட்பு செடிகள்', hi: 'मधुमक्खी अनुकूल पौधे', ml: 'ബീ ഫ്രണ്ട്‌ലി ചെടികൾ', te: 'తేనెటీగ స్నేహపూర్వక మొక్కలు', kn: 'ಜೇನುನೊಣ ಸ್ನೇಹಿ ಗಿಡಗಳು' },
+  '/category/bird-attracting-plants': { ta: 'பறவை ஈர்க்கும் செடிகள்', hi: 'पक्षी आकर्षक पौधे', ml: 'പക്ഷികളെ ആകർഷിക്കുന്ന ചെടികൾ', te: 'పక్షులను ఆకర్షించే మొక్కలు', kn: 'ಪಕ್ಷಿ ಆಕರ್ಷಿಸುವ ಗಿಡಗಳು' },
+  '/category/fragrant-plants': { ta: 'மணமிக்க செடிகள்', hi: 'सुगंधित पौधे', ml: 'സുഗന്ധമുള്ള ചെടികൾ', te: 'సువాసన మొక్కలు', kn: 'ಸುವಾಸನೆಯ ಗಿಡಗಳು' },
+  '/category/edible-flowers': { ta: 'உண்ணக்கூடிய மலர்கள்', hi: 'खाने योग्य फूल', ml: 'ഭക്ഷ്യയോഗ്യമായ പൂക്കൾ', te: 'తినదగిన పువ్వులు', kn: 'ತಿನ್ನಬಹುದಾದ ಹೂವುಗಳು' },
+  '/category/coastal-plants': { ta: 'கடலோர செடிகள்', hi: 'तटीय पौधे', ml: 'തീരദേശ ചെടികൾ', te: 'తీర మొక్కలు', kn: 'ಕರಾವಳಿ ಗಿಡಗಳು' },
+  '/category/landscaping-trees': { ta: 'நிலத்தோற்ற மரங்கள்', hi: 'लैंडस्केपिंग वृक्ष', ml: 'ലാൻഡ്‌സ്കേപ്പിംഗ് വൃക്ഷങ്ങൾ', te: 'ల్యాండ్‌స్కేపింగ్ చెట్లు', kn: 'ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್ ಮರಗಳು' },
+  '/category/landscaping-plants': { ta: 'நிலத்தோற்ற செடிகள்', hi: 'लैंडस्केपिंग पौधे', ml: 'ലാൻഡ്‌സ്കേപ്പിംഗ് ചെടികൾ', te: 'ల్యాండ్‌స్కేపింగ్ మొక్కలు', kn: 'ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್ ಗಿಡಗಳು' },
+  '/category/flowering-plants': { ta: 'பூக்கும் செடிகள்', hi: 'फूल वाले पौधे', ml: 'പൂക്കുന്ന ചെടികൾ', te: 'పూల మొక్కలు', kn: 'ಹೂ ಬಿಡುವ ಗಿಡಗಳು' },
+
+  '/category/seeds': { ta: 'அனைத்து விதைகள்', hi: 'सभी बीज', ml: 'എല്ലാ വിത്തുകളും', te: 'అన్ని విత్తనాలు', kn: 'ಎಲ್ಲಾ ಬೀಜಗಳು' },
+  '/category/vegetable-seeds': { ta: 'காய்கறி விதைகள்', hi: 'सब्जी के बीज', ml: 'പച്ചക്കറി വിത്തുകൾ', te: 'కూరగాయల విత్తనాలు', kn: 'ತರಕಾರಿ ಬೀಜಗಳು' },
+  '/category/flower-seeds': { ta: 'மலர் விதைகள்', hi: 'फूलों के बीज', ml: 'പൂവിത്തുകൾ', te: 'పూల విత్తనాలు', kn: 'ಹೂವಿನ ಬೀಜಗಳು' },
+  '/category/herb-seeds': { ta: 'மூலிகை விதைகள்', hi: 'जड़ी-बूटी के बीज', ml: 'ഔഷധസസ്യ വിത്തുകൾ', te: 'మూలికల విత్తనాలు', kn: 'ಔಷಧೀಯ ಸಸ್ಯ ಬೀಜಗಳು' },
+  '/category/fruit-seeds': { ta: 'பழ விதைகள்', hi: 'फलों के बीज', ml: 'പഴവിത്തുകൾ', te: 'పండ్ల విత్తనాలు', kn: 'ಹಣ್ಣಿನ ಬೀಜಗಳು' },
+  '/category/microgreen-seeds': { ta: 'மைக்ரோகிரீன் விதைகள்', hi: 'माइक्रोग्रीन बीज', ml: 'മൈക്രോഗ്രീൻ വിത്തുകൾ', te: 'మైక్రోగ్రీన్ విత్తనాలు', kn: 'ಮೈಕ್ರೋಗ್ರೀನ್ ಬೀಜಗಳು' },
+  '/category/lawn-grass-seeds': { ta: 'புல்வெளி புல் விதைகள்', hi: 'लॉन घास के बीज', ml: 'ലോൺ പുല്ല് വിത്തുകൾ', te: 'లాన్ గడ్డి విత్తనాలు', kn: 'ಲಾನ್ ಹುಲ್ಲಿನ ಬೀಜಗಳು' },
+  '/category/fodder-seeds': { ta: 'தீவன விதைகள்', hi: 'चारा बीज', ml: 'കാലിത്തീറ്റ വിത്തുകൾ', te: 'పశుగ్రాస విత్తనాలు', kn: 'ಮೇವಿನ ಬೀಜಗಳು' },
+  '/category/medicinal-seeds': { ta: 'மருத்துவ விதைகள்', hi: 'औषधीय बीज', ml: 'ഔഷധ വിത്തുകൾ', te: 'ఔషధ విత్తనాలు', kn: 'ಔಷಧೀಯ ಬೀಜಗಳು' },
+  '/category/exotic-seeds': { ta: 'அரிய விதைகள்', hi: 'विदेशी बीज', ml: 'വിദേശ വിത്തുകൾ', te: 'అరుదైన విత్తనాలు', kn: 'ವಿಲಕ್ಷಣ ಬೀಜಗಳು' },
+  '/category/native-ornamental-seeds': { ta: 'உள்நாட்டு அலங்கார விதைகள்', hi: 'देशी सजावटी बीज', ml: 'നാടൻ അലങ്കാര വിത്തുകൾ', te: 'దేశీ అలంకార విత్తనాలు', kn: 'ದೇಶೀಯ ಅಲಂಕಾರಿಕ ಬೀಜಗಳು' },
+
+  '/category/pots-planters': { ta: 'அனைத்து பாட்ஸ் & பிளாண்டர்ஸ்', hi: 'सभी गमले व प्लांटर', ml: 'എല്ലാ ചട്ടികളും പ്ലാന്ററുകളും', te: 'అన్ని కుండలు & ప్లాంటర్లు', kn: 'ಎಲ್ಲಾ ಪಾಟ್‌ಗಳು ಮತ್ತು ಪ್ಲಾಂಟರ್‌ಗಳು' },
+  '/category/terracotta-pots': { ta: 'மட்பாண்டம்', hi: 'टेराकोटा', ml: 'ടെറാക്കോട്ട', te: 'టెర్రకోట', kn: 'ಟೆರಾಕೋಟಾ' },
+  '/category/ceramic-pots': { ta: 'செராமிக்', hi: 'सिरेमिक', ml: 'സെറാമിക്', te: 'సెరామిక్', kn: 'ಸೆರಾಮಿಕ್' },
+  '/category/plastic-pots': { ta: 'பிளாஸ்டிக்', hi: 'प्लास्टिक', ml: 'പ്ലാസ്റ്റിക്', te: 'ప్లాస్టిక్', kn: 'ಪ್ಲಾಸ್ಟಿಕ್' },
+  '/category/fibre-planters': { ta: 'ஃபைபர்', hi: 'फाइबर', ml: 'ഫൈബർ', te: 'ఫైబర్', kn: 'ಫೈಬರ್' },
+  '/category/metal-planters': { ta: 'உலோகம்', hi: 'धातु', ml: 'ലോഹം', te: 'లోహం', kn: 'ಲೋಹ' },
+  '/category/wooden-planters': { ta: 'மரம்', hi: 'लकड़ी', ml: 'മരം', te: 'కలప', kn: 'ಮರ' },
+  '/category/cement-planters': { ta: 'சிமெண்ட் / RCC', hi: 'सीमेंट / RCC', ml: 'സിമന്റ് / RCC', te: 'సిమెంట్ / RCC', kn: 'ಸಿಮೆಂಟ್ / RCC' },
+  '/category/hanging-planters': { ta: 'தொங்கு', hi: 'हैंगिंग', ml: 'ഹാംഗിംഗ്', te: 'హ్యాంగింగ్', kn: 'ಹ್ಯಾಂಗಿಂಗ್' },
+  '/category/railing-planters': { ta: 'ரெயிலிங்', hi: 'रेलिंग', ml: 'റെയിലിംഗ്', te: 'రైలింగ్', kn: 'ರೈಲಿಂಗ್' },
+  '/category/self-watering-planters': { ta: 'சுய நீர்ப்பாசனம்', hi: 'सेल्फ-वॉटरिंग', ml: 'സെൽഫ്-വാട്ടറിംഗ്', te: 'సెల్ఫ్-వాటరింగ్', kn: 'ಸ್ವಯಂ-ನೀರಾವರಿ' },
+  '/category/coco-fibre-pots': { ta: 'தேங்காய் நார்', hi: 'कोको फाइबर', ml: 'ചകിരി നാര്', te: 'కొబ్బరి పీచు', kn: 'ತೆಂಗಿನ ನಾರು' },
+  '/category/rattan-planters': { ta: 'ராட்டன் பாணி', hi: 'रतन शैली', ml: 'റാട്ടൻ ശൈലി', te: 'రాటన్ శైలి', kn: 'ರಾಟನ್ ಶೈಲಿ' },
+  '/category/bonsai-pots-subcat': { ta: 'பொன்சாய் பாட்ஸ்', hi: 'बोन्साई गमले', ml: 'ബോൺസായ് ചട്ടികൾ', te: 'బోన్సాయ్ కుండలు', kn: 'ಬೊನ್ಸಾಯ್ ಪಾಟ್‌ಗಳು' },
+  '/category/balcony-planters': { ta: 'பால்கனி', hi: 'बालकनी', ml: 'ബാൽക്കണി', te: 'బాల్కనీ', kn: 'ಬಾಲ್ಕನಿ' },
+  '/category/window-box-planters': { ta: 'விண்டோ பாக்ஸ்', hi: 'विंडो बॉक्स', ml: 'വിൻഡോ ബോക്സ്', te: 'విండో బాక్స్', kn: 'ವಿಂಡೋ ಬಾಕ್ಸ್' },
+  '/category/vertical-tower-planters': { ta: 'செங்குத்து டவர்', hi: 'वर्टिकल टावर', ml: 'വെർട്ടിക്കൽ ടവർ', te: 'వర్టికల్ టవర్', kn: 'ವರ್ಟಿಕಲ್ ಟವರ್' },
+  '/category/upcycled-planters': { ta: 'மறுசுழற்சி', hi: 'अपसाइकल्ड', ml: 'അപ്‌സൈക്കിൾഡ്', te: 'అప్‌సైకిల్డ్', kn: 'ಅಪ್‌ಸೈಕಲ್ಡ್' },
+  '/category/grow-bags-containers': { ta: 'க்ரோ பேக்ஸ்', hi: 'ग्रो बैग्स', ml: 'ഗ്രോ ബാഗുകൾ', te: 'గ్రో బ్యాగులు', kn: 'ಗ್ರೋ ಬ್ಯಾಗ್‌ಗಳು' },
+  '/category/nursery-containers': { ta: 'நர்சரி கொள்கலன்கள்', hi: 'नर्सरी कंटेनर', ml: 'നഴ്സറി കണ്ടെയ്നറുകൾ', te: 'నర్సరీ కంటైనర్లు', kn: 'ನರ್ಸರಿ ಕಂಟೇನರ್‌ಗಳು' },
+  '/category/seedling-trays': { ta: 'நாற்று தட்டுகள்', hi: 'सीडलिंग ट्रे', ml: 'തൈ ട്രേകൾ', te: 'మొలక ట్రేలు', kn: 'ಸಸಿ ಟ್ರೇಗಳು' },
+  '/category/root-trainers': { ta: 'ரூட் டிரெய்னர்கள்', hi: 'रूट ट्रेनर', ml: 'റൂട്ട് ട്രെയിനറുകൾ', te: 'రూట్ ట్రైనర్లు', kn: 'ರೂಟ್ ಟ್ರೈನರ್‌ಗಳು' },
+  '/category/air-pruning-pots': { ta: 'ஏர் ப்ரூனிங் பாட்ஸ்', hi: 'एयर प्रूनिंग पॉट्स', ml: 'എയർ പ്രൂണിംഗ് പോട്ടുകൾ', te: 'ఎయిర్ ప్రూనింగ్ పాట్స్', kn: 'ಏರ್ ಪ್ರೂನಿಂಗ್ ಪಾಟ್‌ಗಳು' },
+  '/category/fabric-grow-pots': { ta: 'துணி க்ரோ பாட்ஸ்', hi: 'फैब्रिक ग्रो पॉट्स', ml: 'ഫാബ്രിക് ഗ്രോ പോട്ടുകൾ', te: 'ఫాబ్రిక్ గ్రో పాట్స్', kn: 'ಫ್ಯಾಬ್ರಿಕ್ ಗ್ರೋ ಪಾಟ್‌ಗಳು' },
+  '/category/pro-trays': { ta: 'புரோ தட்டுகள்', hi: 'प्रो ट्रे', ml: 'പ്രോ ട്രേകൾ', te: 'ప్రో ట్రేలు', kn: 'ಪ್ರೋ ಟ್ರೇಗಳು' },
+  '/category/grow-bag-stands': { ta: 'க்ரோ பேக் ஸ்டாண்டுகள்', hi: 'ग्रो बैग स्टैंड', ml: 'ഗ്രോ ബാഗ് സ്റ്റാൻഡുകൾ', te: 'గ్రో బ్యాగ్ స్టాండ్‌లు', kn: 'ಗ್ರೋ ಬ್ಯಾಗ್ ಸ್ಟ್ಯಾಂಡ್‌ಗಳು' },
+  '/category/gardening-tools': { ta: 'தோட்ட கருவிகள்', hi: 'बागवानी उपकरण', ml: 'ഗാർഡനിംഗ് ടൂളുകൾ', te: 'తోటపని పరికరాలు', kn: 'ತೋಟಗಾರಿಕೆ ಉಪಕರಣಗಳು' },
+  '/category/garden-decor': { ta: 'தோட்ட அலங்காரம்', hi: 'गार्डन डेकोर', ml: 'ഗാർഡൻ ഡെക്കോർ', te: 'గార్డెన్ డెకోర్', kn: 'ಗಾರ್ಡನ್ ಡೆಕೋರ್' },
+
+  '/category/plant-care': { ta: 'செடி பராமரிப்பு', hi: 'प्लांट केयर', ml: 'പ്ലാന്റ് കെയർ', te: 'ప్లాంట్ కేర్', kn: 'ಪ್ಲಾಂಟ್ ಕೇರ್' },
+  '/category/potting-media': { ta: 'பாட்டிங் மீடியா', hi: 'पॉटिंग मीडिया', ml: 'പോട്ടിംഗ് മീഡിയ', te: 'పాటింగ్ మీడియా', kn: 'ಪಾಟಿಂಗ್ ಮೀಡಿಯಾ' },
+  '/category/organic-fertilizers': { ta: 'இயற்கை உரங்கள்', hi: 'जैविक उर्वरक', ml: 'ജൈവ വളങ്ങൾ', te: 'సేంద్రీయ ఎరువులు', kn: 'ಸಾವಯವ ಗೊಬ್ಬರಗಳು' },
+  '/category/chemical-fertilizers': { ta: 'ரசாயன உரங்கள்', hi: 'रासायनिक उर्वरक', ml: 'രാസ വളങ്ങൾ', te: 'రసాయన ఎరువులు', kn: 'ರಾಸಾಯನಿಕ ಗೊಬ್ಬರಗಳು' },
+  '/category/liquid-nutrients': { ta: 'திரவ ஊட்டச்சத்துக்கள்', hi: 'लिक्विड न्यूट्रिएंट्स', ml: 'ലിക്വിഡ് ന്യൂട്രിയന്റ്സ്', te: 'లిక్విడ్ న్యూట్రియెంట్స్', kn: 'ಲಿಕ್ವಿಡ್ ನ್ಯೂಟ್ರಿಯಂಟ್ಸ್' },
+  '/category/biofertilizers': { ta: 'உயிர் உரங்கள்', hi: 'बायोफर्टिलाइज़र', ml: 'ബയോഫെർട്ടിലൈസർ', te: 'బయోఫెర్టిలైజర్లు', kn: 'ಜೈವಿಕ ಗೊಬ್ಬರಗಳು' },
+  '/category/plant-protection': { ta: 'செடி பாதுகாப்பு', hi: 'प्लांट प्रोटेक्शन', ml: 'പ്ലാന്റ് പ്രൊട്ടക്ഷൻ', te: 'ప్లాంట్ ప్రొటెక్షన్', kn: 'ಪ್ಲಾಂಟ್ ಪ್ರೊಟೆಕ್ಷನ್' },
+  '/category/propagation-supplies': { ta: 'பெருக்க பொருட்கள்', hi: 'प्रोपेगेशन सप्लाइज़', ml: 'പ്രൊപ്പഗേഷൻ സപ്ലൈസ്', te: 'ప్రొపగేషన్ సప్లైస్', kn: 'ಪ್ರೊಪಗೇಷನ್ ಸಪ್ಲೈಸ್' },
+  '/category/composting-products': { ta: 'உரம் தயாரிப்பு பொருட்கள்', hi: 'कम्पोस्टिंग उत्पाद', ml: 'കമ്പോസ്റ്റിംഗ് ഉൽപ്പന്നങ്ങൾ', te: 'కంపోస్టింగ్ ఉత్పత్తులు', kn: 'ಕಾಂಪೋಸ್ಟಿಂಗ್ ಉತ್ಪನ್ನಗಳು' },
+  '/category/cocopeat': { ta: 'கோகோபீட்', hi: 'कोकोपीट', ml: 'കോക്കോപീറ്റ്', te: 'కోకోపీట్', kn: 'ಕೋಕೋಪೀಟ್' },
+  '/category/potting-soil': { ta: 'பாட்டிங் மண்', hi: 'पॉटिंग मिट्टी', ml: 'പോട്ടിംഗ് മണ്ണ്', te: 'పాటింగ్ మట్టి', kn: 'ಪಾಟಿಂಗ್ ಮಣ್ಣು' },
+  '/category/potting-mix': { ta: 'பாட்டிங் மிக்ஸ்', hi: 'पॉटिंग मिक्स', ml: 'പോട്ടിംഗ് മിക്സ്', te: 'పాటింగ్ మిక్స్', kn: 'ಪಾಟಿಂಗ್ ಮಿಕ್ಸ್' },
+  '/category/red-soil': { ta: 'சிவப்பு மண்', hi: 'लाल मिट्टी', ml: 'ചുവന്ന മണ്ണ്', te: 'ఎర్ర మట్టి', kn: 'ಕೆಂಪು ಮಣ್ಣು' },
+  '/category/sand': { ta: 'மணல்', hi: 'रेत', ml: 'മണൽ', te: 'ఇసుక', kn: 'ಮರಳು' },
+  '/category/vermiculite': { ta: 'வெர்மிகுலைட்', hi: 'वर्मीक्युलाइट', ml: 'വെർമിക്യുലൈറ്റ്', te: 'వర్మిక్యులైట్', kn: 'ವರ್ಮಿಕ್ಯುಲೈಟ್' },
+  '/category/perlite': { ta: 'பெர்லைட்', hi: 'पर्लाइट', ml: 'പെർലൈറ്റ്', te: 'పెర్లైట్', kn: 'ಪರ್ಲೈಟ್' },
+  '/category/peat-moss': { ta: 'பீட் மோஸ்', hi: 'पीट मॉस', ml: 'പീറ്റ് മോസ്', te: 'పీట్ మాస్', kn: 'ಪೀಟ್ ಮಾಸ್' },
+  '/category/coco-chips': { ta: 'கோகோ சிப்ஸ்', hi: 'कोको चिप्स', ml: 'കോക്കോ ചിപ്സ്', te: 'కోకో చిప్స్', kn: 'ಕೋಕೋ ಚಿಪ್ಸ್' },
+  '/category/liquid-fertilizers': { ta: 'திரவ உரங்கள்', hi: 'लिक्विड उर्वरक', ml: 'ലിക്വിഡ് വളങ്ങൾ', te: 'లిక్విడ్ ఎరువులు', kn: 'ಲಿಕ್ವಿಡ್ ಗೊಬ್ಬರಗಳು' },
+  '/category/plant-tonics': { ta: 'செடி டானிக்குகள்', hi: 'प्लांट टॉनिक', ml: 'പ്ലാന്റ് ടോണിക്കുകൾ', te: 'ప్లాంట్ టానిక్‌లు', kn: 'ಸಸ್ಯ ಟಾನಿಕ್‌ಗಳು' },
+  '/category/soil-amendments': { ta: 'மண் திருத்தங்கள்', hi: 'मृदा संशोधन', ml: 'മണ്ണ് പരിഷ്കരണങ്ങൾ', te: 'నేల సవరణలు', kn: 'ಮಣ್ಣಿನ ತಿದ್ದುಪಡಿಗಳು' },
+  '/category/manures': { ta: 'எருக்கள்', hi: 'गोबर खाद', ml: 'ചാണകവളം', te: 'పశువుల ఎరువు', kn: 'ಸಗಣಿ ಗೊಬ್ಬರ' },
+
+  // Services dropdown - reuses the same strings already translated for
+  // nav.gardenServices/landscaping/gifting/b2bSales.
+  '/garden-services': { ta: 'தோட்ட சேவைகள்', hi: 'बागवानी सेवाएं', ml: 'തോട്ട സേവനങ്ങൾ', te: 'తోట సేవలు', kn: 'ತೋಟ ಸೇವೆಗಳು' },
+  '/landscaping': { ta: 'லேண்ட்ஸ்கேப்பிங்', hi: 'लैंडस्केपिंग', ml: 'ലാൻഡ്സ്കേപ്പിംഗ്', te: 'ల్యాండ్‌స్కేపింగ్', kn: 'ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  '/gifting': { ta: 'பரிசுகள்', hi: 'उपहार', ml: 'സമ്മാനങ്ങൾ', te: 'బహుమతులు', kn: 'ಉಡುಗೊರೆಗಳು' },
+  '/corporate-gifts': { ta: 'B2B விற்பனை', hi: 'B2B बिक्री', ml: 'B2B വിൽപ്പന', te: 'B2B అమ్మకాలు', kn: 'B2B ಮಾರಾಟ' },
+
+  '/blog': { ta: 'தோட்ட நாட்குறிப்பு', hi: 'गार्डन जर्नल', ml: 'ഗാർഡൻ ജേണൽ', te: 'గార్డెన్ జర్నల్', kn: 'ಗಾರ್ಡನ್ ಜರ್ನಲ್' },
+  '/#faq': { ta: 'அடிக்கடி கேட்கப்படும் கேள்விகள்', hi: 'सामान्य प्रश्न', ml: 'പതിവുചോദ്യങ്ങൾ', te: 'తరచుగా అడిగే ప్రశ్నలు', kn: 'ಪದೇ ಪದೇ ಕೇಳಲಾಗುವ ಪ್ರಶ್ನೆಗಳು' },
+};
+
+export function getNavLabelTranslation(to, fallbackLabel, lang) {
+  const dict = navChildLabels[to];
+  if (!dict) return fallbackLabel;
+  return dict[lang] ?? fallbackLabel;
+}
+
+// pages/GardenServices.jsx's 4 service cards - title + description, keyed
+// by the English title. Static page content (not Firestore), so this
+// takes effect immediately on deploy.
+const gardenServicesList = {
+  'Terrace Garden': {
+    ta: { title: 'மொட்டை மாடி தோட்டம்', desc: 'பயன்படுத்தப்படாத மொட்டை மாடியை நிழல் நிறைந்த, செடிகள் நிறைந்த ஓய்வு இடமாக மாற்றுங்கள் - அமைப்பு முதல் நீர்ப்பாசனம் வரை.' },
+    hi: { title: 'टैरेस गार्डन', desc: 'बिना उपयोग वाली छत को छायादार, पौधों से भरे विश्राम स्थल में बदलें - लेआउट से लेकर सिंचाई तक।' },
+    ml: { title: 'ടെറസ് ഗാർഡൻ', desc: 'ഉപയോഗിക്കാത്ത ടെറസ് തണലുള്ള, ചെടികൾ നിറഞ്ഞ വിശ്രമ ഇടമാക്കി മാറ്റുക - ലേഔട്ട് മുതൽ ജലസേചനം വരെ.' },
+    te: { title: 'టెర్రస్ గార్డెన్', desc: 'ఉపయోగించని టెర్రస్‌ను నీడతో, మొక్కలతో నిండిన విశ్రాంతి స్థలంగా మార్చండి - లేఅవుట్ నుండి నీటిపారుదల వరకు.' },
+    kn: { title: 'ಟೆರೇಸ್ ಗಾರ್ಡನ್', desc: 'ಬಳಕೆಯಾಗದ ಟೆರೇಸ್ ಅನ್ನು ನೆರಳಿನ, ಗಿಡಗಳಿಂದ ತುಂಬಿದ ವಿಶ್ರಾಂತಿ ತಾಣವಾಗಿ ಪರಿವರ್ತಿಸಿ - ವಿನ್ಯಾಸದಿಂದ ನೀರಾವರಿಯವರೆಗೆ.' },
+  },
+  'Balcony Garden': {
+    ta: { title: 'பால்கனி தோட்டம்', desc: 'ரெயிலிங் பிளாண்டர்கள், செங்குத்து ரேக்குகள் மற்றும் குறுகிய மூலைகளுக்காக வடிவமைக்கப்பட்ட சிறிய நடவு திட்டங்கள்.' },
+    hi: { title: 'बालकनी गार्डन', desc: 'रेलिंग प्लांटर्स, वर्टिकल रैक और तंग कोनों के लिए डिज़ाइन की गई कॉम्पैक्ट रोपण योजनाएं।' },
+    ml: { title: 'ബാൽക്കണി ഗാർഡൻ', desc: 'റെയിലിംഗ് പ്ലാന്ററുകൾ, വെർട്ടിക്കൽ റാക്കുകൾ, ഇടുങ്ങിയ മൂലകൾ എന്നിവയ്ക്കായി രൂപകൽപ്പന ചെയ്ത ചെറിയ നടീൽ പദ്ധതികൾ.' },
+    te: { title: 'బాల్కనీ గార్డెన్', desc: 'రైలింగ్ ప్లాంటర్లు, వర్టికల్ ర్యాక్‌లు మరియు ఇరుకైన మూలల కోసం రూపొందించిన కాంపాక్ట్ నాటే ప్రణాళికలు.' },
+    kn: { title: 'ಬಾಲ್ಕನಿ ಗಾರ್ಡನ್', desc: 'ರೈಲಿಂಗ್ ಪ್ಲಾಂಟರ್‌ಗಳು, ವರ್ಟಿಕಲ್ ರ್ಯಾಕ್‌ಗಳು ಮತ್ತು ಇಕ್ಕಟ್ಟಾದ ಮೂಲೆಗಳಿಗಾಗಿ ವಿನ್ಯಾಸಗೊಳಿಸಿದ ಸಂಕ್ಷಿಪ್ತ ನೆಡುವಿಕೆ ಯೋಜನೆಗಳು.' },
+  },
+  'Landscaping': {
+    ta: { title: 'நிலத்தோற்றம்', desc: 'வீடுகள் மற்றும் அலுவலகங்களுக்கான முழு வெளிப்புற நிலத்தோற்றம், புல்வெளி முதல் அடுக்கு செடி படுக்கைகள் வரை.' },
+    hi: { title: 'लैंडस्केपिंग', desc: 'घरों और कार्यालयों के लिए संपूर्ण आउटडोर लैंडस्केपिंग, लॉन से लेकर परतदार पौधों की क्यारियों तक।' },
+    ml: { title: 'ലാൻഡ്‌സ്കേപ്പിംഗ്', desc: 'വീടുകൾക്കും ഓഫീസുകൾക്കുമുള്ള സമ്പൂർണ്ണ ഔട്ട്ഡോർ ലാൻഡ്‌സ്കേപ്പിംഗ്, ലോൺ മുതൽ പാളികളുള്ള ചെടി തടങ്ങൾ വരെ.' },
+    te: { title: 'ల్యాండ్‌స్కేపింగ్', desc: 'ఇళ్లు మరియు కార్యాలయాల కోసం పూర్తి అవుట్‌డోర్ ల్యాండ్‌స్కేపింగ్, లాన్ నుండి లేయర్డ్ మొక్కల పడకల వరకు.' },
+    kn: { title: 'ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್', desc: 'ಮನೆಗಳು ಮತ್ತು ಕಚೇರಿಗಳಿಗಾಗಿ ಸಂಪೂರ್ಣ ಹೊರಾಂಗಣ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್, ಹುಲ್ಲುಹಾಸಿನಿಂದ ಪದರಗಳ ಗಿಡಗಳ ಹಾಸಿಗೆಗಳವರೆಗೆ.' },
+  },
+  'Plant Maintenance': {
+    ta: { title: 'செடி பராமரிப்பு', desc: 'உங்கள் தோட்டம் ஆண்டு முழுவதும் ஆரோக்கியமாக இருக்க திட்டமிடப்பட்ட நீர்ப்பாசனம், கத்தரித்தல் மற்றும் பூச்சி சோதனைகள்.' },
+    hi: { title: 'प्लांट मेंटेनेंस', desc: 'निर्धारित पानी देना, छंटाई और कीट जांच ताकि आपका बगीचा साल भर स्वस्थ रहे।' },
+    ml: { title: 'പ്ലാന്റ് മെയിന്റനൻസ്', desc: 'നിങ്ങളുടെ തോട്ടം വർഷം മുഴുവൻ ആരോഗ്യത്തോടെ നിലനിൽക്കാൻ ഷെഡ്യൂൾ ചെയ്ത നനയ്ക്കൽ, കത്രിക്കൽ, കീട പരിശോധനകൾ.' },
+    te: { title: 'ప్లాంట్ మెయింటెనెన్స్', desc: 'మీ తోట ఏడాది పొడవునా ఆరోగ్యంగా ఉండటానికి షెడ్యూల్ చేసిన నీరు పెట్టడం, కత్తిరింపు మరియు పురుగుల తనిఖీలు.' },
+    kn: { title: 'ಪ್ಲಾಂಟ್ ಮೇಂಟೆನೆನ್ಸ್', desc: 'ನಿಮ್ಮ ತೋಟ ವರ್ಷವಿಡೀ ಆರೋಗ್ಯವಾಗಿರಲು ವೇಳಾಪಟ್ಟಿ ಪ್ರಕಾರ ನೀರುಣಿಸುವಿಕೆ, ಕತ್ತರಿಸುವಿಕೆ ಮತ್ತು ಕೀಟ ಪರಿಶೀಲನೆಗಳು.' },
+  },
+};
+
+export function getGardenServiceTranslation(title, lang) {
+  return gardenServicesList[title]?.[lang] ?? null;
+}
+
+// pages/Landscaping.jsx's 50-item service list, keyed by the English
+// title. Static page content, takes effect immediately on deploy.
+const landscapingServices = {
+  'Villa Landscaping': { ta: 'வில்லா நிலத்தோற்றம்', hi: 'विला लैंडस्केपिंग', ml: 'വില്ല ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'విల్లా ల్యాండ్‌స్కేపింగ్', kn: 'ವಿಲ್ಲಾ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Balcony Garden': { ta: 'பால்கனி தோட்டம்', hi: 'बालकनी गार्डन', ml: 'ബാൽക്കണി ഗാർഡൻ', te: 'బాల్కనీ గార్డెన్', kn: 'ಬಾಲ್ಕನಿ ಗಾರ್ಡನ್' },
+  'Terrace Garden': { ta: 'மொட்டை மாடி தோட்டம்', hi: 'टैरेस गार्डन', ml: 'ടെറസ് ഗാർഡൻ', te: 'టెర్రస్ గార్డెన్', kn: 'ಟೆರೇಸ್ ಗಾರ್ಡನ್' },
+  'Rooftop Garden': { ta: 'கூரை தோட்டம்', hi: 'रूफटॉप गार्डन', ml: 'റൂഫ്ടോപ്പ് ഗാർഡൻ', te: 'రూఫ్‌టాప్ గార్డెన్', kn: 'ರೂಫ್‌ಟಾಪ್ ಗಾರ್ಡನ್' },
+  'Vertical Garden': { ta: 'செங்குத்து தோட்டம்', hi: 'वर्टिकल गार्डन', ml: 'വെർട്ടിക്കൽ ഗാർഡൻ', te: 'వర్టికల్ గార్డెన్', kn: 'ವರ್ಟಿಕಲ್ ಗಾರ್ಡನ್' },
+  'Courtyard Garden': { ta: 'முற்றத் தோட்டம்', hi: 'आंगन गार्डन', ml: 'മുറ്റ ഗാർഡൻ', te: 'ప్రాంగణ గార్డెన్', kn: 'ಅಂಗಳದ ಗಾರ್ಡನ್' },
+  'Backyard Garden': { ta: 'பின்புற தோட்டம்', hi: 'बैकयार्ड गार्डन', ml: 'ബാക്ക്‌യാർഡ് ഗാർഡൻ', te: 'బ్యాక్‌యార్డ్ గార్డెన్', kn: 'ಹಿತ್ತಲ ಗಾರ್ಡನ್' },
+  'Frontyard Landscaping': { ta: 'முன்புற நிலத்தோற்றம்', hi: 'फ्रंटयार्ड लैंडस्केपिंग', ml: 'ഫ്രണ്ട്‌യാർഡ് ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'ఫ్రంట్‌యార్డ్ ల్యాండ్‌స్కేపింగ్', kn: 'ಮುಂಭಾಗದ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Farmhouse Landscaping': { ta: 'பண்ணை வீடு நிலத்தோற்றம்', hi: 'फार्महाउस लैंडस्केपिंग', ml: 'ഫാംഹൗസ് ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'ఫార్మ్‌హౌస్ ల్యాండ్‌స్కేపింగ్', kn: 'ಫಾರ್ಮ್‌ಹೌಸ್ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Resort Landscaping': { ta: 'ரிசார்ட் நிலத்தோற்றம்', hi: 'रिसॉर्ट लैंडस्केपिंग', ml: 'റിസോർട്ട് ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'రిసార్ట్ ల్యాండ్‌స్కేపింగ్', kn: 'ರೆಸಾರ್ಟ್ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Hotel Landscaping': { ta: 'ஹோட்டல் நிலத்தோற்றம்', hi: 'होटल लैंडस्केपिंग', ml: 'ഹോട്ടൽ ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'హోటల్ ల్యాండ్‌స్కేపింగ్', kn: 'ಹೋಟೆಲ್ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Apartment Landscaping': { ta: 'குடியிருப்பு நிலத்தோற்றம்', hi: 'अपार्टमेंट लैंडस्केपिंग', ml: 'അപ്പാർട്ട്മെന്റ് ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'అపార్ట్‌మెంట్ ల్యాండ్‌స్కేపింగ్', kn: 'ಅಪಾರ್ಟ್‌ಮೆಂಟ್ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Gated Community Landscaping': { ta: 'கேட்டட் கம்யூனிட்டி நிலத்தோற்றம்', hi: 'गेटेड कम्युनिटी लैंडस्केपिंग', ml: 'ഗേറ്റഡ് കമ്യൂണിറ്റി ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'గేటెడ్ కమ్యూనిటీ ల్యాండ్‌స్కేపింగ్', kn: 'ಗೇಟೆಡ್ ಕಮ್ಯುನಿಟಿ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Office Landscaping': { ta: 'அலுவலக நிலத்தோற்றம்', hi: 'ऑफिस लैंडस्केपिंग', ml: 'ഓഫീസ് ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'ఆఫీసు ల్యాండ్‌స్కేపింగ్', kn: 'ಆಫೀಸ್ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Commercial Landscaping': { ta: 'வணிக நிலத்தோற்றம்', hi: 'कमर्शियल लैंडस्केपिंग', ml: 'വാണിജ്യ ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'వాణిజ్య ల్యాండ్‌స్కేపింగ్', kn: 'ವಾಣಿಜ್ಯ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Corporate Landscaping': { ta: 'கார்ப்பரேட் நிலத்தோற்றம்', hi: 'कॉर्पोरेट लैंडस्केपिंग', ml: 'കോർപ്പറേറ്റ് ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'కార్పొరేట్ ల్యాండ్‌స్కేపింగ్', kn: 'ಕಾರ್ಪೊರೇಟ್ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Industrial Landscaping': { ta: 'தொழில்துறை நிலத்தோற்றம்', hi: 'औद्योगिक लैंडस्केपिंग', ml: 'വ്യാവസായിക ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'పారిశ్రామిక ల్యాండ్‌స్కేపింగ్', kn: 'ಕೈಗಾರಿಕಾ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Campus Landscaping': { ta: 'வளாக நிலத்தோற்றம்', hi: 'कैंपस लैंडस्केपिंग', ml: 'കാമ്പസ് ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'క్యాంపస్ ల్యాండ్‌స్కేపింగ్', kn: 'ಕ್ಯಾಂಪಸ್ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'School Landscaping': { ta: 'பள்ளி நிலத்தோற்றம்', hi: 'स्कूल लैंडस्केपिंग', ml: 'സ്കൂൾ ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'పాఠశాల ల్యాండ్‌స్కేపింగ్', kn: 'ಶಾಲಾ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Hospital Landscaping': { ta: 'மருத்துவமனை நிலத்தோற்றம்', hi: 'हॉस्पिटल लैंडस्केपिंग', ml: 'ഹോസ്പിറ്റൽ ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'ఆసుపత్రి ల్యాండ్‌స్కేపింగ్', kn: 'ಆಸ್ಪತ್ರೆ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Temple Landscaping': { ta: 'கோவில் நிலத்தோற்றம்', hi: 'मंदिर लैंडस्केपिंग', ml: 'ക്ഷേത്ര ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'దేవాలయ ల్యాండ్‌స్కేపింగ్', kn: 'ದೇವಸ್ಥಾನ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Park Landscaping': { ta: 'பூங்கா நிலத்தோற்றம்', hi: 'पार्क लैंडस्केपिंग', ml: 'പാർക്ക് ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'పార్క్ ల్యాండ్‌స్కేపింగ్', kn: 'ಪಾರ್ಕ್ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Swimming Pool Landscaping': { ta: 'நீச்சல் குள நிலத்தோற்றம்', hi: 'स्विमिंग पूल लैंडस्केपिंग', ml: 'സ്വിമ്മിംഗ് പൂൾ ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'స్విమ్మింగ్ పూల్ ల్యాండ్‌స్కేపింగ్', kn: 'ಈಜುಕೊಳ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Entrance Landscaping': { ta: 'நுழைவாயில் நிலத்தோற்றம்', hi: 'एंट्रेंस लैंडस्केपिंग', ml: 'എൻട്രൻസ് ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'ప్రవేశ ల్యాండ్‌స్కేపింగ్', kn: 'ಪ್ರವೇಶದ್ವಾರ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Driveway Landscaping': { ta: 'வாகன பாதை நிலத்தோற்றம்', hi: 'ड्राइववे लैंडस्केपिंग', ml: 'ഡ്രൈവ്‌വേ ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'డ్రైవ్‌వే ల్యాండ్‌స్కేపింగ్', kn: 'ಡ್ರೈವ್‌ವೇ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Walkway Landscaping': { ta: 'நடைபாதை நிலத்தோற்றம்', hi: 'वॉकवे लैंडस्केपिंग', ml: 'വാക്ക്‌വേ ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'వాక్‌వే ల్యాండ్‌స్కేపింగ్', kn: 'ವಾಕ್‌ವೇ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Pergola Garden': { ta: 'பெர்கோலா தோட்டம்', hi: 'पर्गोला गार्डन', ml: 'പെർഗോള ഗാർഡൻ', te: 'పెర్గోలా గార్డెన్', kn: 'ಪೆರ್ಗೋಲಾ ಗಾರ್ಡನ್' },
+  'Gazebo Garden': { ta: 'கஸீபோ தோட்டம்', hi: 'गज़ेबो गार्डन', ml: 'ഗസീബോ ഗാർഡൻ', te: 'గెజిబో గార్డెన్', kn: 'ಗಜೀಬೋ ಗಾರ್ಡನ್' },
+  'Rock Garden': { ta: 'பாறை தோட்டம்', hi: 'रॉक गार्डन', ml: 'റോക്ക് ഗാർഡൻ', te: 'రాక్ గార్డెన్', kn: 'ರಾಕ್ ಗಾರ್ಡನ್' },
+  'Zen Garden': { ta: 'ஜென் தோட்டம்', hi: 'ज़ेन गार्डन', ml: 'സെൻ ഗാർഡൻ', te: 'జెన్ గార్డెన్', kn: 'ಝೆನ್ ಗಾರ್ಡನ್' },
+  'Tropical Garden': { ta: 'வெப்பமண்டல தோட்டம்', hi: 'ट्रॉपिकल गार्डन', ml: 'ട്രോപ്പിക്കൽ ഗാർഡൻ', te: 'ట్రాపికల్ గార్డెన్', kn: 'ಟ್ರಾಪಿಕಲ್ ಗಾರ್ಡನ್' },
+  'Japanese Garden': { ta: 'ஜப்பானிய தோட்டம்', hi: 'जापानी गार्डन', ml: 'ജാപ്പനീസ് ഗാർഡൻ', te: 'జపనీస్ గార్డెన్', kn: 'ಜಪಾನೀಸ್ ಗಾರ್ಡನ್' },
+  'Butterfly Garden': { ta: 'பட்டாம்பூச்சி தோட்டம்', hi: 'बटरफ्लाई गार्डन', ml: 'ബട്ടർഫ്ലൈ ഗാർഡൻ', te: 'బటర్‌ఫ్లై గార్డెన్', kn: 'ಬಟರ್‌ಫ್ಲೈ ಗಾರ್ಡನ್' },
+  'Fragrance Garden': { ta: 'நறுமண தோட்டம்', hi: 'फ्रेगरेंस गार्डन', ml: 'സുഗന്ധ ഗാർഡൻ', te: 'సువాసన గార్డెన్', kn: 'ಸುವಾಸನೆಯ ಗಾರ್ಡನ್' },
+  'Herbal Garden': { ta: 'மூலிகைத் தோட்டம்', hi: 'हर्बल गार्डन', ml: 'ഔഷധ ഗാർഡൻ', te: 'హర్బల్ గార్డెన్', kn: 'ಔಷಧೀಯ ಗಾರ್ಡನ್' },
+  'Edible Garden': { ta: 'உண்ணக்கூடிய தோட்டம்', hi: 'एडिबल गार्डन', ml: 'ഭക്ഷ്യയോഗ്യ ഗാർഡൻ', te: 'తినదగిన గార్డెన్', kn: 'ತಿನ್ನಬಹುದಾದ ಗಾರ್ಡನ್' },
+  'Water Garden': { ta: 'நீர் தோட்டம்', hi: 'वॉटर गार्डन', ml: 'വാട്ടർ ഗാർഡൻ', te: 'వాటర్ గార్డెన్', kn: 'ವಾಟರ್ ಗಾರ್ಡನ್' },
+  'Koi Pond Landscaping': { ta: 'கோய் குளம் நிலத்தோற்றம்', hi: 'कोई पॉन्ड लैंडस्केपिंग', ml: 'കോയ് പോണ്ട് ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'కోయి పాండ్ ల్యాండ్‌స్కేపింగ్', kn: 'ಕೋಯಿ ಪಾಂಡ್ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Fountain Landscaping': { ta: 'நீரூற்று நிலத்தோற்றம்', hi: 'फाउंटेन लैंडस्केपिंग', ml: 'ഫൗണ്ടൻ ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'ఫౌంటెన్ ల్యాండ్‌స్కేపింగ్', kn: 'ಕಾರಂಜಿ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Bonsai Garden': { ta: 'பொன்சாய் தோட்டம்', hi: 'बोन्साई गार्डन', ml: 'ബോൺസായ് ഗാർഡൻ', te: 'బోన్సాయ్ గార్డెన్', kn: 'ಬೊನ್ಸಾಯ್ ಗಾರ್ಡನ್' },
+  'Succulent Garden': { ta: 'சுக்குலெண்ட் தோட்டம்', hi: 'सक्युलेंट गार्डन', ml: 'സക്യുലന്റ് ഗാർഡൻ', te: 'సక్యులెంట్ గార్డెన్', kn: 'ಸಕ್ಯುಲೆಂಟ್ ಗಾರ್ಡನ್' },
+  'Cactus Garden': { ta: 'கள்ளிச் தோட்டம்', hi: 'कैक्टस गार्डन', ml: 'കള്ളിച്ചെടി ഗാർഡൻ', te: 'కాక్టస్ గార్డెన్', kn: 'ಕಳ್ಳಿ ಗಾರ್ಡನ್' },
+  'Lawn Development': { ta: 'புல்வெளி மேம்பாடு', hi: 'लॉन डेवलपमेंट', ml: 'ലോൺ ഡെവലപ്‌മെന്റ്', te: 'లాన్ డెవలప్‌మెంట్', kn: 'ಲಾನ್ ಅಭಿವೃದ್ಧಿ' },
+  'Indoor Green Decor': { ta: 'உட்புற பசுமை அலங்காரம்', hi: 'इनडोर ग्रीन डेकोर', ml: 'ഇൻഡോർ ഗ്രീൻ ഡെക്കോർ', te: 'ఇండోర్ గ్రీన్ డెకోర్', kn: 'ಒಳಾಂಗಣ ಹಸಿರು ಅಲಂಕಾರ' },
+  'Living Wall': { ta: 'உயிருள்ள சுவர்', hi: 'लिविंग वॉल', ml: 'ലിവിംഗ് വാൾ', te: 'లివింగ్ వాల్', kn: 'ಲಿವಿಂಗ್ ವಾಲ್' },
+  'Moss Wall': { ta: 'பாசி சுவர்', hi: 'मॉस वॉल', ml: 'മോസ് വാൾ', te: 'మాస్ వాల్', kn: 'ಮಾಸ್ ವಾಲ್' },
+  'Biophilic Landscaping': { ta: 'பயோஃபிலிக் நிலத்தோற்றம்', hi: 'बायोफिलिक लैंडस्केपिंग', ml: 'ബയോഫിലിക് ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'బయోఫిలిక్ ల్యాండ్‌స్కేపింగ్', kn: 'ಬಯೋಫಿಲಿಕ್ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Sustainable Landscaping': { ta: 'நிலைத்தன்மை நிலத்தோற்றம்', hi: 'सस्टेनेबल लैंडस्केपिंग', ml: 'സുസ്ഥിര ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'సుస్థిర ల్యాండ్‌స్కేపింగ్', kn: 'ಸುಸ್ಥಿರ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Xeriscape Landscaping': { ta: 'ஸீரிஸ்கேப் நிலத்தோற்றம்', hi: 'ज़ेरिस्केप लैंडस्केपिंग', ml: 'സീറിസ്കേപ്പ് ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'జెరిస్కేప్ ల్యాండ్‌స్కేపింగ్', kn: 'ಝೆರಿಸ್ಕೇಪ್ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+  'Rain Garden': { ta: 'மழை தோட்டம்', hi: 'रेन गार्डन', ml: 'റെയിൻ ഗാർഡൻ', te: 'రెయిన్ గార్డెన్', kn: 'ರೈನ್ ಗಾರ್ಡನ್' },
+  'Smart Irrigation Landscaping': { ta: 'ஸ்மார்ட் நீர்ப்பாசன நிலத்தோற்றம்', hi: 'स्मार्ट इरिगेशन लैंडस्केपिंग', ml: 'സ്മാർട്ട് ഇറിഗേഷൻ ലാൻഡ്‌സ്കേപ്പിംഗ്', te: 'స్మార్ట్ ఇరిగేషన్ ల్యాండ్‌స్కేపింగ్', kn: 'ಸ್ಮಾರ್ಟ್ ನೀರಾವರಿ ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್' },
+};
+
+export function getLandscapingServiceTranslation(title, lang) {
+  return landscapingServices[title]?.[lang] ?? title;
+}
+
+// pages/Blog.jsx's 6 journal posts - title + excerpt, keyed by the
+// English title. Static page content, takes effect immediately.
+const blogPosts = {
+  'How to choose your first indoor plant': {
+    ta: { title: 'உங்கள் முதல் உட்புற செடியை எப்படித் தேர்வு செய்வது', excerpt: 'ஒளி, இடம் மற்றும் உண்மையில் உங்களிடம் உள்ள நேரம் - மிக முக்கியமான மூன்று கேள்விகள்.' },
+    hi: { title: 'अपना पहला इनडोर पौधा कैसे चुनें', excerpt: 'रोशनी, जगह और आपके पास वास्तव में कितना समय है - ये तीन सबसे महत्वपूर्ण सवाल हैं।' },
+    ml: { title: 'നിങ്ങളുടെ ആദ്യത്തെ ഇൻഡോർ ചെടി എങ്ങനെ തിരഞ്ഞെടുക്കാം', excerpt: 'വെളിച്ചം, സ്ഥലം, നിങ്ങൾക്ക് യഥാർത്ഥത്തിൽ എത്ര സമയമുണ്ട് - ഏറ്റവും പ്രധാനപ്പെട്ട മൂന്ന് ചോദ്യങ്ങൾ.' },
+    te: { title: 'మీ మొదటి ఇండోర్ మొక్కను ఎలా ఎంచుకోవాలి', excerpt: 'వెలుతురు, స్థలం మరియు మీకు నిజంగా ఎంత సమయం ఉంది - ముఖ్యమైన మూడు ప్రశ్నలు.' },
+    kn: { title: 'ನಿಮ್ಮ ಮೊದಲ ಒಳಾಂಗಣ ಗಿಡವನ್ನು ಹೇಗೆ ಆಯ್ಕೆ ಮಾಡುವುದು', excerpt: 'ಬೆಳಕು, ಸ್ಥಳ ಮತ್ತು ನಿಮ್ಮ ಬಳಿ ನಿಜವಾಗಿಯೂ ಎಷ್ಟು ಸಮಯವಿದೆ - ಪ್ರಮುಖ ಮೂರು ಪ್ರಶ್ನೆಗಳು.' },
+  },
+  'A simple guide to potting mix': {
+    ta: { title: 'பாட்டிங் மிக்ஸுக்கான ஒரு எளிய வழிகாட்டி', excerpt: 'ஒரு நல்ல மிக்ஸில் என்ன இருக்கிறது, மற்றும் ஹார்ட்வேர் கடையின் பையில் இருப்பது ஏன் பொதுவாக அது இல்லை.' },
+    hi: { title: 'पॉटिंग मिक्स के लिए एक सरल गाइड', excerpt: 'एक अच्छे मिक्स में क्या होता है, और हार्डवेयर स्टोर का बैग आमतौर पर वह क्यों नहीं होता।' },
+    ml: { title: 'പോട്ടിംഗ് മിക്സിനുള്ള ഒരു ലളിതമായ ഗൈഡ്', excerpt: 'നല്ലൊരു മിക്സിൽ എന്തൊക്കെ ഉണ്ടാകും, ഹാർഡ്‌വെയർ സ്റ്റോറിലെ ബാഗ് സാധാരണയായി അതല്ലാത്തത് എന്തുകൊണ്ട്.' },
+    te: { title: 'పాటింగ్ మిక్స్ కోసం ఒక సాధారణ గైడ్', excerpt: 'మంచి మిక్స్‌లో ఏమి ఉంటుంది, మరియు హార్డ్‌వేర్ స్టోర్ బ్యాగ్ సాధారణంగా అది ఎందుకు కాదు.' },
+    kn: { title: 'ಪಾಟಿಂಗ್ ಮಿಶ್ರಣಕ್ಕೆ ಒಂದು ಸರಳ ಮಾರ್ಗದರ್ಶಿ', excerpt: 'ಒಳ್ಳೆಯ ಮಿಶ್ರಣದಲ್ಲಿ ಏನಿರುತ್ತದೆ, ಮತ್ತು ಹಾರ್ಡ್‌ವೇರ್ ಅಂಗಡಿಯ ಚೀಲ ಸಾಮಾನ್ಯವಾಗಿ ಅದಾಗಿರದಿರುವುದು ಏಕೆ.' },
+  },
+  '3 ways to make a balcony feel greener': {
+    ta: { title: 'பால்கனியை பசுமையாக உணரவைக்க 3 வழிகள்', excerpt: 'சில மணி நேர நேரடி வெயிலில் கூட வேலை செய்யும் சிறிய இட அமைப்புகள்.' },
+    hi: { title: 'बालकनी को हरा-भरा महसूस कराने के 3 तरीके', excerpt: 'कुछ घंटों की सीधी धूप में भी काम करने वाले छोटी जगह के लेआउट।' },
+    ml: { title: 'ബാൽക്കണിയെ കൂടുതൽ പച്ചയായി തോന്നിക്കാൻ 3 വഴികൾ', excerpt: 'കുറച്ച് മണിക്കൂർ നേരിട്ടുള്ള വെയിലിൽ പോലും പ്രവർത്തിക്കുന്ന ചെറിയ സ്ഥല ലേഔട്ടുകൾ.' },
+    te: { title: 'బాల్కనీని మరింత పచ్చగా అనిపించేలా చేసే 3 మార్గాలు', excerpt: 'కొన్ని గంటల ప్రత్యక్ష ఎండలో కూడా పనిచేసే చిన్న స్థల నమూనాలు.' },
+    kn: { title: 'ಬಾಲ್ಕನಿಯನ್ನು ಹೆಚ್ಚು ಹಸಿರಾಗಿ ಕಾಣುವಂತೆ ಮಾಡುವ 3 ಮಾರ್ಗಗಳು', excerpt: 'ಕೆಲವು ಗಂಟೆಗಳ ನೇರ ಬಿಸಿಲಿನಲ್ಲೂ ಕೆಲಸ ಮಾಡುವ ಸಣ್ಣ ಸ್ಥಳದ ವಿನ್ಯಾಸಗಳು.' },
+  },
+  'Stop guessing when to water': {
+    ta: { title: 'எப்போது நீர் ஊற்றுவது என்று யூகிப்பதை நிறுத்துங்கள்', excerpt: 'ஒவ்வொரு செடிக்கும் எப்போது நீர் தேவை என்பதை சரியாக அறிய ஒரு எளிய முறை.' },
+    hi: { title: 'कब पानी देना है, यह अंदाजा लगाना बंद करें', excerpt: 'हर पौधे को कब पानी चाहिए, यह ठीक-ठीक जानने की एक सरल प्रणाली।' },
+    ml: { title: 'എപ്പോൾ വെള്ളം നൽകണം എന്ന് ഊഹിക്കുന്നത് നിർത്തുക', excerpt: 'ഓരോ ചെടിക്കും എപ്പോൾ വെള്ളം വേണം എന്ന് കൃത്യമായി അറിയാനുള്ള ഒരു ലളിതമായ സംവിധാനം.' },
+    te: { title: 'ఎప్పుడు నీరు పోయాలో ఊహించడం మానేయండి', excerpt: 'ప్రతి మొక్కకు ఎప్పుడు నీరు అవసరమో ఖచ్చితంగా తెలుసుకోవడానికి ఒక సాధారణ విధానం.' },
+    kn: { title: 'ಯಾವಾಗ ನೀರು ಹಾಕಬೇಕು ಎಂದು ಊಹಿಸುವುದನ್ನು ನಿಲ್ಲಿಸಿ', excerpt: 'ಪ್ರತಿ ಗಿಡಕ್ಕೆ ಯಾವಾಗ ನೀರು ಬೇಕು ಎಂದು ನಿಖರವಾಗಿ ತಿಳಿಯುವ ಸರಳ ವ್ಯವಸ್ಥೆ.' },
+  },
+  'Bonsai care for beginners': {
+    ta: { title: 'ஆரம்பநிலையாளர்களுக்கான பொன்சாய் பராமரிப்பு', excerpt: 'பொன்சாயை பல ஆண்டுகள் செழிப்பாக வைத்திருக்க கத்தரித்தல், நீர்ப்பாசனம் மற்றும் ஒளி அடிப்படைகள்.' },
+    hi: { title: 'शुरुआती लोगों के लिए बोन्साई देखभाल', excerpt: 'बोन्साई को वर्षों तक स्वस्थ रखने के लिए छंटाई, पानी देना और रोशनी की मूल बातें।' },
+    ml: { title: 'തുടക്കക്കാർക്കുള്ള ബോൺസായ് പരിചരണം', excerpt: 'ബോൺസായ് വർഷങ്ങളോളം തഴച്ചുവളരാൻ കത്രിക്കൽ, നനയ്ക്കൽ, വെളിച്ച അടിസ്ഥാനങ്ങൾ.' },
+    te: { title: 'ప్రారంభకుల కోసం బోన్సాయ్ సంరక్షణ', excerpt: 'బోన్సాయ్ సంవత్సరాల తరబడి బాగా పెరగడానికి కత్తిరింపు, నీరు పెట్టడం మరియు వెలుతురు ప్రాథమికాంశాలు.' },
+    kn: { title: 'ಆರಂಭಿಕರಿಗಾಗಿ ಬೊನ್ಸಾಯ್ ಆರೈಕೆ', excerpt: 'ಬೊನ್ಸಾಯ್ ವರ್ಷಗಟ್ಟಲೆ ಚೆನ್ನಾಗಿ ಬೆಳೆಯಲು ಕತ್ತರಿಸುವಿಕೆ, ನೀರುಣಿಸುವಿಕೆ ಮತ್ತು ಬೆಳಕಿನ ಮೂಲಭೂತ ಅಂಶಗಳು.' },
+  },
+  'Reading the signs of an overwatered plant': {
+    ta: { title: 'அதிக நீர் ஊற்றப்பட்ட செடியின் அறிகுறிகளை அறிதல்', excerpt: 'மஞ்சள் நிற இலைகள் மற்றும் மென்மையான தண்டுகள் விளக்கப்பட்டு, மீட்பது எப்படி என்பதும்.' },
+    hi: { title: 'अधिक पानी दिए गए पौधे के लक्षण पहचानना', excerpt: 'पीली पत्तियां और गलते तने समझाए गए, और उन्हें कैसे ठीक करें।' },
+    ml: { title: 'അധികം വെള്ളം കൊടുത്ത ചെടിയുടെ ലക്ഷണങ്ങൾ തിരിച്ചറിയൽ', excerpt: 'മഞ്ഞ ഇലകളും മൃദുവായ തണ്ടുകളും വിശദീകരിക്കുന്നു, എങ്ങനെ വീണ്ടെടുക്കാം എന്നും.' },
+    te: { title: 'ఎక్కువ నీరు పోసిన మొక్క సంకేతాలను గుర్తించడం', excerpt: 'పసుపు రంగు ఆకులు మరియు మెత్తబడిన కాండాలు వివరించబడ్డాయి, ఎలా కోలుకోవాలో కూడా.' },
+    kn: { title: 'ಹೆಚ್ಚು ನೀರು ಹಾಕಿದ ಗಿಡದ ಲಕ್ಷಣಗಳನ್ನು ಗುರುತಿಸುವುದು', excerpt: 'ಹಳದಿ ಎಲೆಗಳು ಮತ್ತು ಮೃದುವಾದ ಕಾಂಡಗಳನ್ನು ವಿವರಿಸಲಾಗಿದೆ, ಹೇಗೆ ಚೇತರಿಸಿಕೊಳ್ಳುವುದು ಎಂಬುದನ್ನೂ.' },
+  },
+};
+
+export function getBlogPostTranslation(title, lang) {
+  return blogPosts[title]?.[lang] ?? null;
+}
+
+// Home.jsx's Hero section reads from the admin-editable site content
+// (data/siteContent.js / lib/contentStore.js), which has no per-language
+// fields. Rather than showing an admin's live-edited English text in the
+// wrong language, or restructuring that CMS, this translates only the
+// *default* out-of-the-box copy (matched by exact English value) - if an
+// admin has customized a field, it falls back to showing exactly what they
+// entered, same as before. See Home.jsx's Hero component.
+const heroDefaults = {
+  'MUTTUKADU LAB ONLINE': { ta: 'முட்டுக்காடு ஆய்வகம் செயல்பாட்டில்', hi: 'मुत्तुकाडु लैब ऑनलाइन', ml: 'മുട്ടുക്കാട് ലാബ് ഓൺലൈൻ', te: 'ముత్తుకాడు ల్యాబ్ ఆన్‌లైన్', kn: 'ಮುಟ್ಟುಕಾಡು ಲ್ಯಾಬ್ ಆನ್‌ಲೈನ್' },
+  'NATURE': { ta: 'இயற்கை', hi: 'प्रकृति', ml: 'പ്രകൃതി', te: 'ప్రకృతి', kn: 'ಪ್ರಕೃತಿ' },
+  'ENGINEERED.': { ta: 'பொறியியல் செய்யப்பட்டது.', hi: 'इंजीनियर्ड।', ml: 'എഞ്ചിനീയേഡ്.', te: 'ఇంజనీరింగ్ చేయబడింది.', kn: 'ಎಂಜಿನಿಯರಿಂಗ್ ಮಾಡಲಾಗಿದೆ.' },
+  'IGO is not just a nursery. We are an AgriTech farm using IoT data and precision trials to grow the healthiest plant palette in India.': {
+    ta: 'IGO வெறும் நர்சரி மட்டும் அல்ல. நாங்கள் IoT தரவு மற்றும் துல்லியமான சோதனைகளைப் பயன்படுத்தி இந்தியாவின் ஆரோக்கியமான செடித் தொகுப்பை வளர்க்கும் ஒரு அக்ரிடெக் பண்ணை.',
+    hi: 'IGO सिर्फ एक नर्सरी नहीं है। हम एक एग्रीटेक फार्म हैं जो IoT डेटा और सटीक परीक्षणों का उपयोग करके भारत में सबसे स्वस्थ पौधों की श्रेणी उगाते हैं।',
+    ml: 'IGO വെറും ഒരു നഴ്സറി മാത്രമല്ല. ഇന്ത്യയിലെ ഏറ്റവും ആരോഗ്യമുള്ള ചെടികളുടെ ശേഖരം വളർത്താൻ IoT ഡാറ്റയും കൃത്യതയുള്ള പരീക്ഷണങ്ങളും ഉപയോഗിക്കുന്ന ഒരു അഗ്രിടെക് ഫാമാണ് ഞങ്ങൾ.',
+    te: 'IGO కేవలం నర్సరీ మాత్రమే కాదు. భారతదేశంలో అత్యంత ఆరోగ్యకరమైన మొక్కల శ్రేణిని పెంచడానికి IoT డేటా మరియు ఖచ్చితమైన పరీక్షలను ఉపయోగించే అగ్రిటెక్ ఫామ్ మేము.',
+    kn: 'IGO ಕೇವಲ ನರ್ಸರಿ ಮಾತ್ರವಲ್ಲ. ಭಾರತದಲ್ಲಿ ಅತ್ಯಂತ ಆರೋಗ್ಯಕರ ಸಸ್ಯ ಶ್ರೇಣಿಯನ್ನು ಬೆಳೆಸಲು IoT ಡೇಟಾ ಮತ್ತು ನಿಖರ ಪ್ರಯೋಗಗಳನ್ನು ಬಳಸುವ ಅಗ್ರಿಟೆಕ್ ಫಾರ್ಮ್ ನಾವು.',
+  },
+  'START GARDEN ASSISTANT ⚡': { ta: 'தோட்ட உதவியாளரைத் தொடங்குங்கள் ⚡', hi: 'गार्डन असिस्टेंट शुरू करें ⚡', ml: 'ഗാർഡൻ അസിസ്റ്റന്റ് ആരംഭിക്കുക ⚡', te: 'గార్డెన్ అసిస్టెంట్ ప్రారంభించండి ⚡', kn: 'ಗಾರ್ಡನ್ ಅಸಿಸ್ಟೆಂಟ್ ಪ್ರಾರಂಭಿಸಿ ⚡' },
+  'SHOP PLANTS': { ta: 'செடிகளை வாங்குங்கள்', hi: 'पौधे खरीदें', ml: 'ചെടികൾ വാങ്ങുക', te: 'మొక్కలు కొనండి', kn: 'ಗಿಡಗಳನ್ನು ಖರೀದಿಸಿ' },
+};
+
+export function getHeroFieldTranslation(value, lang) {
+  return heroDefaults[value]?.[lang] ?? value;
+}
+
+// OffersSection.jsx's per-offer "note" badge (WITH GROW POT etc.) - same
+// admin-editable-CMS-default-match pattern as getHeroFieldTranslation.
+const offerNoteDefaults = {
+  'WITH GROW POT': { ta: 'க்ரோ பாட்டுடன்', hi: 'ग्रो पॉट के साथ', ml: 'ഗ്രോ പോട്ടിനൊപ്പം', te: 'గ్రో పాట్‌తో', kn: 'ಗ್ರೋ ಪಾಟ್‌ನೊಂದಿಗೆ' },
+  'WITH KRISH POT': { ta: 'கிரிஷ் பாட்டுடன்', hi: 'कृष पॉट के साथ', ml: 'ക്രിഷ് പോട്ടിനൊപ്പം', te: 'కృష్ పాట్‌తో', kn: 'ಕೃಷ್ ಪಾಟ್‌ನೊಂದಿಗೆ' },
+  'WITH LAGOS POT': { ta: 'லாகோஸ் பாட்டுடன்', hi: 'लागोस पॉट के साथ', ml: 'ലാഗോസ് പോട്ടിനൊപ്പം', te: 'లాగోస్ పాట్‌తో', kn: 'ಲಾಗೋಸ್ ಪಾಟ್‌ನೊಂದಿಗೆ' },
+};
+
+export function getOfferNoteTranslation(note, lang) {
+  return offerNoteDefaults[note]?.[lang] ?? note;
+}
+
+// Home.jsx's Reviews section - fictional demo testimonials (name/rating
+// fixed, only the quote text is translated), keyed by the English text.
+const reviewTranslations = {
+  'The plants arrived so much healthier than I expected. Great packaging too.': {
+    ta: 'செடிகள் நான் எதிர்பார்த்ததை விட மிக ஆரோக்கியமாக வந்தன. பேக்கேஜிங்கும் சிறப்பாக இருந்தது.',
+    hi: 'पौधे मेरी उम्मीद से कहीं ज़्यादा स्वस्थ आए। पैकेजिंग भी बहुत अच्छी थी।',
+    ml: 'ചെടികൾ ഞാൻ പ്രതീക്ഷിച്ചതിലും വളരെ ആരോഗ്യത്തോടെ എത്തി. പാക്കേജിംഗും മികച്ചതായിരുന്നു.',
+    te: 'మొక్కలు నేను ఊహించిన దానికంటే చాలా ఆరోగ్యంగా వచ్చాయి. ప్యాకేజింగ్ కూడా చాలా బాగుంది.',
+    kn: 'ಗಿಡಗಳು ನಾನು ನಿರೀಕ್ಷಿಸಿದ್ದಕ್ಕಿಂತ ಹೆಚ್ಚು ಆರೋಗ್ಯಕರವಾಗಿ ಬಂದವು. ಪ್ಯಾಕೇಜಿಂಗ್ ಕೂಡ ಅದ್ಭುತವಾಗಿತ್ತು.',
+  },
+  'Ordered a bonsai as a gift — the recipient loved it. Will order again.': {
+    ta: 'பரிசாக ஒரு பொன்சாய் ஆர்டர் செய்தேன் — பெற்றவர் மிகவும் விரும்பினார். மீண்டும் ஆர்டர் செய்வேன்.',
+    hi: 'गिफ्ट के तौर पर एक बोन्साई मंगवाया — पाने वाले को बहुत पसंद आया। फिर से ऑर्डर करूंगा।',
+    ml: 'സമ്മാനമായി ഒരു ബോൺസായ് ഓർഡർ ചെയ്തു — സ്വീകർത്താവിന് വളരെ ഇഷ്ടപ്പെട്ടു. വീണ്ടും ഓർഡർ ചെയ്യും.',
+    te: 'బహుమతిగా ఒక బోన్సాయ్ ఆర్డర్ చేశాను — స్వీకరించినవారికి చాలా నచ్చింది. మళ్ళీ ఆర్డర్ చేస్తాను.',
+    kn: 'ಉಡುಗೊರೆಯಾಗಿ ಒಂದು ಬೊನ್ಸಾಯ್ ಆರ್ಡರ್ ಮಾಡಿದೆ — ಸ್ವೀಕರಿಸಿದವರಿಗೆ ತುಂಬಾ ಇಷ್ಟವಾಯಿತು. ಮತ್ತೆ ಆರ್ಡರ್ ಮಾಡುತ್ತೇನೆ.',
+  },
+  'Good range of pots and the care guide that came with my order was genuinely useful.': {
+    ta: 'நல்ல வகையான தொட்டிகள், மேலும் என் ஆர்டருடன் வந்த பராமரிப்பு வழிகாட்டி உண்மையிலேயே பயனுள்ளதாக இருந்தது.',
+    hi: 'गमलों की अच्छी रेंज है और मेरे ऑर्डर के साथ आई केयर गाइड सच में उपयोगी थी।',
+    ml: 'ചട്ടികളുടെ നല്ല ശ്രേണിയും എന്റെ ഓർഡറിനൊപ്പം വന്ന പരിചരണ ഗൈഡും ശരിക്കും ഉപകാരപ്രദമായിരുന്നു.',
+    te: 'కుండల మంచి శ్రేణి మరియు నా ఆర్డర్‌తో వచ్చిన కేర్ గైడ్ నిజంగా ఉపయోగకరంగా ఉంది.',
+    kn: 'ಪಾಟ್‌ಗಳ ಉತ್ತಮ ಶ್ರೇಣಿ ಮತ್ತು ನನ್ನ ಆರ್ಡರ್‌ನೊಂದಿಗೆ ಬಂದ ಆರೈಕೆ ಮಾರ್ಗದರ್ಶಿ ನಿಜವಾಗಿಯೂ ಉಪಯುಕ್ತವಾಗಿತ್ತು.',
+  },
+};
+
+export function getReviewTranslation(text, lang) {
+  return reviewTranslations[text]?.[lang] ?? text;
+}
+
+// components/layout/TopBar.jsx's scrolling marquee message.
+const topBarMessageTranslations = {
+  ta: '🪴 புதிய செடிகள் • தரமான தோட்ட பொருட்கள் • ஒவ்வொரு நாளும் சிறப்பாக வளருங்கள் • இலவச நிபுணர் செடி பராமரிப்பு வழிகாட்டுதல்',
+  hi: '🪴 ताज़े पौधे • गुणवत्तापूर्ण बागवानी उत्पाद • हर दिन बेहतर उगाएं • मुफ़्त विशेषज्ञ पौधा-देखभाल मार्गदर्शन',
+  ml: '🪴 പുതിയ ചെടികൾ • ഗുണനിലവാരമുള്ള ഗാർഡനിംഗ് ഉൽപ്പന്നങ്ങൾ • ദിവസവും മികച്ച രീതിയിൽ വളർത്തുക • സൗജന്യ വിദഗ്ധ ചെടി പരിചരണ മാർഗനിർദേശം',
+  te: '🪴 తాజా మొక్కలు • నాణ్యమైన తోటపని ఉత్పత్తులు • ప్రతిరోజూ మెరుగ్గా పెంచండి • ఉచిత నిపుణుల మొక్కల సంరక్షణ మార్గదర్శకత్వం',
+  kn: '🪴 ತಾಜಾ ಗಿಡಗಳು • ಗುಣಮಟ್ಟದ ತೋಟಗಾರಿಕೆ ಉತ್ಪನ್ನಗಳು • ಪ್ರತಿದಿನ ಉತ್ತಮವಾಗಿ ಬೆಳೆಸಿ • ಉಚಿತ ತಜ್ಞ ಗಿಡ-ಆರೈಕೆ ಮಾರ್ಗದರ್ಶನ',
+};
+
+export function getTopBarMessageTranslation(lang) {
+  return topBarMessageTranslations[lang] ?? '🪴 Fresh plants • Quality gardening products • Grow better every day • Free expert plant-care guidance';
+}
+
+// Home.jsx's JOURNEY_STEPS (Grown at IGO Nursery / Quality Checked /
+// Carefully Prepared / Ready for Your Home) - title + desc, keyed by title.
+const journeyStepTranslations = {
+  'Grown at IGO Nursery': {
+    ta: { title: 'IGO நர்சரியில் வளர்க்கப்பட்டது', desc: 'ஒவ்வொரு செடியும் இங்கேயே தொடங்குகிறது, எங்கள் சொந்த நர்சரி படுக்கைகளில் வளர்க்கப்பட்டு, வலுவாக வளர தேவையான நேரம் கொடுக்கப்படுகிறது.' },
+    hi: { title: 'IGO नर्सरी में उगाया गया', desc: 'हर पौधा यहीं से शुरू होता है, हमारी अपनी नर्सरी क्यारियों में पाला जाता है और मजबूती से बढ़ने के लिए ज़रूरी समय दिया जाता है।' },
+    ml: { title: 'IGO നഴ്സറിയിൽ വളർത്തിയത്', desc: 'ഓരോ ചെടിയും ഇവിടെ തന്നെ തുടങ്ങുന്നു, ഞങ്ങളുടെ സ്വന്തം നഴ്സറി തടങ്ങളിൽ വളർത്തി, ശക്തമായി വളരാൻ വേണ്ട സമയം നൽകുന്നു.' },
+    te: { title: 'IGO నర్సరీలో పెంచబడింది', desc: 'ప్రతి మొక్క ఇక్కడే ప్రారంభమవుతుంది, మా సొంత నర్సరీ బెడ్‌లలో పెంచబడి, బలంగా పెరగడానికి అవసరమైన సమయం ఇవ్వబడుతుంది.' },
+    kn: { title: 'IGO ನರ್ಸರಿಯಲ್ಲಿ ಬೆಳೆಸಲಾಗಿದೆ', desc: 'ಪ್ರತಿ ಗಿಡವೂ ಇಲ್ಲಿಯೇ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ, ನಮ್ಮ ಸ್ವಂತ ನರ್ಸರಿ ಹಾಸಿಗೆಗಳಲ್ಲಿ ಬೆಳೆಸಿ, ಬಲವಾಗಿ ಬೆಳೆಯಲು ಬೇಕಾದ ಸಮಯ ನೀಡಲಾಗುತ್ತದೆ.' },
+  },
+  'Quality Checked': {
+    ta: { title: 'தரம் சரிபார்க்கப்பட்டது', desc: 'எங்கும் செல்வதற்கு முன், ஒவ்வொரு செடியும் ஆரோக்கியம், பூச்சிகள் மற்றும் அமைப்புக்காக ஆய்வு செய்யப்படுகிறது — சிறந்தவை மட்டுமே அடுத்த கட்டத்திற்குச் செல்கின்றன.' },
+    hi: { title: 'गुणवत्ता जाँची गई', desc: 'कहीं भी जाने से पहले, हर पौधे की सेहत, कीटों और संरचना के लिए जाँच की जाती है - केवल सबसे अच्छे पौधे ही आगे बढ़ते हैं।' },
+    ml: { title: 'ഗുണനിലവാരം പരിശോധിച്ചു', desc: 'എവിടെയും പോകുന്നതിന് മുമ്പ്, ഓരോ ചെടിയും ആരോഗ്യം, കീടങ്ങൾ, ഘടന എന്നിവയ്ക്കായി പരിശോധിക്കുന്നു — മികച്ചവ മാത്രം മുന്നോട്ട് പോകുന്നു.' },
+    te: { title: 'నాణ్యత తనిఖీ చేయబడింది', desc: 'ఎక్కడికైనా వెళ్ళే ముందు, ప్రతి మొక్క ఆరోగ్యం, పురుగులు మరియు నిర్మాణం కోసం తనిఖీ చేయబడుతుంది — ఉత్తమమైనవి మాత్రమే ముందుకు వెళ్తాయి.' },
+    kn: { title: 'ಗುಣಮಟ್ಟ ಪರಿಶೀಲಿಸಲಾಗಿದೆ', desc: 'ಎಲ್ಲಿಗಾದರೂ ಹೋಗುವ ಮೊದಲು, ಪ್ರತಿ ಗಿಡವನ್ನು ಆರೋಗ್ಯ, ಕೀಟಗಳು ಮತ್ತು ರಚನೆಗಾಗಿ ಪರಿಶೀಲಿಸಲಾಗುತ್ತದೆ — ಅತ್ಯುತ್ತಮವಾದವು ಮಾತ್ರ ಮುಂದೆ ಸಾಗುತ್ತವೆ.' },
+  },
+  'Carefully Prepared': {
+    ta: { title: 'கவனமாகத் தயாரிக்கப்பட்டது', desc: 'ஒவ்வொரு செடியையும் நாங்கள் தொட்டியில் வைத்து, மூடி, கையால் பேக் செய்கிறோம், அது எங்கள் நர்சரியிலிருந்து உங்கள் வீட்டு வாசல் வரை பாதுகாப்பாக பயணிக்கும்.' },
+    hi: { title: 'सावधानी से तैयार किया गया', desc: 'हम हर पौधे को गमले में लगाते हैं, लपेटते हैं और हाथ से पैक करते हैं ताकि यह हमारी नर्सरी से आपके दरवाज़े तक सुरक्षित रूप से पहुंचे।' },
+    ml: { title: 'ശ്രദ്ധയോടെ തയ്യാറാക്കി', desc: 'ഞങ്ങളുടെ നഴ്സറിയിൽ നിന്ന് നിങ്ങളുടെ വീട്ടുവാതിൽക്കൽ വരെ സുരക്ഷിതമായി എത്താൻ ഓരോ ചെടിയും ഞങ്ങൾ ചട്ടിയിലാക്കി, പൊതിഞ്ഞ്, കൈകൊണ്ട് പാക്ക് ചെയ്യുന്നു.' },
+    te: { title: 'జాగ్రత్తగా సిద్ధం చేయబడింది', desc: 'మా నర్సరీ నుండి మీ ఇంటి గుమ్మం వరకు సురక్షితంగా ప్రయాణించేలా మేము ప్రతి మొక్కను కుండలో పెట్టి, చుట్టి, చేతితో ప్యాక్ చేస్తాము.' },
+    kn: { title: 'ಎಚ್ಚರಿಕೆಯಿಂದ ಸಿದ್ಧಪಡಿಸಲಾಗಿದೆ', desc: 'ನಮ್ಮ ನರ್ಸರಿಯಿಂದ ನಿಮ್ಮ ಮನೆ ಬಾಗಿಲಿನವರೆಗೆ ಸುರಕ್ಷಿತವಾಗಿ ಪ್ರಯಾಣಿಸಲು ನಾವು ಪ್ರತಿ ಗಿಡವನ್ನು ಪಾಟ್‌ನಲ್ಲಿಟ್ಟು, ಸುತ್ತಿ, ಕೈಯಿಂದ ಪ್ಯಾಕ್ ಮಾಡುತ್ತೇವೆ.' },
+  },
+  'Ready for Your Home': {
+    ta: { title: 'உங்கள் வீட்டிற்குத் தயார்', desc: 'உங்கள் செடி ஆரோக்கியமாகவும், தன்னைச் சரிசெய்துகொண்டும் வருகிறது, தனது இடத்தைக் கண்டறிந்து புதிய வீட்டில் செழிக்கத் தயாராக உள்ளது.' },
+    hi: { title: 'आपके घर के लिए तैयार', desc: 'आपका पौधा स्वस्थ और सैटल होकर पहुंचता है, अपनी जगह खोजने और अपने नए घर में फलने-फूलने के लिए तैयार।' },
+    ml: { title: 'നിങ്ങളുടെ വീടിന് തയ്യാർ', desc: 'നിങ്ങളുടെ ചെടി ആരോഗ്യത്തോടെയും സ്ഥിരപ്പെട്ടും എത്തുന്നു, അതിന്റെ സ്ഥാനം കണ്ടെത്തി പുതിയ വീട്ടിൽ തഴച്ചുവളരാൻ തയ്യാറാണ്.' },
+    te: { title: 'మీ ఇంటికి సిద్ధం', desc: 'మీ మొక్క ఆరోగ్యంగా మరియు స్థిరపడి వస్తుంది, దాని స్థానాన్ని కనుగొని మీ కొత్త ఇంట్లో వర్ధిల్లడానికి సిద్ధంగా ఉంది.' },
+    kn: { title: 'ನಿಮ್ಮ ಮನೆಗೆ ಸಿದ್ಧ', desc: 'ನಿಮ್ಮ ಗಿಡ ಆರೋಗ್ಯಕರವಾಗಿ ಮತ್ತು ನೆಲೆಗೊಂಡು ಬರುತ್ತದೆ, ತನ್ನ ಸ್ಥಳವನ್ನು ಕಂಡುಕೊಂಡು ಹೊಸ ಮನೆಯಲ್ಲಿ ಅಭಿವೃದ್ಧಿ ಹೊಂದಲು ಸಿದ್ಧವಾಗಿದೆ.' },
+  },
+};
+
+export function getJourneyStepTranslation(title, lang) {
+  return journeyStepTranslations[title]?.[lang] ?? null;
+}
+
+// Home.jsx's NurseryComparison table.
+const compareHeaderTranslations = {
+  'Local Nurseries': { ta: 'உள்ளூர் நர்சரிகள்', hi: 'स्थानीय नर्सरी', ml: 'പ്രാദേശിക നഴ്സറികൾ', te: 'స్థానిక నర్సరీలు', kn: 'ಸ್ಥಳೀಯ ನರ್ಸರಿಗಳು' },
+  'Others (Online)': { ta: 'மற்றவை (ஆன்லைன்)', hi: 'अन्य (ऑनलाइन)', ml: 'മറ്റുള്ളവ (ഓൺലൈൻ)', te: 'ఇతరులు (ఆన్‌లైన్)', kn: 'ಇತರರು (ಆನ್‌ಲೈನ್)' },
+};
+export function getCompareHeaderTranslation(text, lang) {
+  return compareHeaderTranslations[text]?.[lang] ?? text;
+}
+
+const compareTitleTranslations = {
+  ta: { pre: 'நாங்கள் எப்படி ஒப்பிடுகிறோம் ', em: 'செடிகள் வாங்குவதுடன்', post: ' வேறு எங்கும்.' },
+  hi: { pre: 'हम अन्य जगहों से ', em: 'पौधे खरीदने', post: ' की तुलना में कैसे हैं।' },
+  ml: { pre: 'മറ്റെവിടെയെങ്കിലും ', em: 'ചെടികൾ വാങ്ങുന്നതുമായി', post: ' ഞങ്ങൾ എങ്ങനെ താരതമ്യം ചെയ്യുന്നു.' },
+  te: { pre: 'మేము ఇతర చోట్ల ', em: 'మొక్కలు కొనుగోలు చేయడంతో', post: ' ఎలా పోలుస్తాము.' },
+  kn: { pre: 'ನಾವು ಬೇರೆಡೆ ', em: 'ಗಿಡಗಳನ್ನು ಖರೀದಿಸುವುದಕ್ಕೆ', post: ' ಹೇಗೆ ಹೋಲಿಸುತ್ತೇವೆ.' },
+};
+export function getCompareTitleTranslation(lang) {
+  return compareTitleTranslations[lang] ?? null;
+}
+
+const compareRowTranslations = {
+  'Plant Quality': {
+    ta: { label: 'செடி தரம்', local: 'சீரற்றது, தர சோதனை இல்லை', igoText: 'ஒவ்வொரு செடியும் அனுப்பும் முன் சரிபார்க்கப்படுகிறது', igoHighlight: 'சரிபார்க்கப்படுகிறது', others: 'விற்பனையாளரைப் பொறுத்து தரம் மாறுபடும்' },
+    hi: { label: 'पौधे की गुणवत्ता', local: 'असंगत, कोई गुणवत्ता जांच नहीं', igoText: 'भेजने से पहले हर पौधे की जाँच होती है', igoHighlight: 'जाँच होती है', others: 'विक्रेता के अनुसार गुणवत्ता अलग-अलग' },
+    ml: { label: 'ചെടിയുടെ ഗുണനിലവാരം', local: 'അസ്ഥിരം, ഗുണനിലവാര പരിശോധനയില്ല', igoText: 'അയക്കുന്നതിന് മുമ്പ് ഓരോ ചെടിയും പരിശോധിക്കുന്നു', igoHighlight: 'പരിശോധിക്കുന്നു', others: 'വിൽപ്പനക്കാരനെ ആശ്രയിച്ച് ഗുണനിലവാരം വ്യത്യാസപ്പെടും' },
+    te: { label: 'మొక్క నాణ్యత', local: 'అస్థిరమైనది, నాణ్యత తనిఖీలు లేవు', igoText: 'పంపే ముందు ప్రతి మొక్క తనిఖీ చేయబడుతుంది', igoHighlight: 'తనిఖీ చేయబడుతుంది', others: 'విక్రేతను బట్టి నాణ్యత మారుతుంది' },
+    kn: { label: 'ಗಿಡದ ಗುಣಮಟ್ಟ', local: 'ಅಸಮಂಜಸ, ಗುಣಮಟ್ಟ ಪರಿಶೀಲನೆ ಇಲ್ಲ', igoText: 'ಕಳುಹಿಸುವ ಮೊದಲು ಪ್ರತಿ ಗಿಡವನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತದೆ', igoHighlight: 'ಪರಿಶೀಲಿಸಲಾಗುತ್ತದೆ', others: 'ಮಾರಾಟಗಾರರನ್ನು ಅವಲಂಬಿಸಿ ಗುಣಮಟ್ಟ ಬದಲಾಗುತ್ತದೆ' },
+  },
+  'Pest Control': {
+    ta: { label: 'பூச்சி கட்டுப்பாடு', local: 'பூச்சி பிரச்சனைகள் பொதுவானவை', igoText: 'எங்கள் நர்சரியிலிருந்து வெளியேறும் முன் பூச்சி இல்லாதது', igoHighlight: 'பூச்சி இல்லாதது', others: 'அரிதாகவே உத்தரவாதம் அளிக்கப்படுகிறது' },
+    hi: { label: 'कीट नियंत्रण', local: 'कीट समस्याएं आम हैं', igoText: 'हमारी नर्सरी से निकलने से पहले कीट-मुक्त', igoHighlight: 'कीट-मुक्त', others: 'शायद ही गारंटी दी जाती है' },
+    ml: { label: 'കീട നിയന്ത്രണം', local: 'കീട പ്രശ്നങ്ങൾ സാധാരണം', igoText: 'ഞങ്ങളുടെ നഴ്സറി വിടുന്നതിന് മുമ്പ് കീടരഹിതം', igoHighlight: 'കീടരഹിതം', others: 'അപൂർവ്വമായി മാത്രം ഉറപ്പ്' },
+    te: { label: 'పురుగుల నియంత్రణ', local: 'పురుగుల సమస్యలు సాధారణం', igoText: 'మా నర్సరీ నుండి బయలుదేరే ముందు పురుగు-రహితం', igoHighlight: 'పురుగు-రహితం', others: 'అరుదుగా హామీ ఇవ్వబడుతుంది' },
+    kn: { label: 'ಕೀಟ ನಿಯಂತ್ರಣ', local: 'ಕೀಟ ಸಮಸ್ಯೆಗಳು ಸಾಮಾನ್ಯ', igoText: 'ನಮ್ಮ ನರ್ಸರಿ ಬಿಡುವ ಮೊದಲು ಕೀಟ-ಮುಕ್ತ', igoHighlight: 'ಕೀಟ-ಮುಕ್ತ', others: 'ವಿರಳವಾಗಿ ಖಾತರಿಪಡಿಸಲಾಗಿದೆ' },
+  },
+  'Repotting': {
+    ta: { label: 'மறு நடவு', local: 'பெரும்பாலும் உடனடி மறு நடவு தேவை', igoText: 'சரியான தொட்டியில் மறு நடவுக்கு தயாராக அனுப்பப்படுகிறது', igoHighlight: 'மறு நடவுக்கு தயார்', others: 'எப்படி பேக் செய்யப்பட்டது என்பதைப் பொறுத்தது' },
+    hi: { label: 'रीपॉटिंग', local: 'अक्सर तुरंत रीपॉटिंग की ज़रूरत', igoText: 'सही कंटेनर में रीपॉट-रेडी भेजा जाता है', igoHighlight: 'रीपॉट-रेडी', others: 'यह इस पर निर्भर करता है कि इसे कैसे पैक किया गया' },
+    ml: { label: 'റീപോട്ടിംഗ്', local: 'പലപ്പോഴും ഉടനടി റീപോട്ടിംഗ് ആവശ്യമാണ്', igoText: 'ശരിയായ കണ്ടെയ്നറിൽ റീപോട്ട്-റെഡിയായി അയക്കുന്നു', igoHighlight: 'റീപോട്ട്-റെഡി', others: 'എങ്ങനെ പാക്ക് ചെയ്തു എന്നതിനെ ആശ്രയിച്ചിരിക്കുന്നു' },
+    te: { label: 'రీపాటింగ్', local: 'తరచుగా వెంటనే రీపాటింగ్ అవసరం', igoText: 'సరైన కంటైనర్‌లో రీపాట్-రెడీగా పంపబడుతుంది', igoHighlight: 'రీపాట్-రెడీ', others: 'ఎలా ప్యాక్ చేయబడిందనే దానిపై ఆధారపడి ఉంటుంది' },
+    kn: { label: 'ಮರುಪಾಟ್ ಮಾಡುವಿಕೆ', local: 'ಸಾಮಾನ್ಯವಾಗಿ ತಕ್ಷಣ ಮರುಪಾಟ್ ಅಗತ್ಯ', igoText: 'ಸರಿಯಾದ ಪಾತ್ರೆಯಲ್ಲಿ ಮರುಪಾಟ್-ಸಿದ್ಧವಾಗಿ ಕಳುಹಿಸಲಾಗುತ್ತದೆ', igoHighlight: 'ಮರುಪಾಟ್-ಸಿದ್ಧ', others: 'ಹೇಗೆ ಪ್ಯಾಕ್ ಮಾಡಲಾಗಿದೆ ಎಂಬುದರ ಮೇಲೆ ಅವಲಂಬಿತ' },
+  },
+  'Soil Quality': {
+    ta: { label: 'மண் தரம்', local: 'நிலையான, லேபிள் இல்லாத மண்', igoText: 'ஒவ்வொரு செடி வகைக்கும் சரியான மண் கலவை', igoHighlight: 'சரியான மண் கலவை', others: 'பொதுவான, அனைத்திற்கும் ஒரே மண்' },
+    hi: { label: 'मिट्टी की गुणवत्ता', local: 'सामान्य, अनलेबल्ड मिट्टी', igoText: 'हर पौधे के लिए सही मिट्टी मिश्रण', igoHighlight: 'सही मिट्टी मिश्रण', others: 'सामान्य, सबके लिए एक जैसी मिट्टी' },
+    ml: { label: 'മണ്ണിന്റെ ഗുണനിലവാരം', local: 'സാധാരണ, ലേബൽ ഇല്ലാത്ത മണ്ണ്', igoText: 'ഓരോ ചെടി തരത്തിനും ശരിയായ മണ്ണ് മിശ്രിതം', igoHighlight: 'ശരിയായ മണ്ണ് മിശ്രിതം', others: 'സാധാരണ, എല്ലാത്തിനും ഒരേ മണ്ണ്' },
+    te: { label: 'మట్టి నాణ్యత', local: 'సాధారణ, లేబుల్ లేని మట్టి', igoText: 'ప్రతి మొక్క రకానికి సరైన మట్టి మిశ్రమం', igoHighlight: 'సరైన మట్టి మిశ్రమం', others: 'సాధారణ, అందరికీ ఒకే మట్టి' },
+    kn: { label: 'ಮಣ್ಣಿನ ಗುಣಮಟ್ಟ', local: 'ಸಾಮಾನ್ಯ, ಲೇಬಲ್ ಇಲ್ಲದ ಮಣ್ಣು', igoText: 'ಪ್ರತಿ ಗಿಡದ ಪ್ರಕಾರಕ್ಕೆ ಸರಿಯಾದ ಮಣ್ಣಿನ ಮಿಶ್ರಣ', igoHighlight: 'ಸರಿಯಾದ ಮಣ್ಣಿನ ಮಿಶ್ರಣ', others: 'ಸಾಮಾನ್ಯ, ಎಲ್ಲರಿಗೂ ಒಂದೇ ಮಣ್ಣು' },
+  },
+  'Growing Conditions': {
+    ta: { label: 'வளர்ப்பு நிலைமைகள்', local: 'மூலம் மற்றும் தோற்றம் தெளிவற்றது', igoText: 'எங்கள் சொந்த நர்சரியில் வளர்க்கப்பட்டு, வலுவாக்கப்பட்டது', igoHighlight: 'வலுவாக்கப்பட்டது', others: 'பல மூன்றாம் தரப்பினரிடமிருந்து பெறப்பட்டது' },
+    hi: { label: 'उगाने की स्थितियां', local: 'स्रोत और मूल अस्पष्ट', igoText: 'हमारी अपनी नर्सरी में उगाया और मज़बूत किया गया', igoHighlight: 'मज़बूत किया गया', others: 'कई तीसरे पक्षों से प्राप्त' },
+    ml: { label: 'വളർച്ചാ സാഹചര്യങ്ങൾ', local: 'ഉറവിടവും ഉത്ഭവവും അവ്യക്തം', igoText: 'ഞങ്ങളുടെ സ്വന്തം നഴ്സറിയിൽ വളർത്തി, കരുത്തുറ്റതാക്കി', igoHighlight: 'കരുത്തുറ്റതാക്കി', others: 'ഒന്നിലധികം മൂന്നാം കക്ഷികളിൽ നിന്ന്' },
+    te: { label: 'పెరుగుదల పరిస్థితులు', local: 'మూలం మరియు మూలస్థానం అస్పష్టం', igoText: 'మా సొంత నర్సరీలో పెంచి, దృఢంగా చేయబడింది', igoHighlight: 'దృఢంగా చేయబడింది', others: 'బహుళ మూడవ పక్షాల నుండి పొందబడింది' },
+    kn: { label: 'ಬೆಳವಣಿಗೆಯ ಪರಿಸ್ಥಿತಿಗಳು', local: 'ಮೂಲ ಮತ್ತು ಮೂಲಸ್ಥಾನ ಅಸ್ಪಷ್ಟ', igoText: 'ನಮ್ಮ ಸ್ವಂತ ನರ್ಸರಿಯಲ್ಲಿ ಬೆಳೆಸಿ, ಗಟ್ಟಿಗೊಳಿಸಲಾಗಿದೆ', igoHighlight: 'ಗಟ್ಟಿಗೊಳಿಸಲಾಗಿದೆ', others: 'ಬಹು ಮೂರನೇ ವ್ಯಕ್ತಿಗಳಿಂದ ಪಡೆಯಲಾಗಿದೆ' },
+  },
+  'Plant Health': {
+    ta: { label: 'செடி ஆரோக்கியம்', local: 'ஆரோக்கிய உத்தரவாதம் இல்லை', igoText: 'வருகையில் ஆரோக்கியமாக, இல்லையெனில் நாங்கள் சரிசெய்வோம்', igoHighlight: 'ஆரோக்கியமாக', others: 'வரையறுக்கப்பட்ட அல்லது தெளிவற்ற உத்தரவாதம்' },
+    hi: { label: 'पौधे का स्वास्थ्य', local: 'कोई स्वास्थ्य गारंटी नहीं', igoText: 'पहुंचने पर स्वस्थ, या हम इसे ठीक करते हैं', igoHighlight: 'स्वस्थ', others: 'सीमित या अस्पष्ट गारंटी' },
+    ml: { label: 'ചെടിയുടെ ആരോഗ്യം', local: 'ആരോഗ്യ ഉറപ്പില്ല', igoText: 'എത്തുമ്പോൾ ആരോഗ്യമുള്ളത്, അല്ലെങ്കിൽ ഞങ്ങൾ ശരിയാക്കും', igoHighlight: 'ആരോഗ്യമുള്ളത്', others: 'പരിമിതമോ അവ്യക്തമോ ആയ ഉറപ്പ്' },
+    te: { label: 'మొక్క ఆరోగ్యం', local: 'ఆరోగ్య హామీ లేదు', igoText: 'రాక సమయంలో ఆరోగ్యంగా, లేదా మేము దానిని సరిచేస్తాము', igoHighlight: 'ఆరోగ్యంగా', others: 'పరిమిత లేదా అస్పష్టమైన హామీ' },
+    kn: { label: 'ಗಿಡದ ಆರೋಗ್ಯ', local: 'ಆರೋಗ್ಯ ಖಾತರಿ ಇಲ್ಲ', igoText: 'ಬಂದಾಗ ಆರೋಗ್ಯಕರ, ಅಥವಾ ನಾವು ಅದನ್ನು ಸರಿಪಡಿಸುತ್ತೇವೆ', igoHighlight: 'ಆರೋಗ್ಯಕರ', others: 'ಸೀಮಿತ ಅಥವಾ ಅಸ್ಪಷ್ಟ ಖಾತರಿ' },
+  },
+  'Packaging': {
+    ta: { label: 'பேக்கேஜிங்', local: 'அடிப்படையானது, போக்குவரத்தில் சேதமடையக்கூடியது', igoText: 'பாதுகாப்பான, ஈரப்பதம் தடுக்கும் பேக்கேஜிங்', igoHighlight: 'ஈரப்பதம் தடுக்கும்', others: 'சாதாரண கூரியர் பேக்கேஜிங்' },
+    hi: { label: 'पैकेजिंग', local: 'बेसिक, परिवहन में क्षति की आशंका', igoText: 'सुरक्षित, नमी-रोधी पैकेजिंग', igoHighlight: 'नमी-रोधी', others: 'मानक कूरियर पैकेजिंग' },
+    ml: { label: 'പാക്കേജിംഗ്', local: 'അടിസ്ഥാനപരം, ഗതാഗതത്തിൽ കേടുപാടുകൾക്ക് സാധ്യത', igoText: 'സുരക്ഷിതം, ഈർപ്പം സുരക്ഷിതമായ പാക്കേജിംഗ്', igoHighlight: 'ഈർപ്പം സുരക്ഷിതം', others: 'സാധാരണ കൊറിയർ പാക്കേജിംഗ്' },
+    te: { label: 'ప్యాకేజింగ్', local: 'ప్రాథమికమైనది, రవాణాలో దెబ్బతినే అవకాశం', igoText: 'సురక్షితమైన, తేమ-సురక్షిత ప్యాకేజింగ్', igoHighlight: 'తేమ-సురక్షిత', others: 'ప్రామాణిక కొరియర్ ప్యాకేజింగ్' },
+    kn: { label: 'ಪ್ಯಾಕೇಜಿಂಗ್', local: 'ಮೂಲಭೂತ, ಸಾಗಣೆಯಲ್ಲಿ ಹಾನಿಗೊಳಗಾಗುವ ಸಾಧ್ಯತೆ', igoText: 'ಸುರಕ್ಷಿತ, ತೇವಾಂಶ-ಸುರಕ್ಷಿತ ಪ್ಯಾಕೇಜಿಂಗ್', igoHighlight: 'ತೇವಾಂಶ-ಸುರಕ್ಷಿತ', others: 'ಪ್ರಮಾಣಿತ ಕೊರಿಯರ್ ಪ್ಯಾಕೇಜಿಂಗ್' },
+  },
+  'Customer Support': {
+    ta: { label: 'வாடிக்கையாளர் ஆதரவு', local: 'நேரடியாக மட்டும், தொடர்ச்சி இல்லை', igoText: 'வாங்கிய பிறகு உண்மையான செடி பராமரிப்பு வழிகாட்டுதல்', igoHighlight: 'செடி பராமரிப்பு வழிகாட்டுதல்', others: 'மின்னஞ்சல் அல்லது அரட்டை மட்டும்' },
+    hi: { label: 'ग्राहक सहायता', local: 'केवल व्यक्तिगत, कोई फॉलो-अप नहीं', igoText: 'खरीद के बाद वास्तविक पौधा-देखभाल मार्गदर्शन', igoHighlight: 'पौधा-देखभाल मार्गदर्शन', others: 'केवल ईमेल या चैट' },
+    ml: { label: 'കസ്റ്റമർ സപ്പോർട്ട്', local: 'നേരിട്ട് മാത്രം, തുടർനടപടിയില്ല', igoText: 'വാങ്ങിയ ശേഷം യഥാർത്ഥ ചെടി പരിചരണ മാർഗനിർദേശം', igoHighlight: 'ചെടി പരിചരണ മാർഗനിർദേശം', others: 'ഇമെയിൽ അല്ലെങ്കിൽ ചാറ്റ് മാത്രം' },
+    te: { label: 'కస్టమర్ సపోర్ట్', local: 'వ్యక్తిగతంగా మాత్రమే, ఫాలో-అప్ లేదు', igoText: 'కొనుగోలు తర్వాత నిజమైన మొక్కల సంరక్షణ మార్గదర్శకత్వం', igoHighlight: 'మొక్కల సంరక్షణ మార్గదర్శకత్వం', others: 'ఇమెయిల్ లేదా చాట్ మాత్రమే' },
+    kn: { label: 'ಗ್ರಾಹಕ ಬೆಂಬಲ', local: 'ವೈಯಕ್ತಿಕವಾಗಿ ಮಾತ್ರ, ಫಾಲೋ-ಅಪ್ ಇಲ್ಲ', igoText: 'ಖರೀದಿಯ ನಂತರ ನಿಜವಾದ ಗಿಡ-ಆರೈಕೆ ಮಾರ್ಗದರ್ಶನ', igoHighlight: 'ಗಿಡ-ಆರೈಕೆ ಮಾರ್ಗದರ್ಶನ', others: 'ಇಮೇಲ್ ಅಥವಾ ಚಾಟ್ ಮಾತ್ರ' },
+  },
+};
+export function getCompareRowTranslation(label, lang) {
+  return compareRowTranslations[label]?.[lang] ?? null;
+}
+
+// Home.jsx's TRUST_BADGES row.
+const trustBadgeTranslations = {
+  'Quality Assured': {
+    ta: { title: 'தரம் உறுதி', desc: 'நீங்கள் ஆர்டர் செய்யும் ஒவ்வொரு முறையும்' },
+    hi: { title: 'गुणवत्ता सुनिश्चित', desc: 'हर बार जब आप ऑर्डर करते हैं' },
+    ml: { title: 'ഗുണനിലവാരം ഉറപ്പ്', desc: 'നിങ്ങൾ ഓർഡർ ചെയ്യുമ്പോഴെല്ലാം' },
+    te: { title: 'నాణ్యత హామీ', desc: 'మీరు ఆర్డర్ చేసిన ప్రతిసారీ' },
+    kn: { title: 'ಗುಣಮಟ್ಟ ಖಾತರಿ', desc: 'ನೀವು ಆರ್ಡರ್ ಮಾಡುವ ಪ್ರತಿ ಬಾರಿ' },
+  },
+  'Grown with Care': {
+    ta: { title: 'அக்கறையுடன் வளர்க்கப்பட்டது', desc: 'எங்கள் நிபுணர் குழுவால்' },
+    hi: { title: 'देखभाल के साथ उगाया गया', desc: 'हमारी विशेषज्ञ टीम द्वारा' },
+    ml: { title: 'കരുതലോടെ വളർത്തി', desc: 'ഞങ്ങളുടെ വിദഗ്ധ ടീം' },
+    te: { title: 'జాగ్రత్తగా పెంచబడింది', desc: 'మా నిపుణుల బృందం ద్వారా' },
+    kn: { title: 'ಕಾಳಜಿಯಿಂದ ಬೆಳೆಸಲಾಗಿದೆ', desc: 'ನಮ್ಮ ತಜ್ಞ ತಂಡದಿಂದ' },
+  },
+  'Safe & Secure Delivery': {
+    ta: { title: 'பாதுகாப்பான டெலிவரி', desc: 'நேரடியாக உங்கள் வீட்டு வாசலுக்கு' },
+    hi: { title: 'सुरक्षित डिलीवरी', desc: 'सीधे आपके दरवाज़े तक' },
+    ml: { title: 'സുരക്ഷിതമായ ഡെലിവറി', desc: 'നേരിട്ട് നിങ്ങളുടെ വീട്ടുവാതിൽക്കൽ' },
+    te: { title: 'సురక్షితమైన డెలివరీ', desc: 'నేరుగా మీ ఇంటి గుమ్మం వరకు' },
+    kn: { title: 'ಸುರಕ್ಷಿತ ವಿತರಣೆ', desc: 'ನೇರವಾಗಿ ನಿಮ್ಮ ಮನೆ ಬಾಗಿಲಿಗೆ' },
+  },
+  "We're Here for You": {
+    ta: { title: 'நாங்கள் உங்களுக்காக இருக்கிறோம்', desc: 'வாங்கும் முன்னும் பின்னும்' },
+    hi: { title: 'हम आपके लिए यहां हैं', desc: 'खरीद से पहले और बाद में' },
+    ml: { title: 'ഞങ്ങൾ നിങ്ങൾക്കായി ഇവിടെയുണ്ട്', desc: 'വാങ്ങുന്നതിന് മുമ്പും ശേഷവും' },
+    te: { title: 'మేము మీ కోసం ఇక్కడ ఉన్నాము', desc: 'కొనుగోలుకు ముందు మరియు తర్వాత' },
+    kn: { title: 'ನಾವು ನಿಮಗಾಗಿ ಇಲ್ಲಿದ್ದೇವೆ', desc: 'ಖರೀದಿಗೆ ಮೊದಲು ಮತ್ತು ನಂತರ' },
+  },
+};
+export function getTrustBadgeTranslation(title, lang) {
+  return trustBadgeTranslations[title]?.[lang] ?? null;
+}
+
+// Home.jsx's StatsStrip band (below Offers) - number label + 2-line
+// caption, keyed by the English title.
+const statsStripTranslations = {
+  'Happy Customers': {
+    ta: { title: 'மகிழ்ச்சியான வாடிக்கையாளர்கள்', subtitle: 'எங்கள் பசுமையில் நம்பிக்கை' },
+    hi: { title: 'खुश ग्राहक', subtitle: 'हमारी हरियाली पर भरोसा' },
+    ml: { title: 'സന്തുഷ്ട ഉപഭോക്താക്കൾ', subtitle: 'ഞങ്ങളുടെ പച്ചപ്പിലുള്ള വിശ്വാസം' },
+    te: { title: 'సంతోషకరమైన కస్టమర్లు', subtitle: 'మా పచ్చదనంపై నమ్మకం' },
+    kn: { title: 'ಸಂತೃಪ್ತ ಗ್ರಾಹಕರು', subtitle: 'ನಮ್ಮ ಹಸಿರಿನ ಮೇಲಿನ ನಂಬಿಕೆ' },
+  },
+  'Plant Varieties': {
+    ta: { title: 'செடி வகைகள்', subtitle: 'ஒவ்வொரு இடத்திற்கும் ஏற்றது' },
+    hi: { title: 'पौधों की किस्में', subtitle: 'हर जगह के लिए' },
+    ml: { title: 'ചെടി ഇനങ്ങൾ', subtitle: 'ഏത് സ്ഥലത്തിനും അനുയോജ്യം' },
+    te: { title: 'మొక్కల రకాలు', subtitle: 'ప్రతి స్థలానికి తగినది' },
+    kn: { title: 'ಗಿಡಗಳ ವಿಧಗಳು', subtitle: 'ಪ್ರತಿ ಸ್ಥಳಕ್ಕೂ ಸೂಕ್ತ' },
+  },
+  'Customer Rating': {
+    ta: { title: 'வாடிக்கையாளர் மதிப்பீடு', subtitle: 'செடி பெற்றோர்களால் விரும்பப்படுகிறது' },
+    hi: { title: 'ग्राहक रेटिंग', subtitle: 'पौधे प्रेमियों की पसंद' },
+    ml: { title: 'ഉപഭോക്തൃ റേറ്റിംഗ്', subtitle: 'ചെടി സ്നേഹികൾക്ക് പ്രിയപ്പെട്ടത്' },
+    te: { title: 'కస్టమర్ రేటింగ్', subtitle: 'మొక్క ప్రేమికుల ఇష్టం' },
+    kn: { title: 'ಗ್ರಾಹಕ ರೇಟಿಂಗ್', subtitle: 'ಗಿಡ ಪ್ರೇಮಿಗಳ ಇಷ್ಟ' },
+  },
+  'Orders Delivered': {
+    ta: { title: 'டெலிவரி செய்யப்பட்ட ஆர்டர்கள்', subtitle: 'வெற்றிகரமாக' },
+    hi: { title: 'डिलीवर किए गए ऑर्डर', subtitle: 'सफलतापूर्वक' },
+    ml: { title: 'ഡെലിവർ ചെയ്ത ഓർഡറുകൾ', subtitle: 'വിജയകരമായി' },
+    te: { title: 'డెలివరీ చేసిన ఆర్డర్‌లు', subtitle: 'విజయవంతంగా' },
+    kn: { title: 'ವಿತರಿಸಿದ ಆರ್ಡರ್‌ಗಳು', subtitle: 'ಯಶಸ್ವಿಯಾಗಿ' },
+  },
+  'Cities Served': {
+    ta: { title: 'சேவை செய்யப்படும் நகரங்கள்', subtitle: 'இந்தியா முழுவதும்' },
+    hi: { title: 'सेवा प्राप्त शहर', subtitle: 'पूरे भारत में' },
+    ml: { title: 'സേവനം നൽകുന്ന നഗരങ്ങൾ', subtitle: 'ഇന്ത്യയിലുടനീളം' },
+    te: { title: 'సేవలు అందించే నగరాలు', subtitle: 'భారతదేశం అంతటా' },
+    kn: { title: 'ಸೇವೆ ಸಲ್ಲಿಸುವ ನಗರಗಳು', subtitle: 'ಭಾರತದಾದ್ಯಂತ' },
+  },
+};
+export function getStatsStripTranslation(title, lang) {
+  return statsStripTranslations[title]?.[lang] ?? null;
+}
+
+// pages/Account.jsx - the customer account shell (overview, orders,
+// addresses, wishlist, recently viewed, my plants, rewards, coupons,
+// notifications, settings). Large page, one section for all of it.
+const account = {
+  en: {
+    personalInformation: 'Personal Information', yourDetails: 'Your details', editProfile: 'Edit Profile',
+    firstName: 'First Name', lastName: 'Last Name', emailAddress: 'Email Address', phoneNumber: 'Phone Number',
+    dateOfBirth: 'Date of Birth', gender: 'Gender', preferNotToSay: 'Prefer not to say', female: 'Female', male: 'Male', other: 'Other',
+    cancel: 'Cancel', saveChanges: 'Save Changes', saving: 'Saving…', memberSince: 'Member Since',
+    firstNameRequired: 'First name is required.', invalidPhone: 'Enter a valid phone number.', dobFuture: "Date of birth can't be in the future.",
+    profileUpdated: 'Profile updated successfully.', profileSaveFailed: 'Could not save your changes. Please try again.',
+    welcomeBack: 'Welcome back!', hiGreeting: 'Hi, {name} 🌿', manageAccountSub: 'Manage your account, orders and gardening preferences.', quickActions: 'Quick Actions',
+    qaOrdersTitle: 'My Orders', qaOrdersDesc: 'Track and review your past orders',
+    qaWishlistTitle: 'Wishlist', qaWishlistDesc: "Plants and products you've saved",
+    qaAddressesTitle: 'My Addresses', qaAddressesDesc: 'Manage your delivery addresses',
+    qaCouponsTitle: 'Coupons', qaCouponsDesc: 'View active offers and discounts',
+    purchases: 'Purchases', orderHistory: 'Order history', noOrdersYet: "No orders yet - once you place one, it'll show up here.", startShopping: 'Start shopping',
+    orderHash: 'Order #{id}', placed: 'Placed {date}', qtyLine: 'Qty {n} × ₹{price}', paymentLine: 'Payment: {method} · {status}',
+    expectedDelivery: 'Expected delivery: {date}', total: 'Total', hideTracking: 'Hide tracking ▲', trackOrderBtn: 'Track order ▼',
+    delivery: 'Delivery', savedAddresses: 'Saved addresses', addAddressBtn: '+ Add address', fillRequiredAddressFields: 'Please fill in all the required address fields.',
+    removeAddressConfirm: 'Remove this address?', defaultLabel: 'Default', setDefault: 'Set default', edit: 'Edit', remove: 'Remove',
+    noAddressesYet: 'No saved addresses yet. Add one to check out faster next time.', saveAddress: 'Save address',
+    savedForLater: 'Saved for later', yourWishlist: 'Your wishlist', nothingSavedYet: 'Nothing saved yet - tap the heart on any product to add it here.', browsePlants: 'Browse plants',
+    yourBrowsing: 'Your browsing', recentlyViewedTitle: 'Recently viewed', productsViewShowHere: 'Products you view will show up here.',
+    deliveredToYou: 'Delivered to you', myPlantsTitle: 'My Plants', plantsFromDeliveredOrders: 'Plants from your delivered orders will appear here.',
+    loyalty: 'Loyalty', rewardsPoints: 'Rewards points', pointsEarned: 'points earned', rewardsNote: 'You earn 1 point for every ₹100 spent on a delivered order.',
+    savings: 'Savings', couponsOffers: 'Coupons & offers', seeOffersPage: 'See every current site-wide offer on our Offers page.', viewOffers: 'View offers',
+    inbox: 'Inbox', notificationsTitle: 'Notifications', markAllReadBtn: 'Mark all as read',
+    notificationsSection: 'Notifications', notificationPreferences: 'Notification preferences', orderUpdatesAlwaysOn: 'Order updates are always on, so you never miss a delivery.', savePreferences: 'Save Preferences',
+    accountSection: 'Account', accountSettings: 'Account settings', email: 'Email', accountType: 'Account type', admin: 'Admin', customer: 'Customer',
+    contactSupportEmail: 'To change your email or password, please contact customer support.', logOut: 'Log out',
+    sidebarOverview: 'Account Overview', sidebarOrders: 'My Orders', sidebarAddresses: 'My Addresses', sidebarWishlist: 'Wishlist',
+    sidebarRecent: 'Recently Viewed', sidebarPlants: 'My Plants', sidebarRewards: 'Rewards', sidebarCoupons: 'Coupons',
+    sidebarNotifications: 'Notifications', sidebarSettings: 'Account Settings',
+    prefOffers: 'Offers & discounts', prefProducts: 'New products', prefStock: 'Stock alerts', prefOrders: 'Order updates',
+    prefPayments: 'Payment updates', prefWishlist: 'Wishlist alerts', prefCart: 'Cart alerts', prefAccount: 'Account & security', prefGeneral: 'General announcements',
+    detectingLocation: 'Detecting your location…', useCurrentLocation: 'Use my current location',
+    addressFilledFromLocation: 'Address filled from your current location - please double-check it below.',
+    addressLabel: 'Label', addressLabelPlaceholder: 'Home / Work', phone: 'Phone', phonePlaceholder: 'Phone number',
+    addressLine1: 'Address line 1', addressLine1Placeholder: 'House no., street', addressLine2: 'Address line 2 (optional)', addressLine2Placeholder: 'Landmark, area',
+    city: 'City', state: 'State', pincode: 'Pincode',
+  },
+  ta: {
+    personalInformation: 'தனிப்பட்ட தகவல்', yourDetails: 'உங்கள் விவரங்கள்', editProfile: 'சுயவிவரத்தைத் திருத்து',
+    firstName: 'முதல் பெயர்', lastName: 'கடைசி பெயர்', emailAddress: 'மின்னஞ்சல் முகவரி', phoneNumber: 'தொலைபேசி எண்',
+    dateOfBirth: 'பிறந்த தேதி', gender: 'பாலினம்', preferNotToSay: 'சொல்ல விரும்பவில்லை', female: 'பெண்', male: 'ஆண்', other: 'மற்றவை',
+    cancel: 'ரத்து செய்', saveChanges: 'மாற்றங்களைச் சேமி', saving: 'சேமிக்கிறது…', memberSince: 'உறுப்பினரானது',
+    firstNameRequired: 'முதல் பெயர் தேவை.', invalidPhone: 'சரியான தொலைபேசி எண்ணை உள்ளிடவும்.', dobFuture: 'பிறந்த தேதி எதிர்காலத்தில் இருக்க முடியாது.',
+    profileUpdated: 'சுயவிவரம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது.', profileSaveFailed: 'உங்கள் மாற்றங்களைச் சேமிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.',
+    welcomeBack: 'மீண்டும் வருக!', hiGreeting: 'வணக்கம், {name} 🌿', manageAccountSub: 'உங்கள் கணக்கு, ஆர்டர்கள் மற்றும் தோட்ட விருப்பங்களை நிர்வகிக்கவும்.', quickActions: 'விரைவு செயல்கள்',
+    qaOrdersTitle: 'எனது ஆர்டர்கள்', qaOrdersDesc: 'உங்கள் முந்தைய ஆர்டர்களைக் கண்காணித்து பார்வையிடவும்',
+    qaWishlistTitle: 'விருப்பப்பட்டியல்', qaWishlistDesc: 'நீங்கள் சேமித்த செடிகள் மற்றும் தயாரிப்புகள்',
+    qaAddressesTitle: 'எனது முகவரிகள்', qaAddressesDesc: 'உங்கள் டெலிவரி முகவரிகளை நிர்வகிக்கவும்',
+    qaCouponsTitle: 'கூப்பன்கள்', qaCouponsDesc: 'செயலில் உள்ள சலுகைகள் மற்றும் தள்ளுபடிகளைக் காண்க',
+    purchases: 'கொள்முதல்', orderHistory: 'ஆர்டர் வரலாறு', noOrdersYet: 'இதுவரை ஆர்டர்கள் இல்லை - நீங்கள் ஒன்றை வைத்தவுடன், அது இங்கே காண்பிக்கும்.', startShopping: 'ஷாப்பிங் தொடங்குங்கள்',
+    orderHash: 'ஆர்டர் #{id}', placed: '{date} அன்று வைக்கப்பட்டது', qtyLine: 'அளவு {n} × ₹{price}', paymentLine: 'கட்டணம்: {method} · {status}',
+    expectedDelivery: 'எதிர்பார்க்கப்படும் டெலிவரி: {date}', total: 'மொத்தம்', hideTracking: 'கண்காணிப்பை மறை ▲', trackOrderBtn: 'ஆர்டரை கண்காணி ▼',
+    delivery: 'டெலிவரி', savedAddresses: 'சேமிக்கப்பட்ட முகவரிகள்', addAddressBtn: '+ முகவரி சேர்', fillRequiredAddressFields: 'தேவையான அனைத்து முகவரி புலங்களையும் நிரப்பவும்.',
+    removeAddressConfirm: 'இந்த முகவரியை அகற்றவா?', defaultLabel: 'இயல்புநிலை', setDefault: 'இயல்புநிலையாக அமை', edit: 'திருத்து', remove: 'அகற்று',
+    noAddressesYet: 'இதுவரை சேமிக்கப்பட்ட முகவரிகள் இல்லை. அடுத்த முறை வேகமாக செக்அவுட் செய்ய ஒன்றைச் சேர்க்கவும்.', saveAddress: 'முகவரியைச் சேமி',
+    savedForLater: 'பின்னர் பார்க்க சேமிக்கப்பட்டது', yourWishlist: 'உங்கள் விருப்பப்பட்டியல்', nothingSavedYet: 'இதுவரை எதுவும் சேமிக்கப்படவில்லை - எந்த தயாரிப்பிலும் இதயத்தை தட்டி இங்கே சேர்க்கவும்.', browsePlants: 'செடிகளை உலாவுக',
+    yourBrowsing: 'உங்கள் உலாவல்', recentlyViewedTitle: 'சமீபத்தில் பார்த்தவை', productsViewShowHere: 'நீங்கள் பார்க்கும் தயாரிப்புகள் இங்கே காண்பிக்கும்.',
+    deliveredToYou: 'உங்களுக்கு டெலிவரி செய்யப்பட்டது', myPlantsTitle: 'எனது செடிகள்', plantsFromDeliveredOrders: 'உங்கள் டெலிவரி செய்யப்பட்ட ஆர்டர்களில் இருந்து செடிகள் இங்கே தோன்றும்.',
+    loyalty: 'விசுவாசம்', rewardsPoints: 'வெகுமதி புள்ளிகள்', pointsEarned: 'புள்ளிகள் பெறப்பட்டன', rewardsNote: 'டெலிவரி செய்யப்பட்ட ஆர்டரில் செலவழிக்கும் ஒவ்வொரு ₹100க்கும் 1 புள்ளி பெறுவீர்கள்.',
+    savings: 'சேமிப்புகள்', couponsOffers: 'கூப்பன்கள் & சலுகைகள்', seeOffersPage: 'எங்கள் சலுகைகள் பக்கத்தில் தற்போதைய அனைத்து தள-தழுவிய சலுகைகளையும் காண்க.', viewOffers: 'சலுகைகளைக் காண்க',
+    inbox: 'இன்பாக்ஸ்', notificationsTitle: 'அறிவிப்புகள்', markAllReadBtn: 'அனைத்தையும் படித்ததாக குறி',
+    notificationsSection: 'அறிவிப்புகள்', notificationPreferences: 'அறிவிப்பு விருப்பத்தேர்வுகள்', orderUpdatesAlwaysOn: 'ஆர்டர் புதுப்பிப்புகள் எப்போதும் இயக்கத்தில் உள்ளன, எனவே நீங்கள் ஒரு டெலிவரியையும் தவறவிட மாட்டீர்கள்.', savePreferences: 'விருப்பத்தேர்வுகளைச் சேமி',
+    accountSection: 'கணக்கு', accountSettings: 'கணக்கு அமைப்புகள்', email: 'மின்னஞ்சல்', accountType: 'கணக்கு வகை', admin: 'நிர்வாகி', customer: 'வாடிக்கையாளர்',
+    contactSupportEmail: 'உங்கள் மின்னஞ்சல் அல்லது கடவுச்சொல்லை மாற்ற, வாடிக்கையாளர் ஆதரவைத் தொடர்பு கொள்ளவும்.', logOut: 'வெளியேறு',
+    sidebarOverview: 'கணக்கு கண்ணோட்டம்', sidebarOrders: 'எனது ஆர்டர்கள்', sidebarAddresses: 'எனது முகவரிகள்', sidebarWishlist: 'விருப்பப்பட்டியல்',
+    sidebarRecent: 'சமீபத்தில் பார்த்தவை', sidebarPlants: 'எனது செடிகள்', sidebarRewards: 'வெகுமதிகள்', sidebarCoupons: 'கூப்பன்கள்',
+    sidebarNotifications: 'அறிவிப்புகள்', sidebarSettings: 'கணக்கு அமைப்புகள்',
+    prefOffers: 'சலுகைகள் & தள்ளுபடிகள்', prefProducts: 'புதிய தயாரிப்புகள்', prefStock: 'கையிருப்பு அறிவிப்புகள்', prefOrders: 'ஆர்டர் புதுப்பிப்புகள்',
+    prefPayments: 'கட்டண புதுப்பிப்புகள்', prefWishlist: 'விருப்பப்பட்டியல் அறிவிப்புகள்', prefCart: 'கார்ட் அறிவிப்புகள்', prefAccount: 'கணக்கு & பாதுகாப்பு', prefGeneral: 'பொது அறிவிப்புகள்',
+    detectingLocation: 'உங்கள் இருப்பிடத்தைக் கண்டறிகிறது…', useCurrentLocation: 'எனது தற்போதைய இருப்பிடத்தைப் பயன்படுத்து',
+    addressFilledFromLocation: 'உங்கள் தற்போதைய இருப்பிடத்திலிருந்து முகவரி நிரப்பப்பட்டது - கீழே சரிபார்க்கவும்.',
+    addressLabel: 'லேபிள்', addressLabelPlaceholder: 'வீடு / அலுவலகம்', phone: 'தொலைபேசி', phonePlaceholder: 'தொலைபேசி எண்',
+    addressLine1: 'முகவரி வரி 1', addressLine1Placeholder: 'வீட்டு எண், தெரு', addressLine2: 'முகவரி வரி 2 (விருப்பமானது)', addressLine2Placeholder: 'அடையாளம், பகுதி',
+    city: 'நகரம்', state: 'மாநிலம்', pincode: 'பின்கோடு',
+  },
+  hi: {
+    personalInformation: 'व्यक्तिगत जानकारी', yourDetails: 'आपका विवरण', editProfile: 'प्रोफ़ाइल संपादित करें',
+    firstName: 'पहला नाम', lastName: 'अंतिम नाम', emailAddress: 'ईमेल पता', phoneNumber: 'फ़ोन नंबर',
+    dateOfBirth: 'जन्म तिथि', gender: 'लिंग', preferNotToSay: 'बताना नहीं चाहते', female: 'महिला', male: 'पुरुष', other: 'अन्य',
+    cancel: 'रद्द करें', saveChanges: 'बदलाव सहेजें', saving: 'सहेजा जा रहा है…', memberSince: 'सदस्य बने',
+    firstNameRequired: 'पहला नाम आवश्यक है।', invalidPhone: 'एक मान्य फ़ोन नंबर दर्ज करें।', dobFuture: 'जन्म तिथि भविष्य में नहीं हो सकती।',
+    profileUpdated: 'प्रोफ़ाइल सफलतापूर्वक अपडेट हुई।', profileSaveFailed: 'आपके बदलाव सहेजे नहीं जा सके। कृपया फिर से प्रयास करें।',
+    welcomeBack: 'वापसी पर स्वागत है!', hiGreeting: 'नमस्ते, {name} 🌿', manageAccountSub: 'अपना खाता, ऑर्डर और बागवानी प्राथमिकताएं प्रबंधित करें।', quickActions: 'त्वरित कार्य',
+    qaOrdersTitle: 'मेरे ऑर्डर', qaOrdersDesc: 'अपने पिछले ऑर्डर ट्रैक करें और देखें',
+    qaWishlistTitle: 'विशलिस्ट', qaWishlistDesc: 'आपके सहेजे गए पौधे और उत्पाद',
+    qaAddressesTitle: 'मेरे पते', qaAddressesDesc: 'अपने डिलीवरी पते प्रबंधित करें',
+    qaCouponsTitle: 'कूपन', qaCouponsDesc: 'सक्रिय ऑफ़र और छूट देखें',
+    purchases: 'खरीदारी', orderHistory: 'ऑर्डर इतिहास', noOrdersYet: 'अभी तक कोई ऑर्डर नहीं - एक बार ऑर्डर देने पर, यह यहां दिखेगा।', startShopping: 'खरीदारी शुरू करें',
+    orderHash: 'ऑर्डर #{id}', placed: '{date} को दिया गया', qtyLine: 'मात्रा {n} × ₹{price}', paymentLine: 'भुगतान: {method} · {status}',
+    expectedDelivery: 'अपेक्षित डिलीवरी: {date}', total: 'कुल', hideTracking: 'ट्रैकिंग छुपाएं ▲', trackOrderBtn: 'ऑर्डर ट्रैक करें ▼',
+    delivery: 'डिलीवरी', savedAddresses: 'सहेजे गए पते', addAddressBtn: '+ पता जोड़ें', fillRequiredAddressFields: 'कृपया सभी आवश्यक पता फ़ील्ड भरें।',
+    removeAddressConfirm: 'यह पता हटाएं?', defaultLabel: 'डिफ़ॉल्ट', setDefault: 'डिफ़ॉल्ट सेट करें', edit: 'संपादित करें', remove: 'हटाएं',
+    noAddressesYet: 'अभी तक कोई सहेजा गया पता नहीं। अगली बार तेज़ी से चेकआउट के लिए एक जोड़ें।', saveAddress: 'पता सहेजें',
+    savedForLater: 'बाद के लिए सहेजा गया', yourWishlist: 'आपकी विशलिस्ट', nothingSavedYet: 'अभी तक कुछ भी सहेजा नहीं गया - किसी भी उत्पाद पर दिल पर टैप करके इसे यहां जोड़ें।', browsePlants: 'पौधे ब्राउज़ करें',
+    yourBrowsing: 'आपकी ब्राउज़िंग', recentlyViewedTitle: 'हाल ही में देखा गया', productsViewShowHere: 'आपके द्वारा देखे गए उत्पाद यहां दिखेंगे।',
+    deliveredToYou: 'आपको डिलीवर किया गया', myPlantsTitle: 'मेरे पौधे', plantsFromDeliveredOrders: 'आपके डिलीवर किए गए ऑर्डर से पौधे यहां दिखाई देंगे।',
+    loyalty: 'लॉयल्टी', rewardsPoints: 'रिवॉर्ड पॉइंट्स', pointsEarned: 'पॉइंट्स अर्जित', rewardsNote: 'आपको डिलीवर किए गए ऑर्डर पर खर्च किए गए हर ₹100 पर 1 पॉइंट मिलता है।',
+    savings: 'बचत', couponsOffers: 'कूपन व ऑफ़र', seeOffersPage: 'हमारे ऑफ़र पेज पर हर मौजूदा साइट-व्यापी ऑफ़र देखें।', viewOffers: 'ऑफ़र देखें',
+    inbox: 'इनबॉक्स', notificationsTitle: 'सूचनाएं', markAllReadBtn: 'सभी को पढ़ा हुआ चिह्नित करें',
+    notificationsSection: 'सूचनाएं', notificationPreferences: 'सूचना प्राथमिकताएं', orderUpdatesAlwaysOn: 'ऑर्डर अपडेट हमेशा चालू रहते हैं, ताकि आप कभी डिलीवरी न चूकें।', savePreferences: 'प्राथमिकताएं सहेजें',
+    accountSection: 'खाता', accountSettings: 'खाता सेटिंग्स', email: 'ईमेल', accountType: 'खाता प्रकार', admin: 'एडमिन', customer: 'ग्राहक',
+    contactSupportEmail: 'अपना ईमेल या पासवर्ड बदलने के लिए, कृपया ग्राहक सहायता से संपर्क करें।', logOut: 'लॉग आउट',
+    sidebarOverview: 'खाता अवलोकन', sidebarOrders: 'मेरे ऑर्डर', sidebarAddresses: 'मेरे पते', sidebarWishlist: 'विशलिस्ट',
+    sidebarRecent: 'हाल ही में देखा गया', sidebarPlants: 'मेरे पौधे', sidebarRewards: 'रिवॉर्ड्स', sidebarCoupons: 'कूपन',
+    sidebarNotifications: 'सूचनाएं', sidebarSettings: 'खाता सेटिंग्स',
+    prefOffers: 'ऑफ़र व छूट', prefProducts: 'नए उत्पाद', prefStock: 'स्टॉक अलर्ट', prefOrders: 'ऑर्डर अपडेट',
+    prefPayments: 'भुगतान अपडेट', prefWishlist: 'विशलिस्ट अलर्ट', prefCart: 'कार्ट अलर्ट', prefAccount: 'खाता व सुरक्षा', prefGeneral: 'सामान्य घोषणाएं',
+    detectingLocation: 'आपका स्थान पता लगाया जा रहा है…', useCurrentLocation: 'मेरा वर्तमान स्थान उपयोग करें',
+    addressFilledFromLocation: 'आपके वर्तमान स्थान से पता भरा गया - कृपया नीचे इसे दोबारा जांचें।',
+    addressLabel: 'लेबल', addressLabelPlaceholder: 'घर / ऑफिस', phone: 'फ़ोन', phonePlaceholder: 'फ़ोन नंबर',
+    addressLine1: 'पता लाइन 1', addressLine1Placeholder: 'मकान नंबर, सड़क', addressLine2: 'पता लाइन 2 (वैकल्पिक)', addressLine2Placeholder: 'लैंडमार्क, इलाका',
+    city: 'शहर', state: 'राज्य', pincode: 'पिनकोड',
+  },
+  ml: {
+    personalInformation: 'വ്യക്തിഗത വിവരങ്ങൾ', yourDetails: 'നിങ്ങളുടെ വിവരങ്ങൾ', editProfile: 'പ്രൊഫൈൽ എഡിറ്റ് ചെയ്യുക',
+    firstName: 'ആദ്യ നാമം', lastName: 'അവസാന നാമം', emailAddress: 'ഇമെയിൽ വിലാസം', phoneNumber: 'ഫോൺ നമ്പർ',
+    dateOfBirth: 'ജനന തീയതി', gender: 'ലിംഗം', preferNotToSay: 'പറയാൻ താൽപ്പര്യമില്ല', female: 'സ്ത്രീ', male: 'പുരുഷൻ', other: 'മറ്റുള്ളവ',
+    cancel: 'റദ്ദാക്കുക', saveChanges: 'മാറ്റങ്ങൾ സേവ് ചെയ്യുക', saving: 'സേവ് ചെയ്യുന്നു…', memberSince: 'അംഗമായത്',
+    firstNameRequired: 'ആദ്യ നാമം ആവശ്യമാണ്.', invalidPhone: 'സാധുവായ ഫോൺ നമ്പർ നൽകുക.', dobFuture: 'ജനന തീയതി ഭാവിയിൽ ആകാൻ പാടില്ല.',
+    profileUpdated: 'പ്രൊഫൈൽ വിജയകരമായി അപ്‌ഡേറ്റ് ചെയ്തു.', profileSaveFailed: 'നിങ്ങളുടെ മാറ്റങ്ങൾ സേവ് ചെയ്യാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കുക.',
+    welcomeBack: 'തിരികെ സ്വാഗതം!', hiGreeting: 'ഹായ്, {name} 🌿', manageAccountSub: 'നിങ്ങളുടെ അക്കൗണ്ട്, ഓർഡറുകൾ, തോട്ടപരിപാലന മുൻഗണനകൾ എന്നിവ കൈകാര്യം ചെയ്യുക.', quickActions: 'ദ്രുത പ്രവർത്തനങ്ങൾ',
+    qaOrdersTitle: 'എന്റെ ഓർഡറുകൾ', qaOrdersDesc: 'നിങ്ങളുടെ മുൻ ഓർഡറുകൾ ട്രാക്ക് ചെയ്ത് അവലോകനം ചെയ്യുക',
+    qaWishlistTitle: 'വിഷ്‌ലിസ്റ്റ്', qaWishlistDesc: 'നിങ്ങൾ സേവ് ചെയ്ത ചെടികളും ഉൽപ്പന്നങ്ങളും',
+    qaAddressesTitle: 'എന്റെ വിലാസങ്ങൾ', qaAddressesDesc: 'നിങ്ങളുടെ ഡെലിവറി വിലാസങ്ങൾ കൈകാര്യം ചെയ്യുക',
+    qaCouponsTitle: 'കൂപ്പണുകൾ', qaCouponsDesc: 'സജീവമായ ഓഫറുകളും കിഴിവുകളും കാണുക',
+    purchases: 'വാങ്ങലുകൾ', orderHistory: 'ഓർഡർ ചരിത്രം', noOrdersYet: 'ഇതുവരെ ഓർഡറുകളൊന്നുമില്ല - നിങ്ങൾ ഒന്ന് നൽകിക്കഴിഞ്ഞാൽ, അത് ഇവിടെ കാണിക്കും.', startShopping: 'ഷോപ്പിംഗ് ആരംഭിക്കുക',
+    orderHash: 'ഓർഡർ #{id}', placed: '{date} ന് നൽകി', qtyLine: 'അളവ് {n} × ₹{price}', paymentLine: 'പേയ്‌മെന്റ്: {method} · {status}',
+    expectedDelivery: 'പ്രതീക്ഷിക്കുന്ന ഡെലിവറി: {date}', total: 'ആകെ', hideTracking: 'ട്രാക്കിംഗ് മറയ്ക്കുക ▲', trackOrderBtn: 'ഓർഡർ ട്രാക്ക് ചെയ്യുക ▼',
+    delivery: 'ഡെലിവറി', savedAddresses: 'സേവ് ചെയ്ത വിലാസങ്ങൾ', addAddressBtn: '+ വിലാസം ചേർക്കുക', fillRequiredAddressFields: 'ആവശ്യമായ എല്ലാ വിലാസ ഫീൽഡുകളും പൂരിപ്പിക്കുക.',
+    removeAddressConfirm: 'ഈ വിലാസം നീക്കം ചെയ്യണോ?', defaultLabel: 'ഡിഫോൾട്ട്', setDefault: 'ഡിഫോൾട്ട് ആക്കുക', edit: 'എഡിറ്റ് ചെയ്യുക', remove: 'നീക്കം ചെയ്യുക',
+    noAddressesYet: 'ഇതുവരെ സേവ് ചെയ്ത വിലാസങ്ങളൊന്നുമില്ല. അടുത്ത തവണ വേഗത്തിൽ ചെക്ക്ഔട്ട് ചെയ്യാൻ ഒന്ന് ചേർക്കുക.', saveAddress: 'വിലാസം സേവ് ചെയ്യുക',
+    savedForLater: 'പിന്നീട് കാണാൻ സേവ് ചെയ്തത്', yourWishlist: 'നിങ്ങളുടെ വിഷ്‌ലിസ്റ്റ്', nothingSavedYet: 'ഇതുവരെ ഒന്നും സേവ് ചെയ്തിട്ടില്ല - ഏതെങ്കിലും ഉൽപ്പന്നത്തിലെ ഹൃദയത്തിൽ ടാപ്പ് ചെയ്ത് ഇവിടെ ചേർക്കുക.', browsePlants: 'ചെടികൾ ബ്രൗസ് ചെയ്യുക',
+    yourBrowsing: 'നിങ്ങളുടെ ബ്രൗസിംഗ്', recentlyViewedTitle: 'അടുത്തിടെ കണ്ടത്', productsViewShowHere: 'നിങ്ങൾ കാണുന്ന ഉൽപ്പന്നങ്ങൾ ഇവിടെ കാണിക്കും.',
+    deliveredToYou: 'നിങ്ങൾക്ക് ഡെലിവർ ചെയ്തത്', myPlantsTitle: 'എന്റെ ചെടികൾ', plantsFromDeliveredOrders: 'നിങ്ങളുടെ ഡെലിവർ ചെയ്ത ഓർഡറുകളിൽ നിന്നുള്ള ചെടികൾ ഇവിടെ ദൃശ്യമാകും.',
+    loyalty: 'ലോയൽറ്റി', rewardsPoints: 'റിവാർഡ് പോയിന്റുകൾ', pointsEarned: 'പോയിന്റുകൾ നേടി', rewardsNote: 'ഡെലിവർ ചെയ്ത ഓർഡറിൽ ചെലവഴിക്കുന്ന ഓരോ ₹100 നും നിങ്ങൾക്ക് 1 പോയിന്റ് ലഭിക്കും.',
+    savings: 'സേവിംഗ്സ്', couponsOffers: 'കൂപ്പണുകളും ഓഫറുകളും', seeOffersPage: 'ഞങ്ങളുടെ ഓഫറുകൾ പേജിൽ എല്ലാ നിലവിലെ സൈറ്റ്-വൈഡ് ഓഫറുകളും കാണുക.', viewOffers: 'ഓഫറുകൾ കാണുക',
+    inbox: 'ഇൻബോക്സ്', notificationsTitle: 'അറിയിപ്പുകൾ', markAllReadBtn: 'എല്ലാം വായിച്ചതായി അടയാളപ്പെടുത്തുക',
+    notificationsSection: 'അറിയിപ്പുകൾ', notificationPreferences: 'അറിയിപ്പ് മുൻഗണനകൾ', orderUpdatesAlwaysOn: 'ഓർഡർ അപ്‌ഡേറ്റുകൾ എപ്പോഴും ഓണാണ്, അതിനാൽ നിങ്ങൾ ഒരു ഡെലിവറിയും നഷ്ടപ്പെടുത്തില്ല.', savePreferences: 'മുൻഗണനകൾ സേവ് ചെയ്യുക',
+    accountSection: 'അക്കൗണ്ട്', accountSettings: 'അക്കൗണ്ട് ക്രമീകരണങ്ങൾ', email: 'ഇമെയിൽ', accountType: 'അക്കൗണ്ട് തരം', admin: 'അഡ്മിൻ', customer: 'ഉപഭോക്താവ്',
+    contactSupportEmail: 'നിങ്ങളുടെ ഇമെയിലോ പാസ്‌വേഡോ മാറ്റാൻ, ദയവായി കസ്റ്റമർ സപ്പോർട്ടിനെ ബന്ധപ്പെടുക.', logOut: 'ലോഗ് ഔട്ട്',
+    sidebarOverview: 'അക്കൗണ്ട് അവലോകനം', sidebarOrders: 'എന്റെ ഓർഡറുകൾ', sidebarAddresses: 'എന്റെ വിലാസങ്ങൾ', sidebarWishlist: 'വിഷ്‌ലിസ്റ്റ്',
+    sidebarRecent: 'അടുത്തിടെ കണ്ടത്', sidebarPlants: 'എന്റെ ചെടികൾ', sidebarRewards: 'റിവാർഡുകൾ', sidebarCoupons: 'കൂപ്പണുകൾ',
+    sidebarNotifications: 'അറിയിപ്പുകൾ', sidebarSettings: 'അക്കൗണ്ട് ക്രമീകരണങ്ങൾ',
+    prefOffers: 'ഓഫറുകളും കിഴിവുകളും', prefProducts: 'പുതിയ ഉൽപ്പന്നങ്ങൾ', prefStock: 'സ്റ്റോക്ക് അലേർട്ടുകൾ', prefOrders: 'ഓർഡർ അപ്‌ഡേറ്റുകൾ',
+    prefPayments: 'പേയ്‌മെന്റ് അപ്‌ഡേറ്റുകൾ', prefWishlist: 'വിഷ്‌ലിസ്റ്റ് അലേർട്ടുകൾ', prefCart: 'കാർട്ട് അലേർട്ടുകൾ', prefAccount: 'അക്കൗണ്ടും സുരക്ഷയും', prefGeneral: 'പൊതു അറിയിപ്പുകൾ',
+    detectingLocation: 'നിങ്ങളുടെ സ്ഥാനം കണ്ടെത്തുന്നു…', useCurrentLocation: 'എന്റെ നിലവിലെ സ്ഥാനം ഉപയോഗിക്കുക',
+    addressFilledFromLocation: 'നിങ്ങളുടെ നിലവിലെ സ്ഥാനത്ത് നിന്ന് വിലാസം പൂരിപ്പിച്ചു - ദയവായി താഴെ ഇത് വീണ്ടും പരിശോധിക്കുക.',
+    addressLabel: 'ലേബൽ', addressLabelPlaceholder: 'വീട് / ഓഫീസ്', phone: 'ഫോൺ', phonePlaceholder: 'ഫോൺ നമ്പർ',
+    addressLine1: 'വിലാസം വരി 1', addressLine1Placeholder: 'വീട് നമ്പർ, തെരുവ്', addressLine2: 'വിലാസം വരി 2 (ഓപ്ഷണൽ)', addressLine2Placeholder: 'ലാൻഡ്മാർക്ക്, പ്രദേശം',
+    city: 'നഗരം', state: 'സംസ്ഥാനം', pincode: 'പിൻകോഡ്',
+  },
+  te: {
+    personalInformation: 'వ్యక్తిగత సమాచారం', yourDetails: 'మీ వివరాలు', editProfile: 'ప్రొఫైల్ సవరించండి',
+    firstName: 'మొదటి పేరు', lastName: 'చివరి పేరు', emailAddress: 'ఇమెయిల్ చిరునామా', phoneNumber: 'ఫోన్ నంబర్',
+    dateOfBirth: 'పుట్టిన తేదీ', gender: 'లింగం', preferNotToSay: 'చెప్పకూడదు', female: 'స్త్రీ', male: 'పురుషుడు', other: 'ఇతరం',
+    cancel: 'రద్దు చేయండి', saveChanges: 'మార్పులను సేవ్ చేయండి', saving: 'సేవ్ అవుతోంది…', memberSince: 'సభ్యులైనది',
+    firstNameRequired: 'మొదటి పేరు అవసరం.', invalidPhone: 'చెల్లుబాటు అయ్యే ఫోన్ నంబర్‌ను నమోదు చేయండి.', dobFuture: 'పుట్టిన తేదీ భవిష్యత్తులో ఉండకూడదు.',
+    profileUpdated: 'ప్రొఫైల్ విజయవంతంగా అప్‌డేట్ చేయబడింది.', profileSaveFailed: 'మీ మార్పులను సేవ్ చేయలేకపోయాము. దయచేసి మళ్ళీ ప్రయత్నించండి.',
+    welcomeBack: 'తిరిగి స్వాగతం!', hiGreeting: 'హాయ్, {name} 🌿', manageAccountSub: 'మీ ఖాతా, ఆర్డర్‌లు మరియు తోటపని ప్రాధాన్యతలను నిర్వహించండి.', quickActions: 'త్వరిత చర్యలు',
+    qaOrdersTitle: 'నా ఆర్డర్‌లు', qaOrdersDesc: 'మీ గత ఆర్డర్‌లను ట్రాక్ చేసి సమీక్షించండి',
+    qaWishlistTitle: 'విష్‌లిస్ట్', qaWishlistDesc: 'మీరు సేవ్ చేసిన మొక్కలు మరియు ఉత్పత్తులు',
+    qaAddressesTitle: 'నా చిరునామాలు', qaAddressesDesc: 'మీ డెలివరీ చిరునామాలను నిర్వహించండి',
+    qaCouponsTitle: 'కూపన్‌లు', qaCouponsDesc: 'యాక్టివ్ ఆఫర్‌లు మరియు తగ్గింపులను చూడండి',
+    purchases: 'కొనుగోళ్లు', orderHistory: 'ఆర్డర్ చరిత్ర', noOrdersYet: 'ఇంకా ఆర్డర్‌లు లేవు - మీరు ఒకటి ఉంచిన తర్వాత, అది ఇక్కడ కనిపిస్తుంది.', startShopping: 'షాపింగ్ ప్రారంభించండి',
+    orderHash: 'ఆర్డర్ #{id}', placed: '{date} న ఉంచబడింది', qtyLine: 'పరిమాణం {n} × ₹{price}', paymentLine: 'చెల్లింపు: {method} · {status}',
+    expectedDelivery: 'ఊహించిన డెలివరీ: {date}', total: 'మొత్తం', hideTracking: 'ట్రాకింగ్‌ను దాచండి ▲', trackOrderBtn: 'ఆర్డర్‌ను ట్రాక్ చేయండి ▼',
+    delivery: 'డెలివరీ', savedAddresses: 'సేవ్ చేసిన చిరునామాలు', addAddressBtn: '+ చిరునామా జోడించండి', fillRequiredAddressFields: 'అవసరమైన అన్ని చిరునామా ఫీల్డ్‌లను నింపండి.',
+    removeAddressConfirm: 'ఈ చిరునామాను తీసివేయాలా?', defaultLabel: 'డిఫాల్ట్', setDefault: 'డిఫాల్ట్‌గా సెట్ చేయండి', edit: 'సవరించండి', remove: 'తీసివేయండి',
+    noAddressesYet: 'ఇంకా సేవ్ చేసిన చిరునామాలు లేవు. తదుపరిసారి వేగంగా చెక్అవుట్ చేయడానికి ఒకటి జోడించండి.', saveAddress: 'చిరునామాను సేవ్ చేయండి',
+    savedForLater: 'తర్వాత కోసం సేవ్ చేయబడింది', yourWishlist: 'మీ విష్‌లిస్ట్', nothingSavedYet: 'ఇంకా ఏమీ సేవ్ చేయలేదు - ఏదైనా ఉత్పత్తిపై హృదయాన్ని నొక్కి దీన్ని ఇక్కడ జోడించండి.', browsePlants: 'మొక్కలను బ్రౌజ్ చేయండి',
+    yourBrowsing: 'మీ బ్రౌజింగ్', recentlyViewedTitle: 'ఇటీవల చూసినవి', productsViewShowHere: 'మీరు చూసే ఉత్పత్తులు ఇక్కడ కనిపిస్తాయి.',
+    deliveredToYou: 'మీకు డెలివరీ చేయబడింది', myPlantsTitle: 'నా మొక్కలు', plantsFromDeliveredOrders: 'మీ డెలివరీ చేసిన ఆర్డర్‌ల నుండి మొక్కలు ఇక్కడ కనిపిస్తాయి.',
+    loyalty: 'లాయల్టీ', rewardsPoints: 'రివార్డ్ పాయింట్లు', pointsEarned: 'పాయింట్లు సంపాదించారు', rewardsNote: 'డెలివరీ చేసిన ఆర్డర్‌పై ఖర్చు చేసిన ప్రతి ₹100కి మీకు 1 పాయింట్ లభిస్తుంది.',
+    savings: 'పొదుపులు', couponsOffers: 'కూపన్‌లు & ఆఫర్‌లు', seeOffersPage: 'మా ఆఫర్‌ల పేజీలో ప్రస్తుత అన్ని సైట్-వైడ్ ఆఫర్‌లను చూడండి.', viewOffers: 'ఆఫర్‌లను చూడండి',
+    inbox: 'ఇన్‌బాక్స్', notificationsTitle: 'నోటిఫికేషన్‌లు', markAllReadBtn: 'అన్నింటినీ చదివినట్లు గుర్తించండి',
+    notificationsSection: 'నోటిఫికేషన్‌లు', notificationPreferences: 'నోటిఫికేషన్ ప్రాధాన్యతలు', orderUpdatesAlwaysOn: 'ఆర్డర్ అప్‌డేట్‌లు ఎల్లప్పుడూ ఆన్‌లో ఉంటాయి, కాబట్టి మీరు ఎప్పుడూ డెలివరీని మిస్ కాదు.', savePreferences: 'ప్రాధాన్యతలను సేవ్ చేయండి',
+    accountSection: 'ఖాతా', accountSettings: 'ఖాతా సెట్టింగ్‌లు', email: 'ఇమెయిల్', accountType: 'ఖాతా రకం', admin: 'అడ్మిన్', customer: 'కస్టమర్',
+    contactSupportEmail: 'మీ ఇమెయిల్ లేదా పాస్‌వర్డ్‌ను మార్చడానికి, దయచేసి కస్టమర్ సపోర్ట్‌ను సంప్రదించండి.', logOut: 'లాగ్ అవుట్',
+    sidebarOverview: 'ఖాతా అవలోకనం', sidebarOrders: 'నా ఆర్డర్‌లు', sidebarAddresses: 'నా చిరునామాలు', sidebarWishlist: 'విష్‌లిస్ట్',
+    sidebarRecent: 'ఇటీవల చూసినవి', sidebarPlants: 'నా మొక్కలు', sidebarRewards: 'రివార్డ్‌లు', sidebarCoupons: 'కూపన్‌లు',
+    sidebarNotifications: 'నోటిఫికేషన్‌లు', sidebarSettings: 'ఖాతా సెట్టింగ్‌లు',
+    prefOffers: 'ఆఫర్‌లు & తగ్గింపులు', prefProducts: 'కొత్త ఉత్పత్తులు', prefStock: 'స్టాక్ అలర్ట్‌లు', prefOrders: 'ఆర్డర్ అప్‌డేట్‌లు',
+    prefPayments: 'చెల్లింపు అప్‌డేట్‌లు', prefWishlist: 'విష్‌లిస్ట్ అలర్ట్‌లు', prefCart: 'కార్ట్ అలర్ట్‌లు', prefAccount: 'ఖాతా & భద్రత', prefGeneral: 'సాధారణ ప్రకటనలు',
+    detectingLocation: 'మీ స్థానాన్ని గుర్తిస్తోంది…', useCurrentLocation: 'నా ప్రస్తుత స్థానాన్ని ఉపయోగించండి',
+    addressFilledFromLocation: 'మీ ప్రస్తుత స్థానం నుండి చిరునామా నింపబడింది - దయచేసి దిగువన మళ్ళీ తనిఖీ చేయండి.',
+    addressLabel: 'లేబుల్', addressLabelPlaceholder: 'ఇల్లు / ఆఫీసు', phone: 'ఫోన్', phonePlaceholder: 'ఫోన్ నంబర్',
+    addressLine1: 'చిరునామా లైన్ 1', addressLine1Placeholder: 'ఇంటి నంబర్, వీధి', addressLine2: 'చిరునామా లైన్ 2 (ఐచ్ఛికం)', addressLine2Placeholder: 'ల్యాండ్‌మార్క్, ప్రాంతం',
+    city: 'నగరం', state: 'రాష్ట్రం', pincode: 'పిన్‌కోడ్',
+  },
+  kn: {
+    personalInformation: 'ವೈಯಕ್ತಿಕ ಮಾಹಿತಿ', yourDetails: 'ನಿಮ್ಮ ವಿವರಗಳು', editProfile: 'ಪ್ರೊಫೈಲ್ ಸಂಪಾದಿಸಿ',
+    firstName: 'ಮೊದಲ ಹೆಸರು', lastName: 'ಕೊನೆಯ ಹೆಸರು', emailAddress: 'ಇಮೇಲ್ ವಿಳಾಸ', phoneNumber: 'ಫೋನ್ ಸಂಖ್ಯೆ',
+    dateOfBirth: 'ಜನ್ಮ ದಿನಾಂಕ', gender: 'ಲಿಂಗ', preferNotToSay: 'ಹೇಳಲು ಬಯಸುವುದಿಲ್ಲ', female: 'ಸ್ತ್ರೀ', male: 'ಪುರುಷ', other: 'ಇತರೆ',
+    cancel: 'ರದ್ದುಮಾಡಿ', saveChanges: 'ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ', saving: 'ಉಳಿಸಲಾಗುತ್ತಿದೆ…', memberSince: 'ಸದಸ್ಯರಾದ ದಿನಾಂಕ',
+    firstNameRequired: 'ಮೊದಲ ಹೆಸರು ಅಗತ್ಯವಿದೆ.', invalidPhone: 'ಮಾನ್ಯವಾದ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ.', dobFuture: 'ಜನ್ಮ ದಿನಾಂಕ ಭವಿಷ್ಯದಲ್ಲಿ ಇರಬಾರದು.',
+    profileUpdated: 'ಪ್ರೊಫೈಲ್ ಯಶಸ್ವಿಯಾಗಿ ನವೀಕರಿಸಲಾಗಿದೆ.', profileSaveFailed: 'ನಿಮ್ಮ ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
+    welcomeBack: 'ಮತ್ತೆ ಸ್ವಾಗತ!', hiGreeting: 'ನಮಸ್ಕಾರ, {name} 🌿', manageAccountSub: 'ನಿಮ್ಮ ಖಾತೆ, ಆರ್ಡರ್‌ಗಳು ಮತ್ತು ತೋಟಗಾರಿಕೆ ಆದ್ಯತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ.', quickActions: 'ತ್ವರಿತ ಕ್ರಿಯೆಗಳು',
+    qaOrdersTitle: 'ನನ್ನ ಆರ್ಡರ್‌ಗಳು', qaOrdersDesc: 'ನಿಮ್ಮ ಹಿಂದಿನ ಆರ್ಡರ್‌ಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ ಮತ್ತು ಪರಿಶೀಲಿಸಿ',
+    qaWishlistTitle: 'ವಿಶ್‌ಲಿಸ್ಟ್', qaWishlistDesc: 'ನೀವು ಉಳಿಸಿದ ಗಿಡಗಳು ಮತ್ತು ಉತ್ಪನ್ನಗಳು',
+    qaAddressesTitle: 'ನನ್ನ ವಿಳಾಸಗಳು', qaAddressesDesc: 'ನಿಮ್ಮ ವಿತರಣಾ ವಿಳಾಸಗಳನ್ನು ನಿರ್ವಹಿಸಿ',
+    qaCouponsTitle: 'ಕೂಪನ್‌ಗಳು', qaCouponsDesc: 'ಸಕ್ರಿಯ ಆಫರ್‌ಗಳು ಮತ್ತು ರಿಯಾಯಿತಿಗಳನ್ನು ವೀಕ್ಷಿಸಿ',
+    purchases: 'ಖರೀದಿಗಳು', orderHistory: 'ಆರ್ಡರ್ ಇತಿಹಾಸ', noOrdersYet: 'ಇನ್ನೂ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ - ನೀವು ಒಂದನ್ನು ಮಾಡಿದ ನಂತರ, ಅದು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.', startShopping: 'ಶಾಪಿಂಗ್ ಪ್ರಾರಂಭಿಸಿ',
+    orderHash: 'ಆರ್ಡರ್ #{id}', placed: '{date} ರಂದು ಇರಿಸಲಾಗಿದೆ', qtyLine: 'ಪ್ರಮಾಣ {n} × ₹{price}', paymentLine: 'ಪಾವತಿ: {method} · {status}',
+    expectedDelivery: 'ನಿರೀಕ್ಷಿತ ವಿತರಣೆ: {date}', total: 'ಒಟ್ಟು', hideTracking: 'ಟ್ರ್ಯಾಕಿಂಗ್ ಮರೆಮಾಡಿ ▲', trackOrderBtn: 'ಆರ್ಡರ್ ಟ್ರ್ಯಾಕ್ ಮಾಡಿ ▼',
+    delivery: 'ವಿತರಣೆ', savedAddresses: 'ಉಳಿಸಿದ ವಿಳಾಸಗಳು', addAddressBtn: '+ ವಿಳಾಸ ಸೇರಿಸಿ', fillRequiredAddressFields: 'ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಅಗತ್ಯ ವಿಳಾಸ ಕ್ಷೇತ್ರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ.',
+    removeAddressConfirm: 'ಈ ವಿಳಾಸವನ್ನು ತೆಗೆದುಹಾಕುವುದೇ?', defaultLabel: 'ಡೀಫಾಲ್ಟ್', setDefault: 'ಡೀಫಾಲ್ಟ್ ಆಗಿ ಹೊಂದಿಸಿ', edit: 'ಸಂಪಾದಿಸಿ', remove: 'ತೆಗೆದುಹಾಕಿ',
+    noAddressesYet: 'ಇನ್ನೂ ಉಳಿಸಿದ ವಿಳಾಸಗಳಿಲ್ಲ. ಮುಂದಿನ ಬಾರಿ ವೇಗವಾಗಿ ಚೆಕ್‌ಔಟ್ ಮಾಡಲು ಒಂದನ್ನು ಸೇರಿಸಿ.', saveAddress: 'ವಿಳಾಸವನ್ನು ಉಳಿಸಿ',
+    savedForLater: 'ನಂತರಕ್ಕಾಗಿ ಉಳಿಸಲಾಗಿದೆ', yourWishlist: 'ನಿಮ್ಮ ವಿಶ್‌ಲಿಸ್ಟ್', nothingSavedYet: 'ಇನ್ನೂ ಏನೂ ಉಳಿಸಿಲ್ಲ - ಯಾವುದೇ ಉತ್ಪನ್ನದ ಹೃದಯದ ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ ಇಲ್ಲಿ ಸೇರಿಸಿ.', browsePlants: 'ಗಿಡಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಿ',
+    yourBrowsing: 'ನಿಮ್ಮ ಬ್ರೌಸಿಂಗ್', recentlyViewedTitle: 'ಇತ್ತೀಚೆಗೆ ವೀಕ್ಷಿಸಿದ', productsViewShowHere: 'ನೀವು ವೀಕ್ಷಿಸುವ ಉತ್ಪನ್ನಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.',
+    deliveredToYou: 'ನಿಮಗೆ ವಿತರಿಸಲಾಗಿದೆ', myPlantsTitle: 'ನನ್ನ ಗಿಡಗಳು', plantsFromDeliveredOrders: 'ನಿಮ್ಮ ವಿತರಿಸಿದ ಆರ್ಡರ್‌ಗಳಿಂದ ಗಿಡಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.',
+    loyalty: 'ಲಾಯಲ್ಟಿ', rewardsPoints: 'ರಿವಾರ್ಡ್ ಪಾಯಿಂಟ್‌ಗಳು', pointsEarned: 'ಪಾಯಿಂಟ್‌ಗಳು ಗಳಿಸಲಾಗಿದೆ', rewardsNote: 'ವಿತರಿಸಿದ ಆರ್ಡರ್‌ನಲ್ಲಿ ಖರ್ಚು ಮಾಡುವ ಪ್ರತಿ ₹100 ಗೆ ನೀವು 1 ಪಾಯಿಂಟ್ ಗಳಿಸುತ್ತೀರಿ.',
+    savings: 'ಉಳಿತಾಯಗಳು', couponsOffers: 'ಕೂಪನ್‌ಗಳು & ಆಫರ್‌ಗಳು', seeOffersPage: 'ನಮ್ಮ ಆಫರ್‌ಗಳ ಪುಟದಲ್ಲಿ ಪ್ರಸ್ತುತ ಎಲ್ಲಾ ಸೈಟ್-ವ್ಯಾಪಿ ಆಫರ್‌ಗಳನ್ನು ನೋಡಿ.', viewOffers: 'ಆಫರ್‌ಗಳನ್ನು ವೀಕ್ಷಿಸಿ',
+    inbox: 'ಇನ್‌ಬಾಕ್ಸ್', notificationsTitle: 'ಅಧಿಸೂಚನೆಗಳು', markAllReadBtn: 'ಎಲ್ಲವನ್ನೂ ಓದಿದಂತೆ ಗುರುತಿಸಿ',
+    notificationsSection: 'ಅಧಿಸೂಚನೆಗಳು', notificationPreferences: 'ಅಧಿಸೂಚನೆ ಆದ್ಯತೆಗಳು', orderUpdatesAlwaysOn: 'ಆರ್ಡರ್ ಅಪ್‌ಡೇಟ್‌ಗಳು ಯಾವಾಗಲೂ ಆನ್ ಆಗಿರುತ್ತವೆ, ಆದ್ದರಿಂದ ನೀವು ಎಂದಿಗೂ ವಿತರಣೆಯನ್ನು ತಪ್ಪಿಸಿಕೊಳ್ಳುವುದಿಲ್ಲ.', savePreferences: 'ಆದ್ಯತೆಗಳನ್ನು ಉಳಿಸಿ',
+    accountSection: 'ಖಾತೆ', accountSettings: 'ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು', email: 'ಇಮೇಲ್', accountType: 'ಖಾತೆ ಪ್ರಕಾರ', admin: 'ಅಡ್ಮಿನ್', customer: 'ಗ್ರಾಹಕ',
+    contactSupportEmail: 'ನಿಮ್ಮ ಇಮೇಲ್ ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್ ಬದಲಾಯಿಸಲು, ದಯವಿಟ್ಟು ಗ್ರಾಹಕ ಬೆಂಬಲವನ್ನು ಸಂಪರ್ಕಿಸಿ.', logOut: 'ಲಾಗ್ ಔಟ್',
+    sidebarOverview: 'ಖಾತೆ ಅವಲೋಕನ', sidebarOrders: 'ನನ್ನ ಆರ್ಡರ್‌ಗಳು', sidebarAddresses: 'ನನ್ನ ವಿಳಾಸಗಳು', sidebarWishlist: 'ವಿಶ್‌ಲಿಸ್ಟ್',
+    sidebarRecent: 'ಇತ್ತೀಚೆಗೆ ವೀಕ್ಷಿಸಿದ', sidebarPlants: 'ನನ್ನ ಗಿಡಗಳು', sidebarRewards: 'ರಿವಾರ್ಡ್‌ಗಳು', sidebarCoupons: 'ಕೂಪನ್‌ಗಳು',
+    sidebarNotifications: 'ಅಧಿಸೂಚನೆಗಳು', sidebarSettings: 'ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು',
+    prefOffers: 'ಆಫರ್‌ಗಳು & ರಿಯಾಯಿತಿಗಳು', prefProducts: 'ಹೊಸ ಉತ್ಪನ್ನಗಳು', prefStock: 'ಸ್ಟಾಕ್ ಅಲರ್ಟ್‌ಗಳು', prefOrders: 'ಆರ್ಡರ್ ಅಪ್‌ಡೇಟ್‌ಗಳು',
+    prefPayments: 'ಪಾವತಿ ಅಪ್‌ಡೇಟ್‌ಗಳು', prefWishlist: 'ವಿಶ್‌ಲಿಸ್ಟ್ ಅಲರ್ಟ್‌ಗಳು', prefCart: 'ಕಾರ್ಟ್ ಅಲರ್ಟ್‌ಗಳು', prefAccount: 'ಖಾತೆ & ಭದ್ರತೆ', prefGeneral: 'ಸಾಮಾನ್ಯ ಪ್ರಕಟಣೆಗಳು',
+    detectingLocation: 'ನಿಮ್ಮ ಸ್ಥಳವನ್ನು ಪತ್ತೆ ಮಾಡಲಾಗುತ್ತಿದೆ…', useCurrentLocation: 'ನನ್ನ ಪ್ರಸ್ತುತ ಸ್ಥಳವನ್ನು ಬಳಸಿ',
+    addressFilledFromLocation: 'ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಸ್ಥಳದಿಂದ ವಿಳಾಸವನ್ನು ಭರ್ತಿ ಮಾಡಲಾಗಿದೆ - ದಯವಿಟ್ಟು ಕೆಳಗೆ ಮತ್ತೆ ಪರಿಶೀಲಿಸಿ.',
+    addressLabel: 'ಲೇಬಲ್', addressLabelPlaceholder: 'ಮನೆ / ಕಚೇರಿ', phone: 'ಫೋನ್', phonePlaceholder: 'ಫೋನ್ ಸಂಖ್ಯೆ',
+    addressLine1: 'ವಿಳಾಸ ಸಾಲು 1', addressLine1Placeholder: 'ಮನೆ ಸಂಖ್ಯೆ, ಬೀದಿ', addressLine2: 'ವಿಳಾಸ ಸಾಲು 2 (ಐಚ್ಛಿಕ)', addressLine2Placeholder: 'ಗುರುತು, ಪ್ರದೇಶ',
+    city: 'ನಗರ', state: 'ರಾಜ್ಯ', pincode: 'ಪಿನ್‌ಕೋಡ್',
+  },
+};
+
+function merge(section) {
+  const out = {};
+  for (const code of LANGUAGES.map((l) => l.code)) out[code] = section[code] ?? section.en;
+  return out;
+}
+
+// Full /about page (About.jsx) - every heading, paragraph, card, stat
+// label, button and alt text on that page, in all 6 languages. Kept
+// separate from `about` above (which covers the homepage's shorter
+// "Our Story" band) since the two pages have entirely different content.
+const aboutPage = {
+  en: {
+    heroBreadcrumbHome: 'Home', heroBreadcrumbCurrent: 'About Us', heroTitleLine1: 'About', heroTitleLine2: 'IGO Nursery',
+    heroSub: "More Than Just Plants — We're a Part of Your Green Journey.",
+    heroDesc: "At IGO Nursery, we believe in the power of plants to bring beauty, wellness and connection. We're passionate about helping you create greener spaces — at home, at work and in the community.",
+    heroCta: 'Explore Our Plants', heroImageAlt: 'Lush greenhouse full of nursery plants - Green Spaces, Happier Lives',
+    storyEyebrow: 'OUR STORY', storyTitleLine1: 'Growing Greener,', storyTitleLine2: 'Growing Better',
+    storyText: 'IGO Nursery started with a simple idea — to make quality plants and gardening products accessible to everyone. Today, we are a growing community of plant lovers, offering a wide range of healthy plants, quality pots, seeds and gardening essentials. Our goal is to inspire greener living and help you create beautiful, sustainable spaces.',
+    storyCta: 'Learn More', storyImageAlt: 'A hand holding a small potted plant - From Seed to Green',
+    statYearsLabel: 'Years Experience', statPlantsLabel: 'Plants Delivered', statVarietiesLabel: 'Plant Varieties', statCustomersLabel: 'Happy Customers',
+    visionEyebrow: 'OUR VISION', visionTitle: 'A Greener Tomorrow',
+    visionText: 'To be a leading nursery brand that inspires everyone to create healthier, greener and more beautiful spaces, while promoting sustainable living for future generations.',
+    visionImageAlt: 'A young seedling growing in soft sunlight',
+    missionEyebrow: 'OUR MISSION', missionTitle: 'Plants for a Better Life',
+    missionText: 'To provide high-quality plants, gardening products and expert guidance, making green living simple, accessible and enjoyable for all.',
+    missionImageAlt: 'A lush green leafy plant',
+    offerEyebrow: 'WHAT WE OFFER', offerTitle: 'Everything You Need for a Greener Space',
+    offerSub: 'From beautiful plants to essential gardening products, we have everything you need to bring your green vision to life.',
+    offerScriptLine1: 'Grow', offerScriptLine2: 'Your', offerScriptLine3: 'Way',
+    offerCard1Title: 'Indoor & Outdoor Plants', offerCard1Desc: 'Beautiful plants for every space, inside and out.',
+    offerCard2Title: 'Pots & Planters', offerCard2Desc: 'Stylish and durable pots to complement your plants.',
+    offerCard3Title: 'Seeds & Gardening', offerCard3Desc: 'High-quality seeds for a bountiful garden.',
+    offerCard4Title: 'Plant Care', offerCard4Desc: 'Expert tips and products to keep your plants healthy.',
+    offerCard5Title: 'Landscaping', offerCard5Desc: 'Transform your space with beautiful green designs.',
+    offerCard6Title: 'Corporate Gifting', offerCard6Desc: 'Thoughtful green gifts for clients and teams.',
+    valuesEyebrow: 'OUR VALUES', valuesTitle: 'What Drives Us',
+    valuesSub: 'Our values shape everything we do — from the plants we grow to the relationships we build.',
+    valuesImageAlt: 'A small seedling growing from rich soil',
+    valueQualityFirst: 'Quality First', valueCustomerFocus: 'Customer Focus', valueSustainability: 'Sustainability', valueIntegrity: 'Integrity',
+    valuesScriptLine1: 'Grow', valuesScriptLine2: 'Green', valuesScriptLine3: 'Grow', valuesScriptLine4: 'Way',
+    whyEyebrow: 'WHY CHOOSE IGO NURSERY?', whyTitle: 'A Greener Partner for Your Journey',
+    whySub: "We're more than just a nursery — we're your green partner.",
+    whyItem1Title: 'Healthy Plants', whyItem1Text: 'Well-nurtured, disease-free and ready to grow.',
+    whyItem2Title: 'Expert Guidance', whyItem2Text: 'Get advice from our plant care experts.',
+    whyItem3Title: 'Sustainable Practices', whyItem3Text: 'Eco-friendly methods for a greener future.',
+    whyItem4Title: 'Safe Delivery', whyItem4Text: 'Your plants reach you fresh and on time.',
+    journeyEyebrow: 'OUR JOURNEY', journeyTitle: 'From Small Beginnings to a Greener Future',
+    journeySub: "Take a look at some moments from our journey — from our first plants to the spaces we've created.",
+    journeyFirstLabel: 'Our Beginning', journeyImageAlt: 'A moment from the IGO Nursery journey', journeyPrevAria: 'Previous', journeyNextAria: 'Next',
+    journeyLabel1: 'Our Beginning', journeyLabel2: 'First Nursery Expansion', journeyLabel3: 'Growing with Customers', journeyLabel4: 'Landscaping Projects', journeyLabel5: 'Modern Nursery',
+    ctaTitle: "Let's Grow Something Beautiful Together", ctaText: 'Bring nature home. Explore our wide range of plants, seeds and gardening essentials.', ctaButton: 'Explore Plants',
+  },
+  ta: {
+    heroBreadcrumbHome: 'முகப்பு', heroBreadcrumbCurrent: 'எங்களைப் பற்றி', heroTitleLine1: 'IGO நர்சரி', heroTitleLine2: 'பற்றி',
+    heroSub: 'வெறும் செடிகள் மட்டுமல்ல — உங்கள் பசுமையான பயணத்தின் ஒரு பகுதி நாங்கள்.',
+    heroDesc: 'IGO நர்சரியில், அழகு, நல்வாழ்வு மற்றும் தொடர்பை கொண்டுவரும் செடிகளின் சக்தியை நாங்கள் நம்புகிறோம். வீட்டிலும், பணியிடத்திலும், சமூகத்திலும் பசுமையான இடங்களை உருவாக்க உங்களுக்கு உதவுவதில் நாங்கள் ஆர்வமாக உள்ளோம்.',
+    heroCta: 'எங்கள் செடிகளை ஆராயுங்கள்', heroImageAlt: 'நர்சரி செடிகள் நிறைந்த பசுமையான கிரீன்ஹவுஸ்',
+    storyEyebrow: 'எங்கள் கதை', storyTitleLine1: 'பசுமையாக வளருங்கள்,', storyTitleLine2: 'சிறப்பாக வளருங்கள்',
+    storyText: 'IGO நர்சரி ஒரு எளிய எண்ணத்துடன் தொடங்கியது — தரமான செடிகளையும் தோட்ட தயாரிப்புகளையும் அனைவருக்கும் கிடைக்கச் செய்வது. இன்று, நாங்கள் ஆரோக்கியமான செடிகள், தரமான தொட்டிகள், விதைகள் மற்றும் தோட்ட அத்தியாவசியங்களை வழங்கும் வளர்ந்து வரும் செடி காதலர்களின் சமூகமாக உள்ளோம். பசுமையான வாழ்க்கையை ஊக்குவித்து, அழகான, நிலையான இடங்களை உருவாக்க உதவுவதே எங்கள் இலக்கு.',
+    storyCta: 'மேலும் அறிக', storyImageAlt: 'ஒரு சிறிய தொட்டி செடியை பிடித்திருக்கும் கை - விதையிலிருந்து பசுமைக்கு',
+    statYearsLabel: 'ஆண்டுகள் அனுபவம்', statPlantsLabel: 'வழங்கப்பட்ட செடிகள்', statVarietiesLabel: 'செடி வகைகள்', statCustomersLabel: 'மகிழ்ச்சியான வாடிக்கையாளர்கள்',
+    visionEyebrow: 'எங்கள் தொலைநோக்கு', visionTitle: 'ஒரு பசுமையான நாளை',
+    visionText: 'ஆரோக்கியமான, பசுமையான மற்றும் மேலும் அழகான இடங்களை உருவாக்க அனைவரையும் ஊக்குவிக்கும் முன்னணி நர்சரி பிராண்டாக இருக்க வேண்டும், அதே நேரத்தில் எதிர்கால சந்ததியினருக்காக நிலையான வாழ்க்கை முறையை ஊக்குவிக்க வேண்டும்.',
+    visionImageAlt: 'மென்மையான சூரிய ஒளியில் வளரும் இளம் நாற்று',
+    missionEyebrow: 'எங்கள் நோக்கம்', missionTitle: 'சிறந்த வாழ்க்கைக்கான செடிகள்',
+    missionText: 'உயர்தர செடிகள், தோட்ட தயாரிப்புகள் மற்றும் நிபுணர் வழிகாட்டுதலை வழங்குவதன் மூலம், பசுமையான வாழ்க்கையை அனைவருக்கும் எளிதாகவும், அணுகக்கூடியதாகவும், மகிழ்ச்சியானதாகவும் மாற்றுவது.',
+    missionImageAlt: 'செழிப்பான பச்சை இலைகள் கொண்ட செடி',
+    offerEyebrow: 'நாங்கள் வழங்குவது', offerTitle: 'பசுமையான இடத்திற்கு தேவையான அனைத்தும்',
+    offerSub: 'அழகான செடிகள் முதல் அத்தியாவசிய தோட்ட தயாரிப்புகள் வரை, உங்கள் பசுமையான பார்வையை நனவாக்க தேவையான அனைத்தும் எங்களிடம் உள்ளது.',
+    offerScriptLine1: 'உங்கள்', offerScriptLine2: 'வழியில்', offerScriptLine3: 'வளருங்கள்',
+    offerCard1Title: 'உட்புற & வெளிப்புற செடிகள்', offerCard1Desc: 'உள்ளேயும் வெளியேயும் ஒவ்வொரு இடத்திற்கும் அழகான செடிகள்.',
+    offerCard2Title: 'தொட்டிகள் & பிளாண்டர்கள்', offerCard2Desc: 'உங்கள் செடிகளுக்கு பொருந்தும் நேர்த்தியான, நீடித்த தொட்டிகள்.',
+    offerCard3Title: 'விதைகள் & தோட்டக்கலை', offerCard3Desc: 'செழிப்பான தோட்டத்திற்கான உயர்தர விதைகள்.',
+    offerCard4Title: 'செடி பராமரிப்பு', offerCard4Desc: 'உங்கள் செடிகளை ஆரோக்கியமாக வைத்திருக்க நிபுணர் குறிப்புகள் மற்றும் தயாரிப்புகள்.',
+    offerCard5Title: 'நிலத்தோற்றம்', offerCard5Desc: 'அழகான பசுமை வடிவமைப்புகளுடன் உங்கள் இடத்தை மாற்றுங்கள்.',
+    offerCard6Title: 'கார்ப்பரேட் பரிசுகள்', offerCard6Desc: 'வாடிக்கையாளர்கள் மற்றும் குழுக்களுக்கான சிந்தனைமிக்க பசுமை பரிசுகள்.',
+    valuesEyebrow: 'எங்கள் மதிப்புகள்', valuesTitle: 'எங்களை இயக்குவது என்ன',
+    valuesSub: 'நாங்கள் வளர்க்கும் செடிகள் முதல் நாங்கள் உருவாக்கும் உறவுகள் வரை, எங்கள் மதிப்புகள் நாங்கள் செய்யும் அனைத்தையும் வடிவமைக்கின்றன.',
+    valuesImageAlt: 'வளமான மண்ணில் இருந்து வளரும் சிறிய நாற்று',
+    valueQualityFirst: 'தரமே முதலில்', valueCustomerFocus: 'வாடிக்கையாளர் கவனம்', valueSustainability: 'நிலைத்தன்மை', valueIntegrity: 'நேர்மை',
+    valuesScriptLine1: 'பசுமையாக', valuesScriptLine2: 'வளருங்கள்', valuesScriptLine3: 'உங்கள்', valuesScriptLine4: 'வழியில்',
+    whyEyebrow: 'ஏன் IGO நர்சரியைத் தேர்வு செய்ய வேண்டும்?', whyTitle: 'உங்கள் பயணத்திற்கான பசுமையான துணை',
+    whySub: 'நாங்கள் வெறும் நர்சரி மட்டுமல்ல — உங்கள் பசுமையான துணை.',
+    whyItem1Title: 'ஆரோக்கியமான செடிகள்', whyItem1Text: 'நன்கு பராமரிக்கப்பட்ட, நோய் இல்லாத, வளர தயாரான செடிகள்.',
+    whyItem2Title: 'நிபுணர் வழிகாட்டுதல்', whyItem2Text: 'எங்கள் செடி பராமரிப்பு நிபுணர்களிடமிருந்து ஆலோசனை பெறுங்கள்.',
+    whyItem3Title: 'நிலையான நடைமுறைகள்', whyItem3Text: 'பசுமையான எதிர்காலத்திற்கான சுற்றுச்சூழல் நட்பு முறைகள்.',
+    whyItem4Title: 'பாதுகாப்பான டெலிவரி', whyItem4Text: 'உங்கள் செடிகள் புதியதாகவும் சரியான நேரத்திலும் வந்தடையும்.',
+    journeyEyebrow: 'எங்கள் பயணம்', journeyTitle: 'சிறிய தொடக்கத்திலிருந்து பசுமையான எதிர்காலம் வரை',
+    journeySub: 'எங்கள் முதல் செடிகளிலிருந்து நாங்கள் உருவாக்கிய இடங்கள் வரை, எங்கள் பயணத்தின் சில தருணங்களைப் பாருங்கள்.',
+    journeyFirstLabel: 'எங்கள் தொடக்கம்', journeyImageAlt: 'IGO நர்சரி பயணத்தின் ஒரு தருணம்', journeyPrevAria: 'முந்தையது', journeyNextAria: 'அடுத்தது',
+    journeyLabel1: 'எங்கள் தொடக்கம்', journeyLabel2: 'முதல் நர்சரி விரிவாக்கம்', journeyLabel3: 'வாடிக்கையாளர்களுடன் வளர்ச்சி', journeyLabel4: 'நிலத்தோற்ற திட்டங்கள்', journeyLabel5: 'நவீன நர்சரி',
+    ctaTitle: 'ஒன்றாக அழகான ஒன்றை வளர்ப்போம்', ctaText: 'இயற்கையை வீட்டிற்குக் கொண்டு வாருங்கள். எங்கள் பரந்த அளவிலான செடிகள், விதைகள் மற்றும் தோட்ட அத்தியாவசியங்களை ஆராயுங்கள்.', ctaButton: 'செடிகளை ஆராயுங்கள்',
+  },
+  hi: {
+    heroBreadcrumbHome: 'होम', heroBreadcrumbCurrent: 'हमारे बारे में', heroTitleLine1: 'IGO नर्सरी', heroTitleLine2: 'के बारे में',
+    heroSub: 'सिर्फ़ पौधे ही नहीं — हम आपकी हरी-भरी यात्रा का एक हिस्सा हैं।',
+    heroDesc: 'IGO नर्सरी में, हम पौधों की उस शक्ति में विश्वास करते हैं जो सुंदरता, स्वास्थ्य और जुड़ाव लाती है। हम आपको घर, कार्यस्थल और समुदाय में हरे-भरे स्थान बनाने में मदद करने के लिए उत्साहित हैं।',
+    heroCta: 'हमारे पौधे देखें', heroImageAlt: 'नर्सरी पौधों से भरा हरा-भरा ग्रीनहाउस',
+    storyEyebrow: 'हमारी कहानी', storyTitleLine1: 'हरियाली बढ़ाएं,', storyTitleLine2: 'बेहतर बढ़ें',
+    storyText: 'IGO नर्सरी एक सरल विचार के साथ शुरू हुई — गुणवत्तापूर्ण पौधों और बागवानी उत्पादों को सभी के लिए सुलभ बनाना। आज, हम स्वस्थ पौधों, गुणवत्तापूर्ण गमलों, बीजों और बागवानी की आवश्यक चीज़ों की एक विस्तृत श्रृंखला प्रदान करने वाला पौध-प्रेमियों का एक बढ़ता हुआ समुदाय हैं। हमारा लक्ष्य हरित जीवन को प्रेरित करना और आपको सुंदर, टिकाऊ स्थान बनाने में मदद करना है।',
+    storyCta: 'और जानें', storyImageAlt: 'एक छोटा गमला पौधा पकड़े हुए हाथ - बीज से हरियाली तक',
+    statYearsLabel: 'वर्षों का अनुभव', statPlantsLabel: 'पौधे पहुंचाए गए', statVarietiesLabel: 'पौधों की किस्में', statCustomersLabel: 'खुश ग्राहक',
+    visionEyebrow: 'हमारी दृष्टि', visionTitle: 'एक हरा-भरा कल',
+    visionText: 'एक अग्रणी नर्सरी ब्रांड बनना जो सभी को स्वस्थ, हरे-भरे और अधिक सुंदर स्थान बनाने के लिए प्रेरित करे, साथ ही आने वाली पीढ़ियों के लिए टिकाऊ जीवन को बढ़ावा दे।',
+    visionImageAlt: 'कोमल धूप में उगता एक नन्हा पौधा',
+    missionEyebrow: 'हमारा उद्देश्य', missionTitle: 'बेहतर जीवन के लिए पौधे',
+    missionText: 'उच्च गुणवत्ता वाले पौधे, बागवानी उत्पाद और विशेषज्ञ मार्गदर्शन प्रदान करना, ताकि हरित जीवन सभी के लिए सरल, सुलभ और आनंददायक बन सके।',
+    missionImageAlt: 'हरी-भरी पत्तेदार पौधा',
+    offerEyebrow: 'हम क्या प्रदान करते हैं', offerTitle: 'हरे-भरे स्थान के लिए आपको जो कुछ भी चाहिए',
+    offerSub: 'सुंदर पौधों से लेकर ज़रूरी बागवानी उत्पादों तक, आपके हरित सपने को साकार करने के लिए हमारे पास सब कुछ है।',
+    offerScriptLine1: 'अपने', offerScriptLine2: 'तरीके से', offerScriptLine3: 'उगाएं',
+    offerCard1Title: 'इनडोर व आउटडोर पौधे', offerCard1Desc: 'हर जगह के लिए सुंदर पौधे, अंदर और बाहर दोनों।',
+    offerCard2Title: 'गमले व प्लांटर', offerCard2Desc: 'आपके पौधों के अनुरूप स्टाइलिश व टिकाऊ गमले।',
+    offerCard3Title: 'बीज व बागवानी', offerCard3Desc: 'भरपूर बगीचे के लिए उच्च गुणवत्ता वाले बीज।',
+    offerCard4Title: 'पौधों की देखभाल', offerCard4Desc: 'आपके पौधों को स्वस्थ रखने के लिए विशेषज्ञ सुझाव व उत्पाद।',
+    offerCard5Title: 'लैंडस्केपिंग', offerCard5Desc: 'सुंदर हरित डिज़ाइनों के साथ अपनी जगह को बदलें।',
+    offerCard6Title: 'कॉर्पोरेट गिफ्टिंग', offerCard6Desc: 'ग्राहकों और टीमों के लिए सोच-समझकर चुने गए हरित उपहार।',
+    valuesEyebrow: 'हमारे मूल्य', valuesTitle: 'हमें क्या प्रेरित करता है',
+    valuesSub: 'हम जो पौधे उगाते हैं उनसे लेकर जो रिश्ते हम बनाते हैं, हमारे मूल्य हमारे हर काम को आकार देते हैं।',
+    valuesImageAlt: 'उपजाऊ मिट्टी से उगता एक छोटा पौधा',
+    valueQualityFirst: 'गुणवत्ता पहले', valueCustomerFocus: 'ग्राहक केंद्रित', valueSustainability: 'स्थिरता', valueIntegrity: 'ईमानदारी',
+    valuesScriptLine1: 'हरा-भरा', valuesScriptLine2: 'उगाएं', valuesScriptLine3: 'अपने', valuesScriptLine4: 'तरीके से',
+    whyEyebrow: 'IGO नर्सरी क्यों चुनें?', whyTitle: 'आपकी यात्रा के लिए एक हरा-भरा साथी',
+    whySub: 'हम सिर्फ़ एक नर्सरी नहीं हैं — हम आपके हरित साथी हैं।',
+    whyItem1Title: 'स्वस्थ पौधे', whyItem1Text: 'अच्छी तरह से पोषित, रोग-मुक्त और बढ़ने के लिए तैयार।',
+    whyItem2Title: 'विशेषज्ञ मार्गदर्शन', whyItem2Text: 'हमारे पौध देखभाल विशेषज्ञों से सलाह लें।',
+    whyItem3Title: 'टिकाऊ प्रथाएं', whyItem3Text: 'हरे-भरे भविष्य के लिए पर्यावरण-अनुकूल तरीके।',
+    whyItem4Title: 'सुरक्षित डिलीवरी', whyItem4Text: 'आपके पौधे ताज़े और समय पर आपके पास पहुंचते हैं।',
+    journeyEyebrow: 'हमारी यात्रा', journeyTitle: 'छोटी शुरुआत से एक हरे-भरे भविष्य तक',
+    journeySub: 'हमारी यात्रा के कुछ पल देखें — हमारे पहले पौधों से लेकर हमारे द्वारा बनाई गई जगहों तक।',
+    journeyFirstLabel: 'हमारी शुरुआत', journeyImageAlt: 'IGO नर्सरी यात्रा का एक पल', journeyPrevAria: 'पिछला', journeyNextAria: 'अगला',
+    journeyLabel1: 'हमारी शुरुआत', journeyLabel2: 'पहला नर्सरी विस्तार', journeyLabel3: 'ग्राहकों के साथ विकास', journeyLabel4: 'लैंडस्केपिंग परियोजनाएं', journeyLabel5: 'आधुनिक नर्सरी',
+    ctaTitle: 'आइए साथ मिलकर कुछ खूबसूरत उगाएं', ctaText: 'प्रकृति को घर लाएं। हमारे पौधों, बीजों और बागवानी की ज़रूरी चीज़ों की विस्तृत श्रृंखला देखें।', ctaButton: 'पौधे देखें',
+  },
+  ml: {
+    heroBreadcrumbHome: 'ഹോം', heroBreadcrumbCurrent: 'ഞങ്ങളെക്കുറിച്ച്', heroTitleLine1: 'IGO നഴ്സറിയെ', heroTitleLine2: 'കുറിച്ച്',
+    heroSub: 'വെറും ചെടികൾ മാത്രമല്ല — നിങ്ങളുടെ പച്ച യാത്രയുടെ ഭാഗമാണ് ഞങ്ങൾ.',
+    heroDesc: 'IGO നഴ്സറിയിൽ, ഭംഗിയും ക്ഷേമവും ബന്ധവും കൊണ്ടുവരുന്ന ചെടികളുടെ ശക്തിയിൽ ഞങ്ങൾ വിശ്വസിക്കുന്നു. വീട്ടിലും ജോലിസ്ഥലത്തും സമൂഹത്തിലും പച്ചയായ ഇടങ്ങൾ സൃഷ്ടിക്കാൻ നിങ്ങളെ സഹായിക്കുന്നതിൽ ഞങ്ങൾക്ക് അഭിനിവേശമുണ്ട്.',
+    heroCta: 'ഞങ്ങളുടെ ചെടികൾ കാണുക', heroImageAlt: 'നഴ്സറി ചെടികൾ നിറഞ്ഞ പച്ചയായ ഹരിതഗൃഹം',
+    storyEyebrow: 'ഞങ്ങളുടെ കഥ', storyTitleLine1: 'കൂടുതൽ പച്ചപ്പോടെ,', storyTitleLine2: 'മെച്ചപ്പെട്ട വളർച്ച',
+    storyText: 'IGO നഴ്സറി ഒരു ലളിതമായ ആശയത്തോടെ ആരംഭിച്ചു — ഗുണനിലവാരമുള്ള ചെടികളും തോട്ട ഉൽപ്പന്നങ്ങളും എല്ലാവർക്കും ലഭ്യമാക്കുക. ഇന്ന്, ആരോഗ്യമുള്ള ചെടികൾ, ഗുണനിലവാരമുള്ള ചട്ടികൾ, വിത്തുകൾ, തോട്ട അവശ്യവസ്തുക്കൾ എന്നിവയുടെ വിശാലമായ ശ്രേണി വാഗ്ദാനം ചെയ്യുന്ന ചെടിസ്നേഹികളുടെ വളരുന്ന ഒരു സമൂഹമാണ് ഞങ്ങൾ. പച്ചയായ ജീവിതത്തെ പ്രചോദിപ്പിക്കുകയും മനോഹരവും സുസ്ഥിരവുമായ ഇടങ്ങൾ സൃഷ്ടിക്കാൻ നിങ്ങളെ സഹായിക്കുകയും ചെയ്യുക എന്നതാണ് ഞങ്ങളുടെ ലക്ഷ്യം.',
+    storyCta: 'കൂടുതൽ അറിയുക', storyImageAlt: 'ഒരു ചെറിയ ചട്ടി ചെടി പിടിച്ചിരിക്കുന്ന കൈ - വിത്തിൽ നിന്ന് പച്ചപ്പിലേക്ക്',
+    statYearsLabel: 'വർഷങ്ങളുടെ പരിചയം', statPlantsLabel: 'എത്തിച്ച ചെടികൾ', statVarietiesLabel: 'ചെടി ഇനങ്ങൾ', statCustomersLabel: 'സന്തുഷ്ട ഉപഭോക്താക്കൾ',
+    visionEyebrow: 'ഞങ്ങളുടെ ദർശനം', visionTitle: 'ഒരു പച്ചയായ നാളെ',
+    visionText: 'ആരോഗ്യകരവും പച്ചയും കൂടുതൽ മനോഹരവുമായ ഇടങ്ങൾ സൃഷ്ടിക്കാൻ എല്ലാവരെയും പ്രചോദിപ്പിക്കുന്ന ഒരു മുൻനിര നഴ്സറി ബ്രാൻഡ് ആകുക, അതോടൊപ്പം ഭാവി തലമുറകൾക്കായി സുസ്ഥിര ജീവിതം പ്രോത്സാഹിപ്പിക്കുക.',
+    visionImageAlt: 'മൃദുവായ സൂര്യപ്രകാശത്തിൽ വളരുന്ന ഒരു ഇളം തൈ',
+    missionEyebrow: 'ഞങ്ങളുടെ ദൗത്യം', missionTitle: 'മെച്ചപ്പെട്ട ജീവിതത്തിനുള്ള ചെടികൾ',
+    missionText: 'ഉയർന്ന നിലവാരമുള്ള ചെടികൾ, തോട്ട ഉൽപ്പന്നങ്ങൾ, വിദഗ്ധ മാർഗനിർദേശം എന്നിവ നൽകി, പച്ചയായ ജീവിതം എല്ലാവർക്കും ലളിതവും ലഭ്യവും ആസ്വാദ്യകരവുമാക്കുക.',
+    missionImageAlt: 'തഴച്ചുവളരുന്ന പച്ച ഇലകളുള്ള ചെടി',
+    offerEyebrow: 'ഞങ്ങൾ വാഗ്ദാനം ചെയ്യുന്നത്', offerTitle: 'പച്ചയായ ഇടത്തിന് നിങ്ങൾക്ക് വേണ്ടതെല്ലാം',
+    offerSub: 'മനോഹരമായ ചെടികൾ മുതൽ അവശ്യ തോട്ട ഉൽപ്പന്നങ്ങൾ വരെ, നിങ്ങളുടെ പച്ചയായ കാഴ്ചപ്പാട് യാഥാർത്ഥ്യമാക്കാൻ വേണ്ടതെല്ലാം ഞങ്ങളുടെ പക്കലുണ്ട്.',
+    offerScriptLine1: 'നിങ്ങളുടെ', offerScriptLine2: 'വഴിയിൽ', offerScriptLine3: 'വളരൂ',
+    offerCard1Title: 'ഇൻഡോർ & ഔട്ട്ഡോർ ചെടികൾ', offerCard1Desc: 'അകത്തും പുറത്തും ഓരോ ഇടത്തിനും മനോഹരമായ ചെടികൾ.',
+    offerCard2Title: 'ചട്ടികളും പ്ലാന്ററുകളും', offerCard2Desc: 'നിങ്ങളുടെ ചെടികൾക്ക് ചേരുന്ന സ്റ്റൈലിഷും ഈടുള്ളതുമായ ചട്ടികൾ.',
+    offerCard3Title: 'വിത്തുകളും തോട്ടപരിപാലനവും', offerCard3Desc: 'സമൃദ്ധമായ തോട്ടത്തിനുള്ള ഉയർന്ന നിലവാരമുള്ള വിത്തുകൾ.',
+    offerCard4Title: 'ചെടി പരിചരണം', offerCard4Desc: 'നിങ്ങളുടെ ചെടികളെ ആരോഗ്യത്തോടെ നിലനിർത്താൻ വിദഗ്ധ നുറുങ്ങുകളും ഉൽപ്പന്നങ്ങളും.',
+    offerCard5Title: 'ലാൻഡ്‌സ്കേപ്പിംഗ്', offerCard5Desc: 'മനോഹരമായ പച്ച ഡിസൈനുകളിലൂടെ നിങ്ങളുടെ ഇടം മാറ്റുക.',
+    offerCard6Title: 'കോർപ്പറേറ്റ് ഗിഫ്റ്റിംഗ്', offerCard6Desc: 'ക്ലയന്റുകൾക്കും ടീമുകൾക്കും വേണ്ടിയുള്ള ചിന്തനീയമായ പച്ച സമ്മാനങ്ങൾ.',
+    valuesEyebrow: 'ഞങ്ങളുടെ മൂല്യങ്ങൾ', valuesTitle: 'ഞങ്ങളെ നയിക്കുന്നത് എന്ത്',
+    valuesSub: 'ഞങ്ങൾ വളർത്തുന്ന ചെടികൾ മുതൽ ഞങ്ങൾ കെട്ടിപ്പടുക്കുന്ന ബന്ധങ്ങൾ വരെ, ഞങ്ങളുടെ മൂല്യങ്ങൾ ഞങ്ങൾ ചെയ്യുന്ന എല്ലാത്തിനെയും രൂപപ്പെടുത്തുന്നു.',
+    valuesImageAlt: 'സമ്പന്നമായ മണ്ണിൽ നിന്ന് വളരുന്ന ഒരു ചെറിയ തൈ',
+    valueQualityFirst: 'ഗുണനിലവാരം ആദ്യം', valueCustomerFocus: 'ഉപഭോക്തൃ ശ്രദ്ധ', valueSustainability: 'സുസ്ഥിരത', valueIntegrity: 'സത്യസന്ധത',
+    valuesScriptLine1: 'പച്ചയായി', valuesScriptLine2: 'വളരൂ', valuesScriptLine3: 'നിങ്ങളുടെ', valuesScriptLine4: 'വഴിയിൽ',
+    whyEyebrow: 'എന്തുകൊണ്ട് IGO നഴ്സറി തിരഞ്ഞെടുക്കണം?', whyTitle: 'നിങ്ങളുടെ യാത്രയ്ക്കുള്ള പച്ചയായ പങ്കാളി',
+    whySub: 'ഞങ്ങൾ വെറും ഒരു നഴ്സറി മാത്രമല്ല — നിങ്ങളുടെ പച്ചയായ പങ്കാളിയാണ്.',
+    whyItem1Title: 'ആരോഗ്യമുള്ള ചെടികൾ', whyItem1Text: 'നന്നായി പരിപാലിക്കപ്പെട്ടതും രോഗരഹിതവും വളരാൻ തയ്യാറുള്ളതും.',
+    whyItem2Title: 'വിദഗ്ധ മാർഗനിർദേശം', whyItem2Text: 'ഞങ്ങളുടെ ചെടി പരിചരണ വിദഗ്ധരിൽ നിന്ന് ഉപദേശം നേടുക.',
+    whyItem3Title: 'സുസ്ഥിര രീതികൾ', whyItem3Text: 'പച്ചയായ ഭാവിക്കായി പരിസ്ഥിതി സൗഹൃദ രീതികൾ.',
+    whyItem4Title: 'സുരക്ഷിത ഡെലിവറി', whyItem4Text: 'നിങ്ങളുടെ ചെടികൾ പുതുമയോടെയും കൃത്യസമയത്തും എത്തുന്നു.',
+    journeyEyebrow: 'ഞങ്ങളുടെ യാത്ര', journeyTitle: 'ചെറിയ തുടക്കത്തിൽ നിന്ന് പച്ചയായ ഭാവിയിലേക്ക്',
+    journeySub: 'ഞങ്ങളുടെ ആദ്യ ചെടികൾ മുതൽ ഞങ്ങൾ സൃഷ്ടിച്ച ഇടങ്ങൾ വരെ, ഞങ്ങളുടെ യാത്രയിലെ ചില നിമിഷങ്ങൾ കാണുക.',
+    journeyFirstLabel: 'ഞങ്ങളുടെ തുടക്കം', journeyImageAlt: 'IGO നഴ്സറി യാത്രയിലെ ഒരു നിമിഷം', journeyPrevAria: 'മുമ്പത്തേത്', journeyNextAria: 'അടുത്തത്',
+    journeyLabel1: 'ഞങ്ങളുടെ തുടക്കം', journeyLabel2: 'ആദ്യ നഴ്സറി വികസനം', journeyLabel3: 'ഉപഭോക്താക്കളോടൊപ്പം വളർച്ച', journeyLabel4: 'ലാൻഡ്സ്കേപ്പിംഗ് പദ്ധതികൾ', journeyLabel5: 'ആധുനിക നഴ്സറി',
+    ctaTitle: 'നമുക്ക് ഒരുമിച്ച് മനോഹരമായ എന്തെങ്കിലും വളർത്താം', ctaText: 'പ്രകൃതിയെ വീട്ടിലേക്ക് കൊണ്ടുവരൂ. ഞങ്ങളുടെ വിശാലമായ ചെടികൾ, വിത്തുകൾ, തോട്ട അവശ്യവസ്തുക്കൾ എന്നിവ പര്യവേക്ഷണം ചെയ്യൂ.', ctaButton: 'ചെടികൾ കാണുക',
+  },
+  te: {
+    heroBreadcrumbHome: 'హోమ్', heroBreadcrumbCurrent: 'మా గురించి', heroTitleLine1: 'IGO నర్సరీ', heroTitleLine2: 'గురించి',
+    heroSub: 'కేవలం మొక్కలు మాత్రమే కాదు — మీ పచ్చని ప్రయాణంలో మేము ఒక భాగం.',
+    heroDesc: 'IGO నర్సరీలో, అందం, శ్రేయస్సు మరియు అనుబంధాన్ని తీసుకువచ్చే మొక్కల శక్తిని మేము నమ్ముతాము. ఇంట్లో, పనిస్థలంలో మరియు సమాజంలో పచ్చని ప్రదేశాలను సృష్టించడంలో మీకు సహాయం చేయడంలో మేము ఆసక్తిగా ఉన్నాము.',
+    heroCta: 'మా మొక్కలను చూడండి', heroImageAlt: 'నర్సరీ మొక్కలతో నిండిన పచ్చని గ్రీన్‌హౌస్',
+    storyEyebrow: 'మా కథ', storyTitleLine1: 'మరింత పచ్చగా,', storyTitleLine2: 'మెరుగ్గా పెరుగుతూ',
+    storyText: 'IGO నర్సరీ ఒక సాధారణ ఆలోచనతో ప్రారంభమైంది — నాణ్యమైన మొక్కలను మరియు తోటపని ఉత్పత్తులను అందరికీ అందుబాటులోకి తీసుకురావడం. ఈరోజు, మేము ఆరోగ్యకరమైన మొక్కలు, నాణ్యమైన కుండలు, విత్తనాలు మరియు తోటపని అవసరాల విస్తృత శ్రేణిని అందిస్తున్న మొక్కల ప్రేమికుల పెరుగుతున్న సంఘం. పచ్చని జీవనాన్ని ప్రేరేపించడం మరియు అందమైన, స్థిరమైన ప్రదేశాలను సృష్టించడంలో మీకు సహాయం చేయడం మా లక్ష్యం.',
+    storyCta: 'మరింత తెలుసుకోండి', storyImageAlt: 'ఒక చిన్న కుండ మొక్కను పట్టుకున్న చేయి - విత్తనం నుండి పచ్చదనం వరకు',
+    statYearsLabel: 'సంవత్సరాల అనుభవం', statPlantsLabel: 'డెలివరీ చేసిన మొక్కలు', statVarietiesLabel: 'మొక్కల రకాలు', statCustomersLabel: 'సంతోషకరమైన కస్టమర్లు',
+    visionEyebrow: 'మా దార్శనికత', visionTitle: 'ఒక పచ్చని రేపు',
+    visionText: 'ఆరోగ్యకరమైన, పచ్చని మరియు మరింత అందమైన ప్రదేశాలను సృష్టించడానికి అందరినీ ప్రేరేపించే ప్రముఖ నర్సరీ బ్రాండ్‌గా ఉండటం, అదే సమయంలో భవిష్యత్తు తరాల కోసం స్థిరమైన జీవనాన్ని ప్రోత్సహించడం.',
+    visionImageAlt: 'మృదువైన సూర్యకాంతిలో పెరుగుతున్న లేత మొలక',
+    missionEyebrow: 'మా లక్ష్యం', missionTitle: 'మెరుగైన జీవితం కోసం మొక్కలు',
+    missionText: 'అధిక నాణ్యత గల మొక్కలు, తోటపని ఉత్పత్తులు మరియు నిపుణుల మార్గదర్శకత్వాన్ని అందించడం ద్వారా, పచ్చని జీవనాన్ని అందరికీ సులభంగా, అందుబాటులో మరియు ఆనందదాయకంగా మార్చడం.',
+    missionImageAlt: 'పచ్చని ఆకులతో నిండిన మొక్క',
+    offerEyebrow: 'మేము అందించేవి', offerTitle: 'పచ్చని ప్రదేశం కోసం మీకు కావలసినవన్నీ',
+    offerSub: 'అందమైన మొక్కల నుండి అవసరమైన తోటపని ఉత్పత్తుల వరకు, మీ పచ్చని దృష్టిని సాకారం చేయడానికి కావలసినవన్నీ మా వద్ద ఉన్నాయి.',
+    offerScriptLine1: 'మీ', offerScriptLine2: 'మార్గంలో', offerScriptLine3: 'పెరగండి',
+    offerCard1Title: 'ఇండోర్ & అవుట్‌డోర్ మొక్కలు', offerCard1Desc: 'లోపల మరియు వెలుపల ప్రతి ప్రదేశానికి అందమైన మొక్కలు.',
+    offerCard2Title: 'కుండలు & ప్లాంటర్లు', offerCard2Desc: 'మీ మొక్కలకు సరిపోయే స్టైలిష్ మరియు మన్నికైన కుండలు.',
+    offerCard3Title: 'విత్తనాలు & తోటపని', offerCard3Desc: 'సమృద్ధిగా ఉన్న తోట కోసం అధిక నాణ్యత గల విత్తనాలు.',
+    offerCard4Title: 'మొక్కల సంరక్షణ', offerCard4Desc: 'మీ మొక్కలను ఆరోగ్యంగా ఉంచడానికి నిపుణుల చిట్కాలు మరియు ఉత్పత్తులు.',
+    offerCard5Title: 'ల్యాండ్‌స్కేపింగ్', offerCard5Desc: 'అందమైన పచ్చని డిజైన్‌లతో మీ ప్రదేశాన్ని మార్చండి.',
+    offerCard6Title: 'కార్పొరేట్ గిఫ్టింగ్', offerCard6Desc: 'క్లయింట్లు మరియు బృందాల కోసం ఆలోచనాత్మక పచ్చని బహుమతులు.',
+    valuesEyebrow: 'మా విలువలు', valuesTitle: 'మమ్మల్ని నడిపించేది ఏమిటి',
+    valuesSub: 'మేము పెంచే మొక్కల నుండి మేము నిర్మించే సంబంధాల వరకు, మా విలువలు మేము చేసే ప్రతిదాన్ని రూపొందిస్తాయి.',
+    valuesImageAlt: 'సారవంతమైన మట్టి నుండి పెరుగుతున్న ఒక చిన్న మొలక',
+    valueQualityFirst: 'నాణ్యతే మొదట', valueCustomerFocus: 'కస్టమర్ దృష్టి', valueSustainability: 'స్థిరత్వం', valueIntegrity: 'సమగ్రత',
+    valuesScriptLine1: 'పచ్చగా', valuesScriptLine2: 'పెరగండి', valuesScriptLine3: 'మీ', valuesScriptLine4: 'మార్గంలో',
+    whyEyebrow: 'IGO నర్సరీని ఎందుకు ఎంచుకోవాలి?', whyTitle: 'మీ ప్రయాణానికి ఒక పచ్చని భాగస్వామి',
+    whySub: 'మేము కేవలం నర్సరీ మాత్రమే కాదు — మేము మీ పచ్చని భాగస్వామి.',
+    whyItem1Title: 'ఆరోగ్యకరమైన మొక్కలు', whyItem1Text: 'బాగా పోషించబడిన, వ్యాధి రహిత మరియు పెరగడానికి సిద్ధంగా ఉన్నవి.',
+    whyItem2Title: 'నిపుణుల మార్గదర్శకత్వం', whyItem2Text: 'మా మొక్కల సంరక్షణ నిపుణుల నుండి సలహా పొందండి.',
+    whyItem3Title: 'స్థిరమైన పద్ధతులు', whyItem3Text: 'పచ్చని భవిష్యత్తు కోసం పర్యావరణ అనుకూల పద్ధతులు.',
+    whyItem4Title: 'సురక్షిత డెలివరీ', whyItem4Text: 'మీ మొక్కలు తాజాగా మరియు సకాలంలో మీకు చేరతాయి.',
+    journeyEyebrow: 'మా ప్రయాణం', journeyTitle: 'చిన్న ప్రారంభం నుండి పచ్చని భవిష్యత్తు వరకు',
+    journeySub: 'మా మొదటి మొక్కల నుండి మేము సృష్టించిన ప్రదేశాల వరకు, మా ప్రయాణంలోని కొన్ని క్షణాలను చూడండి.',
+    journeyFirstLabel: 'మా ప్రారంభం', journeyImageAlt: 'IGO నర్సరీ ప్రయాణంలోని ఒక క్షణం', journeyPrevAria: 'మునుపటి', journeyNextAria: 'తదుపరి',
+    journeyLabel1: 'మా ప్రారంభం', journeyLabel2: 'మొదటి నర్సరీ విస్తరణ', journeyLabel3: 'కస్టమర్లతో వృద్ధి', journeyLabel4: 'ల్యాండ్‌స్కేపింగ్ ప్రాజెక్టులు', journeyLabel5: 'ఆధునిక నర్సరీ',
+    ctaTitle: 'కలిసి అందమైనదాన్ని పెంచుకుందాం', ctaText: 'ప్రకృతిని ఇంటికి తీసుకురండి. మా విస్తృత శ్రేణి మొక్కలు, విత్తనాలు మరియు తోటపని అవసరాలను అన్వేషించండి.', ctaButton: 'మొక్కలను చూడండి',
+  },
+  kn: {
+    heroBreadcrumbHome: 'ಹೋಮ್', heroBreadcrumbCurrent: 'ನಮ್ಮ ಬಗ್ಗೆ', heroTitleLine1: 'IGO ನರ್ಸರಿ', heroTitleLine2: 'ಬಗ್ಗೆ',
+    heroSub: 'ಕೇವಲ ಸಸ್ಯಗಳು ಮಾತ್ರವಲ್ಲ — ನಿಮ್ಮ ಹಸಿರು ಪಯಣದ ಭಾಗವಾಗಿದ್ದೇವೆ.',
+    heroDesc: 'IGO ನರ್ಸರಿಯಲ್ಲಿ, ಸೌಂದರ್ಯ, ಯೋಗಕ್ಷೇಮ ಮತ್ತು ಸಂಪರ್ಕವನ್ನು ತರುವ ಸಸ್ಯಗಳ ಶಕ್ತಿಯಲ್ಲಿ ನಾವು ನಂಬಿಕೆ ಇಡುತ್ತೇವೆ. ಮನೆಯಲ್ಲಿ, ಕೆಲಸದ ಸ್ಥಳದಲ್ಲಿ ಮತ್ತು ಸಮುದಾಯದಲ್ಲಿ ಹಸಿರು ಸ್ಥಳಗಳನ್ನು ರಚಿಸಲು ನಿಮಗೆ ಸಹಾಯ ಮಾಡುವಲ್ಲಿ ನಾವು ಉತ್ಸಾಹಿಗಳಾಗಿದ್ದೇವೆ.',
+    heroCta: 'ನಮ್ಮ ಸಸ್ಯಗಳನ್ನು ನೋಡಿ', heroImageAlt: 'ನರ್ಸರಿ ಸಸ್ಯಗಳಿಂದ ತುಂಬಿದ ಹಸಿರು ಹಸಿರುಮನೆ',
+    storyEyebrow: 'ನಮ್ಮ ಕಥೆ', storyTitleLine1: 'ಹೆಚ್ಚು ಹಸಿರಾಗಿ,', storyTitleLine2: 'ಉತ್ತಮವಾಗಿ ಬೆಳೆಯುತ್ತಾ',
+    storyText: 'IGO ನರ್ಸರಿ ಒಂದು ಸರಳ ಆಲೋಚನೆಯೊಂದಿಗೆ ಪ್ರಾರಂಭವಾಯಿತು — ಗುಣಮಟ್ಟದ ಸಸ್ಯಗಳನ್ನು ಮತ್ತು ತೋಟಗಾರಿಕೆ ಉತ್ಪನ್ನಗಳನ್ನು ಎಲ್ಲರಿಗೂ ಲಭ್ಯವಾಗಿಸುವುದು. ಇಂದು, ನಾವು ಆರೋಗ್ಯಕರ ಸಸ್ಯಗಳು, ಗುಣಮಟ್ಟದ ಪಾಟ್‌ಗಳು, ಬೀಜಗಳು ಮತ್ತು ತೋಟದ ಅಗತ್ಯ ವಸ್ತುಗಳ ವಿಶಾಲ ಶ್ರೇಣಿಯನ್ನು ನೀಡುವ ಬೆಳೆಯುತ್ತಿರುವ ಸಸ್ಯ ಪ್ರೇಮಿಗಳ ಸಮುದಾಯವಾಗಿದ್ದೇವೆ. ಹಸಿರು ಜೀವನವನ್ನು ಪ್ರೇರೇಪಿಸುವುದು ಮತ್ತು ಸುಂದರ, ಸುಸ್ಥಿರ ಸ್ಥಳಗಳನ್ನು ರಚಿಸಲು ನಿಮಗೆ ಸಹಾಯ ಮಾಡುವುದು ನಮ್ಮ ಗುರಿ.',
+    storyCta: 'ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ', storyImageAlt: 'ಒಂದು ಸಣ್ಣ ಪಾಟ್ ಸಸ್ಯವನ್ನು ಹಿಡಿದಿರುವ ಕೈ - ಬೀಜದಿಂದ ಹಸಿರಿಗೆ',
+    statYearsLabel: 'ವರ್ಷಗಳ ಅನುಭವ', statPlantsLabel: 'ವಿತರಿಸಿದ ಸಸ್ಯಗಳು', statVarietiesLabel: 'ಸಸ್ಯ ಪ್ರಭೇದಗಳು', statCustomersLabel: 'ಸಂತೃಪ್ತ ಗ್ರಾಹಕರು',
+    visionEyebrow: 'ನಮ್ಮ ದೃಷ್ಟಿಕೋನ', visionTitle: 'ಒಂದು ಹಸಿರು ನಾಳೆ',
+    visionText: 'ಆರೋಗ್ಯಕರ, ಹಸಿರು ಮತ್ತು ಹೆಚ್ಚು ಸುಂದರವಾದ ಸ್ಥಳಗಳನ್ನು ರಚಿಸಲು ಎಲ್ಲರನ್ನು ಪ್ರೇರೇಪಿಸುವ ಪ್ರಮುಖ ನರ್ಸರಿ ಬ್ರ್ಯಾಂಡ್ ಆಗುವುದು, ಅದೇ ಸಮಯದಲ್ಲಿ ಭವಿಷ್ಯದ ಪೀಳಿಗೆಗಳಿಗಾಗಿ ಸುಸ್ಥಿರ ಜೀವನವನ್ನು ಉತ್ತೇಜಿಸುವುದು.',
+    visionImageAlt: 'ಮೃದುವಾದ ಬಿಸಿಲಿನಲ್ಲಿ ಬೆಳೆಯುತ್ತಿರುವ ಎಳೆಯ ಸಸಿ',
+    missionEyebrow: 'ನಮ್ಮ ಧ್ಯೇಯ', missionTitle: 'ಉತ್ತಮ ಜೀವನಕ್ಕಾಗಿ ಸಸ್ಯಗಳು',
+    missionText: 'ಉತ್ತಮ ಗುಣಮಟ್ಟದ ಸಸ್ಯಗಳು, ತೋಟಗಾರಿಕೆ ಉತ್ಪನ್ನಗಳು ಮತ್ತು ತಜ್ಞರ ಮಾರ್ಗದರ್ಶನವನ್ನು ಒದಗಿಸುವುದು, ಹಸಿರು ಜೀವನವನ್ನು ಎಲ್ಲರಿಗೂ ಸರಳ, ಲಭ್ಯ ಮತ್ತು ಆನಂದದಾಯಕವಾಗಿಸುವುದು.',
+    missionImageAlt: 'ಹಸಿರು ಎಲೆಗಳಿಂದ ಕೂಡಿದ ಸಸ್ಯ',
+    offerEyebrow: 'ನಾವು ನೀಡುವುದು', offerTitle: 'ಹಸಿರು ಸ್ಥಳಕ್ಕಾಗಿ ನಿಮಗೆ ಬೇಕಾದ ಎಲ್ಲವೂ',
+    offerSub: 'ಸುಂದರ ಸಸ್ಯಗಳಿಂದ ಅಗತ್ಯ ತೋಟಗಾರಿಕೆ ಉತ್ಪನ್ನಗಳವರೆಗೆ, ನಿಮ್ಮ ಹಸಿರು ದೃಷ್ಟಿಕೋನವನ್ನು ಸಾಕಾರಗೊಳಿಸಲು ಬೇಕಾದ ಎಲ್ಲವೂ ನಮ್ಮಲ್ಲಿದೆ.',
+    offerScriptLine1: 'ನಿಮ್ಮ', offerScriptLine2: 'ರೀತಿಯಲ್ಲಿ', offerScriptLine3: 'ಬೆಳೆಯಿರಿ',
+    offerCard1Title: 'ಒಳಾಂಗಣ & ಹೊರಾಂಗಣ ಸಸ್ಯಗಳು', offerCard1Desc: 'ಒಳಗೆ ಮತ್ತು ಹೊರಗೆ ಪ್ರತಿ ಸ್ಥಳಕ್ಕೂ ಸುಂದರ ಸಸ್ಯಗಳು.',
+    offerCard2Title: 'ಪಾಟ್‌ಗಳು ಮತ್ತು ಪ್ಲಾಂಟರ್‌ಗಳು', offerCard2Desc: 'ನಿಮ್ಮ ಸಸ್ಯಗಳಿಗೆ ಹೊಂದುವ ಸ್ಟೈಲಿಶ್ ಮತ್ತು ಬಾಳಿಕೆ ಬರುವ ಪಾಟ್‌ಗಳು.',
+    offerCard3Title: 'ಬೀಜಗಳು ಮತ್ತು ತೋಟಗಾರಿಕೆ', offerCard3Desc: 'ಸಮೃದ್ಧ ತೋಟಕ್ಕಾಗಿ ಉತ್ತಮ ಗುಣಮಟ್ಟದ ಬೀಜಗಳು.',
+    offerCard4Title: 'ಸಸ್ಯ ಆರೈಕೆ', offerCard4Desc: 'ನಿಮ್ಮ ಸಸ್ಯಗಳನ್ನು ಆರೋಗ್ಯಕರವಾಗಿಡಲು ತಜ್ಞರ ಸಲಹೆಗಳು ಮತ್ತು ಉತ್ಪನ್ನಗಳು.',
+    offerCard5Title: 'ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್', offerCard5Desc: 'ಸುಂದರ ಹಸಿರು ವಿನ್ಯಾಸಗಳೊಂದಿಗೆ ನಿಮ್ಮ ಸ್ಥಳವನ್ನು ಪರಿವರ್ತಿಸಿ.',
+    offerCard6Title: 'ಕಾರ್ಪೊರೇಟ್ ಗಿಫ್ಟಿಂಗ್', offerCard6Desc: 'ಗ್ರಾಹಕರು ಮತ್ತು ತಂಡಗಳಿಗಾಗಿ ಚಿಂತನಶೀಲ ಹಸಿರು ಉಡುಗೊರೆಗಳು.',
+    valuesEyebrow: 'ನಮ್ಮ ಮೌಲ್ಯಗಳು', valuesTitle: 'ನಮ್ಮನ್ನು ಮುನ್ನಡೆಸುವುದು ಏನು',
+    valuesSub: 'ನಾವು ಬೆಳೆಸುವ ಸಸ್ಯಗಳಿಂದ ನಾವು ನಿರ್ಮಿಸುವ ಸಂಬಂಧಗಳವರೆಗೆ, ನಮ್ಮ ಮೌಲ್ಯಗಳು ನಾವು ಮಾಡುವ ಎಲ್ಲವನ್ನೂ ರೂಪಿಸುತ್ತವೆ.',
+    valuesImageAlt: 'ಫಲವತ್ತಾದ ಮಣ್ಣಿನಿಂದ ಬೆಳೆಯುತ್ತಿರುವ ಒಂದು ಸಣ್ಣ ಸಸಿ',
+    valueQualityFirst: 'ಗುಣಮಟ್ಟ ಮೊದಲು', valueCustomerFocus: 'ಗ್ರಾಹಕ ಕೇಂದ್ರಿತ', valueSustainability: 'ಸುಸ್ಥಿರತೆ', valueIntegrity: 'ಸಮಗ್ರತೆ',
+    valuesScriptLine1: 'ಹಸಿರಾಗಿ', valuesScriptLine2: 'ಬೆಳೆಯಿರಿ', valuesScriptLine3: 'ನಿಮ್ಮ', valuesScriptLine4: 'ರೀತಿಯಲ್ಲಿ',
+    whyEyebrow: 'IGO ನರ್ಸರಿಯನ್ನು ಏಕೆ ಆರಿಸಬೇಕು?', whyTitle: 'ನಿಮ್ಮ ಪಯಣಕ್ಕೆ ಒಂದು ಹಸಿರು ಪಾಲುದಾರ',
+    whySub: 'ನಾವು ಕೇವಲ ನರ್ಸರಿ ಮಾತ್ರವಲ್ಲ — ನಾವು ನಿಮ್ಮ ಹಸಿರು ಪಾಲುದಾರ.',
+    whyItem1Title: 'ಆರೋಗ್ಯಕರ ಸಸ್ಯಗಳು', whyItem1Text: 'ಚೆನ್ನಾಗಿ ಪೋಷಿಸಲ್ಪಟ್ಟ, ರೋಗ-ಮುಕ್ತ ಮತ್ತು ಬೆಳೆಯಲು ಸಿದ್ಧವಾಗಿರುವ.',
+    whyItem2Title: 'ತಜ್ಞರ ಮಾರ್ಗದರ್ಶನ', whyItem2Text: 'ನಮ್ಮ ಸಸ್ಯ ಆರೈಕೆ ತಜ್ಞರಿಂದ ಸಲಹೆ ಪಡೆಯಿರಿ.',
+    whyItem3Title: 'ಸುಸ್ಥಿರ ಅಭ್ಯಾಸಗಳು', whyItem3Text: 'ಹಸಿರು ಭವಿಷ್ಯಕ್ಕಾಗಿ ಪರಿಸರ ಸ್ನೇಹಿ ವಿಧಾನಗಳು.',
+    whyItem4Title: 'ಸುರಕ್ಷಿತ ವಿತರಣೆ', whyItem4Text: 'ನಿಮ್ಮ ಸಸ್ಯಗಳು ತಾಜಾವಾಗಿ ಮತ್ತು ಸಮಯಕ್ಕೆ ಸರಿಯಾಗಿ ತಲುಪುತ್ತವೆ.',
+    journeyEyebrow: 'ನಮ್ಮ ಪಯಣ', journeyTitle: 'ಸಣ್ಣ ಆರಂಭದಿಂದ ಹಸಿರು ಭವಿಷ್ಯದವರೆಗೆ',
+    journeySub: 'ನಮ್ಮ ಮೊದಲ ಸಸ್ಯಗಳಿಂದ ನಾವು ರಚಿಸಿದ ಸ್ಥಳಗಳವರೆಗೆ, ನಮ್ಮ ಪಯಣದ ಕೆಲವು ಕ್ಷಣಗಳನ್ನು ನೋಡಿ.',
+    journeyFirstLabel: 'ನಮ್ಮ ಆರಂಭ', journeyImageAlt: 'IGO ನರ್ಸರಿ ಪಯಣದ ಒಂದು ಕ್ಷಣ', journeyPrevAria: 'ಹಿಂದಿನದು', journeyNextAria: 'ಮುಂದಿನದು',
+    journeyLabel1: 'ನಮ್ಮ ಆರಂಭ', journeyLabel2: 'ಮೊದಲ ನರ್ಸರಿ ವಿಸ್ತರಣೆ', journeyLabel3: 'ಗ್ರಾಹಕರೊಂದಿಗೆ ಬೆಳವಣಿಗೆ', journeyLabel4: 'ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪಿಂಗ್ ಯೋಜನೆಗಳು', journeyLabel5: 'ಆಧುನಿಕ ನರ್ಸರಿ',
+    ctaTitle: 'ಒಟ್ಟಿಗೆ ಸುಂದರವಾದದ್ದನ್ನು ಬೆಳೆಸೋಣ', ctaText: 'ಪ್ರಕೃತಿಯನ್ನು ಮನೆಗೆ ತನ್ನಿ. ನಮ್ಮ ವಿಶಾಲ ಶ್ರೇಣಿಯ ಸಸ್ಯಗಳು, ಬೀಜಗಳು ಮತ್ತು ತೋಟಗಾರಿಕೆ ಅಗತ್ಯ ವಸ್ತುಗಳನ್ನು ಅನ್ವೇಷಿಸಿ.', ctaButton: 'ಸಸ್ಯಗಳನ್ನು ನೋಡಿ',
+  },
+};
+
+const bySection = { nav, search, header, notifications, footer, cart, auth, checkout, orders, common, wishlist, product, filters, home, offers, whyIgo, faq, pages, finder, account, about, aboutPage };
+
+export const translations = {};
+for (const code of LANGUAGES.map((l) => l.code)) {
+  translations[code] = {};
+  for (const [sectionName, sectionDict] of Object.entries(bySection)) {
+    translations[code][sectionName] = merge(sectionDict)[code];
+  }
+}
+
+export function getTranslation(lang, path) {
+  const dict = translations[lang] ?? translations.en;
+  const value = path.split('.').reduce((acc, key) => acc?.[key], dict);
+  if (value !== undefined && value !== null) return value;
+  // Fall back to English for any key not yet translated (never show
+  // "undefined", a raw key, or a blank string).
+  const fallback = path.split('.').reduce((acc, key) => acc?.[key], translations.en);
+  return fallback !== undefined && fallback !== null ? fallback : path;
+}
+
+
+// Dynamically translate a string if it exactly matches an English default
+const engToPath = {};
+function indexEnglishStrings(obj, pathPrefix = '') {
+  for (const [key, val] of Object.entries(obj)) {
+    const currentPath = pathPrefix ? `${pathPrefix}.${key}` : key;
+    if (typeof val === 'string') {
+      const trimmed = val.trim();
+      if (trimmed && !engToPath[trimmed]) {
+        engToPath[trimmed] = currentPath;
+      }
+    } else if (typeof val === 'object' && val !== null) {
+      indexEnglishStrings(val, currentPath);
+    }
+  }
+}
+indexEnglishStrings(translations.en);
+
+export function translateDynamicString(str, lang) {
+  if (!str || typeof str !== 'string' || lang === 'en') return str;
+  const trimmed = str.trim();
+  const path = engToPath[trimmed];
+  if (path) {
+    const trans = getTranslation(lang, path);
+    if (trans && trans !== path) {
+      return str.replace(trimmed, trans);
+    }
+  }
+  if (heroDefaults[str]) return heroDefaults[str][lang] ?? str;
+  if (offerNoteDefaults[str]) return offerNoteDefaults[str][lang] ?? str;
+  if (reviewTranslations[str]) return reviewTranslations[str][lang] ?? str;
+  return str;
+}
